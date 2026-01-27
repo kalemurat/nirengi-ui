@@ -1,0 +1,14 @@
+/**
+ * Nirengi UI Kit - Main Stylesheet
+ * Tüm stil dosyalarını import eder
+ */
+
+/* Import Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import UI Kit styles */
+@import './tokens';
+@import './base';
+@import './utilities';

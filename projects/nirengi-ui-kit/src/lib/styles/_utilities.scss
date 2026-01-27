@@ -1,0 +1,140 @@
+/**
+ * UI Kit Utility Classes
+ * BEM-friendly utility class'ları
+ */
+
+/* ===== VISIBILITY UTILITIES ===== */
+.nui-hidden {
+    display: none !important;
+}
+
+.nui-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ===== FLEX UTILITIES ===== */
+.nui-flex {
+    display: flex;
+}
+
+.nui-flex--center {
+    @apply nui-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nui-flex--between {
+    @apply nui-flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nui-flex--col {
+    @apply nui-flex;
+    flex-direction: column;
+}
+
+/* ===== SPACING UTILITIES ===== */
+.nui-stack {
+    display: flex;
+    flex-direction: column;
+
+    &--xs>*+* {
+        margin-top: var(--nui-spacing-1);
+    }
+
+    &--sm>*+* {
+        margin-top: var(--nui-spacing-2);
+    }
+
+    &--md>*+* {
+        margin-top: var(--nui-spacing-4);
+    }
+
+    &--lg>*+* {
+        margin-top: var(--nui-spacing-6);
+    }
+
+    &--xl>*+* {
+        margin-top: var(--nui-spacing-8);
+    }
+}
+
+.nui-inline {
+    display: flex;
+    flex-direction: row;
+
+    &--xs>*+* {
+        margin-left: var(--nui-spacing-1);
+    }
+
+    &--sm>*+* {
+        margin-left: var(--nui-spacing-2);
+    }
+
+    &--md>*+* {
+        margin-left: var(--nui-spacing-4);
+    }
+
+    &--lg>*+* {
+        margin-left: var(--nui-spacing-6);
+    }
+
+    &--xl>*+* {
+        margin-left: var(--nui-spacing-8);
+    }
+}
+
+/* ===== TRUNCATE UTILITIES ===== */
+.nui-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nui-line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    &--2 {
+        -webkit-line-clamp: 2;
+    }
+
+    &--3 {
+        -webkit-line-clamp: 3;
+    }
+
+    &--4 {
+        -webkit-line-clamp: 4;
+    }
+}
+
+/* ===== ANIMATION UTILITIES ===== */
+.nui-transition {
+    transition-duration: var(--nui-transition-base);
+    transition-timing-function: var(--nui-transition-easing);
+}
+
+.nui-transition--fast {
+    transition-duration: var(--nui-transition-fast);
+}
+
+.nui-transition--slow {
+    transition-duration: var(--nui-transition-slow);
+}
+
+/* ===== DISABLED STATE ===== */
+.nui-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}

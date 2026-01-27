@@ -1,0 +1,55 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "types": [],
+    "baseUrl": "../../",
+    "paths": {
+      "@common/*": [
+        "./projects/nirengi-ui-kit/src/lib/common/*"
+      ],
+      "@common": [
+        "./projects/nirengi-ui-kit/src/lib/common/index.ts"
+      ],
+      "@design-tokens/*": [
+        "./projects/nirengi-ui-kit/src/lib/design-tokens/*"
+      ],
+      "@design-tokens": [
+        "./projects/nirengi-ui-kit/src/lib/design-tokens/index.ts"
+      ],
+      "@components/*": [
+        "./projects/nirengi-ui-kit/src/lib/components/*"
+      ],
+      "@components": [
+        "./projects/nirengi-ui-kit/src/lib/components/index.ts"
+      ],
+      "@directives/*": [
+        "./projects/nirengi-ui-kit/src/lib/directives/*"
+      ],
+      "@directives": [
+        "./projects/nirengi-ui-kit/src/lib/directives/index.ts"
+      ],
+      "@pipes/*": [
+        "./projects/nirengi-ui-kit/src/lib/pipes/*"
+      ],
+      "@pipes": [
+        "./projects/nirengi-ui-kit/src/lib/pipes/index.ts"
+      ],
+      "@styles/*": [
+        "./projects/nirengi-ui-kit/src/lib/styles/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ]
+}
