@@ -1,5 +1,5 @@
 /**
- * Nirengi UI Kit - Ana Kütüphane Export
+ * Nirengi UI Kit - Public API
  * 
  * Modern ve profesyonel bir Angular UI Kit kütüphanesi.
  * Angular 18+ ve 20 versiyonları ile uyumludur.
@@ -7,33 +7,96 @@
  * 
  * @packageDocumentation
  * 
- * ## Kullanım
+ * ## Tree-Shaking Optimized
+ * Bu kütüphane explicit exports kullanır. Her dosya direkt path ile import edilir.
+ * Böylece modern bundler'lar (esbuild) kullanılmayan kodu otomatik olarak atar.
  * 
- * ### Common (Ortak Yapılar)
+ * ## Kullanım Örnekleri
+ * 
+ * ### Enums (Ortak Değerler)
  * ```typescript
- * import { Size, ColorVariant } from 'nirengi-ui-kit';
- * import { SizeType, ColorVariantType } from 'nirengi-ui-kit';
- * import { SIZE_HEIGHT_MAP, COLOR_BG_MAP } from 'nirengi-ui-kit';
+ * // Boyut enum'ı
+ * import { Size } from 'nirengi-ui-kit/common/enums/size.enum';
+ * 
+ * // Renk varyant enum'ı
+ * import { ColorVariant } from 'nirengi-ui-kit/common/enums/color-variant.enum';
+ * ```
+ * 
+ * ### Types (Tip Tanımları)
+ * ```typescript
+ * // Boyut tipleri
+ * import { SizeType, SizeValue } from 'nirengi-ui-kit/common/types/size.types';
+ * 
+ * // Renk tipleri
+ * import { ColorVariantType, ColorValue } from 'nirengi-ui-kit/common/types/color.types';
+ * ```
+ * 
+ * ### Constants (Sabitler)
+ * ```typescript
+ * // Boyut mapping sabitleri
+ * import { 
+ *   SIZE_HEIGHT_MAP, 
+ *   SIZE_PADDING_MAP,
+ *   SIZE_TEXT_MAP,
+ *   SIZE_ICON_MAP,
+ *   SIZE_RADIUS_MAP
+ * } from 'nirengi-ui-kit/common/constants/size.constants';
+ * 
+ * // Renk mapping sabitleri
+ * import { 
+ *   COLOR_BG_MAP, 
+ *   COLOR_TEXT_MAP,
+ *   COLOR_BORDER_MAP,
+ *   COLOR_VARIANT_MAP,
+ *   COLOR_DEFAULT_SHADE_MAP,
+ *   COLOR_HOVER_SHADE_MAP
+ * } from 'nirengi-ui-kit/common/constants/color.constants';
  * ```
  * 
  * ### Design Tokens
  * ```typescript
+ * // Renk token'ları
+ * import { designTokenColors } from 'nirengi-ui-kit/design-tokens/colors';
+ * 
+ * // Spacing token'ları
+ * import { designTokenSpacing } from 'nirengi-ui-kit/design-tokens/spacing';
+ * 
+ * // Typography token'ları
  * import { 
- *   designTokenColors, 
- *   designTokenSpacing,
- *   designTokenFontSizes 
- * } from 'nirengi-ui-kit/design-tokens';
+ *   designTokenFontFamily,
+ *   designTokenFontSizes, 
+ *   designTokenFontWeights 
+ * } from 'nirengi-ui-kit/design-tokens/typography';
+ * 
+ * // Shadow token'ları
+ * import { designTokenShadows } from 'nirengi-ui-kit/design-tokens/shadows';
+ * 
+ * // Breakpoint token'ları
+ * import { designTokenBreakpoints } from 'nirengi-ui-kit/design-tokens/breakpoints';
  * ```
  * 
  * ### Components (Gelecekte eklenecek)
  * ```typescript
- * import { ButtonComponent, InputComponent } from 'nirengi-ui-kit/components';
+ * // Button component
+ * import { ButtonComponent } from 'nirengi-ui-kit/components/button/button.component';
+ * 
+ * // Input component
+ * import { InputComponent } from 'nirengi-ui-kit/components/input/input.component';
+ * ```
+ * 
+ * ## Path Alias Kullanımı (Kütüphane içinde)
+ * Kütüphane geliştirirken TypeScript path alias'ları kullanabilirsiniz:
+ * ```typescript
+ * import { Size } from '@common/enums/size.enum';
+ * import { designTokenColors } from '@design-tokens/colors';
+ * import { ButtonComponent } from '@components/button/button.component';
  * ```
  * 
  * ## Özellikler
  * - ✅ Angular 18+ ve 20 uyumlu
  * - ✅ Standalone component'ler
  * - ✅ Tailwind CSS 3 entegrasyonu
+ * - ✅ Explicit exports (optimized tree-shaking)
  * - ✅ Profesyonel design system
  * - ✅ TypeScript strict mode
  * - ✅ Kapsamlı tip tanımları
@@ -42,17 +105,125 @@
  * - ✅ Accessibility standartları
  */
 
-// Common exports
-export * from './lib/common';
+// ============================================================================
+// COMMON - ENUMS
+// ============================================================================
 
-// Design token exports
-export * from './lib/design-tokens';
+/**
+ * UI Kit standart boyut değerleri.
+ * @see {@link Size}
+ */
+export { Size } from './lib/common/enums/size.enum';
 
-// Component exports (ileride eklenecek)
-export * from './lib/components';
+/**
+ * UI Kit standart renk varyantları.
+ * @see {@link ColorVariant}
+ */
+export { ColorVariant } from './lib/common/enums/color-variant.enum';
 
-// Directive exports (ileride eklenecek)
-export * from './lib/directives';
+// ============================================================================
+// COMMON - TYPES
+// ============================================================================
 
-// Pipe exports (ileride eklenecek)
-export * from './lib/pipes';
+/**
+ * Boyut tipi ve değer tipleri.
+ * @see {@link SizeType}
+ * @see {@link SizeValue}
+ */
+export type { SizeType, SizeValue } from './lib/common/types/size.types';
+
+/**
+ * Renk varyant tipi ve değer tipleri.
+ * @see {@link ColorVariantType}
+ * @see {@link ColorValue}
+ */
+export type { ColorVariantType, ColorValue } from './lib/common/types/color.types';
+
+// ============================================================================
+// COMMON - CONSTANTS
+// ============================================================================
+
+/**
+ * Boyut bazlı CSS mapping sabitleri.
+ * Height, padding, text size, icon size, border radius değerlerinin Size enum'ına göre map'lenmesi.
+ */
+export {
+  SIZE_HEIGHT_MAP,
+  SIZE_PADDING_MAP,
+  SIZE_TEXT_MAP,
+  SIZE_ICON_MAP,
+  SIZE_RADIUS_MAP
+} from './lib/common/constants/size.constants';
+
+/**
+ * Renk varyant bazlı CSS mapping sabitleri.
+ * Background, text, border renk değerlerinin ColorVariant enum'ına göre map'lenmesi.
+ */
+export {
+  COLOR_BG_MAP,
+  COLOR_TEXT_MAP,
+  COLOR_BORDER_MAP,
+  COLOR_VARIANT_MAP,
+  COLOR_DEFAULT_SHADE_MAP,
+  COLOR_HOVER_SHADE_MAP
+} from './lib/common/constants/color.constants';
+
+// ============================================================================
+// DESIGN TOKENS
+// ============================================================================
+
+/**
+ * Design system renk palette'i.
+ * Primary, secondary, semantic color tanımları.
+ */
+export { designTokenColors } from './lib/design-tokens/colors';
+
+/**
+ * Design system spacing scale.
+ * Margin, padding, gap gibi boşluk değerleri.
+ */
+export { designTokenSpacing } from './lib/design-tokens/spacing';
+
+/**
+ * Design system typography scale.
+ * Font family, font size, font weight değerleri.
+ */
+export {
+  designTokenFontFamily,
+  designTokenFontSizes,
+  designTokenFontWeights
+} from './lib/design-tokens/typography';
+
+/**
+ * Design system shadow palette.
+ * Box shadow değerleri (xs, sm, md, lg, xl, 2xl).
+ */
+export { designTokenShadows } from './lib/design-tokens/shadows';
+
+/**
+ * Design system responsive breakpoints.
+ * Mobile, tablet, desktop ve geniş ekran breakpoint'leri.
+ */
+export { designTokenBreakpoints } from './lib/design-tokens/breakpoints';
+
+// ============================================================================
+// COMPONENTS (Gelecekte eklenecek)
+// ============================================================================
+
+// export { ButtonComponent } from './lib/components/button/button.component';
+// export { InputComponent } from './lib/components/input/input.component';
+// export { ModalComponent } from './lib/components/modal/modal.component';
+
+// ============================================================================
+// DIRECTIVES (Gelecekte eklenecek)
+// ============================================================================
+
+// export { TooltipDirective } from './lib/directives/tooltip/tooltip.directive';
+// export { ClickOutsideDirective } from './lib/directives/click-outside/click-outside.directive';
+
+// ============================================================================
+// PIPES (Gelecekte eklenecek)
+// ============================================================================
+
+// export { SafeHtmlPipe } from './lib/pipes/safe-html/safe-html.pipe';
+// export { TruncatePipe } from './lib/pipes/truncate/truncate.pipe';

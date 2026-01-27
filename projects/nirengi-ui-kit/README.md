@@ -1,249 +1,231 @@
 # Nirengi UI Kit
 
-Modern ve profesyonel bir **Angular UI Kit** kütüphanesi. Angular 18+ ve 20 versiyonları ile uyumlu, Tailwind CSS 3 tabanlı, tamamen standalone component'lerden oluşan bir tasarım sistemi.
+Modern ve profesyonel bir Angular UI Kit kütüphanesi.
 
 ## 🎯 Özellikler
 
-- ✅ **Angular 18+ ve 20 Uyumlu**: En güncel Angular versiyonlarıyla çalışır
-- ✅ **Standalone Components**: NgModule'siz, modern Angular mimarisi
-- ✅ **Tailwind CSS 3**: Ana projenin Tailwind konfigürasyonunu kullanır
-- ✅ **Signal-Based State**: Reaktif state yönetimi için Angular Signals
-- ✅ **TypeScript Strict Mode**: Tam tip güvenliği
-- ✅ **BEM + Tailwind Metodolojisi**: Temiz ve sürdürülebilir CSS
-- ✅ **Profesyonel Design System**: Tutarlı design token'lar
-- ✅ **Responsive Design**: Mobil-first yaklaşım
-- ✅ **Accessibility (A11y)**: WCAG 2.1 AA standartları
-- ✅ **Tree-Shakeable**: Optimize edilmiş bundle boyutu
+- ✅ **Angular 18+ ve 20 uyumlu** - En güncel Angular versiyonlarını destekler
+- ✅ **Standalone Components** - NgModule'siz modern mimari
+- ✅ **Tailwind CSS 3** - Utility-first CSS framework entegrasyonu
+- ✅ **Tree-Shaking Optimized** - Explicit exports ile optimize edilmiş bundle size
+- ✅ **TypeScript Strict Mode** - Tam tip güvenliği
+- ✅ **BEM + Tailwind** - Tutarlı ve ölçeklenebilir stil metodolojisi
+- ✅ **Design System** - Kapsamlı design token sistemi
+- ✅ **Accessibility** - WCAG 2.1 AA standartlarına uygun
+- ✅ **Responsive** - Mobil öncelikli responsive tasarım
 
 ## 📦 Kurulum
 
-UI Kit zaten mevcut Angular workspace'inde bir library olarak bulunuyor. Ana projeden kullanmak için:
-
-```typescript
-// Ortak yapılar
-import { Size, ColorVariant } from 'nirengi-ui-kit';
-
-// Design token'lar
-import { designTokenColors } from 'nirengi-ui-kit/design-tokens';
-
-// Component'ler (gelecekte)
-import { ButtonComponent } from 'nirengi-ui-kit/components';
+```bash
+npm install nirengi-ui-kit
 ```
 
-## 🎨 Design System
+## 🚀 Kullanım
 
-### Renk Varyantları
+### Tree-Shaking Optimizasyonu
 
-UI Kit 7 farklı semantik renk varyantı sunar:
+Bu kütüphane, **barrel file (index.ts) pattern'i kullanmaz**. Her dosya direkt path ile import edilir. Bu yaklaşım:
 
-- **Primary**: Ana marka rengi (Mavi)
-- **Secondary**: İkincil renk (Gri)
-- **Success**: Başarı durumu (Yeşil)
-- **Warning**: Uyarı durumu (Turuncu)
-- **Danger**: Hata/Tehlike (Kırmızı)
-- **Info**: Bilgi (Cyan)
-- **Neutral**: Nötr ton (Slate)
+- ✅ Garantili tree-shaking sağlar
+- ✅ Bundle size'ı minimize eder
+- ✅ Explicit dependencies oluşturur
+- ✅ Build performansını artırır
 
-Her renk 11 farklı ton içerir (50-950).
+### Import Örnekleri
+
+#### Enums (Ortak Değerler)
 
 ```typescript
-import { ColorVariant } from 'nirengi-ui-kit';
+// Size enum - Component boyutlandırma için
+import { Size } from 'nirengi-ui-kit/common/enums/size.enum';
+
+// ColorVariant enum - Renk temaları için
+import { ColorVariant } from 'nirengi-ui-kit/common/enums/color-variant.enum';
 
 // Kullanım
-const variant = ColorVariant.Primary;
+const buttonSize = Size.Medium;
+const buttonVariant = ColorVariant.Primary;
 ```
 
-### Boyutlar
-
-5 standart boyut seviyesi:
-
-- **XS** (Extra Small): `xs` - 24px
-- **SM** (Small): `sm` - 32px
-- **MD** (Medium): `md` - 40px
-- **LG** (Large): `lg` - 48px
-- **XL** (Extra Large): `xl` - 56px
+#### Types (Tip Tanımları)
 
 ```typescript
-import { Size } from 'nirengi-ui-kit';
+// Boyut tipleri
+import { SizeType, SizeValue } from 'nirengi-ui-kit/common/types/size.types';
+
+// Renk tipleri
+import { ColorVariantType, ColorValue } from 'nirengi-ui-kit/common/types/color.types';
 
 // Kullanım
-const size = Size.Medium;
+const size: SizeType = 'md';
+const variant: ColorVariantType = 'primary';
 ```
 
-### Design Tokens
-
-Design token'lar, tasarım sisteminin temel yapı taşlarıdır:
+#### Constants (Mapping Sabitleri)
 
 ```typescript
-import {
-  designTokenColors,      // Renk paleti
-  designTokenSpacing,     // Spacing skalası
-  designTokenFontSizes,   // Font boyutları
-  designTokenShadows,     // Gölge değerleri
-  designTokenBreakpoints  // Responsive breakpoint'ler
-} from 'nirengi-ui-kit/design-tokens';
+// Boyut mapping sabitleri
+import { 
+  SIZE_HEIGHT_MAP,
+  SIZE_PADDING_MAP,
+  SIZE_TEXT_MAP,
+  SIZE_ICON_MAP,
+  SIZE_RADIUS_MAP
+} from 'nirengi-ui-kit/common/constants/size.constants';
 
-// CSS Variables olarak da kullanılabilir
-// var(--nui-primary-600)
-// var(--nui-spacing-4)
-// var(--nui-text-base)
+// Renk mapping sabitleri
+import { 
+  COLOR_BG_MAP,
+  COLOR_TEXT_MAP,
+  COLOR_BORDER_MAP,
+  COLOR_VARIANT_MAP
+} from 'nirengi-ui-kit/common/constants/color.constants';
+
+// Kullanım
+const height = SIZE_HEIGHT_MAP[Size.Large]; // '48px'
+const bgColor = COLOR_BG_MAP[ColorVariant.Primary]; // 'bg-blue-600'
 ```
 
-## 📁 Proje Yapısı
-
-```
-projects/nirengi-ui-kit/
-├── src/
-│   ├── lib/
-│   │   ├── common/                 # Ortak yapılar
-│   │   │   ├── enums/             # Enum tanımları
-│   │   │   │   ├── size.enum.ts
-│   │   │   │   └── color-variant.enum.ts
-│   │   │   ├── types/             # TypeScript tipleri
-│   │   │   │   ├── size.types.ts
-│   │   │   │   └── color.types.ts
-│   │   │   ├── constants/         # Sabit değerler
-│   │   │   │   ├── size.constants.ts
-│   │   │   │   └── color.constants.ts
-│   │   │   └── index.ts
-│   │   ├── design-tokens/         # Design system
-│   │   │   ├── colors.ts
-│   │   │   ├── spacing.ts
-│   │   │   ├── typography.ts
-│   │   │   ├── shadows.ts
-│   │   │   ├── breakpoints.ts
-│   │   │   └── index.ts
-│   │   ├── components/            # UI Components (gelecekte)
-│   │   ├── directives/            # Directives (gelecekte)
-│   │   ├── pipes/                 # Pipes (gelecekte)
-│   │   └── styles/                # SCSS dosyaları
-│   │       ├── _tokens.scss       # CSS variables
-│   │       ├── _base.scss         # Base styles
-│   │       ├── _utilities.scss    # Utility classes
-│   │       └── index.scss         # Ana stil dosyası
-│   └── public-api.ts              # Public exports
-├── tailwind.config.js             # Tailwind konfigürasyonu
-└── tsconfig.lib.json              # TypeScript config
-```
-
-## 🚀 Kullanım Örnekleri
-
-### Common Kullanımı
+#### Design Tokens
 
 ```typescript
-import { Size, ColorVariant } from 'nirengi-ui-kit';
-import { SIZE_HEIGHT_MAP, COLOR_BG_MAP } from 'nirengi-ui-kit';
+// Renk palette
+import { designTokenColors } from 'nirengi-ui-kit/design-tokens/colors';
 
-class MyComponent {
-  // Size enum kullanımı
-  buttonSize = Size.Large;
-  
-  // Color variant kullanımı
-  alertVariant = ColorVariant.Warning;
-  
-  // Constant mapping kullanımı
-  getHeight(): string {
-    return SIZE_HEIGHT_MAP[this.buttonSize];
-  }
-  
-  getBackgroundClass(): string {
-    return COLOR_BG_MAP[this.alertVariant];
-  }
-}
+// Spacing scale
+import { designTokenSpacing } from 'nirengi-ui-kit/design-tokens/spacing';
+
+// Typography
+import { 
+  designTokenFontFamily,
+  designTokenFontSizes,
+  designTokenFontWeights
+} from 'nirengi-ui-kit/design-tokens/typography';
+
+// Shadows
+import { designTokenShadows } from 'nirengi-ui-kit/design-tokens/shadows';
+
+// Breakpoints
+import { designTokenBreakpoints } from 'nirengi-ui-kit/design-tokens/breakpoints';
+
+// Kullanım
+const primaryColor = designTokenColors.primary['600'];
+const spacing4 = designTokenSpacing['4']; // '1rem'
+const shadowMd = designTokenShadows.md;
 ```
 
-### Design Token Kullanımı
+#### Components (Gelecekte eklenecek)
 
 ```typescript
-import { designTokenColors, designTokenSpacing } from 'nirengi-ui-kit/design-tokens';
+// Button component
+import { ButtonComponent } from 'nirengi-ui-kit/components/button/button.component';
 
-// Design token'ları programatik olarak kullan
-const primaryColor = designTokenColors.primary[600]; // '#2563eb'
-const spacing = designTokenSpacing[4]; // '1rem'
+// Input component
+import { InputComponent } from 'nirengi-ui-kit/components/input/input.component';
+
+// Modal component
+import { ModalComponent } from 'nirengi-ui-kit/components/modal/modal.component';
 ```
 
-### SCSS Stil Kullanımı
+## 🛠️ Kütüphane Geliştirme
 
-```scss
-// Ana projenin styles.scss dosyasına ekle
-@import 'nirengi-ui-kit/styles/index.scss';
+### Path Alias Kullanımı
 
-// CSS variables kullanımı
-.my-component {
-  background-color: var(--nui-primary-600);
-  padding: var(--nui-spacing-4);
-  border-radius: var(--nui-radius-md);
-  box-shadow: var(--nui-shadow-md);
-}
+Kütüphane içinde geliştirme yaparken TypeScript path alias'ları kullanılabilir:
 
-// Utility class kullanımı
-// <div class="nui-flex nui-flex--center nui-stack--md">
+```typescript
+// ✅ Kütüphane içinde (development)
+import { Size } from '@common/enums/size.enum';
+import { designTokenColors } from '@design-tokens/colors';
+import { ButtonComponent } from '@components/button/button.component';
+
+// ✅ Kütüphane dışında (consumers)
+import { Size } from 'nirengi-ui-kit/common/enums/size.enum';
+import { designTokenColors } from 'nirengi-ui-kit/design-tokens/colors';
+import { ButtonComponent } from 'nirengi-ui-kit/components/button/button.component';
 ```
 
-## 🛠️ Development
-
-### Library Build
+### Build
 
 ```bash
-# UI Kit'i build et
+# Library build
 ng build nirengi-ui-kit
 
-# Watch mode
-ng build nirengi-ui-kit --watch
+# Production build with optimization
+ng build nirengi-ui-kit --configuration production
 ```
 
 ### Test
 
 ```bash
-# Unit testleri çalıştır
+# Unit tests
 ng test nirengi-ui-kit
+
+# Coverage
+ng test nirengi-ui-kit --code-coverage
 ```
 
-## 📋 TypeScript Path Aliases
+## 📚 Dokümantasyon
 
-Proje içinde temiz import path'leri için alias'lar kullanabilirsiniz:
+### Mimari Prensipleri
 
-```typescript
-// ✅ Alias ile
-import { Size } from '@common';
-import { designTokenColors } from '@design-tokens';
-import { ButtonComponent } from '@components';
+1. **Standalone Components**: Tüm component'ler standalone, NgModule kullanılmaz
+2. **Signals API**: Reaktif state yönetimi için Angular Signals
+3. **Zoneless**: Zone.js'siz çalışacak şekilde tasarlanmış
+4. **BEM + Tailwind**: HTML'de İngilizce BEM class'ları, SCSS'de @apply ile Tailwind
+5. **Explicit Exports**: Tree-shaking için her dosya direkt export edilir
 
-// ❌ Uzun path yerine
-import { Size } from '../../lib/common/enums/size.enum';
+### Stil Metodolojisi
+
+```html
+<!-- HTML: BEM class isimleri -->
+<button class="button button--primary button--medium">
+  <span class="button__icon">📌</span>
+  <span class="button__text">Kaydet</span>
+</button>
 ```
 
-Kullanılabilir alias'lar:
-- `@common/*` - Ortak yapılar
-- `@design-tokens/*` - Design token'lar
-- `@components/*` - Component'ler
-- `@directives/*` - Directive'ler
-- `@pipes/*` - Pipe'lar
-- `@styles/*` - Stil dosyaları
+```scss
+// SCSS: Nested BEM + Tailwind @apply
+.button {
+  @apply inline-flex items-center gap-2 rounded-md font-medium transition-colors;
+  
+  &--primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
+  
+  &--medium {
+    @apply px-4 py-2 text-base;
+  }
+  
+  &__icon {
+    @apply w-5 h-5;
+  }
+  
+  &__text {
+    @apply truncate;
+  }
+}
+```
 
-## 🎯 Roadmap
+## 🤝 Katkıda Bulunma
 
-- [ ] Button Component
-- [ ] Input Component
-- [ ] Modal Component
-- [ ] Dropdown Component
-- [ ] Tooltip Directive
-- [ ] Form Components
-- [ ] Table Component
-- [ ] Navigation Components
+1. Fork yapın
+2. Feature branch oluşturun (`git checkout -b feature/amazing`)
+3. Commit atın (`git commit -m 'feat: add amazing feature'`)
+4. Push yapın (`git push origin feature/amazing`)
+5. Pull Request açın
 
 ## 📝 Lisans
 
-Internal project - Nirengi UI
+MIT
 
-## 👥 Katkıda Bulunma
+## 🔗 Bağlantılar
 
-Bu kütüphane Nirengi projesi için geliştirilmiştir. Component'ler eklenirken:
+- [Angular Docs](https://angular.dev)
+- [Tailwind CSS](https://tailwindcss.com)
+- [TypeScript](https://www.typescriptlang.org)
 
-1. **Angular 20 Best Practices** kullanın
-2. **Standalone component** oluşturun
-3. **Signal-based state** yönetimi uygulayın
-4. **BEM + Tailwind** metodolojisine uyun
-5. **JSDoc dokümantasyonu** ekleyin (Türkçe)
-6. **Accessibility** standartlarına uyun
-7. **Unit test** yazın
+---
+
+**Made with ❤️ by Nirengi Team**

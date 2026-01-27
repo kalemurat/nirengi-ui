@@ -14,32 +14,17 @@
       "@common/*": [
         "./projects/nirengi-ui-kit/src/lib/common/*"
       ],
-      "@common": [
-        "./projects/nirengi-ui-kit/src/lib/common/index.ts"
-      ],
       "@design-tokens/*": [
         "./projects/nirengi-ui-kit/src/lib/design-tokens/*"
-      ],
-      "@design-tokens": [
-        "./projects/nirengi-ui-kit/src/lib/design-tokens/index.ts"
       ],
       "@components/*": [
         "./projects/nirengi-ui-kit/src/lib/components/*"
       ],
-      "@components": [
-        "./projects/nirengi-ui-kit/src/lib/components/index.ts"
-      ],
       "@directives/*": [
         "./projects/nirengi-ui-kit/src/lib/directives/*"
       ],
-      "@directives": [
-        "./projects/nirengi-ui-kit/src/lib/directives/index.ts"
-      ],
       "@pipes/*": [
         "./projects/nirengi-ui-kit/src/lib/pipes/*"
-      ],
-      "@pipes": [
-        "./projects/nirengi-ui-kit/src/lib/pipes/index.ts"
       ],
       "@styles/*": [
         "./projects/nirengi-ui-kit/src/lib/styles/*"
