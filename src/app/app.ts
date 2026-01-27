@@ -61,6 +61,13 @@ export class App {
       label: 'Button',
       description: 'Interactive button with multiple variants',
       category: 'Controls'
+    },
+    {
+      id: 'icon',
+      route: '/icon',
+      label: 'Icon',
+      description: 'Lucide icons wrapper with type safety',
+      category: 'Media'
     }
   ]);
 

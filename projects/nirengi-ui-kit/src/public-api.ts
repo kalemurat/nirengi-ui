@@ -232,6 +232,15 @@ export {
   HeadingWeight 
 } from './lib/components/heading/heading.component';
 
+/**
+ * Icon component ve type'ları.
+ * @see {@link IconComponent}
+ * @see {@link IconName}
+ */
+export { IconComponent } from './lib/components/icon/icon.component';
+export type { IconName } from './lib/components/icon/icon.types';
+export { ALL_ICONS, IconNames } from './lib/components/icon/icon.types';
+
 // export { InputComponent } from './lib/components/input/input.component';
 // export { ModalComponent } from './lib/components/modal/modal.component';
 

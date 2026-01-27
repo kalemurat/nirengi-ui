@@ -15,5 +15,9 @@ export const routes: Routes = [
   {
     path: 'button',
     component: ButtonPageComponent
+  },
+  {
+    path: 'icon',
+    loadComponent: () => import('./pages/icon-page/icon-page.component').then(m => m.IconPageComponent)
   }
 ];
