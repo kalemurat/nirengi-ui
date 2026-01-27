@@ -1,0 +1,171 @@
+// App Component Styles
+// Modern showcase application with sidebar menu
+
+.app-container {
+    @apply flex min-h-screen bg-gray-50;
+}
+
+// ============================================================================
+// SIDEBAR
+// ============================================================================
+
+.app-sidebar {
+    @apply bg-white border-r border-gray-200;
+    @apply transition-all duration-300 ease-in-out;
+    @apply flex flex-col;
+
+    &--open {
+        @apply w-80;
+    }
+
+    &--closed {
+        @apply w-16;
+    }
+
+    &__header {
+        @apply flex items-center justify-between;
+        @apply p-6 border-b border-gray-200;
+    }
+
+    &__title {
+        @apply text-xl font-bold text-gray-900;
+    }
+
+    &__toggle {
+        @apply p-2 rounded-md;
+        @apply hover:bg-gray-100 active:bg-gray-200;
+        @apply transition-colors duration-200;
+        @apply text-gray-600 hover:text-gray-900;
+        @apply font-semibold text-lg;
+    }
+
+    &__nav {
+        @apply flex-1 overflow-y-auto;
+        @apply p-4;
+    }
+
+    &__menu {
+        @apply space-y-2;
+        @apply list-none p-0 m-0;
+    }
+
+    &__menu-item {
+        @apply w-full;
+    }
+
+    &__menu-button {
+        @apply w-full text-left;
+        @apply p-4 rounded-lg;
+        @apply transition-all duration-200;
+        @apply flex flex-col gap-1;
+        @apply border-2 border-transparent;
+
+        &:hover {
+            @apply bg-gray-50 border-gray-200;
+        }
+
+        &--active {
+            @apply bg-blue-50 border-blue-200;
+
+            .app-sidebar__menu-label {
+                @apply text-blue-700 font-semibold;
+            }
+
+            .app-sidebar__menu-description {
+                @apply text-blue-600;
+            }
+        }
+    }
+
+    &__menu-label {
+        @apply text-base font-medium text-gray-900;
+    }
+
+    &__menu-description {
+        @apply text-sm text-gray-500;
+    }
+}
+
+// ============================================================================
+// MAIN CONTENT
+// ============================================================================
+
+.app-main {
+    @apply flex-1 overflow-y-auto;
+}
+
+.app-content {
+    @apply max-w-7xl mx-auto;
+    @apply p-8;
+}
+
+// ============================================================================
+// SHOWCASE
+// ============================================================================
+
+.showcase {
+    @apply space-y-12;
+
+    &__header {
+        @apply mb-8;
+    }
+
+    &__title {
+        @apply text-4xl font-bold text-gray-900 mb-3;
+    }
+
+    &__description {
+        @apply text-lg text-gray-600;
+    }
+
+    &__section {
+        @apply bg-white rounded-xl shadow-sm;
+        @apply p-8 space-y-6;
+        @apply border border-gray-200;
+    }
+
+    &__section-title {
+        @apply text-2xl font-bold text-gray-800 mb-6;
+        @apply pb-4 border-b-2 border-gray-200;
+    }
+
+    &__grid {
+        @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8;
+    }
+
+    &__item {
+        @apply space-y-4;
+    }
+
+    &__item-title {
+        @apply text-sm font-semibold text-gray-700 uppercase tracking-wider;
+        @apply pb-2 border-b border-gray-200;
+    }
+
+    &__size-group {
+        @apply flex flex-wrap gap-2;
+    }
+
+    &__column {
+        @apply flex flex-col gap-3;
+    }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: 768px) {
+    .app-sidebar {
+        @apply fixed left-0 top-0 bottom-0 z-50;
+        @apply shadow-2xl;
+
+        &--closed {
+            @apply -translate-x-full w-0;
+        }
+    }
+
+    .showcase__grid {
+        @apply grid-cols-1;
+    }
+}

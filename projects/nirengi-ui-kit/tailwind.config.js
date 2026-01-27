@@ -5,6 +5,45 @@ module.exports = {
     ],
     theme: {
         extend: {
+            /**
+             * UI Kit Component Heights
+             * Size enum değerlerine karşılık gelen yükseklik değerleri.
+             * Button, Input, Select gibi componentler için kullanılır.
+             */
+            height: {
+                'component-xs': '24px',  // Size.XSmall - h-component-xs
+                'component-sm': '32px',  // Size.Small - h-component-sm
+                'component-md': '36px',  // Size.Medium - h-component-md
+                'component-lg': '40px',  // Size.Large - h-component-lg
+                'component-xl': '48px',  // Size.XLarge - h-component-xl
+            },
+
+            /**
+             * UI Kit Spacing Extensions
+             * Component padding ve margin için ek spacing değerleri.
+             */
+            spacing: {
+                '3.5': '0.875rem',  // 14px - Medium component padding için
+            },
+
+            /**
+             * UI Kit Gap Extensions
+             * Flex/Grid gap değerleri component boyutlarına göre.
+             */
+            gap: {
+                // Tailwind'in default gap değerleri yeterli
+                // gap-1, gap-1.5, gap-2, gap-2.5 mevcut
+            },
+
+            /**
+             * UI Kit Border Radius
+             * Component boyutlarına göre border radius değerleri.
+             * Tailwind default rounded değerleri kullanılıyor:
+             * - rounded (0.25rem / 4px)
+             * - rounded-md (0.375rem / 6px)
+             * - rounded-lg (0.5rem / 8px)
+             */
+
             // Color palette - Design token'lardan gelen renkler
             colors: {
                 primary: {
@@ -107,6 +146,4 @@ module.exports = {
         },
     },
     plugins: [],
-    // Ana projeden extend edilebilir
-    prefix: 'nui-',
 };

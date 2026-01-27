@@ -9,7 +9,10 @@
     "noImplicitReturns": true,
     "paths": {
       "nirengi-ui-kit": [
-        "./dist/nirengi-ui-kit"
+        "./projects/nirengi-ui-kit/src/public-api"
+      ],
+      "nirengi-ui-kit/*": [
+        "./projects/nirengi-ui-kit/src/lib/*"
       ]
     },
     "noFallthroughCasesInSwitch": true,

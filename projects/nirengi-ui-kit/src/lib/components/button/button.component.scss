@@ -1,0 +1,290 @@
+// Button Component Styles
+// BEM + Tailwind metodolojisi ile tasarlanmıştır.
+//
+// BOYUT YÖNETİMİ:
+// Bu component'in boyutları (height, padding, text-size, gap) 
+// merkezi olarak `tailwind.config.js` dosyasından yönetilir.
+// theme.extend.height içinde 'component-xs', 'component-sm', vb. custom değerler tanımlıdır.
+// Değişiklik yaparken tailwind.config.js > theme > extend > height değerlerini kullanın.
+// Bu sayede tüm UI Kit componentleri (Button, Input, Select, Badge) tutarlı kalır.
+
+.nui-button {
+    // Base styles
+    @apply inline-flex items-center justify-center;
+    @apply font-medium rounded-md;
+    @apply transition-all duration-200 ease-in-out;
+    @apply cursor-pointer select-none;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+
+    // ============================================================================
+    // SIZE VARIANTS
+    // Boyutlar tailwind.config.js'deki theme.extend.height'tan gelir
+    // ============================================================================
+
+    &--xs {
+        @apply h-component-xs px-2 text-xs gap-1;
+    }
+
+    &--sm {
+        @apply h-component-sm px-3 text-sm gap-1.5;
+    }
+
+    &--md {
+        @apply h-component-md px-3.5 text-sm gap-1.5;
+    }
+
+    &--lg {
+        @apply h-component-lg px-5 text-base gap-2;
+    }
+
+    &--xl {
+        @apply h-component-xl px-6 text-lg gap-2.5;
+    }
+
+    // ============================================================================
+    // TYPE + COLOR VARIANTS
+    // ============================================================================
+
+    // SOLID TYPE
+    &--solid {
+        &.nui-button--primary {
+            @apply bg-blue-600 text-white border border-transparent;
+            @apply hover:bg-blue-700 active:bg-blue-800;
+            @apply focus:ring-blue-500;
+        }
+
+        &.nui-button--secondary {
+            @apply bg-purple-600 text-white border border-transparent;
+            @apply hover:bg-purple-700 active:bg-purple-800;
+            @apply focus:ring-purple-500;
+        }
+
+        &.nui-button--success {
+            @apply bg-green-600 text-white border border-transparent;
+            @apply hover:bg-green-700 active:bg-green-800;
+            @apply focus:ring-green-500;
+        }
+
+        &.nui-button--warning {
+            @apply bg-yellow-500 text-white border border-transparent;
+            @apply hover:bg-yellow-600 active:bg-yellow-700;
+            @apply focus:ring-yellow-400;
+        }
+
+        &.nui-button--danger {
+            @apply bg-red-600 text-white border border-transparent;
+            @apply hover:bg-red-700 active:bg-red-800;
+            @apply focus:ring-red-500;
+        }
+
+        &.nui-button--info {
+            @apply bg-cyan-600 text-white border border-transparent;
+            @apply hover:bg-cyan-700 active:bg-cyan-800;
+            @apply focus:ring-cyan-500;
+        }
+
+        &.nui-button--neutral {
+            @apply bg-gray-600 text-white border border-transparent;
+            @apply hover:bg-gray-700 active:bg-gray-800;
+            @apply focus:ring-gray-500;
+        }
+    }
+
+    // OUTLINE TYPE
+    &--outline {
+        @apply bg-transparent border-2;
+
+        &.nui-button--primary {
+            @apply border-blue-600 text-blue-600;
+            @apply hover:bg-blue-50 active:bg-blue-100;
+            @apply focus:ring-blue-500;
+        }
+
+        &.nui-button--secondary {
+            @apply border-purple-600 text-purple-600;
+            @apply hover:bg-purple-50 active:bg-purple-100;
+            @apply focus:ring-purple-500;
+        }
+
+        &.nui-button--success {
+            @apply border-green-600 text-green-600;
+            @apply hover:bg-green-50 active:bg-green-100;
+            @apply focus:ring-green-500;
+        }
+
+        &.nui-button--warning {
+            @apply border-yellow-500 text-yellow-600;
+            @apply hover:bg-yellow-50 active:bg-yellow-100;
+            @apply focus:ring-yellow-400;
+        }
+
+        &.nui-button--danger {
+            @apply border-red-600 text-red-600;
+            @apply hover:bg-red-50 active:bg-red-100;
+            @apply focus:ring-red-500;
+        }
+
+        &.nui-button--info {
+            @apply border-cyan-600 text-cyan-600;
+            @apply hover:bg-cyan-50 active:bg-cyan-100;
+            @apply focus:ring-cyan-500;
+        }
+
+        &.nui-button--neutral {
+            @apply border-gray-600 text-gray-600;
+            @apply hover:bg-gray-50 active:bg-gray-100;
+            @apply focus:ring-gray-500;
+        }
+    }
+
+    // GHOST TYPE
+    &--ghost {
+        @apply bg-transparent border border-transparent;
+
+        &.nui-button--primary {
+            @apply text-blue-600;
+            @apply hover:bg-blue-50 active:bg-blue-100;
+            @apply focus:ring-blue-500;
+        }
+
+        &.nui-button--secondary {
+            @apply text-purple-600;
+            @apply hover:bg-purple-50 active:bg-purple-100;
+            @apply focus:ring-purple-500;
+        }
+
+        &.nui-button--success {
+            @apply text-green-600;
+            @apply hover:bg-green-50 active:bg-green-100;
+            @apply focus:ring-green-500;
+        }
+
+        &.nui-button--warning {
+            @apply text-yellow-600;
+            @apply hover:bg-yellow-50 active:bg-yellow-100;
+            @apply focus:ring-yellow-400;
+        }
+
+        &.nui-button--danger {
+            @apply text-red-600;
+            @apply hover:bg-red-50 active:bg-red-100;
+            @apply focus:ring-red-500;
+        }
+
+        &.nui-button--info {
+            @apply text-cyan-600;
+            @apply hover:bg-cyan-50 active:bg-cyan-100;
+            @apply focus:ring-cyan-500;
+        }
+
+        &.nui-button--neutral {
+            @apply text-gray-600;
+            @apply hover:bg-gray-50 active:bg-gray-100;
+            @apply focus:ring-gray-500;
+        }
+    }
+
+    // SOFT TYPE
+    &--soft {
+        @apply border border-transparent;
+
+        &.nui-button--primary {
+            @apply bg-blue-100 text-blue-700;
+            @apply hover:bg-blue-200 active:bg-blue-300;
+            @apply focus:ring-blue-500;
+        }
+
+        &.nui-button--secondary {
+            @apply bg-purple-100 text-purple-700;
+            @apply hover:bg-purple-200 active:bg-purple-300;
+            @apply focus:ring-purple-500;
+        }
+
+        &.nui-button--success {
+            @apply bg-green-100 text-green-700;
+            @apply hover:bg-green-200 active:bg-green-300;
+            @apply focus:ring-green-500;
+        }
+
+        &.nui-button--warning {
+            @apply bg-yellow-100 text-yellow-700;
+            @apply hover:bg-yellow-200 active:bg-yellow-300;
+            @apply focus:ring-yellow-400;
+        }
+
+        &.nui-button--danger {
+            @apply bg-red-100 text-red-700;
+            @apply hover:bg-red-200 active:bg-red-300;
+            @apply focus:ring-red-500;
+        }
+
+        &.nui-button--info {
+            @apply bg-cyan-100 text-cyan-700;
+            @apply hover:bg-cyan-200 active:bg-cyan-300;
+            @apply focus:ring-cyan-500;
+        }
+
+        &.nui-button--neutral {
+            @apply bg-gray-100 text-gray-700;
+            @apply hover:bg-gray-200 active:bg-gray-300;
+            @apply focus:ring-gray-500;
+        }
+    }
+
+    // ============================================================================
+    // STATE VARIANTS
+    // ============================================================================
+
+    &--disabled,
+    &:disabled {
+        @apply opacity-50 cursor-not-allowed pointer-events-none;
+    }
+
+    &--loading {
+        @apply cursor-wait;
+    }
+
+    &--full-width {
+        @apply w-full;
+    }
+
+    // ============================================================================
+    // INNER ELEMENTS
+    // ============================================================================
+
+    &__content {
+        @apply inline-flex items-center justify-center;
+        gap: inherit;
+    }
+
+    &__spinner {
+        @apply inline-flex items-center justify-center;
+        @apply mr-2;
+    }
+
+    &__spinner-icon {
+        @apply w-4 h-4 animate-spin;
+    }
+
+    &__spinner-circle {
+        @apply stroke-current;
+        stroke-linecap: round;
+        stroke-dasharray: 50;
+        stroke-dashoffset: 25;
+        animation: spinner-rotate 1.5s ease-in-out infinite;
+    }
+}
+
+@keyframes spinner-rotate {
+    0% {
+        stroke-dashoffset: 25;
+    }
+
+    50% {
+        stroke-dashoffset: 75;
+    }
+
+    100% {
+        stroke-dashoffset: 25;
+    }
+}

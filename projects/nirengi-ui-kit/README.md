@@ -175,6 +175,99 @@ ng test nirengi-ui-kit --code-coverage
 4. **BEM + Tailwind**: HTML'de İngilizce BEM class'ları, SCSS'de @apply ile Tailwind
 5. **Explicit Exports**: Tree-shaking için her dosya direkt export edilir
 
+### Design System - Merkezi Yönetim
+
+#### ⚠️ ÖNEMLİ: Boyut Yönetimi
+
+Tüm componentlerin boyutları (height, padding, text-size, gap, icon-size, border-radius) **merkezi olarak** `projects/nirengi-ui-kit/tailwind.config.js` dosyasından yönetilir.
+
+**✅ DOĞRU YAKLAŞIM: Tailwind Config**
+
+Tüm boyutlar Tailwind'in `theme.extend` konfigürasyonunda tanımlanmıştır:
+
+```javascript
+// projects/nirengi-ui-kit/tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      // Component yükseklikleri
+      height: {
+        'component-xs': '24px',  // h-component-xs
+        'component-sm': '32px',  // h-component-sm
+        'component-md': '36px',  // h-component-md
+        'component-lg': '40px',  // h-component-lg
+        'component-xl': '48px',  // h-component-xl
+      },
+      
+      // Özel spacing değerleri
+      spacing: {
+        '3.5': '0.875rem',  // px-3.5 için
+      },
+      
+      // Renkler, font'lar vs.
+      colors: { /* ... */ },
+      fontFamily: { /* ... */ }
+    }
+  }
+}
+```
+
+**Component SCSS Kullanımı:**
+
+```scss
+// ✅ DOĞRU: Tailwind custom class'larını kullan
+.nui-button {
+  &--xs {
+    @apply h-component-xs px-2 text-xs gap-1;
+  }
+  
+  &--sm {
+    @apply h-component-sm px-3 text-sm gap-1.5;
+  }
+  
+  &--md {
+    @apply h-component-md px-3.5 text-sm gap-1.5;
+  }
+}
+```
+
+```scss
+// ❌ YANLIŞ: Hard-coded değerler kullanma
+.nui-input {
+  &--small {
+    height: 32px;  // Direkt pixel değeri
+    padding: 12px;
+  }
+}
+```
+
+#### Mevcut Size Mapping'leri
+
+| Size    | Height Class      | Pixel | Padding | Text      | Gap     |
+|---------|-------------------|-------|---------|-----------|---------|
+| XSmall  | h-component-xs    | 24px  | px-2    | text-xs   | gap-1   |
+| Small   | h-component-sm    | 32px  | px-3    | text-sm   | gap-1.5 |
+| Medium  | h-component-md    | 36px  | px-3.5  | text-sm   | gap-1.5 |
+| Large   | h-component-lg    | 40px  | px-5    | text-base | gap-2   |
+| XLarge  | h-component-xl    | 48px  | px-6    | text-lg   | gap-2.5 |
+
+#### size.constants.ts Dosyası
+
+`common/constants/size.constants.ts` dosyası artık **sadece REFERANS** amaçlı tutulmaktadır. Gerçek değerler `tailwind.config.js`'de. Bu dosya, hangi Tailwind class'ını kullanmanız gerektiğini hatırlatmak için mevcuttur.
+
+**💡 Neden Tailwind Config?**
+- ✅ Tailwind'in doğal ekosistemi içinde
+- ✅ Build time'da CSS'e compile edilir
+- ✅ Consumer projede configuration override gerekmez
+- ✅ Standard Tailwind best practices
+  ✅ Design token mantığıyla uyumlu
+- ✅ Tüm componentler (Button, Input, Select, Badge, Chip) tutarlı
+- ✅ Tek bir yerden tüm UI Kit'in boyutlarını değiştirebiliriz
+
+**🔒 Library Distribution:**
+
+Library build edildiğinde (`ng build nirengi-ui-kit`), Tailwind config'deki tüm custom değerler CSS'e compile edilerek `dist/` klasörüne gider. Consumer projesinde Tailwind config'e herhangi bir ekleme yapmaya gerek yoktur.
+
 ### Stil Metodolojisi
 
 ```html

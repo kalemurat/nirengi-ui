@@ -145,13 +145,14 @@ export type { ColorVariantType, ColorValue } from './lib/common/types/color.type
 
 /**
  * Boyut bazlı CSS mapping sabitleri.
- * Height, padding, text size, icon size, border radius değerlerinin Size enum'ına göre map'lenmesi.
+ * Height, padding, text size, icon size, gap, border radius değerlerinin Size enum'ına göre map'lenmesi.
  */
 export {
   SIZE_HEIGHT_MAP,
   SIZE_PADDING_MAP,
   SIZE_TEXT_MAP,
   SIZE_ICON_MAP,
+  SIZE_GAP_MAP,
   SIZE_RADIUS_MAP
 } from './lib/common/constants/size.constants';
 
@@ -207,10 +208,16 @@ export { designTokenShadows } from './lib/design-tokens/shadows';
 export { designTokenBreakpoints } from './lib/design-tokens/breakpoints';
 
 // ============================================================================
-// COMPONENTS (Gelecekte eklenecek)
+// COMPONENTS
 // ============================================================================
 
-// export { ButtonComponent } from './lib/components/button/button.component';
+/**
+ * Button component ve button type enum'ı.
+ * @see {@link ButtonComponent}
+ * @see {@link ButtonType}
+ */
+export { ButtonComponent, ButtonType } from './lib/components/button/button.component';
+
 // export { InputComponent } from './lib/components/input/input.component';
 // export { ModalComponent } from './lib/components/modal/modal.component';
 

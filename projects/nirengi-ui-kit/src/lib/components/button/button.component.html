@@ -1,0 +1,20 @@
+<button 
+  [class]="getButtonClasses()"
+  [disabled]="disabled() || loading()"
+  [attr.aria-disabled]="disabled() || loading()"
+  [attr.aria-busy]="loading()"
+  type="button"
+  (click)="handleClick()">
+  
+  @if (loading()) {
+    <span class="nui-button__spinner" aria-hidden="true">
+      <svg class="nui-button__spinner-icon" viewBox="0 0 24 24">
+        <circle class="nui-button__spinner-circle" cx="12" cy="12" r="10" fill="none" stroke-width="3"/>
+      </svg>
+    </span>
+  }
+  
+  <span class="nui-button__content">
+    <ng-content />
+  </span>
+</button>
