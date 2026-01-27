@@ -1,0 +1,86 @@
+<div class="showcase">
+  <header class="showcase__header">
+    <h2 class="showcase__title">Badge Component</h2>
+    <p class="showcase__description">
+      Status indicators and labels with multiple styles, sizes, and colors.
+    </p>
+  </header>
+
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Badge Types</h3>
+    <div class="showcase__grid">
+      @for (type of types; track type) {
+        <div class="showcase__item">
+          <h4 class="showcase__item-title">{{ type | titlecase }}</h4>
+          <div class="flex flex-wrap gap-2">
+            <nui-badge [type]="type">Badge</nui-badge>
+            <nui-badge [type]="type" [variant]="ColorVariant.Success">Success</nui-badge>
+            <nui-badge [type]="type" [variant]="ColorVariant.Danger">Error</nui-badge>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Shapes</h3>
+    <div class="showcase__grid">
+      @for (shape of shapes; track shape) {
+        <div class="showcase__item">
+          <h4 class="showcase__item-title">{{ shape | titlecase }}</h4>
+          <div class="flex flex-wrap gap-2">
+            <nui-badge [shape]="shape" [variant]="ColorVariant.Primary">Primary</nui-badge>
+            <nui-badge [shape]="shape" [variant]="ColorVariant.Secondary">Secondary</nui-badge>
+            <nui-badge [shape]="shape" [variant]="ColorVariant.Warning">Warning</nui-badge>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Sizes</h3>
+    <div class="showcase__item">
+      <div class="flex flex-wrap items-center gap-4">
+        @for (size of sizes; track size) {
+          <nui-badge [size]="size" [variant]="ColorVariant.Info">
+            {{ size | uppercase }}
+          </nui-badge>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Color Variants (Solid)</h3>
+    <div class="flex flex-wrap gap-3">
+      @for (color of colors; track color) {
+        <nui-badge [variant]="color" [type]="BadgeType.Solid">
+          {{ color }}
+        </nui-badge>
+      }
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Color Variants (Outline)</h3>
+    <div class="flex flex-wrap gap-3">
+      @for (color of colors; track color) {
+        <nui-badge [variant]="color" [type]="BadgeType.Outline">
+          {{ color }}
+        </nui-badge>
+      }
+    </div>
+  </section>
+
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Color Variants (Soft)</h3>
+    <div class="flex flex-wrap gap-3">
+      @for (color of colors; track color) {
+        <nui-badge [variant]="color" [type]="BadgeType.Soft">
+          {{ color }}
+        </nui-badge>
+      }
+    </div>
+  </section>
+</div>

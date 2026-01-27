@@ -68,6 +68,13 @@ export class App {
       label: 'Icon',
       description: 'Lucide icons wrapper with type safety',
       category: 'Media'
+    },
+    {
+      id: 'badge',
+      route: '/badge',
+      label: 'Badge',
+      description: 'Status indicators and labels',
+      category: 'Data Display'
     }
   ]);
 

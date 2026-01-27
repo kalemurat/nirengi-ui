@@ -1,0 +1,150 @@
+// Badge Component Styles
+// BEM + Tailwind
+
+.nui-badge {
+    @apply inline-flex items-center justify-center;
+    @apply font-semibold; // Badges usually have bolder text
+    @apply transition-colors duration-200;
+    @apply select-none;
+    @apply whitespace-nowrap;
+
+    // ============================================================================
+    // SIZE VARIANTS
+    // Using slightly smaller heights/paddings than buttons usually, 
+    // but sticking to component height map for consistency if desired. 
+    // Usually Badges are smaller. Let's make them slightly more compact than buttons.
+    // ============================================================================
+
+    &--xs {
+        @apply px-1.5 text-[10px] h-5 gap-0.5;
+    }
+
+    &--sm {
+        @apply px-2 text-xs h-6 gap-1;
+    }
+
+    &--md {
+        @apply px-2.5 text-sm h-7 gap-1;
+    }
+
+    &--lg {
+        @apply px-3 text-base h-8 gap-1.5;
+    }
+
+    &--xl {
+        @apply px-3.5 text-lg h-9 gap-1.5;
+    }
+
+    // ============================================================================
+    // SHAPE VARIANTS
+    // ============================================================================
+
+    &--rounded {
+        @apply rounded-md;
+    }
+
+    &--pill {
+        @apply rounded-full;
+    }
+
+    // ============================================================================
+    // TYPE + COLOR VARIANTS
+    // ============================================================================
+
+    // SOLID TYPE
+    &--solid {
+        @apply text-white;
+
+        &.nui-badge--primary {
+            @apply bg-blue-600;
+        }
+
+        &.nui-badge--secondary {
+            @apply bg-purple-600;
+        }
+
+        &.nui-badge--success {
+            @apply bg-green-600;
+        }
+
+        &.nui-badge--warning {
+            @apply bg-yellow-500;
+        }
+
+        &.nui-badge--danger {
+            @apply bg-red-600;
+        }
+
+        &.nui-badge--info {
+            @apply bg-cyan-600;
+        }
+
+        &.nui-badge--neutral {
+            @apply bg-gray-600;
+        }
+    }
+
+    // OUTLINE TYPE
+    &--outline {
+        @apply bg-transparent border;
+
+        &.nui-badge--primary {
+            @apply text-blue-600 border-blue-600;
+        }
+
+        &.nui-badge--secondary {
+            @apply text-purple-600 border-purple-600;
+        }
+
+        &.nui-badge--success {
+            @apply text-green-600 border-green-600;
+        }
+
+        &.nui-badge--warning {
+            @apply text-yellow-600 border-yellow-500;
+        }
+
+        &.nui-badge--danger {
+            @apply text-red-600 border-red-600;
+        }
+
+        &.nui-badge--info {
+            @apply text-cyan-600 border-cyan-600;
+        }
+
+        &.nui-badge--neutral {
+            @apply text-gray-600 border-gray-600;
+        }
+    }
+
+    // SOFT TYPE
+    &--soft {
+        &.nui-badge--primary {
+            @apply bg-blue-100 text-blue-700;
+        }
+
+        &.nui-badge--secondary {
+            @apply bg-purple-100 text-purple-700;
+        }
+
+        &.nui-badge--success {
+            @apply bg-green-100 text-green-700;
+        }
+
+        &.nui-badge--warning {
+            @apply bg-yellow-100 text-yellow-700;
+        }
+
+        &.nui-badge--danger {
+            @apply bg-red-100 text-red-700;
+        }
+
+        &.nui-badge--info {
+            @apply bg-cyan-100 text-cyan-700;
+        }
+
+        &.nui-badge--neutral {
+            @apply bg-gray-100 text-gray-700;
+        }
+    }
+}

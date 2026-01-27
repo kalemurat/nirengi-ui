@@ -19,5 +19,9 @@ export const routes: Routes = [
   {
     path: 'icon',
     loadComponent: () => import('./pages/icon-page/icon-page.component').then(m => m.IconPageComponent)
+  },
+  {
+    path: 'badge',
+    loadComponent: () => import('./pages/badge-page/badge-page.component').then(m => m.BadgePageComponent)
   }
 ];
