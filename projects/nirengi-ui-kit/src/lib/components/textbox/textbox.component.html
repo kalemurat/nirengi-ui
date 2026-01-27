@@ -1,0 +1,36 @@
+<div class="nui-textbox">
+  @if (label()) {
+    <label class="nui-textbox__label" [for]="inputId">
+      {{ label() }}
+    </label>
+  }
+
+  <div class="nui-textbox__wrapper">
+    @if (icon()) {
+      <div class="nui-textbox__icon">
+        <nirengi-icon [name]="icon()!" [size]="iconSize()" />
+      </div>
+    }
+
+    <input
+      [id]="inputId"
+      [type]="type()"
+      [value]="value()"
+      [placeholder]="placeholder()"
+      [disabled]="isDisabled()"
+      [readOnly]="readonly()"
+      class="nui-textbox__input"
+      [class.nui-textbox__input--error]="error()"
+      [class.nui-textbox__input--with-icon]="icon()"
+      [ngClass]="getClasses()"
+      (input)="onInput($event)"
+      (blur)="markAsTouched()"
+    />
+  </div>
+
+  @if (error()) {
+    <span class="nui-textbox__error">{{ error() }}</span>
+  } @else if (hint()) {
+    <span class="nui-textbox__hint">{{ hint() }}</span>
+  }
+</div>

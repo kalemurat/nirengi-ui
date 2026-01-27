@@ -75,6 +75,13 @@ export class App {
       label: 'Badge',
       description: 'Status indicators and labels',
       category: 'Data Display'
+    },
+    {
+      id: 'textbox',
+      route: '/textbox',
+      label: 'Text Box',
+      description: 'Input fields for user text',
+      category: 'Forms'
     }
   ]);
 

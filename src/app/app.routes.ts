@@ -23,5 +23,9 @@ export const routes: Routes = [
   {
     path: 'badge',
     loadComponent: () => import('./pages/badge-page/badge-page.component').then(m => m.BadgePageComponent)
+  },
+  {
+    path: 'textbox',
+    loadComponent: () => import('./pages/textbox-page/textbox-page.component').then(m => m.TextboxPageComponent)
   }
 ];

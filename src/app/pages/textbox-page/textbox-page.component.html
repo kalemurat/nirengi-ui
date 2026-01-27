@@ -1,0 +1,129 @@
+<div class="textbox-page">
+  
+  <!-- Basic Usage -->
+  <section class="textbox-page__section">
+    <h2 class="textbox-page__title">Basic Usage</h2>
+    <div class="textbox-page__grid">
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Default</h3>
+        <nui-textbox placeholder="Just a placeholder" />
+      </div>
+
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">With Label</h3>
+        <nui-textbox label="Full Name" placeholder="Enter your name" />
+      </div>
+
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">With Hint</h3>
+        <nui-textbox 
+          label="Username" 
+          placeholder="Choose a username" 
+          hint="Must be at least 3 characters" 
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- States -->
+  <section class="textbox-page__section">
+    <h2 class="textbox-page__title">States</h2>
+    <div class="textbox-page__grid">
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Error State</h3>
+        <nui-textbox 
+          label="Email" 
+          type="email" 
+          value="invalid-email"
+          error="Please enter a valid email address" 
+        />
+      </div>
+
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Disabled</h3>
+        <nui-textbox 
+          label="License Key" 
+          value="XXXX-XXXX-XXXX" 
+          [disabled]="true" 
+        />
+      </div>
+
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Readonly</h3>
+        <nui-textbox 
+          label="API Key" 
+          value="sk_live_51Mz..." 
+          [readonly]="true" 
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- With Icons -->
+  <section class="textbox-page__section">
+    <h2 class="textbox-page__title">With Icons</h2>
+    <div class="textbox-page__grid">
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Search</h3>
+        <nui-textbox 
+          placeholder="Search..." 
+          icon="Search" 
+          type="search" 
+        />
+      </div>
+
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Email</h3>
+        <nui-textbox 
+          label="Email Address" 
+          placeholder="john@example.com" 
+          icon="Mail" 
+          type="email" 
+        />
+      </div>
+
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Password</h3>
+        <nui-textbox 
+          label="Password" 
+          type="password" 
+          icon="Lock" 
+          placeholder="••••••••" 
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Sizes -->
+  <section class="textbox-page__section">
+    <h2 class="textbox-page__title">Sizes</h2>
+    <div class="textbox-page__row bg-white p-6 rounded-xl border">
+      @for (size of sizes; track size) {
+        <nui-textbox 
+          [label]="'Size: ' + size" 
+          [size]="size" 
+          [placeholder]="'This is ' + size + ' input'" 
+          icon="Type" 
+        />
+      }
+    </div>
+  </section>
+
+  <!-- Reactive Forms Integration -->
+  <section class="textbox-page__section">
+    <h2 class="textbox-page__title">Reactive Forms</h2>
+    <div class="textbox-page__grid">
+      <div class="textbox-page__card">
+        <h3 class="textbox-page__card-title">Live Preview</h3>
+        <nui-textbox 
+          [formControl]="demoControl" 
+          label="Type something" 
+          placeholder="Watch the signal update..." 
+        />
+        <div class="mt-4 p-3 bg-gray-50 rounded text-sm font-mono">
+          Value: {{ demoControl.value }}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
