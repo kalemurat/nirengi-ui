@@ -1,0 +1,171 @@
+<div class="showcase">
+  <header class="showcase__header">
+    <h2 class="showcase__title">Heading Component</h2>
+    <p class="showcase__description">
+      Semantic HTML heading component (h1-h6) with multiple sizes, colors, alignments, and weights.
+    </p>
+  </header>
+
+  <!-- HEADING LEVELS -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Semantic Levels (h1-h6)</h3>
+    <div class="showcase__column">
+      <nui-heading [level]="HeadingLevel.H1" [size]="Size.Large" [text]="'H1 - This is a h1 heading'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H2" [size]="Size.Large" [text]="'H2 - This is a h2 heading'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H3" [size]="Size.Large" [text]="'H3 - This is a h3 heading'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H4" [size]="Size.Large" [text]="'H4 - This is a h4 heading'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H5" [size]="Size.Large" [text]="'H5 - This is a h5 heading'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H6" [size]="Size.Large" [text]="'H6 - This is a h6 heading'"></nui-heading>
+    </div>
+  </section>
+
+  <!-- SIZE VARIANTS -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Size Variants</h3>
+    <div class="showcase__column">
+      <nui-heading [size]="Size.XSmall" [text]="'XS - Size variant heading'"></nui-heading>
+      <nui-heading [size]="Size.Small" [text]="'SM - Size variant heading'"></nui-heading>
+      <nui-heading [size]="Size.Medium" [text]="'MD - Size variant heading'"></nui-heading>
+      <nui-heading [size]="Size.Large" [text]="'LG - Size variant heading'"></nui-heading>
+      <nui-heading [size]="Size.XLarge" [text]="'XL - Size variant heading'"></nui-heading>
+    </div>
+  </section>
+
+  <!-- COLOR VARIANTS -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Color Variants</h3>
+    <div class="showcase__grid">
+      <div class="showcase__item">
+        <nui-heading [variant]="ColorVariant.Primary" [size]="Size.Medium" [text]="'Primary'"></nui-heading>
+      </div>
+      <div class="showcase__item">
+        <nui-heading [variant]="ColorVariant.Secondary" [size]="Size.Medium" [text]="'Secondary'"></nui-heading>
+      </div>
+      <div class="showcase__item">
+        <nui-heading [variant]="ColorVariant.Success" [size]="Size.Medium" [text]="'Success'"></nui-heading>
+      </div>
+      <div class="showcase__item">
+        <nui-heading [variant]="ColorVariant.Warning" [size]="Size.Medium" [text]="'Warning'"></nui-heading>
+      </div>
+      <div class="showcase__item">
+        <nui-heading [variant]="ColorVariant.Danger" [size]="Size.Medium" [text]="'Danger'"></nui-heading>
+      </div>
+      <div class="showcase__item">
+        <nui-heading [variant]="ColorVariant.Info" [size]="Size.Medium" [text]="'Info'"></nui-heading>
+      </div>
+      <div class="showcase__item">
+        <nui-heading [variant]="ColorVariant.Neutral" [size]="Size.Medium" [text]="'Neutral'"></nui-heading>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALIGNMENT VARIANTS -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Alignment Variants</h3>
+    <div class="showcase__column">
+      <div class="showcase__alignment">
+        <nui-heading [align]="HeadingAlign.Left" [size]="Size.Medium" [variant]="ColorVariant.Primary" [text]="'Left Aligned Heading'"></nui-heading>
+      </div>
+      <div class="showcase__alignment">
+        <nui-heading [align]="HeadingAlign.Center" [size]="Size.Medium" [variant]="ColorVariant.Primary" [text]="'Center Aligned Heading'"></nui-heading>
+      </div>
+      <div class="showcase__alignment">
+        <nui-heading [align]="HeadingAlign.Right" [size]="Size.Medium" [variant]="ColorVariant.Primary" [text]="'Right Aligned Heading'"></nui-heading>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEIGHT VARIANTS -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Weight Variants</h3>
+    <div class="showcase__column">
+      <nui-heading [weight]="HeadingWeight.Normal" [size]="Size.Large" [text]="'Normal - Font Weight Heading'"></nui-heading>
+      <nui-heading [weight]="HeadingWeight.Medium" [size]="Size.Large" [text]="'Medium - Font Weight Heading'"></nui-heading>
+      <nui-heading [weight]="HeadingWeight.Semibold" [size]="Size.Large" [text]="'Semibold - Font Weight Heading'"></nui-heading>
+      <nui-heading [weight]="HeadingWeight.Bold" [size]="Size.Large" [text]="'Bold - Font Weight Heading'"></nui-heading>
+      <nui-heading [weight]="HeadingWeight.Extrabold" [size]="Size.Large" [text]="'Extrabold - Font Weight Heading'"></nui-heading>
+    </div>
+  </section>
+
+  <!-- SPECIAL FEATURES -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Special Features</h3>
+    
+    <div class="showcase__grid">
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">Truncate</h4>
+        <div class="showcase__feature-demo">
+          <nui-heading [truncate]="true" [size]="Size.Medium" [text]="'This is a very long heading text that will be truncated with ellipsis when it overflows'"></nui-heading>
+        </div>
+      </div>
+
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">Line Clamp (2 lines)</h4>
+        <div class="showcase__feature-demo">
+          <nui-heading [lineClamp]="2" [size]="Size.Medium" [text]="'This is a multi-line heading that will be clamped to exactly 2 lines and then show ellipsis for any overflow content'"></nui-heading>
+        </div>
+      </div>
+
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">Uppercase</h4>
+        <nui-heading [uppercase]="true" [size]="Size.Medium" [variant]="ColorVariant.Primary" [text]="'Uppercase heading'"></nui-heading>
+      </div>
+
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">With Margin Bottom</h4>
+        <nui-heading [marginBottom]="true" [size]="Size.Medium" [variant]="ColorVariant.Success" [text]="'Heading with spacing'"></nui-heading>
+        <p class="showcase__demo-text">Following paragraph text</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMBINATIONS -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Combination Examples</h3>
+    
+    <div class="showcase__grid">
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">Hero Heading</h4>
+        <nui-heading 
+          [level]="HeadingLevel.H1"
+          [size]="Size.XLarge"
+          [align]="HeadingAlign.Center"
+          [weight]="HeadingWeight.Extrabold"
+          [variant]="ColorVariant.Primary"
+          [text]="'Welcome'"></nui-heading>
+      </div>
+
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">Section Title</h4>
+        <nui-heading 
+          [level]="HeadingLevel.H2"
+          [size]="Size.Large"
+          [weight]="HeadingWeight.Bold"
+          [variant]="ColorVariant.Neutral"
+          [marginBottom]="true"
+          [text]="'Features'"></nui-heading>
+      </div>
+
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">Card Header</h4>
+        <nui-heading 
+          [level]="HeadingLevel.H3"
+          [size]="Size.Medium"
+          [weight]="HeadingWeight.Semibold"
+          [variant]="ColorVariant.Info"
+          [text]="'Card Title'"></nui-heading>
+      </div>
+
+      <div class="showcase__item">
+        <h4 class="showcase__item-title">Label Style</h4>
+        <nui-heading 
+          [level]="HeadingLevel.H4"
+          [size]="Size.Small"
+          [uppercase]="true"
+          [weight]="HeadingWeight.Bold"
+          [variant]="ColorVariant.Secondary"
+          [text]="'Label Text'"></nui-heading>
+      </div>
+    </div>
+  </section>
+</div>

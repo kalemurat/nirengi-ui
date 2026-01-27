@@ -1,0 +1,37 @@
+<!-- 
+  Semantic heading component template.
+  Uses text input instead of ng-content to avoid Angular's content projection limitations.
+-->
+
+@switch (level()) {
+  @case ('h1') {
+    <h1 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+      {{ text() }}
+    </h1>
+  }
+  @case ('h2') {
+    <h2 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+      {{ text() }}
+    </h2>
+  }
+  @case ('h3') {
+    <h3 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+      {{ text() }}
+    </h3>
+  }
+  @case ('h4') {
+    <h4 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+      {{ text() }}
+    </h4>
+  }
+  @case ('h5') {
+    <h5 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+      {{ text() }}
+    </h5>
+  }
+  @case ('h6') {
+    <h6 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+      {{ text() }}
+    </h6>
+  }
+}

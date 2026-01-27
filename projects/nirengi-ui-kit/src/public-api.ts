@@ -218,6 +218,20 @@ export { designTokenBreakpoints } from './lib/design-tokens/breakpoints';
  */
 export { ButtonComponent, ButtonType } from './lib/components/button/button.component';
 
+/**
+ * Heading component ve heading enum'ları.
+ * @see {@link HeadingComponent}
+ * @see {@link HeadingLevel}
+ * @see {@link HeadingAlign}
+ * @see {@link HeadingWeight}
+ */
+export { 
+  HeadingComponent, 
+  HeadingLevel, 
+  HeadingAlign, 
+  HeadingWeight 
+} from './lib/components/heading/heading.component';
+
 // export { InputComponent } from './lib/components/input/input.component';
 // export { ModalComponent } from './lib/components/modal/modal.component';
 

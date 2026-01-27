@@ -41,11 +41,20 @@
 
     &__nav {
         @apply flex-1 overflow-y-auto;
-        @apply p-4;
+        @apply p-4 space-y-6;
+    }
+
+    &__category {
+        @apply space-y-2;
+    }
+
+    &__category-title {
+        @apply text-xs font-bold uppercase tracking-wider;
+        @apply text-gray-500 px-3 py-2;
     }
 
     &__menu {
-        @apply space-y-2;
+        @apply space-y-1;
         @apply list-none p-0 m-0;
     }
 
@@ -55,10 +64,10 @@
 
     &__menu-button {
         @apply w-full text-left;
-        @apply p-4 rounded-lg;
+        @apply px-3 py-2.5 rounded-lg;
         @apply transition-all duration-200;
-        @apply flex flex-col gap-1;
-        @apply border-2 border-transparent;
+        @apply flex flex-col gap-0.5;
+        @apply border border-transparent;
 
         &:hover {
             @apply bg-gray-50 border-gray-200;
@@ -78,11 +87,11 @@
     }
 
     &__menu-label {
-        @apply text-base font-medium text-gray-900;
+        @apply text-sm font-medium text-gray-900;
     }
 
     &__menu-description {
-        @apply text-sm text-gray-500;
+        @apply text-xs text-gray-500;
     }
 }
 
@@ -100,58 +109,6 @@
 }
 
 // ============================================================================
-// SHOWCASE
-// ============================================================================
-
-.showcase {
-    @apply space-y-12;
-
-    &__header {
-        @apply mb-8;
-    }
-
-    &__title {
-        @apply text-4xl font-bold text-gray-900 mb-3;
-    }
-
-    &__description {
-        @apply text-lg text-gray-600;
-    }
-
-    &__section {
-        @apply bg-white rounded-xl shadow-sm;
-        @apply p-8 space-y-6;
-        @apply border border-gray-200;
-    }
-
-    &__section-title {
-        @apply text-2xl font-bold text-gray-800 mb-6;
-        @apply pb-4 border-b-2 border-gray-200;
-    }
-
-    &__grid {
-        @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8;
-    }
-
-    &__item {
-        @apply space-y-4;
-    }
-
-    &__item-title {
-        @apply text-sm font-semibold text-gray-700 uppercase tracking-wider;
-        @apply pb-2 border-b border-gray-200;
-    }
-
-    &__size-group {
-        @apply flex flex-wrap gap-2;
-    }
-
-    &__column {
-        @apply flex flex-col gap-3;
-    }
-}
-
-// ============================================================================
 // RESPONSIVE
 // ============================================================================
 
@@ -163,9 +120,5 @@
         &--closed {
             @apply -translate-x-full w-0;
         }
-    }
-
-    .showcase__grid {
-        @apply grid-cols-1;
     }
 }
