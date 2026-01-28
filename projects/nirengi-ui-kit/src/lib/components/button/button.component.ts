@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -24,6 +24,8 @@ export enum ButtonType {
  * 
  * ## Özellikler
  * - ✅ Signal tabanlı reaktif state yönetimi
+ * - ✅ OnPush change detection stratejisi
+ * - ✅ Computed signals ile class binding
  * - ✅ 4 farklı button tipi (solid, outline, ghost, soft)
  * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
  * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
@@ -78,7 +80,8 @@ export enum ButtonType {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './button.component.html',
-  styleUrl: './button.component.scss'
+  styleUrl: './button.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonComponent {
   /**
@@ -139,24 +142,13 @@ export class ButtonComponent {
   clicked = output<void>();
 
   /**
-   * Click handler metodu.
-   * Loading veya disabled durumunda event emit etmez.
-   * 
-   * @returns void
-   */
-  handleClick(): void {
-    if (!this.disabled() && !this.loading()) {
-      this.clicked.emit();
-    }
-  }
-
-  /**
-   * Button için CSS class'larını oluşturur.
+   * Button için CSS class'larını hesaplayan computed signal.
    * BEM metodolojisi ile dynamic class binding yapar.
+   * Reactive olarak güncellenir.
    * 
-   * @returns CSS class string
+   * @returns BEM formatında CSS class string'i
    */
-  getButtonClasses(): string {
+  protected readonly buttonClasses = computed(() => {
     const classes = ['nui-button'];
     
     classes.push(`nui-button--${this.type()}`);
@@ -176,5 +168,17 @@ export class ButtonComponent {
     }
     
     return classes.join(' ');
+  });
+
+  /**
+   * Click handler metodu.
+   * Loading veya disabled durumunda event emit etmez.
+   * 
+   * @returns void
+   */
+  handleClick(): void {
+    if (!this.disabled() && !this.loading()) {
+      this.clicked.emit();
+    }
   }
 }

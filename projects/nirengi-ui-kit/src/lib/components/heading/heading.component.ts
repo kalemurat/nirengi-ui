@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -58,6 +58,8 @@ export enum HeadingWeight {
  * 
  * ## Özellikler
  * - ✅ Signal tabanlı reaktif state yönetimi
+ * - ✅ OnPush change detection stratejisi
+ * - ✅ Computed signals ile class binding
  * - ✅ 6 farklı HTML semantik seviye (h1-h6)
  * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
  * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
@@ -112,7 +114,8 @@ export enum HeadingWeight {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './heading.component.html',
-  styleUrl: './heading.component.scss'
+  styleUrl: './heading.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeadingComponent {
   /**
@@ -197,12 +200,13 @@ export class HeadingComponent {
   text = input<string>('');
 
   /**
-   * Heading için CSS class'larını oluşturur.
+   * Heading için CSS class'larını hesaplayan computed signal.
    * BEM metodolojisi ile dynamic class binding yapar.
+   * Reactive olarak güncellenir.
    * 
-   * @returns CSS class string
+   * @returns BEM formatında CSS class string'i
    */
-  getHeadingClasses(): string {
+  protected readonly headingClasses = computed(() => {
     const classes = ['nui-heading'];
     
     classes.push(`nui-heading--${this.size()}`);
@@ -227,15 +231,16 @@ export class HeadingComponent {
     }
     
     return classes.join(' ');
-  }
+  });
 
   /**
-   * ARIA level attributu için heading seviyesini döndürür.
+   * ARIA level attributu için heading seviyesini döndüren computed signal.
    * Accessibility için gerekli.
+   * Reactive olarak güncellenir.
    * 
    * @returns ARIA level (1-6)
    */
-  getAriaLevel(): number {
+  protected readonly ariaLevel = computed(() => {
     const levelMap: Record<HeadingLevel, number> = {
       [HeadingLevel.H1]: 1,
       [HeadingLevel.H2]: 2,
@@ -245,5 +250,5 @@ export class HeadingComponent {
       [HeadingLevel.H6]: 6
     };
     return levelMap[this.level()];
-  }
+  });
 }

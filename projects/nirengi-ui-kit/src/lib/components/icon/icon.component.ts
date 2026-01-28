@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, LUCIDE_ICONS, LucideIconProvider } from 'lucide-angular';
 import { ALL_ICONS, IconName } from './icon.types';
@@ -6,6 +6,13 @@ import { ALL_ICONS, IconName } from './icon.types';
 /**
  * İkon bileşeni.
  * Lucide ikonlarını kullanarak SVG ikonlar render eder.
+ * 
+ * ## Özellikler
+ * - ✅ Signal-based reactive state
+ * - ✅ OnPush change detection stratejisi
+ * - ✅ Lucide icon library integration
+ * - ✅ Type-safe icon names
+ * 
  * @see https://lucide.dev/icons/
  * 
  * @example
@@ -19,7 +26,8 @@ import { ALL_ICONS, IconName } from './icon.types';
     { provide: LUCIDE_ICONS, useValue: new LucideIconProvider(ALL_ICONS) }
   ],
   templateUrl: './icon.component.html',
-  styleUrl: './icon.component.scss'
+  styleUrl: './icon.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IconComponent {
   /**

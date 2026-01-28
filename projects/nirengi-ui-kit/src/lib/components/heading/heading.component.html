@@ -5,32 +5,32 @@
 
 @switch (level()) {
   @case ('h1') {
-    <h1 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+    <h1 [class]="headingClasses()" [attr.aria-level]="ariaLevel()">
       {{ text() }}
     </h1>
   }
   @case ('h2') {
-    <h2 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+    <h2 [class]="headingClasses()" [attr.aria-level]="ariaLevel()">
       {{ text() }}
     </h2>
   }
   @case ('h3') {
-    <h3 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+    <h3 [class]="headingClasses()" [attr.aria-level]="ariaLevel()">
       {{ text() }}
     </h3>
   }
   @case ('h4') {
-    <h4 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+    <h4 [class]="headingClasses()" [attr.aria-level]="ariaLevel()">
       {{ text() }}
     </h4>
   }
   @case ('h5') {
-    <h5 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+    <h5 [class]="headingClasses()" [attr.aria-level]="ariaLevel()">
       {{ text() }}
     </h5>
   }
   @case ('h6') {
-    <h6 [class]="getHeadingClasses()" [attr.aria-level]="getAriaLevel()">
+    <h6 [class]="headingClasses()" [attr.aria-level]="ariaLevel()">
       {{ text() }}
     </h6>
   }

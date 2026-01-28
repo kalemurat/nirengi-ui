@@ -22,7 +22,7 @@
       class="nui-textbox__input"
       [class.nui-textbox__input--error]="error()"
       [class.nui-textbox__input--with-icon]="icon()"
-      [ngClass]="getClasses()"
+      [ngClass]="inputClasses()"
       (input)="onInput($event)"
       (blur)="markAsTouched()"
     />

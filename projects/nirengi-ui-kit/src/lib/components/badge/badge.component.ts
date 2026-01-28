@@ -1,5 +1,4 @@
-
-import { Component, input } from '@angular/core';
+import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -33,6 +32,8 @@ export enum BadgeShape {
  * 
  * ## Özellikler
  * - ✅ Signal tabanlı reaktif state yönetimi
+ * - ✅ OnPush change detection stratejisi
+ * - ✅ Computed signals ile class binding
  * - ✅ 3 farklı stil tipi (solid, outline, soft)
  * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
  * - ✅ 7 farklı renk varyantı
@@ -55,7 +56,8 @@ export enum BadgeShape {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './badge.component.html',
-  styleUrl: './badge.component.scss'
+  styleUrl: './badge.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BadgeComponent {
   /**
@@ -83,9 +85,13 @@ export class BadgeComponent {
   readonly shape = input<BadgeShape>(BadgeShape.Rounded);
 
   /**
-   * CSS sınıflarını oluşturur.
+   * Badge için CSS class'larını hesaplayan computed signal.
+   * BEM metodolojisi ile dynamic class binding yapar.
+   * Reactive olarak güncellenir.
+   * 
+   * @returns BEM formatında CSS class string'i
    */
-  getBadgeClasses(): string {
+  protected readonly badgeClasses = computed(() => {
     const classes = ['nui-badge'];
     
     classes.push(`nui-badge--${this.type()}`);
@@ -94,5 +100,5 @@ export class BadgeComponent {
     classes.push(`nui-badge--${this.shape()}`);
     
     return classes.join(' ');
-  }
+  });
 }

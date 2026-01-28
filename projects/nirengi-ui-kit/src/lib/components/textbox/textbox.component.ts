@@ -1,4 +1,4 @@
-import { Component, input, forwardRef, computed, effect } from '@angular/core';
+import { Component, input, forwardRef, computed, effect, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
@@ -17,6 +17,8 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  *
  * ## Features
  * - ✅ Signal based ControlValueAccessor (NG_VALUE_ACCESSOR)
+ * - ✅ OnPush change detection stratejisi
+ * - ✅ Computed signals ile class binding
  * - ✅ Various types (text, password, etc.)
  * - ✅ Label, Hint, and Error message support
  * - ✅ Icon support
@@ -41,6 +43,7 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
   imports: [CommonModule, FormsModule, IconComponent],
   templateUrl: './textbox.component.html',
   styleUrl: './textbox.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -140,11 +143,14 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   });
 
   /**
-   * Returns classes for the input element.
+   * Input için CSS class'larını hesaplayan computed signal.
+   * Reactive olarak güncellenir.
+   * 
+   * @returns Size-based CSS class string'i
    */
-  getClasses(): string {
+  protected readonly inputClasses = computed(() => {
     return `nui-textbox__input--${this.size()}`;
-  }
+  });
 
   /**
    * Handle input event.
