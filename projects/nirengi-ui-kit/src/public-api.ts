@@ -257,6 +257,12 @@ export { BadgeComponent, BadgeType, BadgeShape } from './lib/components/badge/ba
 export { TextboxComponent } from './lib/components/textbox/textbox.component';
 export type { TextboxType } from './lib/components/textbox/textbox.component';
 
+/**
+ * Checkbox component.
+ * @see {@link CheckboxComponent}
+ */
+export { CheckboxComponent } from './lib/components/checkbox/checkbox.component';
+
 // export { InputComponent } from './lib/components/input/input.component';
 // export { ModalComponent } from './lib/components/modal/modal.component';
 

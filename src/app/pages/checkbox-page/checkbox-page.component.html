@@ -1,0 +1,210 @@
+<div class="checkbox-page">
+  <header class="checkbox-page__header">
+    <h1 class="checkbox-page__title">Checkbox Component</h1>
+    <p class="checkbox-page__description">
+      Kullanıcıların Angular Forms ile entegre çalışan, iki veya daha fazla seçenek arasından seçim yapmasını sağlayan etkileşimli component.
+      ControlValueAccessor implementation ile Reactive Forms ve Template-driven Forms desteği sunar.
+    </p>
+  </header>
+
+  <!-- Basic Usage -->
+  <section class="checkbox-page__section">
+    <h2 class="checkbox-page__section-title">Temel Kullanım (Reactive Forms)</h2>
+    <div class="checkbox-page__showcase">
+      <nui-checkbox 
+        [formControl]="basicControl"
+        label="Basit Checkbox">
+      </nui-checkbox>
+      <p class="checkbox-page__info">Durum: <strong>{{ basicControl.value ? 'Seçili' : 'Seçili Değil' }}</strong></p>
+    </div>
+  </section>
+
+  <!-- With Label and Description -->
+  <section class="checkbox-page__section">
+    <h2 class="checkbox-page__section-title">Label ve Description</h2>
+    <div class="checkbox-page__showcase checkbox-page__showcase--column">
+      <nui-checkbox 
+        [formControl]="labelControl"
+        label="Sadece Label">
+      </nui-checkbox>
+      
+      <nui-checkbox 
+        [formControl]="descriptionControl"
+        label="Haber Bülteni"
+        description="Yeni güncellemelerden haberdar olmak için e-posta almak istiyorum">
+      </nui-checkbox>
+    </div>
+  </section>
+
+  <!-- Size Variations -->
+  <section class="checkbox-page__section">
+    <h2 class="checkbox-page__section-title">Boyut Varyasyonları</h2>
+    <div class="checkbox-page__showcase checkbox-page__showcase--column">
+      @for (size of sizes(); track size) {
+        <nui-checkbox 
+          [checked]="true"
+          [size]="size"
+          [label]="getSizeLabel(size)">
+        </nui-checkbox>
+      }
+    </div>
+  </section>
+
+  <!-- Color Variants -->
+  <section class="checkbox-page__section">
+    <h2 class="checkbox-page__section-title">Renk Varyantları</h2>
+    <div class="checkbox-page__showcase checkbox-page__showcase--column">
+      @for (variant of variants(); track variant) {
+        <nui-checkbox 
+          [checked]="true"
+          [variant]="variant"
+          [label]="getVariantLabel(variant)">
+        </nui-checkbox>
+      }
+    </div>
+  </section>
+
+  <!-- States -->
+  <section class="checkbox-page__section">
+    <h2 class="checkbox-page__section-title">Durumlar</h2>
+    <div class="checkbox-page__showcase checkbox-page__showcase--column">
+      <div>
+        <h3 class="checkbox-page__subsection-title">Normal</h3>
+        <nui-checkbox 
+          [formControl]="basicControl"
+          label="Normal Checkbox">
+        </nui-checkbox>
+      </div>
+
+      <div>
+        <h3 class="checkbox-page__subsection-title">Disabled (Devre Dışı)</h3>
+        <nui-checkbox 
+          [formControl]="disabledUncheckedControl"
+          label="Disabled - Unchecked">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="disabledControl"
+          label="Disabled - Checked">
+        </nui-checkbox>
+      </div>
+
+      <div>
+        <h3 class="checkbox-page__subsection-title">Readonly (Sadece Okunur)</h3>
+        <nui-checkbox 
+          [checked]="true"
+          [readonly]="true"
+          label="Readonly Checkbox"
+          description="Bu checkbox'ı tıklayamazsınız">
+        </nui-checkbox>
+      </div>
+
+      <div>
+        <h3 class="checkbox-page__subsection-title">Required (Zorunlu)</h3>
+        <nui-checkbox 
+          [formControl]="requiredControl"
+          [required]="true"
+          label="Kullanım Şartlarını Kabul Ediyorum">
+        </nui-checkbox>
+      </div>
+    </div>
+  </section>
+
+  <!-- Indeterminate State -->
+  <section class="checkbox-page__section">
+    <h2 class="checkbox-page__section-title">Indeterminate Durum (Kısmi Seçim)</h2>
+    <p class="checkbox-page__description">
+      "Select All" gibi senaryolarda bazı öğeler seçiliyken kullanılır.
+    </p>
+    <div class="checkbox-page__showcase checkbox-page__showcase--column">
+      <nui-checkbox 
+        [formControl]="selectAllControl"
+        [indeterminate]="selectAllIndeterminate()"
+        label="Tümünü Seç"
+        [variant]="ColorVariant.Primary"
+        [size]="Size.Medium">
+      </nui-checkbox>
+
+      <div class="checkbox-page__indented">
+        <nui-checkbox 
+          [formControl]="option1Control"
+          label="Seçenek 1">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="option2Control"
+          label="Seçenek 2">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="option3Control"
+          label="Seçenek 3">
+        </nui-checkbox>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real World Examples -->
+  <section class="checkbox-page__section">
+    <h2 class="checkbox-page__section-title">Gerçek Dünya Örnekleri</h2>
+    
+    <div class="checkbox-page__showcase checkbox-page__showcase--column">
+      <div class="checkbox-page__example-box">
+        <h3 class="checkbox-page__subsection-title">Form Onayları</h3>
+        <nui-checkbox 
+          [formControl]="termsControl"
+          [variant]="ColorVariant.Success"
+          label="Kullanım Şartlarını Okudum ve Kabul Ediyorum"
+          [required]="true">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="newsletterControl"
+          [variant]="ColorVariant.Info"
+          label="Haber Bülteni Almak İstiyorum"
+          description="Haftalık güncellemeler ve özel tekliflerden haberdar olun">
+        </nui-checkbox>
+      </div>
+
+      <div class="checkbox-page__example-box">
+        <h3 class="checkbox-page__subsection-title">Ayarlar Paneli</h3>
+        <nui-checkbox 
+          [formControl]="emailNotifControl"
+          [size]="Size.Small"
+          label="E-posta Bildirimleri"
+          description="Yeni mesajlar için e-posta alın">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="pushNotifControl"
+          [size]="Size.Small"
+          label="Push Bildirimleri"
+          description="Tarayıcı bildirimleri göster">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="smsNotifControl"
+          [size]="Size.Small"
+          label="SMS Bildirimleri"
+          description="Önemli güncellemeler için SMS alın">
+        </nui-checkbox>
+      </div>
+
+      <div class="checkbox-page__example-box">
+        <h3 class="checkbox-page__subsection-title">Filtre Uygulaması</h3>
+        <nui-checkbox 
+          [formControl]="inStockControl"
+          [variant]="ColorVariant.Primary"
+          [size]="Size.Small"
+          label="Stokta Olanlar">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="onSaleControl"
+          [variant]="ColorVariant.Warning"
+          [size]="Size.Small"
+          label="İndirimde Olanlar">
+        </nui-checkbox>
+        <nui-checkbox 
+          [formControl]="freeShippingControl"
+          [variant]="ColorVariant.Success"
+          [size]="Size.Small"
+          label="Ücretsiz Kargo">
+        </nui-checkbox>
+      </div>
+    </div>
+  </section>
+</div>

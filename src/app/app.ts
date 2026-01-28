@@ -82,6 +82,13 @@ export class App {
       label: 'Text Box',
       description: 'Input fields for user text',
       category: 'Forms'
+    },
+    {
+      id: 'checkbox',
+      route: '/checkbox',
+      label: 'Checkbox',
+      description: 'Binary choice selection control',
+      category: 'Forms'
     }
   ]);
 

@@ -1,0 +1,46 @@
+<label [class]="checkboxClasses()" [attr.aria-disabled]="isDisabled()" [attr.aria-readonly]="readonly()">
+  <div class="nui-checkbox__wrapper">
+    <input
+      type="checkbox"
+      class="nui-checkbox__input"
+      [id]="inputId"
+      [checked]="value()"
+      [disabled]="isDisabled()"
+      [attr.readonly]="readonly() ? true : null"
+      [required]="required()"
+      [attr.aria-checked]="indeterminate() ? 'mixed' : value()"
+      [indeterminate]="indeterminate()"
+      (change)="handleToggle()"
+      (blur)="handleBlur()"
+      [attr.aria-label]="label() || 'Checkbox'"
+    />
+    <span class="nui-checkbox__box">
+      @if (indeterminate()) {
+        <svg class="nui-checkbox__icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      } @else if (value()) {
+        <svg class="nui-checkbox__icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      }
+    </span>
+  </div>
+  
+  @if (label() || description()) {
+    <div class="nui-checkbox__content">
+      @if (label()) {
+        <label [for]="inputId" [class]="labelClasses()">
+          {{ label() }}
+          @if (required()) {
+            <span class="nui-checkbox__required">*</span>
+          }
+        </label>
+      }
+      
+      @if (description()) {
+        <span [class]="descriptionClasses()">{{ description() }}</span>
+      }
+    </div>
+  }
+</label>
