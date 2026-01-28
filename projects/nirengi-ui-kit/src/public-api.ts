@@ -269,6 +269,18 @@ export { TextareaComponent } from './lib/components/textarea/textarea.component'
  */
 export { CheckboxComponent } from './lib/components/checkbox/checkbox.component';
 
+/**
+ * Paragraph component ve enum'ları.
+ * @see {@link ParagraphComponent}
+ * @see {@link ParagraphAlign}
+ * @see {@link ParagraphWeight}
+ */
+export { 
+  ParagraphComponent, 
+  ParagraphAlign, 
+  ParagraphWeight 
+} from './lib/components/paragraph/paragraph.component';
+
 // export { InputComponent } from './lib/components/input/input.component';
 // export { ModalComponent } from './lib/components/modal/modal.component';
 

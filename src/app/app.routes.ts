@@ -35,5 +35,9 @@ export const routes: Routes = [
   {
     path: 'checkbox',
     loadComponent: () => import('./pages/checkbox-page/checkbox-page.component').then(m => m.CheckboxPageComponent)
+  },
+  {
+    path: 'paragraph',
+    loadComponent: () => import('./pages/paragraph-page/paragraph-page.component').then(m => m.ParagraphPageComponent)
   }
 ];

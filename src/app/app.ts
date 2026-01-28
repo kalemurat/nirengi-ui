@@ -56,6 +56,13 @@ export class App {
       category: 'Typography'
     },
     {
+      id: 'paragraph',
+      route: '/paragraph',
+      label: 'Paragraph',
+      description: 'Text paragraph component with multiple styles',
+      category: 'Typography'
+    },
+    {
       id: 'button',
       route: '/button',
       label: 'Button',

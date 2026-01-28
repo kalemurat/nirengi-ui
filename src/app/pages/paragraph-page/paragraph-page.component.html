@@ -1,0 +1,200 @@
+<div class="paragraph-page">
+  <!-- Page Header -->
+  <div class="paragraph-page__header">
+    <h1 class="paragraph-page__title">Paragraph Component</h1>
+    <p class="paragraph-page__description">
+      Modern ve esnek paragraf component'i. Metin içerikleri için kullanılır.
+    </p>
+  </div>
+
+  <!-- Sizes Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Sizes (Boyutlar)</h2>
+    <div class="paragraph-page__showcase">
+      @for (size of paragraphSizes(); track size) {
+        <div class="paragraph-page__item">
+          <span class="paragraph-page__label">{{ size }}</span>
+          <nui-paragraph [size]="size">
+            {{ sampleText() }}
+          </nui-paragraph>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Color Variants Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Color Variants (Renk Varyantları)</h2>
+    <div class="paragraph-page__showcase">
+      @for (variant of paragraphVariants(); track variant) {
+        <div class="paragraph-page__item">
+          <span class="paragraph-page__label">{{ variant }}</span>
+          <nui-paragraph [variant]="variant">
+            {{ sampleText() }}
+          </nui-paragraph>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Alignment Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Alignment (Hizalama)</h2>
+    <div class="paragraph-page__showcase">
+      @for (align of paragraphAligns(); track align) {
+        <div class="paragraph-page__item">
+          <span class="paragraph-page__label">{{ align }}</span>
+          <nui-paragraph [align]="align">
+            {{ sampleText() }}
+          </nui-paragraph>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Font Weights Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Font Weights (Yazı Tipi Kalınlıkları)</h2>
+    <div class="paragraph-page__showcase">
+      @for (weight of paragraphWeights(); track weight) {
+        <div class="paragraph-page__item">
+          <span class="paragraph-page__label">{{ weight }}</span>
+          <nui-paragraph [weight]="weight">
+            {{ sampleText() }}
+          </nui-paragraph>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Leading (Line Height) Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Leading (Satır Yüksekliği)</h2>
+    <div class="paragraph-page__showcase">
+      @for (leading of leadingOptions(); track leading) {
+        <div class="paragraph-page__item">
+          <span class="paragraph-page__label">{{ leading }}</span>
+          <nui-paragraph [leading]="leading">
+            {{ sampleText() }}
+          </nui-paragraph>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Line Clamp Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Line Clamp (Satır Kısıtlama)</h2>
+    <div class="paragraph-page__showcase">
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Line Clamp 2</span>
+        <nui-paragraph [lineClamp]="2">
+          {{ longSampleText() }}
+        </nui-paragraph>
+      </div>
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Line Clamp 3</span>
+        <nui-paragraph [lineClamp]="3">
+          {{ longSampleText() }}
+        </nui-paragraph>
+      </div>
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Line Clamp 4</span>
+        <nui-paragraph [lineClamp]="4">
+          {{ longSampleText() }}
+        </nui-paragraph>
+      </div>
+    </div>
+  </section>
+
+  <!-- Truncate Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Truncate (Kırpma)</h2>
+    <div class="paragraph-page__showcase">
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Truncate: true</span>
+        <nui-paragraph [truncate]="true">
+          {{ longSampleText() }}
+        </nui-paragraph>
+      </div>
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Truncate: false</span>
+        <nui-paragraph [truncate]="false">
+          {{ longSampleText() }}
+        </nui-paragraph>
+      </div>
+    </div>
+  </section>
+
+  <!-- Special Features Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Special Features (Özel Özellikler)</h2>
+    <div class="paragraph-page__showcase">
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Italic</span>
+        <nui-paragraph [italic]="true">
+          {{ sampleText() }}
+        </nui-paragraph>
+      </div>
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Margin Bottom</span>
+        <nui-paragraph [marginBottom]="true">
+          First paragraph with margin bottom.
+        </nui-paragraph>
+        <nui-paragraph>
+          Second paragraph without margin.
+        </nui-paragraph>
+      </div>
+    </div>
+  </section>
+
+  <!-- Combinations Section -->
+  <section class="paragraph-page__section">
+    <h2 class="paragraph-page__section-title">Combinations (Kombinasyonlar)</h2>
+    <div class="paragraph-page__showcase">
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Large + Primary + Center + Bold</span>
+        <nui-paragraph 
+          [size]="Size.Large"
+          [variant]="ColorVariant.Primary"
+          [align]="ParagraphAlign.Center"
+          [weight]="ParagraphWeight.Bold">
+          {{ sampleText() }}
+        </nui-paragraph>
+      </div>
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Small + Success + Justify + Light + Relaxed</span>
+        <nui-paragraph 
+          [size]="Size.Small"
+          [variant]="ColorVariant.Success"
+          [align]="ParagraphAlign.Justify"
+          [weight]="ParagraphWeight.Light"
+          [leading]="'relaxed'">
+          {{ sampleText() }}
+        </nui-paragraph>
+      </div>
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">Medium + Warning + Right + Semibold + Italic</span>
+        <nui-paragraph 
+          [size]="Size.Medium"
+          [variant]="ColorVariant.Warning"
+          [align]="ParagraphAlign.Right"
+          [weight]="ParagraphWeight.Semibold"
+          [italic]="true">
+          {{ sampleText() }}
+        </nui-paragraph>
+      </div>
+      <div class="paragraph-page__item">
+        <span class="paragraph-page__label">XLarge + Danger + Center + Bold + Line Clamp 2</span>
+        <nui-paragraph 
+          [size]="Size.XLarge"
+          [variant]="ColorVariant.Danger"
+          [align]="ParagraphAlign.Center"
+          [weight]="ParagraphWeight.Bold"
+          [lineClamp]="2">
+          {{ longSampleText() }}
+        </nui-paragraph>
+      </div>
+    </div>
+  </section>
+</div>
