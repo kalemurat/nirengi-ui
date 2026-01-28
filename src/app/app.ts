@@ -84,6 +84,13 @@ export class App {
       category: 'Forms'
     },
     {
+      id: 'textarea',
+      route: '/textarea',
+      label: 'Textarea',
+      description: 'Multi-line text input area',
+      category: 'Forms'
+    },
+    {
       id: 'checkbox',
       route: '/checkbox',
       label: 'Checkbox',

@@ -29,6 +29,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/textbox-page/textbox-page.component').then(m => m.TextboxPageComponent)
   },
   {
+    path: 'textarea',
+    loadComponent: () => import('./pages/textarea-page/textarea-page.component').then(m => m.TextareaPageComponent)
+  },
+  {
     path: 'checkbox',
     loadComponent: () => import('./pages/checkbox-page/checkbox-page.component').then(m => m.CheckboxPageComponent)
   }

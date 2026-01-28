@@ -258,6 +258,12 @@ export { TextboxComponent } from './lib/components/textbox/textbox.component';
 export type { TextboxType } from './lib/components/textbox/textbox.component';
 
 /**
+ * Textarea component.
+ * @see {@link TextareaComponent}
+ */
+export { TextareaComponent } from './lib/components/textarea/textarea.component';
+
+/**
  * Checkbox component.
  * @see {@link CheckboxComponent}
  */
