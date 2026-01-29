@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -22,20 +22,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss',
 })
 export class App {
-  /**
-   * Uygulama başlığı signal'i.
-   */
-  protected readonly title = signal('Nirengi UI Kit');
-
-  /**
-   * Sidebar açık/kapalı durumu.
-   */
-  protected readonly isSidebarOpen = signal<boolean>(true);
-
-  /**
-   * Sidebar'ı açar/kapatır.
-   */
-  toggleSidebar(): void {
-    this.isSidebarOpen.set(!this.isSidebarOpen());
-  }
+  
 }
