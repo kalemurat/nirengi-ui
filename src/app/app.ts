@@ -98,6 +98,13 @@ export class App {
       category: 'Forms'
     },
     {
+      id: 'select',
+      route: '/select',
+      label: 'Select',
+      description: 'Dropdown selection component',
+      category: 'Forms'
+    },
+    {
       id: 'checkbox',
       route: '/checkbox',
       label: 'Checkbox',

@@ -297,3 +297,9 @@ export {
 
 // export { SafeHtmlPipe } from './lib/pipes/safe-html/safe-html.pipe';
 // export { TruncatePipe } from './lib/pipes/truncate/truncate.pipe';
+
+/**
+ * Select component.
+ * @see {@link SelectComponent}
+ */
+export { SelectComponent } from './lib/components/select/select.component';

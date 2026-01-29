@@ -39,5 +39,9 @@ export const routes: Routes = [
   {
     path: 'paragraph',
     loadComponent: () => import('./pages/paragraph-page/paragraph-page.component').then(m => m.ParagraphPageComponent)
+  },
+  {
+    path: 'select',
+    loadComponent: () => import('./pages/select-page/select-page.component').then(m => m.SelectPageComponent)
   }
 ];
