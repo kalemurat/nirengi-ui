@@ -19,7 +19,7 @@ export enum HeadingLevel {
   /** H5 - Alt içerik başlığı */
   H5 = 'h5',
   /** H6 - En alt seviye başlık */
-  H6 = 'h6'
+  H6 = 'h6',
 }
 
 /**
@@ -32,7 +32,7 @@ export enum HeadingAlign {
   /** Ortaya hizalı */
   Center = 'center',
   /** Sağa hizalı */
-  Right = 'right'
+  Right = 'right',
 }
 
 /**
@@ -49,13 +49,13 @@ export enum HeadingWeight {
   /** Kalın (700) */
   Bold = 'bold',
   /** Çok kalın (800) */
-  Extrabold = 'extrabold'
+  Extrabold = 'extrabold',
 }
 
 /**
  * Modern heading component'i.
  * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal tabanlı reaktif state yönetimi
  * - ✅ OnPush change detection stratejisi
@@ -68,40 +68,40 @@ export enum HeadingWeight {
  * - ✅ Truncate ve line clamp desteği
  * - ✅ WCAG 2.1 AA accessibility standartları
  * - ✅ SEO optimized semantic HTML
- * 
+ *
  * ## Design System Entegrasyonu
  * Component, design system'deki merkezi değerleri kullanır:
  * - Font size: Tailwind default typography scale
  * - Colors: ColorVariant enum ile tutarlı renk paleti
  * - Spacing: Design token spacing değerleri
- * 
+ *
  * @example
  * // Basit kullanım
  * <nui-heading>Ana Başlık</nui-heading>
- * 
+ *
  * @example
  * // Seviye ve boyut ile
- * <nui-heading 
- *   [level]="HeadingLevel.H1" 
+ * <nui-heading
+ *   [level]="HeadingLevel.H1"
  *   [size]="Size.XLarge"
  *   [variant]="ColorVariant.Primary">
  *   Hoş Geldiniz
  * </nui-heading>
- * 
+ *
  * @example
  * // Hizalama ve ağırlık ile
- * <nui-heading 
+ * <nui-heading
  *   [align]="HeadingAlign.Center"
  *   [weight]="HeadingWeight.Bold">
  *   Merkez Başlık
  * </nui-heading>
- * 
+ *
  * @example
  * // Truncate ile
  * <nui-heading [truncate]="true">
  *   Çok uzun bir başlık metni...
  * </nui-heading>
- * 
+ *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link HeadingLevel} - HTML semantik seviyeler
  * @see {@link Size} - Standart boyut değerleri
@@ -115,13 +115,13 @@ export enum HeadingWeight {
   imports: [CommonModule],
   templateUrl: './heading.component.html',
   styleUrl: './heading.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeadingComponent {
   /**
    * HTML semantik seviyesi.
    * Sayfa hiyerarşisinde doğru yapıyı sağlar.
-   * 
+   *
    * @default HeadingLevel.H2
    */
   level = input<HeadingLevel>(HeadingLevel.H2);
@@ -129,15 +129,16 @@ export class HeadingComponent {
   /**
    * Başlık boyutu.
    * Görsel font size'ı belirler (semantik seviyeden bağımsız).
-   * 
-   * @default Size.Medium
+   * Eğer belirtilmezse, başlık seviyesine (level) göre otomatik belirlenir.
+   *
+   * @default undefined
    */
-  size = input<Size>(Size.Medium);
+  size = input<Size | undefined>(undefined);
 
   /**
    * Renk varyantı.
    * Başlığın metin rengini belirler.
-   * 
+   *
    * @default ColorVariant.Neutral
    */
   variant = input<ColorVariant>(ColorVariant.Neutral);
@@ -145,7 +146,7 @@ export class HeadingComponent {
   /**
    * Yatay hizalama.
    * Başlığın text-align değerini belirler.
-   * 
+   *
    * @default HeadingAlign.Left
    */
   align = input<HeadingAlign>(HeadingAlign.Left);
@@ -153,7 +154,7 @@ export class HeadingComponent {
   /**
    * Font ağırlığı.
    * Başlığın tipografik kalınlığını belirler.
-   * 
+   *
    * @default HeadingWeight.Bold
    */
   weight = input<HeadingWeight>(HeadingWeight.Bold);
@@ -161,7 +162,7 @@ export class HeadingComponent {
   /**
    * Truncate durumu.
    * true olduğunda taşan metin üç nokta ile kesilir.
-   * 
+   *
    * @default false
    */
   truncate = input<boolean>(false);
@@ -170,7 +171,7 @@ export class HeadingComponent {
    * Line clamp değeri.
    * Belirtilen satır sayısından sonra metin kesilir.
    * Değer verilmezse truncate özelliği geçerli olur.
-   * 
+   *
    * @default undefined
    */
   lineClamp = input<number | undefined>(undefined);
@@ -178,7 +179,7 @@ export class HeadingComponent {
   /**
    * Uppercase durumu.
    * true olduğunda tüm karakterler büyük harf olur.
-   * 
+   *
    * @default false
    */
   uppercase = input<boolean>(false);
@@ -186,7 +187,7 @@ export class HeadingComponent {
   /**
    * Margin bottom durumu.
    * true olduğunda başlık altına standart bir margin eklenir.
-   * 
+   *
    * @default false
    */
   marginBottom = input<boolean>(false);
@@ -194,7 +195,7 @@ export class HeadingComponent {
   /**
    * Başlık metni.
    * Heading content text'i.
-   * 
+   *
    * @default ''
    */
   text = input<string>('');
@@ -203,33 +204,36 @@ export class HeadingComponent {
    * Heading için CSS class'larını hesaplayan computed signal.
    * BEM metodolojisi ile dynamic class binding yapar.
    * Reactive olarak güncellenir.
-   * 
+   *
    * @returns BEM formatında CSS class string'i
    */
   protected readonly headingClasses = computed(() => {
     const classes = ['nui-heading'];
-    
-    classes.push(`nui-heading--${this.size()}`);
+
+    // Size belirtilmemişse level'a göre otomatik boyutlandır
+    const currentSize = this.size() || this.getDefaultSizeByLevel(this.level());
+    classes.push(`nui-heading--${currentSize}`);
+
     classes.push(`nui-heading--${this.variant()}`);
     classes.push(`nui-heading--${this.align()}`);
     classes.push(`nui-heading--${this.weight()}`);
-    
+
     if (this.truncate()) {
       classes.push('nui-heading--truncate');
     }
-    
+
     if (this.lineClamp() !== undefined) {
       classes.push(`nui-heading--line-clamp-${this.lineClamp()}`);
     }
-    
+
     if (this.uppercase()) {
       classes.push('nui-heading--uppercase');
     }
-    
+
     if (this.marginBottom()) {
       classes.push('nui-heading--margin-bottom');
     }
-    
+
     return classes.join(' ');
   });
 
@@ -237,7 +241,7 @@ export class HeadingComponent {
    * ARIA level attributu için heading seviyesini döndüren computed signal.
    * Accessibility için gerekli.
    * Reactive olarak güncellenir.
-   * 
+   *
    * @returns ARIA level (1-6)
    */
   protected readonly ariaLevel = computed(() => {
@@ -247,8 +251,32 @@ export class HeadingComponent {
       [HeadingLevel.H3]: 3,
       [HeadingLevel.H4]: 4,
       [HeadingLevel.H5]: 5,
-      [HeadingLevel.H6]: 6
+      [HeadingLevel.H6]: 6,
     };
     return levelMap[this.level()];
   });
+
+  /**
+   * Heading seviyesine göre varsayılan boyutu döndürür.
+   *
+   * @param level - Mevcut heading seviyesi
+   * @returns Varsayılan boyut (Size enum)
+   */
+  private getDefaultSizeByLevel(level: HeadingLevel): Size {
+    switch (level) {
+      case HeadingLevel.H1:
+        return Size.XLarge;
+      case HeadingLevel.H2:
+        return Size.Large;
+      case HeadingLevel.H3:
+        return Size.Medium;
+      case HeadingLevel.H4:
+        return Size.Small;
+      case HeadingLevel.H5:
+      case HeadingLevel.H6:
+        return Size.XSmall;
+      default:
+        return Size.Medium;
+    }
+  }
 }

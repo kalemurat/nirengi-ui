@@ -31,9 +31,10 @@
       "name": "size",
       "type": "enum",
       "label": "Size",
-      "defaultValue": "md",
-      "description": "Visual font size",
+      "defaultValue": "",
+      "description": "Visual font size (Auto = based on Level)",
       "options": [
+        { "label": "Auto (Level Based)", "value": "" },
         { "label": "Extra Small", "value": "xs" },
         { "label": "Small", "value": "sm" },
         { "label": "Medium", "value": "md" },
