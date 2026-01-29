@@ -1,0 +1,24 @@
+<div class="component-renderer">
+  @if (currentConfig(); as config) {
+    <!-- Header -->
+    <div class="component-renderer__header">
+      <div class="component-renderer__title-section">
+        <h2 class="component-renderer__title">{{ config.name }}</h2>
+        <span class="component-renderer__category">{{ config.category }}</span>
+      </div>
+      <p class="component-renderer__description">{{ config.description }}</p>
+    </div>
+
+    <!-- Viewport -->
+    <div class="component-renderer__viewport">
+      <div class="component-renderer__viewport-inner">
+        <ng-container #dynamicComponent />
+      </div>
+    </div>
+  } @else {
+    <!-- Empty State -->
+    <div class="component-renderer__empty">
+      <p class="component-renderer__empty-text">Select a component from the menu to preview</p>
+    </div>
+  }
+</div>

@@ -1,0 +1,107 @@
+{
+  "id": "button",
+  "name": "Button",
+  "description": "Interactive button with multiple variants and sizes",
+  "category": "Controls",
+  "selector": "nirengi-button",
+  "properties": [
+    {
+      "name": "type",
+      "type": "enum",
+      "label": "Button Type",
+      "defaultValue": "solid",
+      "description": "Visual style of the button",
+      "options": [
+        { "label": "Solid", "value": "solid" },
+        { "label": "Outline", "value": "outline" },
+        { "label": "Ghost", "value": "ghost" },
+        { "label": "Soft", "value": "soft" }
+      ]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Color Variant",
+      "defaultValue": "primary",
+      "description": "Color scheme for the button",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Button size variant",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable button interactions"
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "label": "Loading",
+      "defaultValue": false,
+      "description": "Show loading state"
+    },
+    {
+      "name": "fullWidth",
+      "type": "boolean",
+      "label": "Full Width",
+      "defaultValue": false,
+      "description": "Make button stretch to full width"
+    },
+    {
+      "name": "content",
+      "type": "contentProjection",
+      "label": "Content",
+      "defaultValue": "Click Me",
+      "contentProjectionHint": "Button content is passed via ng-content. Example: <nirengi-button>Click Me</nirengi-button>"
+    }
+  ],
+  "events": [
+    {
+      "name": "clicked",
+      "label": "Click",
+      "payloadDescription": "void"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Primary Button",
+      "description": "Standard primary button",
+      "propertyValues": {
+        "type": "solid",
+        "variant": "primary",
+        "size": "md"
+      }
+    },
+    {
+      "title": "Danger Outline",
+      "description": "Danger color with outline style",
+      "propertyValues": {
+        "type": "outline",
+        "variant": "danger",
+        "size": "md"
+      }
+    }
+  ]
+}

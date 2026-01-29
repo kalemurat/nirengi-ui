@@ -1,0 +1,39 @@
+<div class="event-console">
+  <!-- Header -->
+  <div class="event-console__header">
+    <h3 class="event-console__title">
+      <span class="event-console__icon">▶</span>
+      Events
+      <span class="event-console__count">({{ eventLogs().length }})</span>
+    </h3>
+    <button 
+      class="event-console__clear"
+      (click)="clearLogs()"
+      type="button">
+      Clear
+    </button>
+  </div>
+
+  <!-- Logs -->
+  <div class="event-console__logs">
+    @if (eventLogs().length === 0) {
+      <div class="event-console__empty">
+        <span class="event-console__prompt">$</span>
+        <span class="event-console__empty-text">No events logged yet. Interact with components to see events here.</span>
+      </div>
+    } @else {
+      @for (log of maxLogs(); track log.id) {
+        <div class="event-console__log">
+          <div class="event-console__log-header">
+            <span class="event-console__prompt">$</span>
+            <span class="event-console__timestamp">{{ log.timestamp | date:'HH:mm:ss.SSS' }}</span>
+            <span class="event-console__component">{{ log.componentId }}</span>
+            <span class="event-console__separator">→</span>
+            <span class="event-console__event-name">{{ log.eventName }}</span>
+          </div>
+          <pre class="event-console__payload">{{ log.payload | json }}</pre>
+        </div>
+      }
+    }
+  </div>
+</div>

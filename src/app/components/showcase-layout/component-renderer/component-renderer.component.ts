@@ -1,0 +1,319 @@
+import {
+  Component,
+  ViewChild,
+  ViewContainerRef,
+  inject,
+  computed,
+  effect,
+  ChangeDetectionStrategy,
+  AfterViewInit,
+  OnDestroy,
+  DestroyRef,
+  signal,
+  ComponentRef
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
+import { ComponentRegistryService } from '../../../core/services/component-registry.service';
+import { PropertyStateService } from '../../../core/services/property-state.service';
+import { EventLoggerService } from '../../../core/services/event-logger.service';
+
+/**
+ * Component Renderer.
+ * Seçili component'i dinamik olarak render eder.
+ * ViewContainerRef kullanarak runtime'da component instance oluşturur.
+ * 
+ * ## Sorumluluklar
+ * - Dynamic component loading ve rendering
+ * - Property binding (signal input API ile uyumlu)
+ * - Event binding ve logging
+ * - Component lifecycle yönetimi
+ * 
+ * ## Özellikler
+ * - ✅ ViewContainerRef ile dynamic render
+ * - ✅ Angular 20 input() signal API desteği
+ * - ✅ ComponentRef.setInput() ile reactive property binding
+ * - ✅ Route params'a reactive subscription
+ * - ✅ Event logger entegrasyonu
+ * - ✅ OnPush change detection
+ * 
+ * @see {@link ComponentRegistryService}
+ * @see {@link PropertyStateService}
+ * @see {@link EventLoggerService}
+ */
+@Component({
+  selector: 'app-component-renderer',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './component-renderer.component.html',
+  styleUrl: './component-renderer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
+  /**
+   * Dynamic component render için container referansı.
+   */
+  @ViewChild('dynamicComponent', { read: ViewContainerRef }) 
+  dynamicComponentContainer!: ViewContainerRef;
+
+  /**
+   * Servisleri inject eder.
+   */
+  private readonly route = inject(ActivatedRoute);
+  private readonly registry = inject(ComponentRegistryService);
+  private readonly propertyState = inject(PropertyStateService);
+  private readonly eventLogger = inject(EventLoggerService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /**
+   * Aktif component referansı.
+   * Signal olarak tanımlanır, böylece effect'ler değişikliği track edebilir.
+   */
+  private readonly currentComponentRef = signal<ComponentRef<any> | null>(null);
+
+  /**
+   * ViewChild hazır mı?
+   */
+  private viewInitialized = signal(false);
+
+  /**
+   * Aktif component ID.
+   * Route parametresinden reactive olarak alınır (toSignal kullanarak).
+   */
+  protected readonly componentId = toSignal(
+    this.route.params.pipe(
+      map(params => params['id'] || 'button')
+    ),
+    { initialValue: 'button' }
+  );
+
+  /**
+   * Aktif component config.
+   */
+  protected readonly currentConfig = computed(() => {
+    const id = this.componentId();
+    return this.registry.getConfig(id);
+  });
+
+  /**
+   * Constructor.
+   * Effect'i injection context içinde başlatır.
+   */
+  constructor() {
+    // Effect'i constructor'da oluştur (injection context içinde)
+    effect(() => {
+      // ViewChild henüz hazır değilse bekle
+      if (!this.viewInitialized() || !this.dynamicComponentContainer) {
+        return;
+      }
+
+      const id = this.componentId();
+      const config = this.currentConfig();
+
+      if (!config) {
+        console.warn(`No config found for component: ${id}`);
+        return;
+      }
+
+      // Render işlemini async olarak başlat
+      this.renderComponent(id, config);
+    });
+
+    // Property değişikliklerini izle - effect'i injection context içinde çalıştır
+    effect(() => {
+      const componentRef = this.currentComponentRef();
+      if (!componentRef) {
+        return;
+      }
+
+      const properties = this.propertyState.allProperties();
+      const config = this.currentConfig();
+
+      if (!config) {
+        return;
+      }
+
+      // Her property değişikliğinde ComponentRef.setInput() kullan
+      config.properties.forEach((prop: any) => {
+        // contentProjection tipindeki property'leri skip et (runtime'da değiştirilemez)
+        if (prop.type === 'contentProjection') {
+          return;
+        }
+
+        const value = properties[prop.name];
+        if (value !== undefined) {
+          try {
+            const inputName = this.mapPropertyName(prop.name);
+            componentRef.setInput(inputName, value);
+          } catch (error) {
+            console.warn(`Failed to set input ${prop.name}:`, error);
+          }
+        }
+      });
+
+      // Change detection tetikle
+      componentRef.changeDetectorRef.detectChanges();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // ViewChild hazır olduğunu işaretle
+    this.viewInitialized.set(true);
+  }
+
+  ngOnDestroy(): void {
+    this.clearComponent();
+  }
+
+  /**
+   * Component'i render eder.
+   */
+  private async renderComponent(id: string, config: any): Promise<void> {
+    // Önceki component'i temizle
+    this.clearComponent();
+
+    try {
+      // Component'i yükle
+      const component = await this.registry.getComponent(id);
+
+      // Content projection için projectableNodes hazırla
+      const projectableNodes = this.buildProjectableNodes(config);
+
+      // Component instance oluştur (projectableNodes ile)
+      const componentRef = this.dynamicComponentContainer.createComponent(
+        component,
+        { projectableNodes }
+      );
+      this.currentComponentRef.set(componentRef);
+
+      // Property default değerlerini set et
+      this.propertyState.resetToDefaults(config);
+
+      // Property'leri bind et (setInput kullanarak - Angular 20 input() API uyumlu)
+      this.bindProperties(componentRef, config);
+
+      // Event'leri bind et
+      this.bindEvents(componentRef.instance, config, id);
+
+      // Change detection tetikle
+      componentRef.changeDetectorRef.detectChanges();
+    } catch (error) {
+      console.error('Failed to render component:', error);
+    }
+  }
+
+  /**
+   * Önceki component'i clear eder.
+   */
+  private clearComponent(): void {
+    if (this.dynamicComponentContainer) {
+      this.dynamicComponentContainer.clear();
+    }
+    this.currentComponentRef.set(null);
+  }
+
+  /**
+   * Content projection için projectableNodes oluşturur.
+   * Config'teki contentProjection tipindeki property'lerin default değerlerini text node'lara dönüştürür.
+   * 
+   * @param config - Showcase config
+   * @returns ProjectableNodes array (Angular'ın ng-content slot'larına enjekte edilecek)
+   */
+  private buildProjectableNodes(config: any): Node[][] {
+    const contentProjectionProps = config.properties.filter(
+      (prop: any) => prop.type === 'contentProjection'
+    );
+
+    if (contentProjectionProps.length === 0) {
+      return [];
+    }
+
+    // Her content projection property için text node oluştur
+    // Not: Şimdilik sadece tek ng-content slot desteği var
+    const nodes: Node[] = [];
+    
+    contentProjectionProps.forEach((prop: any) => {
+      if (prop.defaultValue) {
+        const textNode = document.createTextNode(prop.defaultValue);
+        nodes.push(textNode);
+      }
+    });
+
+    // Tek slot için node array'i dön (multi-slot desteği için genişletilebilir)
+    return nodes.length > 0 ? [nodes] : [];
+  }
+
+  /**
+   * Component property'lerini bind eder.
+   * Angular 20 input() signal API ile uyumlu olarak ComponentRef.setInput() kullanır.
+   * 
+   * @param componentRef - Component ref
+   * @param config - Showcase config
+   */
+  private bindProperties(componentRef: ComponentRef<any>, config: any): void {
+    // İlk set - ComponentRef.setInput() kullan (Angular 20 input() API için)
+    config.properties.forEach((prop: any) => {
+      // contentProjection tipindeki property'leri skip et (artık projectableNodes ile handled)
+      if (prop.type === 'contentProjection') {
+        return;
+      }
+
+      const value = this.propertyState.getProperty(prop.name);
+      if (value !== undefined) {
+        try {
+          const inputName = this.mapPropertyName(prop.name);
+          componentRef.setInput(inputName, value);
+        } catch (error) {
+          console.warn(`Failed to set initial input ${prop.name}:`, error);
+        }
+      }
+    });
+
+    // Change detection tetikle
+    componentRef.changeDetectorRef.detectChanges();
+  }
+
+  /**
+   * Showcase property ismini component input ismine map eder.
+   * Bazı showcase property isimleri component input isimleriyle farklı olabilir.
+   * 
+   * @param propertyName - Showcase config'teki property ismi
+   * @returns Component'in beklediği input ismi
+   */
+  private mapPropertyName(propertyName: string): string {
+    const mapping: Record<string, string> = {
+      'items': 'options',
+      // Gerekirse buraya başka mapping'ler eklenebilir
+    };
+    return mapping[propertyName] || propertyName;
+  }
+
+  /**
+   * Component event'lerini bind eder.
+   * Event'leri EventLoggerService'e yönlendirir.
+   * 
+   * takeUntilDestroyed() operatörü ile memory leak önlenir:
+   * - Component destroy edildiğinde subscription'lar otomatik temizlenir
+   * - Her component değişiminde önceki subscription'lar unsubscribe olur
+   * 
+   * @param instance - Component instance
+   * @param config - Showcase config
+   * @param componentId - Component ID
+   */
+  private bindEvents(instance: any, config: any, componentId: string): void {
+    config.events?.forEach((event: any) => {
+      const eventEmitter = instance[event.name];
+      
+      if (eventEmitter && typeof eventEmitter.subscribe === 'function') {
+        // takeUntilDestroyed ile otomatik cleanup - memory leak önlenir
+        eventEmitter
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((payload: any) => {
+            this.eventLogger.logEvent(componentId, event.name, payload);
+          });
+      }
+    });
+  }
+}

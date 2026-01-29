@@ -1,0 +1,152 @@
+{
+  "id": "select",
+  "name": "Select",
+  "description": "Dropdown selection component with search and multi-select support",
+  "category": "Forms",
+  "selector": "nirengi-select",
+  "properties": [
+    {
+      "name": "label",
+      "type": "string",
+      "label": "Label",
+      "defaultValue": "Select City",
+      "description": "Label text for the select input"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "label": "Placeholder",
+      "defaultValue": "Choose a city...",
+      "description": "Placeholder text when no option is selected"
+    },
+    {
+      "name": "items",
+      "type": "array",
+      "label": "Items",
+      "defaultValue": [
+        { "label": "Istanbul", "value": "istanbul" },
+        { "label": "Ankara", "value": "ankara" },
+        { "label": "Izmir", "value": "izmir" },
+        { "label": "Bursa", "value": "bursa" },
+        { "label": "Antalya", "value": "antalya" }
+      ],
+      "description": "Array of selectable items",
+      "readOnly": true,
+      "hideInPanel": false
+    },
+    {
+      "name": "bindLabel",
+      "type": "string",
+      "label": "Bind Label",
+      "defaultValue": "label",
+      "description": "Property name to use for display labels",
+      "readOnly": true,
+      "hideInPanel": true
+    },
+    {
+      "name": "bindValue",
+      "type": "string",
+      "label": "Bind Value",
+      "defaultValue": "value",
+      "description": "Property name to use for values",
+      "readOnly": true,
+      "hideInPanel": true
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Select input size",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable select interactions"
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "label": "Clearable",
+      "defaultValue": true,
+      "description": "Show clear button when option is selected"
+    },
+    {
+      "name": "searchable",
+      "type": "boolean",
+      "label": "Searchable",
+      "defaultValue": true,
+      "description": "Enable search functionality"
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "label": "Multiple",
+      "defaultValue": false,
+      "description": "Allow multiple selections"
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "label": "Error Message",
+      "defaultValue": "",
+      "description": "Error message to display"
+    },
+    {
+      "name": "hint",
+      "type": "string",
+      "label": "Hint Text",
+      "defaultValue": "",
+      "description": "Helper text below the select"
+    }
+  ],
+  "events": [
+    {
+      "name": "onChange",
+      "label": "Change",
+      "payloadDescription": "Selected value(s)"
+    },
+    {
+      "name": "onSearch",
+      "label": "Search",
+      "payloadDescription": "Search query string"
+    },
+    {
+      "name": "onClear",
+      "label": "Clear",
+      "payloadDescription": "Clear event (no payload)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Select",
+      "description": "Simple dropdown select",
+      "propertyValues": {
+        "label": "Select City",
+        "placeholder": "Choose...",
+        "size": "md",
+        "clearable": true,
+        "searchable": true
+      }
+    },
+    {
+      "title": "Multi-Select",
+      "description": "Select with multiple option support",
+      "propertyValues": {
+        "label": "Select Cities",
+        "placeholder": "Choose multiple...",
+        "multiple": true,
+        "clearable": true
+      }
+    }
+  ]
+}

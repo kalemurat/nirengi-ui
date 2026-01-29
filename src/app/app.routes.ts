@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HeadingPageComponent } from './pages/heading-page/heading-page.component';
 import { ButtonPageComponent } from './pages/button-page/button-page.component';
+import { ShowcaseLayoutComponent } from './components/showcase-layout/showcase-layout.component';
 
 export const routes: Routes = [
   {
@@ -8,6 +9,12 @@ export const routes: Routes = [
     redirectTo: 'heading',
     pathMatch: 'full'
   },
+  // Yeni Storybook-style showcase sayfası
+  {
+    path: 'showcase/:id',
+    component: ShowcaseLayoutComponent
+  },
+  // Mevcut route'lar (korunuyor)
   {
     path: 'heading',
     component: HeadingPageComponent
