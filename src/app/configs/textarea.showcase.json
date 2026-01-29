@@ -1,0 +1,143 @@
+{
+  "id": "textarea",
+  "name": "Textarea",
+  "description": "Multi-line text input area with auto-resize and character count support",
+  "category": "Forms",
+  "selector": "nui-textarea",
+  "properties": [
+    {
+      "name": "label",
+      "type": "string",
+      "label": "Label",
+      "defaultValue": "Comments",
+      "description": "Label text displayed above the textarea"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "label": "Placeholder",
+      "defaultValue": "Enter your comments here...",
+      "description": "Placeholder text"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "label": "Value",
+      "defaultValue": "",
+      "description": "Textarea value"
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Size of the input area",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "rows",
+      "type": "number",
+      "label": "Rows",
+      "defaultValue": 3,
+      "description": "Number of visible text lines"
+    },
+    {
+      "name": "maxlength",
+      "type": "number",
+      "label": "Max Length",
+      "defaultValue": null,
+      "description": "Maximum number of characters allowed"
+    },
+    {
+      "name": "autoResize",
+      "type": "boolean",
+      "label": "Auto Resize",
+      "defaultValue": false,
+      "description": "Automatically resize height to fit content"
+    },
+    {
+      "name": "hint",
+      "type": "string",
+      "label": "Hint",
+      "defaultValue": "",
+      "description": "Helper text displayed below the textarea"
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "label": "Error",
+      "defaultValue": "",
+      "description": "Error message displayed below the textarea"
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "label": "Icon",
+      "defaultValue": "",
+      "description": "Icon to display inside the textarea",
+      "options": [
+        { "label": "None", "value": "" },
+        { "label": "MessageSquare", "value": "MessageSquare" },
+        { "label": "Edit", "value": "Edit" },
+        { "label": "FileText", "value": "FileText" }
+      ]
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable the textarea"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "label": "Readonly",
+      "defaultValue": false,
+      "description": "Make the textarea readonly"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Default Textarea",
+      "description": "Standard textarea with label",
+      "propertyValues": {
+        "label": "Description",
+        "placeholder": "Describe the issue..."
+      }
+    },
+    {
+      "title": "With Character Count",
+      "description": "Textarea with max length and helper text",
+      "propertyValues": {
+        "label": "Bio",
+        "maxlength": 140,
+        "hint": "Tell us about yourself in 140 characters",
+        "rows": 4
+      }
+    },
+    {
+      "title": "Auto Resize",
+      "description": "Textarea that grows with content",
+      "propertyValues": {
+        "label": "Dynamic Input",
+        "autoResize": true,
+        "placeholder": "Type multiple lines to see me grow...",
+        "icon": "Edit"
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "ngModelChange",
+      "label": "Value Change",
+      "payloadDescription": "Updated text value"
+    }
+  ]
+}

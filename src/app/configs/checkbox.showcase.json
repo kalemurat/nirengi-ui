@@ -1,0 +1,122 @@
+{
+  "id": "checkbox",
+  "name": "Checkbox",
+  "description": "Binary choice selection control with indeterminate state support",
+  "category": "Forms",
+  "selector": "nui-checkbox",
+  "properties": [
+    {
+      "name": "label",
+      "type": "string",
+      "label": "Label",
+      "defaultValue": "Accept Terms",
+      "description": "Checkbox label text"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "label": "Description",
+      "defaultValue": "",
+      "description": "Helper text displayed below the label"
+    },
+    {
+      "name": "checked",
+      "type": "boolean",
+      "label": "Checked",
+      "defaultValue": false,
+      "description": "Initial checked state"
+    },
+    {
+      "name": "indeterminate",
+      "type": "boolean",
+      "label": "Indeterminate",
+      "defaultValue": false,
+      "description": "Visual indeterminate state (mixed)"
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Size of the checkbox",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "description": "Color variant",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable checkbox interactions"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "label": "Readonly",
+      "defaultValue": false,
+      "description": "Make checkbox readonly (non-interactive)"
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "label": "Required",
+      "defaultValue": false,
+      "description": "Mark field as required"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Default Checkbox",
+      "description": "Standard checkbox with label",
+      "propertyValues": {
+        "label": "Subscribe to newsletter",
+        "checked": false
+      }
+    },
+    {
+      "title": "With Description",
+      "description": "Checkbox with explanatory text",
+      "propertyValues": {
+        "label": "Notifications",
+        "description": "Receive email notifications about account activity",
+        "checked": true
+      }
+    },
+    {
+      "title": "Indeterminate State",
+      "description": "Checkbox in mixed state",
+      "propertyValues": {
+        "label": "Select All",
+        "indeterminate": true
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "ngModelChange",
+      "label": "Value Change",
+      "payloadDescription": "Boolean value (true/false)"
+    }
+  ]
+}

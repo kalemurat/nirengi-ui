@@ -1,0 +1,97 @@
+{
+  "id": "badge",
+  "name": "Badge",
+  "description": "Status indicators and labels with miscellaneous styles",
+  "category": "Data Display",
+  "selector": "nui-badge",
+  "properties": [
+    {
+      "name": "content",
+      "type": "contentProjection",
+      "label": "Content",
+      "defaultValue": "New",
+      "contentProjectionHint": "Badge text/content"
+    },
+    {
+      "name": "type",
+      "type": "enum",
+      "label": "Type",
+      "defaultValue": "solid",
+      "description": "Visual style type",
+      "options": [
+        { "label": "Solid", "value": "solid" },
+        { "label": "Outline", "value": "outline" },
+        { "label": "Soft", "value": "soft" }
+      ]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "description": "Color variant",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Size of the badge",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "shape",
+      "type": "enum",
+      "label": "Shape",
+      "defaultValue": "rounded",
+      "description": "Shape of the badge",
+      "options": [
+        { "label": "Rounded", "value": "rounded" },
+        { "label": "Pill", "value": "pill" }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Default Badge",
+      "description": "Standard primary badge",
+      "propertyValues": {
+        "content": "New Feature"
+      }
+    },
+    {
+      "title": "Success Status",
+      "description": "Soft success badge for status indication",
+      "propertyValues": {
+        "content": "Completed",
+        "variant": "success",
+        "type": "soft",
+        "shape": "pill"
+      }
+    },
+    {
+      "title": "Warning Outline",
+      "description": "Outlined warning badge",
+      "propertyValues": {
+        "content": "Pending",
+        "variant": "warning",
+        "type": "outline"
+      }
+    }
+  ]
+}

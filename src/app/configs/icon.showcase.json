@@ -1,0 +1,80 @@
+{
+  "id": "icon",
+  "name": "Icon",
+  "description": "Lucide icons wrapper with type safety and customization options",
+  "category": "Media",
+  "selector": "nirengi-icon",
+  "properties": [
+    {
+      "name": "name",
+      "type": "string",
+      "label": "Icon Name",
+      "defaultValue": "House",
+      "description": "Name of the icon (PascalCase)",
+      "options": [
+        { "label": "House", "value": "House" },
+        { "label": "User", "value": "User" },
+        { "label": "Settings", "value": "Settings" },
+        { "label": "Trash", "value": "Trash" },
+        { "label": "Check", "value": "Check" },
+        { "label": "AlertCircle", "value": "AlertCircle" },
+        { "label": "Info", "value": "Info" }
+      ]
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "label": "Size",
+      "defaultValue": 24,
+      "description": "Size of the icon in pixels"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "label": "Color",
+      "defaultValue": "currentColor",
+      "description": "Color of the icon (CSS color string)"
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number",
+      "label": "Stroke Width",
+      "defaultValue": 2,
+      "description": "Thickness of the icon stroke"
+    },
+    {
+      "name": "absoluteStrokeWidth",
+      "type": "boolean",
+      "label": "Absolute Stroke Width",
+      "defaultValue": false,
+      "description": "Use absolute stroke width regardless of size"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Default Icon",
+      "description": "Standard size home icon",
+      "propertyValues": {
+        "name": "House"
+      }
+    },
+    {
+      "title": "Large Icon",
+      "description": "Large blue user icon",
+      "propertyValues": {
+        "name": "User",
+        "size": 48,
+        "color": "#3b82f6"
+      }
+    },
+    {
+      "title": "Thin Stroke",
+      "description": "Icon with thinner stroke",
+      "propertyValues": {
+        "name": "Settings",
+        "strokeWidth": 1,
+        "size": 32
+      }
+    }
+  ]
+}

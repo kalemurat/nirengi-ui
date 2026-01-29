@@ -11,9 +11,16 @@ import { ComponentRegistryService } from '../../core/services/component-registry
 // JSON configs
 import buttonConfig from '../../configs/button.showcase.json';
 import selectConfig from '../../configs/select.showcase.json';
+import headingConfig from '../../configs/heading.showcase.json';
+import paragraphConfig from '../../configs/paragraph.showcase.json';
+import iconConfig from '../../configs/icon.showcase.json';
+import badgeConfig from '../../configs/badge.showcase.json';
+import textboxConfig from '../../configs/textbox.showcase.json';
+import textareaConfig from '../../configs/textarea.showcase.json';
+import checkboxConfig from '../../configs/checkbox.showcase.json';
 
 // Component imports
-import { ButtonComponent, SelectComponent } from 'nirengi-ui-kit';
+import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent } from 'nirengi-ui-kit';
 
 /**
  * Showcase Layout Component.
@@ -86,6 +93,48 @@ export class ShowcaseLayoutComponent {
     this.registry.registerComponent(
       selectConfig as any,
       () => Promise.resolve(SelectComponent)
+    );
+
+    // Heading Component
+    this.registry.registerComponent(
+      headingConfig as any,
+      () => Promise.resolve(HeadingComponent)
+    );
+
+    // Paragraph Component
+    this.registry.registerComponent(
+      paragraphConfig as any,
+      () => Promise.resolve(ParagraphComponent)
+    );
+
+    // Icon Component
+    this.registry.registerComponent(
+      iconConfig as any,
+      () => Promise.resolve(IconComponent)
+    );
+
+    // Badge Component
+    this.registry.registerComponent(
+      badgeConfig as any,
+      () => Promise.resolve(BadgeComponent)
+    );
+
+    // Textbox Component
+    this.registry.registerComponent(
+      textboxConfig as any,
+      () => Promise.resolve(TextboxComponent)
+    );
+
+    // Textarea Component
+    this.registry.registerComponent(
+      textareaConfig as any,
+      () => Promise.resolve(TextareaComponent)
+    );
+
+    // Checkbox Component
+    this.registry.registerComponent(
+      checkboxConfig as any,
+      () => Promise.resolve(CheckboxComponent)
     );
   }
 }

@@ -1,0 +1,138 @@
+{
+  "id": "paragraph",
+  "name": "Paragraph",
+  "description": "Text paragraph component with multiple styles and typography options",
+  "category": "Typography",
+  "selector": "nui-paragraph",
+  "properties": [
+    {
+      "name": "content",
+      "type": "contentProjection",
+      "label": "Content",
+      "defaultValue": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "contentProjectionHint": "Paragraph content goes here..."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Visual font size",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "neutral",
+      "description": "Color variant",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
+      "name": "align",
+      "type": "enum",
+      "label": "Align",
+      "defaultValue": "left",
+      "description": "Text alignment",
+      "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Center", "value": "center" },
+        { "label": "Right", "value": "right" },
+        { "label": "Justify", "value": "justify" }
+      ]
+    },
+    {
+      "name": "weight",
+      "type": "enum",
+      "label": "Weight",
+      "defaultValue": "normal",
+      "description": "Font weight",
+      "options": [
+        { "label": "Light", "value": "light" },
+        { "label": "Normal", "value": "normal" },
+        { "label": "Medium", "value": "medium" },
+        { "label": "Semibold", "value": "semibold" },
+        { "label": "Bold", "value": "bold" }
+      ]
+    },
+    {
+      "name": "leading",
+      "type": "enum",
+      "label": "Line Height",
+      "defaultValue": "normal",
+      "description": "Line height (leading)",
+      "options": [
+        { "label": "None", "value": "none" },
+        { "label": "Tight", "value": "tight" },
+        { "label": "Snug", "value": "snug" },
+        { "label": "Normal", "value": "normal" },
+        { "label": "Relaxed", "value": "relaxed" },
+        { "label": "Loose", "value": "loose" }
+      ]
+    },
+    {
+      "name": "truncate",
+      "type": "boolean",
+      "label": "Truncate",
+      "defaultValue": false,
+      "description": "Truncate text with ellipsis"
+    },
+    {
+      "name": "italic",
+      "type": "boolean",
+      "label": "Italic",
+      "defaultValue": false,
+      "description": "Italic text style"
+    },
+    {
+      "name": "marginBottom",
+      "type": "boolean",
+      "label": "Margin Bottom",
+      "defaultValue": false,
+      "description": "Add standard bottom margin"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Default Paragraph",
+      "description": "Standard paragraph text",
+      "propertyValues": {
+        "content": "This is a standard paragraph component execution."
+      }
+    },
+    {
+      "title": "Lead Paragraph",
+      "description": "Larger lead paragraph for introductions",
+      "propertyValues": {
+        "content": "This is a lead paragraph that stands out with larger text size and relaxed line height.",
+        "size": "lg",
+        "leading": "relaxed",
+        "variant": "neutral"
+      }
+    },
+    {
+      "title": "Disclaimer",
+      "description": "Small italic disclaimer text",
+      "propertyValues": {
+         "content": "Disclaimer: This information is for demonstration purposes only.",
+         "size": "sm",
+         "variant": "info",
+         "italic": true
+      }
+    }
+  ]
+}

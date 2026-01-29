@@ -1,0 +1,139 @@
+{
+  "id": "heading",
+  "name": "Heading",
+  "description": "Typography heading component (h1-h6) with various styles and alignments",
+  "category": "Typography",
+  "selector": "nui-heading",
+  "properties": [
+    {
+      "name": "text",
+      "type": "string",
+      "label": "Text",
+      "defaultValue": "Heading Text",
+      "description": "The content of the heading"
+    },
+    {
+      "name": "level",
+      "type": "enum",
+      "label": "Level",
+      "defaultValue": "h2",
+      "description": "HTML semantic level (h1-h6)",
+      "options": [
+        { "label": "H1", "value": "h1" },
+        { "label": "H2", "value": "h2" },
+        { "label": "H3", "value": "h3" },
+        { "label": "H4", "value": "h4" },
+        { "label": "H5", "value": "h5" },
+        { "label": "H6", "value": "h6" }
+      ]
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Visual font size",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "neutral",
+      "description": "Color variant",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
+      "name": "align",
+      "type": "enum",
+      "label": "Align",
+      "defaultValue": "left",
+      "description": "Text alignment",
+      "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Center", "value": "center" },
+        { "label": "Right", "value": "right" }
+      ]
+    },
+    {
+      "name": "weight",
+      "type": "enum",
+      "label": "Weight",
+      "defaultValue": "bold",
+      "description": "Font weight",
+      "options": [
+        { "label": "Normal", "value": "normal" },
+        { "label": "Medium", "value": "medium" },
+        { "label": "Semibold", "value": "semibold" },
+        { "label": "Bold", "value": "bold" },
+        { "label": "Extrabold", "value": "extrabold" }
+      ]
+    },
+    {
+      "name": "truncate",
+      "type": "boolean",
+      "label": "Truncate",
+      "defaultValue": false,
+      "description": "Truncate text with ellipsis"
+    },
+    {
+      "name": "uppercase",
+      "type": "boolean",
+      "label": "Uppercase",
+      "defaultValue": false,
+      "description": "Transform text to uppercase"
+    },
+    {
+      "name": "marginBottom",
+      "type": "boolean",
+      "label": "Margin Bottom",
+      "defaultValue": false,
+      "description": "Add standard bottom margin"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Default Heading",
+      "description": "Standard H2 heading",
+      "propertyValues": {
+        "text": "Hello World",
+        "level": "h2"
+      }
+    },
+    {
+      "title": "Primary Title",
+      "description": "Large primary color title",
+      "propertyValues": {
+        "text": "Main Title",
+        "level": "h1",
+        "size": "xl",
+        "variant": "primary",
+        "weight": "extrabold"
+      }
+    },
+    {
+      "title": "Centered Section",
+      "description": "Centered section header",
+      "propertyValues": {
+        "text": "Section Header",
+        "level": "h3",
+        "align": "center",
+        "marginBottom": true
+      }
+    }
+  ]
+}
