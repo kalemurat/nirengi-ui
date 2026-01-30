@@ -5,6 +5,7 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../icon/icon.types';
 import { Size } from '../../common/enums/size.enum';
+import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
  * Textbox input types definitions.
@@ -34,7 +35,8 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  *   label="Password" 
  *   type="password" 
  *   icon="Lock"
- *   error="Invalid password"
+ *   variant="danger"
+ *   hint="Invalid password"
  * />
  */
 @Component({
@@ -80,10 +82,10 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   readonly hint = input<string>();
 
   /**
-   * Error message.
-   * If present, changes input style to error state.
+   * Component color variant.
+   * @default ColorVariant.Primary
    */
-  readonly error = input<string>();
+  readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
   /**
    * Icon name to display.
@@ -143,10 +145,14 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   });
 
   /**
-   * Input için CSS class'larını hesaplayan computed signal.
-   * Reactive olarak güncellenir.
-   * 
-   * @returns Size-based CSS class string'i
+   * Container CSS classes (variant).
+   */
+  protected readonly containerClasses = computed(() => {
+    return `nui-textbox--${this.variant()}`;
+  });
+
+  /**
+   * Input CSS classes (size).
    */
   protected readonly inputClasses = computed(() => {
     return `nui-textbox__input--${this.size()}`;

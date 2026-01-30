@@ -64,11 +64,20 @@
       "description": "Helper text displayed below the input"
     },
     {
-      "name": "error",
-      "type": "string",
-      "label": "Error",
-      "defaultValue": "",
-      "description": "Error message displayed below the input"
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "description": "Color variant of the input",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
     },
     {
       "name": "icon",
@@ -119,12 +128,13 @@
       }
     },
     {
-      "title": "Error State",
-      "description": "Input with error message",
+      "title": "Danger (Error) State",
+      "description": "Input with danger variant and hint",
       "propertyValues": {
         "label": "Email",
         "value": "invalid-email",
-        "error": "Please enter a valid email address",
+        "variant": "danger",
+        "hint": "Please enter a valid email address",
         "icon": "Mail"
       }
     }
