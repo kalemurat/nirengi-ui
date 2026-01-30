@@ -1,16 +1,16 @@
 import {
-  Component,
-  ViewChild,
-  ViewContainerRef,
-  inject,
-  computed,
-  effect,
-  ChangeDetectionStrategy,
-  AfterViewInit,
-  OnDestroy,
-  DestroyRef,
-  signal,
-  ComponentRef,
+    Component,
+    ViewChild,
+    ViewContainerRef,
+    inject,
+    computed,
+    effect,
+    ChangeDetectionStrategy,
+    AfterViewInit,
+    OnDestroy,
+    DestroyRef,
+    signal,
+    ComponentRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +20,10 @@ import { Subject } from 'rxjs';
 import { ComponentRegistryService } from '../../../core/services/component-registry.service';
 import { PropertyStateService } from '../../../core/services/property-state.service';
 import { EventLoggerService } from '../../../core/services/event-logger.service';
+import { ThemeService } from '../../../core/services/theme.service';
+import {
+    IconComponent
+} from 'nirengi-ui-kit';
 
 /**
  * Component Renderer.
@@ -31,6 +35,7 @@ import { EventLoggerService } from '../../../core/services/event-logger.service'
  * - Property binding (signal input API ile uyumlu)
  * - Event binding ve logging
  * - Component lifecycle yönetimi
+ * - Tema yönetimi (light/dark mode)
  *
  * ## Özellikler
  * - ✅ ViewContainerRef ile dynamic render
@@ -38,16 +43,18 @@ import { EventLoggerService } from '../../../core/services/event-logger.service'
  * - ✅ ComponentRef.setInput() ile reactive property binding
  * - ✅ Route params'a reactive subscription
  * - ✅ Event logger entegrasyonu
+ * - ✅ Tema seçici (sun/moon icon toggle)
  * - ✅ OnPush change detection
  *
  * @see {@link ComponentRegistryService}
  * @see {@link PropertyStateService}
  * @see {@link EventLoggerService}
+ * @see {@link ThemeService}
  */
 @Component({
   selector: 'app-component-renderer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   templateUrl: './component-renderer.component.html',
   styleUrl: './component-renderer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,6 +73,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   private readonly registry = inject(ComponentRegistryService);
   private readonly propertyState = inject(PropertyStateService);
   private readonly eventLogger = inject(EventLoggerService);
+  protected readonly themeService = inject(ThemeService);
   private readonly destroyRef = inject(DestroyRef);
 
   /**
