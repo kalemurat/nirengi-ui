@@ -24,11 +24,12 @@ import listConfig from '../../configs/list.showcase.json';
 import tableConfig from '../../configs/table.showcase.json';
 import accordionConfig from '../../configs/accordion.showcase.json';
 import datepickerConfig from '../../configs/datepicker.showcase.json';
+import toastConfig from '../../configs/toast.showcase.json';
 
 
 
 // Component imports
-import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent, RadioComponent, BreadcrumbComponent, ListComponent, TableComponent, AccordionComponent, DatepickerComponent } from 'nirengi-ui-kit';
+import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent, RadioComponent, BreadcrumbComponent, ListComponent, TableComponent, AccordionComponent, DatepickerComponent, ToastDemoComponent } from 'nirengi-ui-kit';
 
 
 
@@ -176,6 +177,12 @@ export class ShowcaseLayoutComponent {
     this.registry.registerComponent(
       datepickerConfig as any,
       () => Promise.resolve(DatepickerComponent)
+    );
+
+    // Toast Component
+    this.registry.registerComponent(
+      toastConfig as any,
+      () => Promise.resolve(ToastDemoComponent)
     );
 
   }

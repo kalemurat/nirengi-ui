@@ -1,0 +1,37 @@
+{
+  "id": "toast",
+  "name": "Toast",
+  "description": "Displays temporary notifications to provide feedback about an operation.",
+  "category": "Feedback",
+  "selector": "nui-toast-demo",
+  "properties": [
+    {
+      "name": "title",
+      "type": "string",
+      "label": "Title",
+      "defaultValue": "Toast Title",
+      "description": "The title of the toast notification."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "label": "Description",
+      "defaultValue": "Toast Description",
+      "description": "The detailed message of the toast."
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "success",
+      "options": [
+        { "label": "Success", "value": "success" },
+        { "label": "Error", "value": "error" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Info", "value": "info" }
+      ],
+      "description": "The visual style variant of the toast."
+    }
+  ],
+  "examples": []
+}

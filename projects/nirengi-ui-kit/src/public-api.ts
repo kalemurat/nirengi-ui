@@ -350,3 +350,5 @@ export type { AccordionStatus } from './lib/components/accordion/accordion.compo
  */
 export { DatepickerComponent } from './lib/components/datepicker/datepicker.component';
 
+export * from './lib/components/toast';
+export * from './lib/components/toast-demo';
