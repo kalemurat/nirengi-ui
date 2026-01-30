@@ -1,0 +1,72 @@
+
+{
+  "id": "accordion",
+  "name": "Accordion",
+  "description": "Expandable content panel",
+  "category": "Data Display",
+  "selector": "nui-accordion",
+  "properties": [
+    {
+      "name": "title",
+      "type": "string",
+      "label": "Title",
+      "defaultValue": "Accordion Title",
+      "description": "Header text or template"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "label": "Content",
+      "defaultValue": "This is the content of the accordion. It can be any length and contain text or other components.",
+      "description": "Body content text or template"
+    },
+    {
+      "name": "expanded",
+      "type": "boolean",
+      "label": "Expanded",
+      "defaultValue": false,
+      "description": "Open/Closed state"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable interaction"
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" }
+      ],
+      "description": "Size of the accordion"
+    },
+    {
+      "name": "status",
+      "type": "enum",
+      "label": "Status",
+      "defaultValue": "default",
+      "options": [
+        { "label": "Default", "value": "default" },
+        { "label": "Primary", "value": "primary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" }
+      ],
+      "description": "Visual status color"
+    }
+  ],
+  "events": [
+    {
+      "name": "expandedChange",
+      "label": "Expanded Change",
+      "payloadDescription": "Boolean value (true/false)"
+    }
+  ]
+}

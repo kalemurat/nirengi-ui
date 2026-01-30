@@ -1,0 +1,45 @@
+
+<div [class]="containerClasses()">
+  <button 
+    type="button" 
+    class="nui-accordion__header" 
+    (click)="toggle()" 
+    [disabled]="disabled()"
+    [attr.aria-expanded]="expanded()"
+    [attr.aria-controls]="contentId"
+    [id]="headerId">
+    
+    <div class="nui-accordion__title">
+      @if (isTemplate(title())) {
+        <ng-container *ngTemplateOutlet="$any(title())"></ng-container>
+      } @else {
+        {{ title() }}
+      }
+    </div>
+    
+    <nirengi-icon 
+      name="ChevronDown" 
+      class="nui-accordion__icon"
+      [class.nui-accordion__icon--rotated]="expanded()">
+    </nirengi-icon>
+  </button>
+  
+  <div 
+    class="nui-accordion__collapse" 
+    [class.nui-accordion__collapse--expanded]="expanded()" 
+    role="region" 
+    [attr.aria-hidden]="!expanded()"
+    [id]="contentId" 
+    [attr.aria-labelledby]="headerId">
+    
+    <div class="nui-accordion__wrapper">
+      <div class="nui-accordion__content">
+        @if (isTemplate(content())) {
+          <ng-container *ngTemplateOutlet="$any(content())"></ng-container>
+        } @else {
+          {{ content() }}
+        }
+      </div>
+    </div>
+  </div>
+</div>

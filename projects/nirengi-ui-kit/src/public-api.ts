@@ -335,3 +335,11 @@ export type { ListItem } from './lib/components/list/list.component';
 export { TableComponent } from './lib/components/table/table.component';
 export type { FilterMatchMode, FilterMetadata } from './lib/components/table/table.component';
 
+/**
+ * Accordion component and types.
+ * @see {@link AccordionComponent}
+ * @see {@link AccordionStatus}
+ */
+export { AccordionComponent } from './lib/components/accordion/accordion.component';
+export type { AccordionStatus } from './lib/components/accordion/accordion.component';
+

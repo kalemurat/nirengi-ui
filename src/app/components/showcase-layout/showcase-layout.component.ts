@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuPanelComponent } from './menu-panel/menu-panel.component';
 import { ComponentRendererComponent } from './component-renderer/component-renderer.component';
@@ -22,6 +22,7 @@ import radioConfig from '../../configs/radio.showcase.json';
 import breadcrumbConfig from '../../configs/breadcrumb.showcase.json';
 import listConfig from '../../configs/list.showcase.json';
 import tableConfig from '../../configs/table.showcase.json';
+import accordionConfig from '../../configs/accordion.showcase.json';
 
 
 // Component imports
@@ -75,20 +76,13 @@ import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent,
   ]
 })
 export class ShowcaseLayoutComponent {
-  /**
-   * Component registry servisini constructor'da inject ederiz.
-   * Component init'te registry'yi doldururuz.
-   */
-  constructor(private registry: ComponentRegistryService) {
+  private readonly registry = inject(ComponentRegistryService);
+
+  constructor() {
     this.initializeRegistry();
+    this.registry.registerConfig(accordionConfig as any);
   }
 
-  /**
-   * Component registry'yi initialize eder.
-   * Tüm component'leri ve JSON config'lerini registrar eder.
-   * 
-   * POC için Button ve Select component'leri ekleniyor.
-   */
   private initializeRegistry(): void {
     // Button Component
     this.registry.registerComponent(

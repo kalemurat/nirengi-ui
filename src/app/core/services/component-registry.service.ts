@@ -1,3 +1,4 @@
+
 import { Injectable, signal, computed, Type } from '@angular/core';
 import { ComponentShowcaseConfig } from '../interfaces/showcase-config.interface';
 
@@ -25,6 +26,9 @@ type ComponentLoader = () => Promise<Type<any>>;
  * registry.registerComponent(buttonConfig, () => 
  *   import('nirengi-ui-kit').then(m => m.ButtonComponent)
  * );
+ * 
+ * // Sadece Config kaydet (Lazy load getComponent içinde handled ise)
+ * registry.registerConfig(accordionConfig);
  * 
  * // Component yükle
  * const ButtonComponent = await registry.getComponent('button');
@@ -94,14 +98,6 @@ export class ComponentRegistryService {
    * 
    * @param config - Component showcase konfigürasyonu
    * @param loader - Component lazy loader fonksiyonu
-   * 
-   * @example
-   * ```typescript
-   * registry.registerComponent(
-   *   buttonConfig,
-   *   () => import('nirengi-ui-kit').then(m => m.ButtonComponent)
-   * );
-   * ```
    */
   registerComponent(config: ComponentShowcaseConfig, loader: ComponentLoader): void {
     // Config'i kaydet
@@ -116,18 +112,26 @@ export class ComponentRegistryService {
   }
 
   /**
+   * Sadece component config'ini kaydeder.
+   * Loader verilmezse, getComponent içinde lazy import veya logic ile handle edilmelidir.
+   * 
+   * @param config - Component showcase konfigürasyonu
+   */
+  registerConfig(config: ComponentShowcaseConfig): void {
+    this.configs.update(current => {
+      const updated = new Map(current);
+      updated.set(config.id, config);
+      return updated;
+    });
+  }
+
+  /**
    * Component'i lazy load eder.
    * İlk yüklemede cache'e alınır, sonraki çağrılarda cache'den döner.
    * 
    * @param id - Component ID
    * @returns Component class referansı
    * @throws Error - Component registrar edilmemişse
-   * 
-   * @example
-   * ```typescript
-   * const ButtonComponent = await registry.getComponent('button');
-   * // ButtonComponent artık dynamic render için kullanılabilir
-   * ```
    */
   async getComponent(id: string): Promise<Type<any>> {
     // Cache'de var mı kontrol et
@@ -138,7 +142,21 @@ export class ComponentRegistryService {
     // Loader var mı kontrol et
     const loader = this.loaders.get(id);
     if (!loader) {
-      throw new Error(`Component "${id}" is not registered in the registry.`);
+      // Fallback for components registered via registerConfig (Lazy loaded here)
+      switch (id) {
+        case 'list':
+          const { ListComponent } = await import('nirengi-ui-kit');
+          this.componentCache.set(id, ListComponent);
+          return ListComponent;
+
+        case 'accordion':
+          const { AccordionComponent } = await import('nirengi-ui-kit');
+          this.componentCache.set(id, AccordionComponent);
+          return AccordionComponent;
+
+        default:
+          throw new Error(`Component "${id}" is not registered in the registry or missing loader.`);
+      }
     }
 
     // Component'i yükle ve cache'e al
@@ -150,15 +168,6 @@ export class ComponentRegistryService {
 
   /**
    * Component config'ini getirir.
-   * 
-   * @param id - Component ID
-   * @returns Component config veya undefined
-   * 
-   * @example
-   * ```typescript
-   * const config = registry.getConfig('button');
-   * console.log(config?.name); // 'Button'
-   * ```
    */
   getConfig(id: string): ComponentShowcaseConfig | undefined {
     return this.configs().get(id);
@@ -166,9 +175,6 @@ export class ComponentRegistryService {
 
   /**
    * Belirli bir component registrar edilmiş mi kontrol eder.
-   * 
-   * @param id - Component ID
-   * @returns Component registrar edilmişse true
    */
   hasComponent(id: string): boolean {
     return this.configs().has(id);
@@ -176,8 +182,6 @@ export class ComponentRegistryService {
 
   /**
    * Tüm registrar edilmiş component ID'lerini döndürür.
-   * 
-   * @returns Component ID array
    */
   getAllComponentIds(): string[] {
     return Array.from(this.configs().keys());
