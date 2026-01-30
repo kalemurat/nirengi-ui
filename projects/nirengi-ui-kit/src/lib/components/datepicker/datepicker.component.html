@@ -1,0 +1,173 @@
+<div
+  class="datepicker"
+  [class.datepicker--disabled]="isDisabled()"
+  [class.datepicker--readonly]="readonly()"
+  [class.datepicker--error]="error()"
+  [class.datepicker--primary]="variant() === 'primary'"
+  [class.datepicker--secondary]="variant() === 'secondary'"
+  [class.datepicker--success]="variant() === 'success'"
+  [class.datepicker--warning]="variant() === 'warning'"
+  [class.datepicker--danger]="variant() === 'danger'"
+  [class.datepicker--info]="variant() === 'info'"
+  [class.datepicker--neutral]="variant() === 'neutral'"
+  [class.datepicker--xs]="size() === 'xs'"
+  [class.datepicker--sm]="size() === 'sm'"
+  [class.datepicker--md]="size() === 'md'"
+  [class.datepicker--lg]="size() === 'lg'"
+  [class.datepicker--xl]="size() === 'xl'"
+>
+  @if (label()) {
+    <label [for]="id()" class="datepicker__label" [title]="label()">
+      {{ label() }}
+    </label>
+  }
+
+  <div
+    class="datepicker__input-wrapper"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+    (click)="toggleOpen()"
+  >
+    <input
+      [id]="id()"
+      type="text"
+      readonly
+      [value]="formattedValue()"
+      [placeholder]="placeholder()"
+      [class]="inputClasses()"
+      (blur)="markAsTouched()"
+    />
+
+    <lucide-icon
+      [name]="icons.calendar"
+      class="datepicker__icon"
+      [class.datepicker__icon--active]="isOpen()"
+    ></lucide-icon>
+  </div>
+
+  @if (hint() && !error()) {
+    <div class="datepicker__hint" [title]="hint()">{{ hint() }}</div>
+  }
+
+  @if (error()) {
+    <div class="datepicker__error" [title]="error()">
+      {{ error() }}
+    </div>
+  }
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
+    (backdropClick)="close()"
+  >
+    <!-- Calendar Popup -->
+    <div class="datepicker__calendar">
+      <!-- Header: Month/Year & Nav -->
+      <div class="datepicker__header">
+        <button type="button" class="datepicker__nav-btn" (click)="prevMonth()">
+          <lucide-icon [name]="icons.prev" class="datepicker__nav-icon"></lucide-icon>
+        </button>
+
+        <span class="datepicker__title">
+          {{ currentMonthYear() }}
+        </span>
+
+        <button type="button" class="datepicker__nav-btn" (click)="nextMonth()">
+          <lucide-icon [name]="icons.next" class="datepicker__nav-icon"></lucide-icon>
+        </button>
+      </div>
+
+      <!-- Weekday Headers -->
+      <div class="datepicker__weekdays">
+        @for (day of weekDays(); track $index) {
+          <span class="datepicker__weekday">
+            {{ day }}
+          </span>
+        }
+      </div>
+
+      <!-- Days Grid -->
+      <div class="datepicker__days">
+        @for (date of calendarDays(); track date) {
+          <button
+            type="button"
+            class="datepicker__day"
+            [class.datepicker__day--selected]="isSelected(date)"
+            [class.datepicker__day--in-range]="isInRange(date)"
+            [class.datepicker__day--range-start]="
+              rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.start!)
+            "
+            [class.datepicker__day--range-end]="
+              rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.end!)
+            "
+            [class.datepicker__day--today]="
+              isDateToday(date) && !isSelected(date) && !isInRange(date)
+            "
+            [class.datepicker__day--current]="
+              isCurrentMonth(date) && !isSelected(date) && !isInRange(date)
+            "
+            [class.datepicker__day--other]="
+              !isCurrentMonth(date) && !isSelected(date) && !isInRange(date)
+            "
+            (click)="selectDate(date)"
+          >
+            {{ date | date: 'd' }}
+          </button>
+        }
+      </div>
+
+      <!-- Time Picker Footer -->
+      @if (withTime()) {
+        <div class="datepicker__footer">
+          <lucide-icon [name]="icons.clock" class="datepicker__time-icon"></lucide-icon>
+
+          <!-- Scrolls handled by native select for simplicity, or custom scroller -->
+          <div class="datepicker__time-group">
+            <div class="datepicker__time-control">
+              <button type="button" class="datepicker__time-btn" (click)="toggleHourPicker()">
+                {{ selectedHour() | number: '2.0' }}
+              </button>
+              @if (showHourPicker()) {
+                <ul class="datepicker__time-list">
+                  @for (h of hoursList; track h) {
+                    <li
+                      class="datepicker__time-item"
+                      [class.datepicker__time-item--selected]="selectedHour() === h"
+                      (click)="selectHour(h)"
+                    >
+                      {{ h | number: '2.0' }}
+                    </li>
+                  }
+                </ul>
+              }
+            </div>
+
+            <span class="datepicker__time-separator">:</span>
+
+            <div class="datepicker__time-control">
+              <button type="button" class="datepicker__time-btn" (click)="toggleMinutePicker()">
+                {{ selectedMinute() | number: '2.0' }}
+              </button>
+              @if (showMinutePicker()) {
+                <ul class="datepicker__time-list">
+                  @for (m of minutesList; track m) {
+                    <li
+                      class="datepicker__time-item"
+                      [class.datepicker__time-item--selected]="selectedMinute() === m"
+                      (click)="selectMinute(m)"
+                    >
+                      {{ m | number: '2.0' }}
+                    </li>
+                  }
+                </ul>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </ng-template>
+</div>

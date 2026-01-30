@@ -23,10 +23,13 @@ import breadcrumbConfig from '../../configs/breadcrumb.showcase.json';
 import listConfig from '../../configs/list.showcase.json';
 import tableConfig from '../../configs/table.showcase.json';
 import accordionConfig from '../../configs/accordion.showcase.json';
+import datepickerConfig from '../../configs/datepicker.showcase.json';
+
 
 
 // Component imports
-import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent, RadioComponent, BreadcrumbComponent, ListComponent, TableComponent } from 'nirengi-ui-kit';
+import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent, RadioComponent, BreadcrumbComponent, ListComponent, TableComponent, AccordionComponent, DatepickerComponent } from 'nirengi-ui-kit';
+
 
 
 
@@ -162,5 +165,18 @@ export class ShowcaseLayoutComponent {
       tableConfig as any,
       () => Promise.resolve(TableComponent)
     );
+
+    // Accordion Component
+    this.registry.registerComponent(
+      accordionConfig as any,
+      () => Promise.resolve(AccordionComponent)
+    );
+
+    // Datepicker Component
+    this.registry.registerComponent(
+      datepickerConfig as any,
+      () => Promise.resolve(DatepickerComponent)
+    );
+
   }
 }

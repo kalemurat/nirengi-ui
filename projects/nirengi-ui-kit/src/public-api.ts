@@ -335,6 +335,7 @@ export type { ListItem } from './lib/components/list/list.component';
 export { TableComponent } from './lib/components/table/table.component';
 export type { FilterMatchMode, FilterMetadata } from './lib/components/table/table.component';
 
+
 /**
  * Accordion component and types.
  * @see {@link AccordionComponent}
@@ -342,4 +343,10 @@ export type { FilterMatchMode, FilterMetadata } from './lib/components/table/tab
  */
 export { AccordionComponent } from './lib/components/accordion/accordion.component';
 export type { AccordionStatus } from './lib/components/accordion/accordion.component';
+
+/**
+ * Datepicker component.
+ * @see {@link DatepickerComponent}
+ */
+export { DatepickerComponent } from './lib/components/datepicker/datepicker.component';
 

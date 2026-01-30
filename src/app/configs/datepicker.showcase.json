@@ -1,0 +1,107 @@
+{
+  "id": "datepicker",
+  "name": "Datepicker",
+  "description": "Date selection input with calendar popup",
+  "category": "Form",
+  "selector": "n-datepicker",
+  "properties": [
+    {
+      "name": "label",
+      "type": "string",
+      "label": "Label",
+      "defaultValue": "Tarih Seçimi",
+      "description": "Input label text"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "label": "Placeholder",
+      "defaultValue": "Tarih seçiniz",
+      "description": "Input placeholder"
+    },
+    {
+      "name": "selectionMode",
+      "type": "enum",
+      "label": "Selection Mode",
+      "defaultValue": "single",
+      "options": [
+        { "label": "Single Date", "value": "single" },
+        { "label": "Range", "value": "range" }
+      ],
+      "description": "Selection mode: 'single' or 'range'"
+    },
+    {
+      "name": "withTime",
+      "type": "boolean",
+      "label": "With Time",
+      "defaultValue": false,
+      "description": "Enable time selection"
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ],
+      "description": "Component size"
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ],
+      "description": "Color variant"
+    },
+    {
+      "name": "hint",
+      "type": "string",
+      "label": "Hint",
+      "defaultValue": "",
+      "description": "Helper text"
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "label": "Error Message",
+      "defaultValue": "",
+      "description": "Error text"
+    },
+    {
+      "name": "formatStr",
+      "type": "string",
+      "label": "Format",
+      "defaultValue": "",
+      "description": "Date format string (e.g. dd.MM.yyyy)"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable interaction"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "label": "Readonly",
+      "defaultValue": false,
+      "description": "Read only mode"
+    }
+  ],
+  "events": []
+}

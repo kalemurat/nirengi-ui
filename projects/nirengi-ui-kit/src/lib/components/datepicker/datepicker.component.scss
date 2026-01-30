@@ -1,0 +1,464 @@
+.datepicker {
+    @apply relative w-full;
+
+    &__label {
+        @apply block text-sm font-medium text-gray-700 mb-1.5 truncate w-full;
+    }
+
+    &__input-wrapper {
+        @apply relative flex items-center cursor-pointer;
+    }
+
+    &__input {
+        @apply w-full rounded-lg border border-gray-200 bg-white text-gray-900 transition-all duration-200 ease-in-out cursor-pointer outline-none shadow-sm;
+
+        &::placeholder {
+            @apply text-gray-400;
+        }
+
+        &--error {
+            @apply border-red-500;
+        }
+
+        &--success {
+            @apply border-green-500;
+        }
+
+        &--focused {
+            @apply border-blue-500 ring-1 ring-blue-500;
+        }
+    }
+
+    &__icon {
+        @apply absolute top-1/2 right-0 -translate-y-1/2 text-gray-400 pointer-events-none transition-colors duration-200 w-5 h-5 flex items-center justify-center;
+
+        &--active {
+            @apply text-blue-500;
+        }
+    }
+
+    &__hint {
+        @apply text-xs text-gray-500 mt-1 truncate w-full;
+    }
+
+    &__error {
+        @apply text-xs text-red-600 mt-1 font-medium truncate w-full;
+    }
+
+    /* Variant Modifiers applied to parent */
+    &--primary {
+        .datepicker__label {
+            @apply text-blue-700;
+        }
+
+        .datepicker__input {
+            @apply border-blue-500;
+        }
+
+        .datepicker__icon {
+            @apply text-blue-600;
+
+            &--active {
+                @apply text-blue-500;
+            }
+        }
+
+        .datepicker__hint {
+            @apply text-blue-600;
+        }
+    }
+
+    &--secondary {
+        .datepicker__label {
+            @apply text-gray-700;
+        }
+
+        .datepicker__input {
+            @apply border-gray-500;
+        }
+
+        .datepicker__icon {
+            @apply text-gray-600;
+
+            &--active {
+                @apply text-gray-500;
+            }
+        }
+
+        .datepicker__hint {
+            @apply text-gray-600;
+        }
+    }
+
+    &--success {
+        .datepicker__label {
+            @apply text-green-700;
+        }
+
+        .datepicker__input {
+            @apply border-green-500;
+        }
+
+        .datepicker__icon {
+            @apply text-green-600;
+
+            &--active {
+                @apply text-green-500;
+            }
+        }
+
+        .datepicker__hint {
+            @apply text-green-600;
+        }
+    }
+
+    &--warning {
+        .datepicker__label {
+            @apply text-yellow-700;
+        }
+
+        .datepicker__input {
+            @apply border-yellow-500;
+        }
+
+        .datepicker__icon {
+            @apply text-yellow-600;
+
+            &--active {
+                @apply text-yellow-500;
+            }
+        }
+
+        .datepicker__hint {
+            @apply text-yellow-600;
+        }
+    }
+
+    &--danger {
+        .datepicker__label {
+            @apply text-red-700;
+        }
+
+        .datepicker__input {
+            @apply border-red-500;
+        }
+
+        .datepicker__icon {
+            @apply text-red-600;
+
+            &--active {
+                @apply text-red-500;
+            }
+        }
+
+        .datepicker__hint {
+            @apply text-red-600;
+        }
+    }
+
+    &--info {
+        .datepicker__label {
+            @apply text-cyan-700;
+        }
+
+        .datepicker__input {
+            @apply border-cyan-500;
+        }
+
+        .datepicker__icon {
+            @apply text-cyan-600;
+
+            &--active {
+                @apply text-cyan-500;
+            }
+        }
+
+        .datepicker__hint {
+            @apply text-cyan-600;
+        }
+    }
+
+    &--neutral {
+        .datepicker__label {
+            @apply text-gray-700;
+        }
+
+        .datepicker__input {
+            @apply border-gray-400;
+        }
+
+        .datepicker__icon {
+            @apply text-gray-500;
+
+            &--active {
+                @apply text-gray-600;
+            }
+        }
+
+        .datepicker__hint {
+            @apply text-gray-600;
+        }
+    }
+
+    /* Error State (overrides variant) */
+    &--error {
+        .datepicker__label {
+            @apply text-red-700;
+        }
+
+        .datepicker__input {
+            @apply border-red-500;
+        }
+
+        .datepicker__icon {
+            @apply text-red-500;
+        }
+
+        .datepicker__hint {
+            @apply text-red-600;
+        }
+    }
+
+    /* Readonly State */
+    &--readonly {
+        .datepicker__input {
+            @apply bg-gray-50 cursor-not-allowed text-gray-600;
+        }
+    }
+
+    /* Disabled State */
+    &--disabled {
+        @apply opacity-50 pointer-events-none;
+
+        .datepicker__input {
+            @apply bg-gray-50 cursor-not-allowed text-gray-400 border-gray-100;
+        }
+
+        .datepicker__label,
+        .datepicker__icon,
+        .datepicker__hint,
+        .datepicker__error {
+            @apply text-gray-400;
+        }
+    }
+
+    /* Sizes - Applied to root .datepicker */
+    &--xs {
+        .datepicker__label {
+            @apply text-xs mb-1;
+        }
+
+        .datepicker__input {
+            @apply h-8 text-xs px-2.5 pr-7;
+        }
+
+        .datepicker__icon {
+            @apply w-3.5 h-3.5 right-2;
+        }
+
+        .datepicker__hint,
+        .datepicker__error {
+            @apply text-[10px] mt-0.5;
+        }
+    }
+
+    &--sm {
+        .datepicker__label {
+            @apply text-xs mb-1;
+        }
+
+        .datepicker__input {
+            @apply h-9 text-sm px-3 pr-8;
+        }
+
+        .datepicker__icon {
+            @apply w-4 h-4 right-2.5;
+        }
+
+        .datepicker__hint,
+        .datepicker__error {
+            @apply text-[11px] mt-0.5;
+        }
+    }
+
+    &--md {
+        .datepicker__label {
+            @apply text-sm mb-1.5;
+        }
+
+        .datepicker__input {
+            @apply h-10 text-sm px-3.5 pr-10;
+        }
+
+        .datepicker__icon {
+            @apply w-5 h-5 right-3;
+        }
+
+        .datepicker__hint,
+        .datepicker__error {
+            @apply text-xs mt-0.5;
+        }
+    }
+
+    &--lg {
+        .datepicker__label {
+            @apply text-base mb-1.5;
+        }
+
+        .datepicker__input {
+            @apply h-11 text-base px-4 pr-11;
+        }
+
+        .datepicker__icon {
+            @apply w-5 h-5 right-4;
+        }
+
+        .datepicker__hint,
+        .datepicker__error {
+            @apply text-sm mt-0.5;
+        }
+    }
+
+    &--xl {
+        .datepicker__label {
+            @apply text-lg mb-2;
+        }
+
+        .datepicker__input {
+            @apply h-12 text-lg px-5 pr-12;
+        }
+
+        .datepicker__icon {
+            @apply w-6 h-6 right-5;
+        }
+
+        .datepicker__hint,
+        .datepicker__error {
+            @apply text-base mt-0.5;
+        }
+    }
+
+    /* Calendar Popup */
+    &__calendar {
+        @apply bg-white rounded-lg shadow-lg border border-gray-200 p-4 w-80 z-50;
+        animation: slideIn 0.2s ease-out;
+    }
+
+    &__header {
+        @apply flex items-center justify-between mb-4;
+    }
+
+    &__title {
+        @apply text-sm font-semibold text-gray-900;
+    }
+
+    &__nav-btn {
+        @apply p-1.5 hover:bg-gray-100 rounded-md transition-colors duration-200 cursor-pointer text-gray-600 hover:text-gray-900;
+
+        &:focus {
+            @apply outline-none ring-2 ring-offset-2 ring-blue-500;
+        }
+    }
+
+    &__nav-icon {
+        @apply w-4 h-4;
+    }
+
+    /* Weekday Headers */
+    &__weekdays {
+        @apply grid grid-cols-7 gap-2 mb-2;
+    }
+
+    &__weekday {
+        @apply text-xs font-medium text-gray-500 text-center py-2;
+    }
+
+    /* Days Grid */
+    &__days {
+        @apply grid grid-cols-7 gap-2 mb-4;
+    }
+
+    &__day {
+        @apply w-10 h-10 rounded-md text-sm cursor-pointer transition-all duration-200 border border-transparent;
+        @apply hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
+
+        &--current {
+            @apply text-gray-700 hover:bg-gray-100;
+        }
+
+        &--other {
+            @apply text-gray-300 cursor-not-allowed;
+        }
+
+        &--today {
+            @apply text-blue-600 font-semibold bg-blue-50 border-blue-300;
+        }
+
+        &--selected {
+            @apply bg-blue-500 text-white font-semibold border-blue-600 hover:bg-blue-600;
+        }
+
+        &--range-start,
+        &--range-end {
+            @apply bg-blue-500 text-white font-semibold border-blue-600;
+        }
+
+        &--in-range {
+            @apply bg-blue-100 text-gray-900;
+        }
+    }
+
+    /* Time Picker Footer */
+    &__footer {
+        @apply border-t border-gray-100 mt-3 pt-3 flex items-center gap-2 justify-center;
+    }
+
+    &__time-icon {
+        @apply w-4 h-4 text-gray-500;
+    }
+
+    &__time-separator {
+        @apply text-gray-400 font-bold;
+    }
+
+    &__time-group {
+        @apply flex items-center gap-2;
+    }
+
+    &__time-control {
+        @apply relative;
+    }
+
+    &__time-btn {
+        @apply px-3 py-1.5 text-sm font-semibold border border-gray-200 rounded-md bg-white hover:bg-gray-50 transition-colors duration-200 cursor-pointer;
+
+        &:focus {
+            @apply outline-none ring-2 ring-blue-500;
+        }
+    }
+
+    &__time-list {
+        @apply absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 max-h-48 overflow-y-auto min-w-12;
+        @apply list-none p-0 m-0;
+    }
+
+    &__time-item {
+        @apply px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 cursor-pointer transition-colors duration-200;
+
+        &--selected {
+            @apply bg-blue-500 text-white font-semibold;
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+}
