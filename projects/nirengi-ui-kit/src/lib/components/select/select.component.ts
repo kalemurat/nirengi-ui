@@ -18,6 +18,7 @@ import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
 import { Size } from '../../common/enums/size.enum';
+import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
  * Modern Seçim/Dropdown bileşeni.
@@ -163,6 +164,15 @@ export class SelectComponent extends ValueAccessorBase<any> {
   readonly size = input<Size>(Size.Medium);
 
   /**
+   * Renk varyantı.
+   * Component stil ve BEM modifier sınıflarında kullanılmak üzere `ColorVariant` enum değerlerini alır.
+   * Varsayılan: `ColorVariant.Primary`
+   *
+  * @see ColorVariant
+   */
+  readonly variant = input<ColorVariant>(ColorVariant.Primary);
+
+  /**
    * Seçeneklerin render edilmesi için özel şablon.
    * Input olarak geçilebilir veya içerikten (content projection) alınabilir.
    */
@@ -197,6 +207,16 @@ export class SelectComponent extends ValueAccessorBase<any> {
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
   protected readonly Size = Size;
+  protected readonly ColorVariant = ColorVariant;
+
+  /**
+   * Computed: BEM modifier formatında variant classname.
+   * Örnek: `nui-select--primary`, `nui-select--danger`
+   * Template içinde kullanılmak üzere hesaplanır.
+   *
+   * @returns string - BEM modifier sınıfı
+   */
+  readonly variantClass = computed(() => `nui-select--${this.variant()}`);
 
   constructor() {
     super();

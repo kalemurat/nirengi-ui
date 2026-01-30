@@ -1,7 +1,14 @@
 <div class="nui-select"
   [class.nui-select--small]="size() === Size.Small"
   [class.nui-select--medium]="size() === Size.Medium"
-  [class.nui-select--large]="size() === Size.Large">
+  [class.nui-select--large]="size() === Size.Large"
+  [class.nui-select--primary]="variant() === ColorVariant.Primary"
+  [class.nui-select--secondary]="variant() === ColorVariant.Secondary"
+  [class.nui-select--success]="variant() === ColorVariant.Success"
+  [class.nui-select--warning]="variant() === ColorVariant.Warning"
+  [class.nui-select--danger]="variant() === ColorVariant.Danger"
+  [class.nui-select--info]="variant() === ColorVariant.Info"
+  [class.nui-select--neutral]="variant() === ColorVariant.Neutral">
 
   <!-- Label -->
   @if (label()) {

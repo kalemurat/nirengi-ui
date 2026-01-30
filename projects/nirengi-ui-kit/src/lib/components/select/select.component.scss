@@ -17,6 +17,140 @@
         @apply gap-2;
     }
 
+    /* Variant modifiers (block-level). These allow `nui-select--primary` etc. */
+    &--primary {
+        .nui-select__trigger {
+            @apply border-blue-500 text-blue-700 placeholder-blue-300 focus:ring-blue-500;
+        }
+
+        .nui-select__icon {
+            @apply text-blue-500;
+        }
+
+        .nui-select__clear {
+            @apply text-blue-500;
+        }
+
+        .nui-select__label {
+            @apply text-blue-700;
+        }
+
+        .nui-select__hint {
+            @apply text-blue-500;
+        }
+    }
+
+    &--secondary {
+        .nui-select__trigger {
+            @apply border-gray-400 text-gray-800 placeholder-gray-400 focus:ring-gray-400;
+        }
+
+        .nui-select__icon {
+            @apply text-gray-500;
+        }
+
+        .nui-select__label {
+            @apply text-gray-700;
+        }
+
+        .nui-select__hint {
+            @apply text-gray-500;
+        }
+    }
+
+    &--danger {
+        .nui-select__trigger {
+            @apply border-red-600 text-red-700 placeholder-red-300 focus:ring-red-600;
+        }
+
+        .nui-select__icon,
+        .nui-select__clear {
+            @apply text-red-600;
+        }
+
+        .nui-select__label {
+            @apply text-red-700;
+        }
+
+        .nui-select__hint {
+            @apply text-red-600;
+        }
+    }
+
+    &--success {
+        .nui-select__trigger {
+            @apply border-green-500 text-green-900 placeholder-green-300 focus:ring-green-500;
+        }
+
+        .nui-select__icon,
+        .nui-select__clear {
+            @apply text-green-500;
+        }
+
+        .nui-select__label {
+            @apply text-green-700;
+        }
+
+        .nui-select__hint {
+            @apply text-green-600;
+        }
+    }
+
+    &--warning {
+        .nui-select__trigger {
+            @apply border-yellow-500 text-yellow-900 placeholder-yellow-300 focus:ring-yellow-500;
+        }
+
+        .nui-select__icon,
+        .nui-select__clear {
+            @apply text-yellow-600;
+        }
+
+        .nui-select__label {
+            @apply text-yellow-800;
+        }
+
+        .nui-select__hint {
+            @apply text-yellow-700;
+        }
+    }
+
+    &--info {
+        .nui-select__trigger {
+            @apply border-cyan-500 text-cyan-700 placeholder-cyan-300 focus:ring-cyan-500;
+        }
+
+        .nui-select__icon {
+            @apply text-cyan-500;
+        }
+
+        .nui-select__label {
+            @apply text-cyan-700;
+        }
+
+        .nui-select__hint {
+            @apply text-cyan-600;
+        }
+    }
+
+    &--neutral {
+        .nui-select__trigger {
+            @apply border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-gray-300;
+        }
+
+        .nui-select__icon {
+            @apply text-gray-400;
+        }
+
+        .nui-select__label {
+            @apply text-gray-700;
+        }
+
+        .nui-select__hint {
+            @apply text-gray-500;
+        }
+    }
+
     &__label {
         @apply font-medium text-gray-700 block text-sm;
     }
