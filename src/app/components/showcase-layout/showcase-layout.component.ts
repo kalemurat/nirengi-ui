@@ -18,9 +18,10 @@ import badgeConfig from '../../configs/badge.showcase.json';
 import textboxConfig from '../../configs/textbox.showcase.json';
 import textareaConfig from '../../configs/textarea.showcase.json';
 import checkboxConfig from '../../configs/checkbox.showcase.json';
+import radioConfig from '../../configs/radio.showcase.json';
 
 // Component imports
-import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent } from 'nirengi-ui-kit';
+import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent, RadioComponent } from 'nirengi-ui-kit';
 
 /**
  * Showcase Layout Component.
@@ -135,6 +136,12 @@ export class ShowcaseLayoutComponent {
     this.registry.registerComponent(
       checkboxConfig as any,
       () => Promise.resolve(CheckboxComponent)
+    );
+
+    // Radio Component
+    this.registry.registerComponent(
+      radioConfig as any,
+      () => Promise.resolve(RadioComponent)
     );
   }
 }

@@ -1,0 +1,30 @@
+<label [class]="radioContainerClasses()" [for]="inputId">
+  <div class="nui-radio__input-wrapper">
+    <input
+      type="radio"
+      [id]="inputId"
+      [name]="name()"
+      [value]="valueInput()"
+      [checked]="isChecked()"
+      [disabled]="isDisabled() || readonly()"
+      [required]="required()"
+      (change)="handleChange()"
+      (blur)="handleBlur()"
+      class="nui-radio__native-input"
+    />
+    <div [class]="radioControlClasses()">
+      <div class="nui-radio__indicator"></div>
+    </div>
+  </div>
+
+  @if (label() || description()) {
+    <div class="nui-radio__content">
+      @if (label()) {
+        <span [class]="labelTextClasses()">{{ label() }}</span>
+      }
+      @if (description()) {
+        <p [class]="descriptionClasses()">{{ description() }}</p>
+      }
+    </div>
+  }
+</label>

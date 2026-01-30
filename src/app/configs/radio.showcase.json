@@ -1,0 +1,93 @@
+{
+  "id": "radio",
+  "name": "Radio",
+  "description": "Radio button control for single selection from multiple options",
+  "category": "Forms",
+  "selector": "nui-radio",
+  "properties": [
+    {
+      "name": "value",
+      "type": "string",
+      "label": "Value",
+      "defaultValue": "option1",
+      "description": "The value of the radio button"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "label": "Label",
+      "defaultValue": "Option Label",
+      "description": "Label text"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "label": "Description",
+      "defaultValue": "",
+      "description": "Description text below label"
+    },
+    {
+        "name": "disabled",
+        "type": "boolean",
+        "label": "Disabled",
+        "defaultValue": false,
+        "description": "Disable interaction"
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        { "label": "XSmall", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "XLarge", "value": "xl" }
+      ]
+    }
+  ],
+  "examples": [
+      {
+          "title": "Basic Usage",
+          "description": "Standard radio button",
+          "propertyValues": {
+              "label": "Option 1",
+              "value": "opt1"
+          }
+      },
+      {
+          "title": "With Description",
+          "description": "Radio button with description",
+          "propertyValues": {
+              "label": "Premium Plan",
+              "description": "Includes all features",
+              "value": "premium"
+          }
+      },
+      {
+          "title": "Danger Variant",
+          "description": "Radio button with danger variant",
+          "propertyValues": {
+              "label": "Delete Account",
+              "variant": "danger",
+              "value": "delete"
+          }
+      }
+  ]
+}

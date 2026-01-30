@@ -303,3 +303,9 @@ export {
  * @see {@link SelectComponent}
  */
 export { SelectComponent } from './lib/components/select/select.component';
+
+/**
+ * Radio component.
+ * @see {@link RadioComponent}
+ */
+export { RadioComponent } from './lib/components/radio/radio.component';
