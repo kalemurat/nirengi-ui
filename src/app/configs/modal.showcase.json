@@ -1,0 +1,10 @@
+{
+  "id": "modal",
+  "name": "Modal",
+  "description": "Displays content in a layer above the app.",
+  "category": "Overlay",
+  "selector": "nui-modal-demo",
+  "properties": [],
+  "events": [],
+  "examples": []
+}

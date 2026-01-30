@@ -350,3 +350,5 @@ export { DatepickerComponent } from './lib/components/datepicker/datepicker.comp
 
 export * from './lib/components/toast';
 export * from './lib/components/toast-demo';
+export * from './lib/components/modal';
+export * from './lib/components/modal-demo';

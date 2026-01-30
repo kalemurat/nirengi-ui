@@ -25,6 +25,7 @@ import tableConfig from '../../configs/table.showcase.json';
 import accordionConfig from '../../configs/accordion.showcase.json';
 import datepickerConfig from '../../configs/datepicker.showcase.json';
 import toastConfig from '../../configs/toast.showcase.json';
+import modalConfig from '../../configs/modal.showcase.json';
 
 // Component imports
 import {
@@ -44,6 +45,7 @@ import {
   AccordionComponent,
   DatepickerComponent,
   ToastDemoComponent,
+  ModalDemoComponent
 } from 'nirengi-ui-kit';
 
 /**
@@ -155,5 +157,8 @@ export class ShowcaseLayoutComponent {
 
     // Toast Component
     this.registry.registerComponent(toastConfig as any, () => Promise.resolve(ToastDemoComponent));
+
+    // Modal Component
+    this.registry.registerComponent(modalConfig as any, () => Promise.resolve(ModalDemoComponent));
   }
 }
