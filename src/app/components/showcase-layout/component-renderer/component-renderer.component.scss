@@ -2,65 +2,65 @@
 // Dynamic component viewport
 
 .component-renderer {
-    @apply h-full flex flex-col bg-white;
+  @apply flex h-full flex-col bg-white;
 
-    &__header {
-        @apply p-6 border-b border-gray-200;
-        @apply bg-gradient-to-r from-blue-50 to-purple-50;
-    }
+  &__header {
+    @apply border-b border-gray-200 p-6;
+    @apply bg-gradient-to-r from-blue-50 to-purple-50;
+  }
 
-    &__title-section {
-        @apply flex items-center gap-3 mb-2;
-    }
+  &__title-section {
+    @apply mb-2 flex items-center gap-3;
+  }
 
-    &__title {
-        @apply text-2xl font-bold text-gray-900;
-    }
+  &__title {
+    @apply text-2xl font-bold text-gray-900;
+  }
 
-    &__category {
-        @apply px-2 py-1 rounded text-xs font-semibold;
-        @apply bg-blue-100 text-blue-700;
-    }
+  &__category {
+    @apply rounded px-2 py-1 text-xs font-semibold;
+    @apply bg-blue-100 text-blue-700;
+  }
 
-    &__description {
-        @apply text-sm text-gray-600;
-    }
+  &__description {
+    @apply text-sm text-gray-600;
+  }
 
-    &__viewport {
-        @apply flex-1 overflow-auto;
-        @apply p-8;
-        @apply bg-gray-50;
-    }
+  &__viewport {
+    @apply flex-1 overflow-auto;
+    @apply p-8;
+    @apply bg-gray-50;
+  }
 
-    &__viewport-inner {
-        @apply flex items-center justify-center;
-        @apply min-h-full;
-    }
+  &__viewport-inner {
+    @apply flex items-center justify-center;
+    @apply min-h-full;
+  }
 
-    &__empty {
-        @apply flex items-center justify-center h-full;
-    }
+  &__empty {
+    @apply flex h-full items-center justify-center;
+  }
 
-    &__empty-text {
-        @apply text-gray-400 text-lg;
-    }
+  &__empty-text {
+    @apply text-lg text-gray-400;
+  }
 }
 
 // Scrollbar styling
 .component-renderer__viewport {
-    &::-webkit-scrollbar {
-        @apply w-2 h-2;
-    }
+  &::-webkit-scrollbar {
+    @apply h-2 w-2;
+  }
 
-    &::-webkit-scrollbar-track {
-        @apply bg-gray-100;
-    }
+  &::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        @apply bg-gray-300 rounded;
+  &::-webkit-scrollbar-thumb {
+    @apply rounded bg-gray-300;
 
-        &:hover {
-            @apply bg-gray-400;
-        }
+    &:hover {
+      @apply bg-gray-400;
     }
+  }
 }

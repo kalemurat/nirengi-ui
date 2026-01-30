@@ -16,16 +16,18 @@ import {
   eachDayOfInterval,
   endOfMonth,
   endOfWeek,
-  format, isBefore,
+  format,
+  isBefore,
   isSameDay,
   isSameMonth,
   isToday,
   isValid,
-  isWithinInterval, setHours,
+  isWithinInterval,
+  setHours,
   setMinutes,
   startOfMonth,
   startOfWeek,
-  subMonths
+  subMonths,
 } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { Calendar, ChevronLeft, ChevronRight, Clock, LucideAngularModule } from 'lucide-angular';
@@ -47,7 +49,7 @@ export type DatepickerSelectionMode = 'single' | 'range';
 /**
  * Modern datepicker component'i.
  * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal tabanlı ControlValueAccessor (NG_VALUE_ACCESSOR)
  * - ✅ Two-way data binding desteği (ngModel, formControl)
@@ -60,30 +62,30 @@ export type DatepickerSelectionMode = 'single' | 'range';
  * - ✅ Disabled ve readonly durumları
  * - ✅ WCAG 2.1 AA accessibility standartları
  * - ✅ Keyboard navigation desteği
- * 
+ *
  * @example
  * // Reactive Forms ile
  * <n-datepicker [formControl]="dateControl" label="Doğum Tarihi"></n-datepicker>
- * 
+ *
  * @example
  * // Template-driven Forms ile
  * <n-datepicker [(ngModel)]="selectedDate" label="Tarih Seçiniz"></n-datepicker>
- * 
+ *
  * @example
  * // Range selection ile
- * <n-datepicker 
+ * <n-datepicker
  *   [formControl]="rangeControl"
  *   [selectionMode]="'range'"
  *   label="Tarih Aralığı"></n-datepicker>
- * 
+ *
  * @example
  * // Varyant ve boyut ile
- * <n-datepicker 
+ * <n-datepicker
  *   [formControl]="dateControl"
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
  *   label="Başlangıç Tarihi"></n-datepicker>
- * 
+ *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
  * @see {@link Size} - Standart boyut değerleri
@@ -114,11 +116,11 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly maxDate = input<Date | null>(null);
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
   readonly readonly = input<boolean>(false);
-  
+
   /**
    * Renk varyantı.
    * Semantik anlamı olan renk teması sağlar.
-   * 
+   *
    * @default ColorVariant.Primary
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
@@ -142,7 +144,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
    * Event emitted when date value selection is complete/changed by user.
    */
   readonly dateChange = output<DateValues>();
-  
+
   /**
    * Date format string.
    * If not provided, defaults based on `withTime`.
@@ -174,7 +176,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   // Time state (for internal UI binding)
   selectedHour = signal<number>(0);
   selectedMinute = signal<number>(0);
-  
+
   // Custom Time Picker Visibility
   showHourPicker = signal<boolean>(false);
   showMinutePicker = signal<boolean>(false);
@@ -217,7 +219,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
    */
   readonly inputClasses = computed(() => {
     const classes = ['datepicker__input'];
-    
+
     // Variant
     classes.push(`datepicker__input--${this.variant()}`);
 
@@ -248,9 +250,9 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     const start = startOfWeek(new Date(), { locale: tr });
     const days = [];
     for (let i = 0; i < 7; i++) {
-        const d = new Date(start);
-        d.setDate(d.getDate() + i);
-        days.push(format(d, 'EEEEEE', { locale: tr }));
+      const d = new Date(start);
+      d.setDate(d.getDate() + i);
+      days.push(format(d, 'EEEEEE', { locale: tr }));
     }
     return days;
   });
@@ -274,10 +276,10 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
           this.selectedHour.set(val.getHours());
           this.selectedMinute.set(val.getMinutes());
         } else {
-             // For range or empty, default to current time or 00:00
-             const now = new Date();
-             this.selectedHour.set(now.getHours());
-             this.selectedMinute.set(now.getMinutes());
+          // For range or empty, default to current time or 00:00
+          const now = new Date();
+          this.selectedHour.set(now.getHours());
+          this.selectedMinute.set(now.getMinutes());
         }
       }
     });
@@ -330,8 +332,9 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     if (mode === 'single') {
       this.updateValue(date);
       this.dateChange.emit(date);
-      if (!this.withTime()) { // Close immediately if only date
-         this.close();
+      if (!this.withTime()) {
+        // Close immediately if only date
+        this.close();
       }
     } else {
       // Range Mode logic
@@ -344,7 +347,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
         // Complete range
         let start = currentVal.start!;
         let end = date;
-        
+
         // Swap if end is before start
         if (isBefore(end, start)) {
           [start, end] = [end, start];
@@ -354,8 +357,8 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
         this.updateValue(newVal);
         this.dateChange.emit(newVal);
 
-        if (!this.withTime()) { 
-             this.close(); 
+        if (!this.withTime()) {
+          this.close();
         }
       }
     }
@@ -372,50 +375,49 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   }
 
   selectHour(h: number) {
-      this.selectedHour.set(h);
-      this.updateTime();
-      this.showHourPicker.set(false);
+    this.selectedHour.set(h);
+    this.updateTime();
+    this.showHourPicker.set(false);
   }
 
   selectMinute(m: number) {
-      this.selectedMinute.set(m);
-      this.updateTime();
-      this.showMinutePicker.set(false);
+    this.selectedMinute.set(m);
+    this.updateTime();
+    this.showMinutePicker.set(false);
   }
 
   private updateTime() {
-      const h = this.selectedHour();
-      const m = this.selectedMinute();
-      const mode = this.selectionMode();
-      const val = this.value();
+    const h = this.selectedHour();
+    const m = this.selectedMinute();
+    const mode = this.selectionMode();
+    const val = this.value();
 
-      if (mode === 'single' && val instanceof Date) {
-          let newVal = setHours(val, h);
-          newVal = setMinutes(newVal, m);
-          this.updateValue(newVal);
-          this.dateChange.emit(newVal);
-      } 
-      // For range, usually time applies to 'end' or we need dual time pickers. 
-      // For simplicity in this iteration, we might apply time to the *last selected* date 
-      // or simplistic 'start' time.
-      // Better UX for range+time is complex. Let's apply to END if range is complete, or START if only start.
-      else if (this.isRange(val)) {
-          if (val.end) {
-             let newEnd = setHours(val.end, h);
-             newEnd = setMinutes(newEnd, m);
-             const newVal = { ...val, end: newEnd };
-             this.updateValue(newVal);
-             this.dateChange.emit(newVal);
-          } else if (val.start) {
-              let newStart = setHours(val.start, h);
-              newStart = setMinutes(newStart, m);
-              const newVal = { ...val, start: newStart };
-              this.updateValue(newVal);
-              this.dateChange.emit(newVal);
-          }
+    if (mode === 'single' && val instanceof Date) {
+      let newVal = setHours(val, h);
+      newVal = setMinutes(newVal, m);
+      this.updateValue(newVal);
+      this.dateChange.emit(newVal);
+    }
+    // For range, usually time applies to 'end' or we need dual time pickers.
+    // For simplicity in this iteration, we might apply time to the *last selected* date
+    // or simplistic 'start' time.
+    // Better UX for range+time is complex. Let's apply to END if range is complete, or START if only start.
+    else if (this.isRange(val)) {
+      if (val.end) {
+        let newEnd = setHours(val.end, h);
+        newEnd = setMinutes(newEnd, m);
+        const newVal = { ...val, end: newEnd };
+        this.updateValue(newVal);
+        this.dateChange.emit(newVal);
+      } else if (val.start) {
+        let newStart = setHours(val.start, h);
+        newStart = setMinutes(newStart, m);
+        const newVal = { ...val, start: newStart };
+        this.updateValue(newVal);
+        this.dateChange.emit(newVal);
       }
+    }
   }
-
 
   // --- Helper Predicates ---
 
@@ -469,25 +471,26 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   // --- ControlValueAccessor Overrides ---
 
   override writeValue(obj: any): void {
-     // Basic type checking and safe setting
-     if (!obj) {
-         super.writeValue(null);
-         return;
-     }
+    // Basic type checking and safe setting
+    if (!obj) {
+      super.writeValue(null);
+      return;
+    }
 
-     if (this.selectionMode() === 'single') {
-         if (obj instanceof Date || typeof obj === 'string') { // handle string if needed, date-fns parse
-             const d = new Date(obj);
-             super.writeValue(isValid(d) ? d : null);
-             if (isValid(d)) this.viewDate.set(d);
-         }
-     } else {
-         if (typeof obj === 'object' && (obj.start || obj.end)) {
-             super.writeValue(obj);
-             if (obj.start) this.viewDate.set(obj.start);
-         } else {
-             super.writeValue(null);
-         }
-     }
+    if (this.selectionMode() === 'single') {
+      if (obj instanceof Date || typeof obj === 'string') {
+        // handle string if needed, date-fns parse
+        const d = new Date(obj);
+        super.writeValue(isValid(d) ? d : null);
+        if (isValid(d)) this.viewDate.set(d);
+      }
+    } else {
+      if (typeof obj === 'object' && (obj.start || obj.end)) {
+        super.writeValue(obj);
+        if (obj.start) this.viewDate.set(obj.start);
+      } else {
+        super.writeValue(null);
+      }
+    }
   }
 }

@@ -2,9 +2,7 @@
   <!-- Page Header -->
   <div class="paragraph-page__header">
     <h1 class="paragraph-page__title">Paragraph Component</h1>
-    <p class="paragraph-page__description">
-      Modern ve esnek paragraf component'i. Metin içerikleri için kullanılır.
-    </p>
+    <p class="paragraph-page__description">Modern ve esnek paragraf component'i. Metin içerikleri için kullanılır.</p>
   </div>
 
   <!-- Sizes Section -->
@@ -138,12 +136,8 @@
       </div>
       <div class="paragraph-page__item">
         <span class="paragraph-page__label">Margin Bottom</span>
-        <nui-paragraph [marginBottom]="true">
-          First paragraph with margin bottom.
-        </nui-paragraph>
-        <nui-paragraph>
-          Second paragraph without margin.
-        </nui-paragraph>
+        <nui-paragraph [marginBottom]="true"> First paragraph with margin bottom. </nui-paragraph>
+        <nui-paragraph> Second paragraph without margin. </nui-paragraph>
       </div>
     </div>
   </section>
@@ -154,44 +148,48 @@
     <div class="paragraph-page__showcase">
       <div class="paragraph-page__item">
         <span class="paragraph-page__label">Large + Primary + Center + Bold</span>
-        <nui-paragraph 
+        <nui-paragraph
           [size]="Size.Large"
           [variant]="ColorVariant.Primary"
           [align]="ParagraphAlign.Center"
-          [weight]="ParagraphWeight.Bold">
+          [weight]="ParagraphWeight.Bold"
+        >
           {{ sampleText() }}
         </nui-paragraph>
       </div>
       <div class="paragraph-page__item">
         <span class="paragraph-page__label">Small + Success + Justify + Light + Relaxed</span>
-        <nui-paragraph 
+        <nui-paragraph
           [size]="Size.Small"
           [variant]="ColorVariant.Success"
           [align]="ParagraphAlign.Justify"
           [weight]="ParagraphWeight.Light"
-          [leading]="'relaxed'">
+          [leading]="'relaxed'"
+        >
           {{ sampleText() }}
         </nui-paragraph>
       </div>
       <div class="paragraph-page__item">
         <span class="paragraph-page__label">Medium + Warning + Right + Semibold + Italic</span>
-        <nui-paragraph 
+        <nui-paragraph
           [size]="Size.Medium"
           [variant]="ColorVariant.Warning"
           [align]="ParagraphAlign.Right"
           [weight]="ParagraphWeight.Semibold"
-          [italic]="true">
+          [italic]="true"
+        >
           {{ sampleText() }}
         </nui-paragraph>
       </div>
       <div class="paragraph-page__item">
         <span class="paragraph-page__label">XLarge + Danger + Center + Bold + Line Clamp 2</span>
-        <nui-paragraph 
+        <nui-paragraph
           [size]="Size.XLarge"
           [variant]="ColorVariant.Danger"
           [align]="ParagraphAlign.Center"
           [weight]="ParagraphWeight.Bold"
-          [lineClamp]="2">
+          [lineClamp]="2"
+        >
           {{ longSampleText() }}
         </nui-paragraph>
       </div>

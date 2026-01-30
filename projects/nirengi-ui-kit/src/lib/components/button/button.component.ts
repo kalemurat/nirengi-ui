@@ -15,13 +15,13 @@ export enum ButtonType {
   /** Sadece metin, arka plan ve kenarlık yok */
   Ghost = 'ghost',
   /** Hafif arka plan, kenarlık yok */
-  Soft = 'soft'
+  Soft = 'soft',
 }
 
 /**
  * Modern button component'i.
  * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal tabanlı reaktif state yönetimi
  * - ✅ OnPush change detection stratejisi
@@ -34,41 +34,41 @@ export enum ButtonType {
  * - ✅ Icon desteği (prefix ve suffix)
  * - ✅ WCAG 2.1 AA accessibility standartları
  * - ✅ Keyboard navigation desteği
- * 
+ *
  * ## Design System Entegrasyonu
  * Component, `size.constants.ts` dosyasındaki merkezi boyut değerlerini kullanır:
  * - SIZE_HEIGHT_MAP: Button yükseklikleri
  * - SIZE_PADDING_MAP: Horizontal padding değerleri
  * - SIZE_TEXT_MAP: Font size değerleri
  * - SIZE_GAP_MAP: Icon-text arası boşluk
- * 
+ *
  * Bu sayede Input, Select, Badge gibi diğer componentlerle boyut tutarlılığı garantilidir.
- * 
+ *
  * @example
  * // Basit kullanım
  * <nui-button>Kaydet</nui-button>
- * 
+ *
  * @example
  * // Varyant ve boyut ile
- * <nui-button 
- *   [variant]="ColorVariant.Primary" 
+ * <nui-button
+ *   [variant]="ColorVariant.Primary"
  *   [size]="Size.Large"
  *   [type]="ButtonType.Solid">
  *   Gönder
  * </nui-button>
- * 
+ *
  * @example
  * // Disabled ve loading durumu
- * <nui-button 
- *   [disabled]="isProcessing()" 
+ * <nui-button
+ *   [disabled]="isProcessing()"
  *   [loading]="isLoading()">
  *   İşlemi Tamamla
  * </nui-button>
- * 
+ *
  * @example
  * // Click event ile
  * <nui-button (clicked)="handleSave()">Kaydet</nui-button>
- * 
+ *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ButtonType} - Button stil tipleri
  * @see {@link Size} - Standart boyut değerleri
@@ -81,13 +81,13 @@ export enum ButtonType {
   imports: [CommonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   /**
    * Button tipi.
    * Görsel stil ve davranışı belirler.
-   * 
+   *
    * @default ButtonType.Solid
    */
   type = input<ButtonType>(ButtonType.Solid);
@@ -95,7 +95,7 @@ export class ButtonComponent {
   /**
    * Renk varyantı.
    * Semantik anlamı olan renk teması sağlar.
-   * 
+   *
    * @default ColorVariant.Primary
    */
   variant = input<ColorVariant>(ColorVariant.Primary);
@@ -103,7 +103,7 @@ export class ButtonComponent {
   /**
    * Boyut.
    * Butonun yükseklik, padding ve font boyutunu belirler.
-   * 
+   *
    * @default Size.Medium
    */
   size = input<Size>(Size.Medium);
@@ -111,7 +111,7 @@ export class ButtonComponent {
   /**
    * Disabled durumu.
    * true olduğunda buton tıklanamaz ve görsel olarak devre dışı görünür.
-   * 
+   *
    * @default false
    */
   disabled = input<boolean>(false);
@@ -119,7 +119,7 @@ export class ButtonComponent {
   /**
    * Loading durumu.
    * true olduğunda buton loading spinner gösterir ve tıklanamaz hale gelir.
-   * 
+   *
    * @default false
    */
   loading = input<boolean>(false);
@@ -127,7 +127,7 @@ export class ButtonComponent {
   /**
    * Full width durumu.
    * true olduğunda buton parent container'ın tüm genişliğini kaplar.
-   * 
+   *
    * @default false
    */
   fullWidth = input<boolean>(false);
@@ -136,7 +136,7 @@ export class ButtonComponent {
    * Click event'i.
    * Butona tıklandığında emit edilir.
    * Loading veya disabled durumunda emit edilmez.
-   * 
+   *
    * @event clicked
    */
   clicked = output<void>();
@@ -145,35 +145,35 @@ export class ButtonComponent {
    * Button için CSS class'larını hesaplayan computed signal.
    * BEM metodolojisi ile dynamic class binding yapar.
    * Reactive olarak güncellenir.
-   * 
+   *
    * @returns BEM formatında CSS class string'i
    */
   protected readonly buttonClasses = computed(() => {
     const classes = ['nui-button'];
-    
+
     classes.push(`nui-button--${this.type()}`);
     classes.push(`nui-button--${this.variant()}`);
     classes.push(`nui-button--${this.size()}`);
-    
+
     if (this.disabled()) {
       classes.push('nui-button--disabled');
     }
-    
+
     if (this.loading()) {
       classes.push('nui-button--loading');
     }
-    
+
     if (this.fullWidth()) {
       classes.push('nui-button--full-width');
     }
-    
+
     return classes.join(' ');
   });
 
   /**
    * Click handler metodu.
    * Loading veya disabled durumunda event emit etmez.
-   * 
+   *
    * @returns void
    */
   handleClick(): void {

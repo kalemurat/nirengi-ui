@@ -23,7 +23,7 @@ export interface ListItem {
  *
  * @example
  * <nui-list [items]="users" [itemTemplate]="userTemplate" />
- * 
+ *
  * <ng-template #userTemplate let-user>
  *   <div class="user-row">
  *     <img [src]="user.avatar" />
@@ -58,7 +58,7 @@ export class ListComponent<T extends ListItem> {
    * Düzen ayarlamaları için kullanışlıdır (örn. 'flex flex-col gap-2').
    */
   listClass = input<string>('');
-  
+
   /**
    * Liste konteynerı için hesaplanmış sınıflar.
    * Temel BEM sınıfı ile özel sınıfları birleştirir.

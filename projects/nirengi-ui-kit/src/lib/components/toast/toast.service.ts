@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { IToastService, ToastData, ToastOptions, ToastVariant } from './toast.types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToastService implements IToastService {
   /**
@@ -31,15 +31,18 @@ export class ToastService implements IToastService {
    * @param id The toast ID to remove
    */
   remove(id: string): void {
-    this.toasts.update(current => current.filter(t => t.id !== id));
+    this.toasts.update((current) => current.filter((t) => t.id !== id));
   }
 
-  private show(data: { title: string; description: string; options?: ToastOptions }, variant: ToastVariant): void {
+  private show(
+    data: { title: string; description: string; options?: ToastOptions },
+    variant: ToastVariant
+  ): void {
     const id = crypto.randomUUID();
     const options = {
       duration: 3000,
       position: 'top-right' as const,
-      ...data.options
+      ...data.options,
     };
 
     const newToast: ToastData = {
@@ -47,9 +50,9 @@ export class ToastService implements IToastService {
       title: data.title,
       description: data.description,
       variant,
-      options
+      options,
     };
 
-    this.toasts.update(current => [...current, newToast]);
+    this.toasts.update((current) => [...current, newToast]);
   }
 }

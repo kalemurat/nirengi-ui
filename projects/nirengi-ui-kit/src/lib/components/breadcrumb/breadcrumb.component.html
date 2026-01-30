@@ -3,21 +3,25 @@
     @for (item of items(); track $index; let last = $last) {
       <li [class]="itemClasses()">
         @if (item.url && !item.disabled) {
-          <a [routerLink]="item.url" 
-             [queryParams]="item.queryParams" 
-             [fragment]="item.fragment"
-             class="nui-breadcrumb__link"
-             [attr.aria-current]="last ? 'page' : null">
+          <a
+            [routerLink]="item.url"
+            [queryParams]="item.queryParams"
+            [fragment]="item.fragment"
+            class="nui-breadcrumb__link"
+            [attr.aria-current]="last ? 'page' : null"
+          >
             @if (item.icon) {
               <i [class]="item.icon" class="nui-breadcrumb__icon"></i>
             }
             {{ item.label }}
           </a>
         } @else {
-          <span class="nui-breadcrumb__text" 
-                [class.nui-breadcrumb__text--current]="last"
-                [class.nui-breadcrumb__text--disabled]="item.disabled"
-                [attr.aria-current]="last ? 'page' : null">
+          <span
+            class="nui-breadcrumb__text"
+            [class.nui-breadcrumb__text--current]="last"
+            [class.nui-breadcrumb__text--disabled]="item.disabled"
+            [attr.aria-current]="last ? 'page' : null"
+          >
             @if (item.icon) {
               <i [class]="item.icon" class="nui-breadcrumb__icon"></i>
             }

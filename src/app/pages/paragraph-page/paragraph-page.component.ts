@@ -1,23 +1,23 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-    ParagraphComponent,
-    ParagraphAlign,
-    ParagraphWeight,
-    Size,
-    ColorVariant
+  ParagraphComponent,
+  ParagraphAlign,
+  ParagraphWeight,
+  Size,
+  ColorVariant,
 } from 'nirengi-ui-kit';
 
 /**
  * Paragraph Component Showcase Sayfası.
  * Paragraph componentinin tüm varyasyonlarını sergiler.
- * 
+ *
  * ## Özellikler
  * - ✅ OnPush change detection stratejisi
  * - ✅ Signal tabanlı state yönetimi
  * - ✅ Comprehensive component showcase
  * - ✅ BEM + Tailwind metodolojisi
- * 
+ *
  * @see {@link ParagraphComponent}
  */
 @Component({
@@ -26,7 +26,7 @@ import {
   imports: [CommonModule, ParagraphComponent],
   templateUrl: './paragraph-page.component.html',
   styleUrl: './paragraph-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParagraphPageComponent {
   /** Component enum referansları */
@@ -43,7 +43,7 @@ export class ParagraphPageComponent {
     Size.Small,
     Size.Medium,
     Size.Large,
-    Size.XLarge
+    Size.XLarge,
   ]);
 
   /**
@@ -56,7 +56,7 @@ export class ParagraphPageComponent {
     ColorVariant.Warning,
     ColorVariant.Danger,
     ColorVariant.Info,
-    ColorVariant.Neutral
+    ColorVariant.Neutral,
   ]);
 
   /**
@@ -66,7 +66,7 @@ export class ParagraphPageComponent {
     ParagraphAlign.Left,
     ParagraphAlign.Center,
     ParagraphAlign.Right,
-    ParagraphAlign.Justify
+    ParagraphAlign.Justify,
   ]);
 
   /**
@@ -77,20 +77,15 @@ export class ParagraphPageComponent {
     ParagraphWeight.Normal,
     ParagraphWeight.Medium,
     ParagraphWeight.Semibold,
-    ParagraphWeight.Bold
+    ParagraphWeight.Bold,
   ]);
 
   /**
    * Leading (satır yüksekliği) seçenekleri listesi.
    */
-  protected readonly leadingOptions = signal<Array<'none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose'>>([
-    'none',
-    'tight',
-    'snug',
-    'normal',
-    'relaxed',
-    'loose'
-  ]);
+  protected readonly leadingOptions = signal<
+    Array<'none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose'>
+  >(['none', 'tight', 'snug', 'normal', 'relaxed', 'loose']);
 
   /**
    * Örnek paragraf metni.

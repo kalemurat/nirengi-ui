@@ -7,13 +7,13 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
  * Menu Panel Component.
  * Storybook-style sol menü paneli.
  * Component'leri kategorilere göre gruplandırarak gösterir.
- * 
+ *
  * ## Özellikler
  * - ✅ JSON-driven menü yapısı
  * - ✅ Kategorilere göre gruplama
  * - ✅ Aktif item highlight
  * - ✅ RouterLink entegrasyonu
- * 
+ *
  * @see {@link ComponentRegistryService}
  */
 @Component({
@@ -22,7 +22,7 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './menu-panel.component.html',
   styleUrl: './menu-panel.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuPanelComponent {
   /**
@@ -41,7 +41,5 @@ export class MenuPanelComponent {
    * Toplam component sayısı.
    * Header'da gösterilmek için.
    */
-  protected readonly totalComponents = computed(() => 
-    this.registry.allConfigs().length
-  );
+  protected readonly totalComponents = computed(() => this.registry.allConfigs().length);
 }

@@ -42,26 +42,42 @@ import { ToastComponent } from './toast.component';
       }
     </div>
   `,
-  styles: [`
-    .nui-toast-region {
-      @apply fixed flex flex-col gap-3 p-4 pointer-events-none z-[9999];
-      max-width: 100vw;
-      width: auto;
+  styles: [
+    `
+      .nui-toast-region {
+        @apply pointer-events-none fixed z-[9999] flex flex-col gap-3 p-4;
+        max-width: 100vw;
+        width: auto;
 
-      &--top-right { @apply top-0 right-0 items-end; }
-      &--top-left { @apply top-0 left-0 items-start; }
-      &--bottom-right { @apply bottom-0 right-0 items-end flex-col-reverse; }
-      &--bottom-left { @apply bottom-0 left-0 items-start flex-col-reverse; }
-    }
-  `]
+        &--top-right {
+          @apply right-0 top-0 items-end;
+        }
+        &--top-left {
+          @apply left-0 top-0 items-start;
+        }
+        &--bottom-right {
+          @apply bottom-0 right-0 flex-col-reverse items-end;
+        }
+        &--bottom-left {
+          @apply bottom-0 left-0 flex-col-reverse items-start;
+        }
+      }
+    `,
+  ],
 })
 export class ToastContainerComponent {
   private service = inject(ToastService);
 
-  topRight = computed(() => this.service.toasts().filter(t => t.options.position === 'top-right'));
-  topLeft = computed(() => this.service.toasts().filter(t => t.options.position === 'top-left'));
-  bottomRight = computed(() => this.service.toasts().filter(t => t.options.position === 'bottom-right'));
-  bottomLeft = computed(() => this.service.toasts().filter(t => t.options.position === 'bottom-left'));
+  topRight = computed(() =>
+    this.service.toasts().filter((t) => t.options.position === 'top-right')
+  );
+  topLeft = computed(() => this.service.toasts().filter((t) => t.options.position === 'top-left'));
+  bottomRight = computed(() =>
+    this.service.toasts().filter((t) => t.options.position === 'bottom-right')
+  );
+  bottomLeft = computed(() =>
+    this.service.toasts().filter((t) => t.options.position === 'bottom-left')
+  );
 
   remove(id: string): void {
     this.service.remove(id);

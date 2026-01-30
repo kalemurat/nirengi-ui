@@ -1,4 +1,11 @@
-import { Component, input, forwardRef, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  forwardRef,
+  computed,
+  effect,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
@@ -31,9 +38,9 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  * <nui-textbox label="Username" placeholder="Enter user" [formControl]="userCtrl" />
  *
  * @example
- * <nui-textbox 
- *   label="Password" 
- *   type="password" 
+ * <nui-textbox
+ *   label="Password"
+ *   type="password"
  *   icon="Lock"
  *   variant="danger"
  *   hint="Invalid password"
@@ -50,9 +57,9 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TextboxComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TextboxComponent extends ValueAccessorBase<string> {
   /**
@@ -115,7 +122,7 @@ export class TextboxComponent extends ValueAccessorBase<string> {
 
   constructor() {
     super();
-    
+
     // Sync value input
     effect(() => {
       const val = this.valueInput();
@@ -135,12 +142,18 @@ export class TextboxComponent extends ValueAccessorBase<string> {
    */
   readonly iconSize = computed(() => {
     switch (this.size()) {
-      case Size.XSmall: return 14;
-      case Size.Small: return 16;
-      case Size.Medium: return 18;
-      case Size.Large: return 20;
-      case Size.XLarge: return 24;
-      default: return 18;
+      case Size.XSmall:
+        return 14;
+      case Size.Small:
+        return 16;
+      case Size.Medium:
+        return 18;
+      case Size.Large:
+        return 20;
+      case Size.XLarge:
+        return 24;
+      default:
+        return 18;
     }
   });
 

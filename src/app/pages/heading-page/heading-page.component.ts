@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-    HeadingComponent,
-    HeadingLevel,
-    HeadingAlign,
-    HeadingWeight,
-    Size,
-    ColorVariant
+  HeadingComponent,
+  HeadingLevel,
+  HeadingAlign,
+  HeadingWeight,
+  Size,
+  ColorVariant,
 } from 'nirengi-ui-kit';
 
 /**
@@ -18,7 +18,7 @@ import {
   standalone: true,
   imports: [CommonModule, HeadingComponent],
   templateUrl: './heading-page.html',
-  styleUrl: './heading-page.scss'
+  styleUrl: './heading-page.scss',
 })
 export class HeadingPageComponent {
   /** Component enum referansları */
@@ -37,7 +37,7 @@ export class HeadingPageComponent {
     HeadingLevel.H3,
     HeadingLevel.H4,
     HeadingLevel.H5,
-    HeadingLevel.H6
+    HeadingLevel.H6,
   ]);
 
   /**
@@ -48,7 +48,7 @@ export class HeadingPageComponent {
     Size.Small,
     Size.Medium,
     Size.Large,
-    Size.XLarge
+    Size.XLarge,
   ]);
 
   /**
@@ -61,7 +61,7 @@ export class HeadingPageComponent {
     ColorVariant.Warning,
     ColorVariant.Danger,
     ColorVariant.Info,
-    ColorVariant.Neutral
+    ColorVariant.Neutral,
   ]);
 
   /**
@@ -70,7 +70,7 @@ export class HeadingPageComponent {
   protected readonly headingAligns = signal<HeadingAlign[]>([
     HeadingAlign.Left,
     HeadingAlign.Center,
-    HeadingAlign.Right
+    HeadingAlign.Right,
   ]);
 
   /**
@@ -81,6 +81,6 @@ export class HeadingPageComponent {
     HeadingWeight.Medium,
     HeadingWeight.Semibold,
     HeadingWeight.Bold,
-    HeadingWeight.Extrabold
+    HeadingWeight.Extrabold,
   ]);
 }

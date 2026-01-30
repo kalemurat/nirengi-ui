@@ -1,17 +1,17 @@
 import {
-    Component,
-    input,
-    signal,
-    computed,
-    contentChild,
-    TemplateRef,
-    ElementRef,
-    HostListener,
-    inject,
-    ChangeDetectionStrategy,
-    forwardRef,
-    viewChild,
-    effect
+  Component,
+  input,
+  signal,
+  computed,
+  contentChild,
+  TemplateRef,
+  ElementRef,
+  HostListener,
+  inject,
+  ChangeDetectionStrategy,
+  forwardRef,
+  viewChild,
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -35,13 +35,13 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  *
  * @see {@link IconComponent} - Kullanılan ikon bileşeni
  * @see {@link ValueAccessorBase} - Form altyapısı
- * 
+ *
  * @example
  * <!-- Temel Kullanım -->
- * <nui-select 
- *   [options]="users" 
- *   bindLabel="name" 
- *   bindValue="id" 
+ * <nui-select
+ *   [options]="users"
+ *   bindLabel="name"
+ *   bindValue="id"
  *   [(ngModel)]="selectedUserId"
  *   placeholder="Kullanıcı Seçiniz"
  * />
@@ -69,9 +69,9 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SelectComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SelectComponent extends ValueAccessorBase<any> {
   private elementRef = inject(ElementRef);
@@ -138,8 +138,6 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   readonly hint = input<string>();
 
-
-
   /**
    * Başarı mesajı metni.
    * Bileşen başarı durumundayken (yeşil çerçeve) altında gösterilir.
@@ -164,7 +162,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * Component stil ve BEM modifier sınıflarında kullanılmak üzere `ColorVariant` enum değerlerini alır.
    * Varsayılan: `ColorVariant.Primary`
    *
-  * @see ColorVariant
+   * @see ColorVariant
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
@@ -173,7 +171,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * Input olarak geçilebilir veya içerikten (content projection) alınabilir.
    */
   readonly itemTemplateInput = input<TemplateRef<any> | null>(null, { alias: 'itemTemplate' });
-  
+
   /**
    * İçerik çocuklarından (ContentChild) alınan şablon referansı.
    * Kullanım: <nui-select> <ng-template ...> </nui-select>
@@ -216,7 +214,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
 
   constructor() {
     super();
-    
+
     // Auto focus search input when opened
     effect(() => {
       if (this.isOpen() && this.searchable()) {
@@ -243,7 +241,9 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * Computed: Aktif öğe şablonu.
    * Öncelik sırası: Input > Content Child > Varsayılan (HTML içinde).
    */
-  readonly itemTemplate = computed(() => this.itemTemplateInput() || this.contentItemTemplate() || null);
+  readonly itemTemplate = computed(
+    () => this.itemTemplateInput() || this.contentItemTemplate() || null
+  );
 
   /**
    * Computed: Arama terimine göre filtrelenmiş seçenekler.
@@ -254,7 +254,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
 
     if (!term) return allOptions;
 
-    return allOptions.filter(opt => {
+    return allOptions.filter((opt) => {
       const label = this.getLabel(opt).toString().toLowerCase();
       return label.includes(term);
     });
@@ -274,12 +274,12 @@ export class SelectComponent extends ValueAccessorBase<any> {
     // Değere göre seçeneği bulma yardımcısı
     const findOption = (val: any) => {
       if (!bindVal) return val; // Değer nesnenin kendisidir
-      return opts.find(o => o[bindVal] === val);
+      return opts.find((o) => o[bindVal] === val);
     };
 
     if (this.multiple()) {
       if (!Array.isArray(rawVal)) return [];
-      return rawVal.map(v => findOption(v)).filter(Boolean);
+      return rawVal.map((v) => findOption(v)).filter(Boolean);
     } else {
       const opt = findOption(rawVal);
       return opt ? [opt] : [];
@@ -292,12 +292,18 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   readonly iconSize = computed(() => {
     switch (this.size()) {
-      case Size.XSmall: return 14;
-      case Size.Small: return 16;
-      case Size.Medium: return 18;
-      case Size.Large: return 20;
-      case Size.XLarge: return 24;
-      default: return 18;
+      case Size.XSmall:
+        return 14;
+      case Size.Small:
+        return 16;
+      case Size.Medium:
+        return 18;
+      case Size.Large:
+        return 20;
+      case Size.XLarge:
+        return 24;
+      default:
+        return 18;
     }
   });
 
@@ -317,7 +323,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   toggleDropdown(): void {
     if (this.isDisabled()) return;
-    this.isOpen.update(v => !v);
+    this.isOpen.update((v) => !v);
     if (!this.isOpen()) {
       this.onTouched();
       this.searchTerm.set('');
@@ -395,14 +401,14 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   selectOption(option: any): void {
     const optVal = this.getValue(option);
-    
+
     if (this.multiple()) {
       const current = (this.value() as any[]) || [];
       const index = current.indexOf(optVal);
-      
+
       let newVal;
       if (index > -1) {
-        newVal = current.filter(v => v !== optVal);
+        newVal = current.filter((v) => v !== optVal);
       } else {
         newVal = [...current, optVal];
       }
@@ -423,10 +429,10 @@ export class SelectComponent extends ValueAccessorBase<any> {
   removeItem(item: any, event: Event): void {
     event.stopPropagation();
     if (this.isDisabled()) return;
-    
+
     const optVal = this.getValue(item);
     const current = (this.value() as any[]) || [];
-    const newVal = current.filter(v => v !== optVal);
+    const newVal = current.filter((v) => v !== optVal);
     this.updateValue(newVal);
   }
 

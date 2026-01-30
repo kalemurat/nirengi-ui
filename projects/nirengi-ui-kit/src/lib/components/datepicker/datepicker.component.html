@@ -22,12 +22,7 @@
     </label>
   }
 
-  <div
-    class="datepicker__input-wrapper"
-    cdkOverlayOrigin
-    #trigger="cdkOverlayOrigin"
-    (click)="toggleOpen()"
-  >
+  <div class="datepicker__input-wrapper" cdkOverlayOrigin #trigger="cdkOverlayOrigin" (click)="toggleOpen()">
     <input
       [id]="id()"
       type="text"
@@ -100,18 +95,10 @@
             [class.datepicker__day--range-start]="
               rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.start!)
             "
-            [class.datepicker__day--range-end]="
-              rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.end!)
-            "
-            [class.datepicker__day--today]="
-              isDateToday(date) && !isSelected(date) && !isInRange(date)
-            "
-            [class.datepicker__day--current]="
-              isCurrentMonth(date) && !isSelected(date) && !isInRange(date)
-            "
-            [class.datepicker__day--other]="
-              !isCurrentMonth(date) && !isSelected(date) && !isInRange(date)
-            "
+            [class.datepicker__day--range-end]="rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.end!)"
+            [class.datepicker__day--today]="isDateToday(date) && !isSelected(date) && !isInRange(date)"
+            [class.datepicker__day--current]="isCurrentMonth(date) && !isSelected(date) && !isInRange(date)"
+            [class.datepicker__day--other]="!isCurrentMonth(date) && !isSelected(date) && !isInRange(date)"
             (click)="selectDate(date)"
           >
             {{ date | date: 'd' }}

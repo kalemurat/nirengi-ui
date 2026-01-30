@@ -12,30 +12,30 @@ export interface BreadcrumbItem {
    * Gösterilecek metin.
    */
   label: string;
-  
+
   /**
    * Yönlendirilecek route.
    * RouterLink direktifinin kabul ettiği formatta olmalı (string veya array).
    * Eğer tanımlanmazsa, öğe tıklanabilir olmaz (span olarak render edilir).
    */
   url?: string | any[];
-  
+
   /**
    * URL fragment (#anchor).
    */
   fragment?: string;
-  
+
   /**
    * URL query parametreleri.
    */
   queryParams?: any;
-  
+
   /**
    * Öğenin aktif (disabled) olup olmadığını belirler.
    * True ise tıklanamaz ve disabled stilini alır.
    */
   disabled?: boolean;
-  
+
   /**
    * Opsiyonel ikon sınıfı veya adı (ikon desteği eklenirse).
    */
@@ -46,7 +46,7 @@ export interface BreadcrumbItem {
  * Modern breadcrumb (ekmek kırıntısı) bileşeni.
  * Kullanıcının uygulama içindeki konumunu gösterir ve hiyerarşik navigasyon sağlar.
  * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal tabanlı input'lar
  * - ✅ OnPush change detection stratejisi
@@ -55,20 +55,20 @@ export interface BreadcrumbItem {
  * - ✅ RouterLink entegrasyonu
  * - ✅ Farklı boyut seçenekleri (sm, md, lg)
  * - ✅ Responsive tasarım uyumlu (overflow durumları için henüz logic yok ama CSS ile yönetilebilir)
- * 
+ *
  * @example
  * // Basit kullanım
  * <nui-breadcrumb [items]="items"></nui-breadcrumb>
- * 
+ *
  * @example
  * // Custom separator ile
  * <nui-breadcrumb [items]="items" separator=">"></nui-breadcrumb>
- * 
+ *
  * @example
  * // Template separator ile
  * <ng-template #sepIcon><i class="icon-chevron-right"></i></ng-template>
  * <nui-breadcrumb [items]="items" [separator]="sepIcon"></nui-breadcrumb>
- * 
+ *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link Size}
  */
@@ -78,7 +78,7 @@ export interface BreadcrumbItem {
   imports: [CommonModule, RouterLink],
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbComponent {
   /**
@@ -90,7 +90,7 @@ export class BreadcrumbComponent {
   /**
    * Öğeler arasındaki ayırıcı karakter veya template.
    * String (örn: '/', '>') veya TemplateRef olabilir.
-   * 
+   *
    * @default '/'
    */
   readonly separator = input<string | TemplateRef<any>>('/');
@@ -98,7 +98,7 @@ export class BreadcrumbComponent {
   /**
    * Bileşen boyutu.
    * Metin ve ikon boyutlarını etkiler.
-   * 
+   *
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
@@ -132,7 +132,7 @@ export class BreadcrumbComponent {
    * Separator olup olmadığını kontrol eder.
    * TemplateRef olup olmadığını template içinde kontrol edeceğiz.
    */
-  protected isTemplate(value:  string | TemplateRef<any>): boolean {
+  protected isTemplate(value: string | TemplateRef<any>): boolean {
     return value instanceof TemplateRef;
   }
 }

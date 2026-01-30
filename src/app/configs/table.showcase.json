@@ -10,11 +10,11 @@
       "type": "array",
       "label": "Data Source",
       "defaultValue": [
-        {"id": 1, "name": "Ahmet Yılmaz", "role": "Admin", "active": true},
-        {"id": 2, "name": "Ayşe Demir", "role": "User", "active": false},
-        {"id": 3, "name": "Mehmet Kaya", "role": "Editor", "active": true},
-        {"id": 4, "name": "Fatma Şahin", "role": "User", "active": true},
-        {"id": 5, "name": "Ali Öztürk", "role": "Admin", "active": false}
+        { "id": 1, "name": "Ahmet Yılmaz", "role": "Admin", "active": true },
+        { "id": 2, "name": "Ayşe Demir", "role": "User", "active": false },
+        { "id": 3, "name": "Mehmet Kaya", "role": "Editor", "active": true },
+        { "id": 4, "name": "Fatma Şahin", "role": "User", "active": true },
+        { "id": 5, "name": "Ali Öztürk", "role": "Admin", "active": false }
       ],
       "description": "Tabloda gösterilecek veri listesi."
     },
@@ -72,10 +72,10 @@
       "type": "array",
       "label": "Columns (Auto Render)",
       "defaultValue": [
-        {"field": "id", "header": "ID"},
-        {"field": "name", "header": "Full Name", "filterable": true},
-        {"field": "role", "header": "Role Status", "filterable": true},
-        {"field": "active", "header": "Is Active"}
+        { "field": "id", "header": "ID" },
+        { "field": "name", "header": "Full Name", "filterable": true },
+        { "field": "role", "header": "Role Status", "filterable": true },
+        { "field": "active", "header": "Is Active" }
       ],
       "description": "Otomatik render için sütun tanımları."
     },
@@ -92,11 +92,11 @@
       "label": "Size",
       "defaultValue": "md",
       "options": [
-        {"label": "Extra Small", "value": "xs"},
-        {"label": "Small", "value": "sm"},
-        {"label": "Medium", "value": "md"},
-        {"label": "Large", "value": "lg"},
-        {"label": "Extra Large", "value": "xl"}
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
       ],
       "description": "Tablo boyutu."
     },

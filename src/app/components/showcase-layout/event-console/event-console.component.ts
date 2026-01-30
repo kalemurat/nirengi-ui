@@ -6,13 +6,13 @@ import { EventLoggerService } from '../../../core/services/event-logger.service'
  * Event Console Component.
  * Terminal-style event logger UI.
  * Component event'lerini timestamp ile gösterir.
- * 
+ *
  * ## Özellikler
  * - ✅ Terminal görünüm (siyah background, yeşil text)
  * - ✅ Timestamp format
  * - ✅ JSON payload gösterimi
  * - ✅ Clear logs özelliği
- * 
+ *
  * @see {@link EventLoggerService}
  */
 @Component({
@@ -21,7 +21,7 @@ import { EventLoggerService } from '../../../core/services/event-logger.service'
   imports: [CommonModule],
   templateUrl: './event-console.component.html',
   styleUrl: './event-console.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventConsoleComponent {
   /**
@@ -39,9 +39,7 @@ export class EventConsoleComponent {
    * Gösterilecek maksimum log sayısı.
    * Performance için sınırlandırılır.
    */
-  protected readonly maxLogs = computed(() => 
-    this.eventLogger.getRecentLogs(50)
-  );
+  protected readonly maxLogs = computed(() => this.eventLogger.getRecentLogs(50));
 
   /**
    * Tüm logları temizler.

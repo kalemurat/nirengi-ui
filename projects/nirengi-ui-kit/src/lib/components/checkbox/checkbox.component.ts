@@ -1,4 +1,11 @@
-import { Component, input, forwardRef, effect, computed, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  forwardRef,
+  effect,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
@@ -8,7 +15,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 /**
  * Modern checkbox component'i.
  * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal tabanlı ControlValueAccessor (NG_VALUE_ACCESSOR)
  * - ✅ Two-way data binding desteği (ngModel, formControl)
@@ -21,40 +28,40 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  * - ✅ Label ve description desteği
  * - ✅ WCAG 2.1 AA accessibility standartları
  * - ✅ Keyboard navigation desteği
- * 
+ *
  * @example
  * // Reactive Forms ile
  * <nui-checkbox [formControl]="termsControl" label="Kabul Ediyorum"></nui-checkbox>
- * 
+ *
  * @example
  * // Template-driven Forms ile
  * <nui-checkbox [(ngModel)]="isAccepted" label="Kabul Ediyorum"></nui-checkbox>
- * 
+ *
  * @example
  * // Label ve description ile
- * <nui-checkbox 
+ * <nui-checkbox
  *   [formControl]="newsletterControl"
  *   label="Haber Bülteni"
  *   description="Yeni güncellemelerden haberdar olmak için e-posta almak istiyorum">
  * </nui-checkbox>
- * 
+ *
  * @example
  * // Varyant ve boyut ile
- * <nui-checkbox 
+ * <nui-checkbox
  *   [formControl]="termsControl"
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
  *   label="Kullanım Şartlarını Okudum">
  * </nui-checkbox>
- * 
+ *
  * @example
  * // Indeterminate durumu
- * <nui-checkbox 
+ * <nui-checkbox
  *   [formControl]="selectAllControl"
  *   [indeterminate]="isIndeterminate()"
  *   label="Tümünü Seç">
  * </nui-checkbox>
- * 
+ *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
  * @see {@link Size} - Standart boyut değerleri
@@ -71,9 +78,9 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CheckboxComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
@@ -84,7 +91,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
    * Renk varyantı.
    * Semantik anlamı olan renk teması sağlar.
-   * 
+   *
    * @default ColorVariant.Primary
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
@@ -92,7 +99,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
    * Boyut.
    * Checkbox'ın büyüklüğünü ve label font boyutunu belirler.
-   * 
+   *
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
@@ -100,7 +107,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
    * Readonly durumu.
    * true olduğunda checkbox tıklanamaz ama görsel olarak aktif görünür.
-   * 
+   *
    * @default false
    */
   readonly readonly = input<boolean>(false);
@@ -108,7 +115,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
    * Indeterminate (belirsiz) durumu.
    * Kısmi seçim durumlarını göstermek için kullanılır (örn: "Select All" checkbox).
-   * 
+   *
    * @default false
    */
   readonly indeterminate = input<boolean>(false);
@@ -128,7 +135,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
    * Required (zorunlu) durumu.
    * Form validasyonu için kullanılır.
-   * 
+   *
    * @default false
    */
   readonly required = input<boolean>(false);
@@ -151,14 +158,14 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
    */
   readonly checkboxClasses = computed(() => {
     const classes = ['nui-checkbox'];
-    
+
     classes.push(`nui-checkbox--${this.variant()}`);
     classes.push(`nui-checkbox--${this.size()}`);
-    
+
     if (this.isDisabled()) {
       classes.push('nui-checkbox--disabled');
     }
-    
+
     if (this.readonly()) {
       classes.push('nui-checkbox--readonly');
     }
@@ -170,7 +177,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     if (this.indeterminate()) {
       classes.push('nui-checkbox--indeterminate');
     }
-    
+
     return classes.join(' ');
   });
 
@@ -180,13 +187,13 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
    */
   readonly labelClasses = computed(() => {
     const classes = ['nui-checkbox__label'];
-    
+
     classes.push(`nui-checkbox__label--${this.size()}`);
-    
+
     if (this.isDisabled()) {
       classes.push('nui-checkbox__label--disabled');
     }
-    
+
     return classes.join(' ');
   });
 
@@ -196,13 +203,13 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
    */
   readonly descriptionClasses = computed(() => {
     const classes = ['nui-checkbox__description'];
-    
+
     classes.push(`nui-checkbox__description--${this.size()}`);
-    
+
     if (this.isDisabled()) {
       classes.push('nui-checkbox__description--disabled');
     }
-    
+
     return classes.join(' ');
   });
 
@@ -226,7 +233,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
    * Checkbox toggle handler'ı.
    * Disabled veya readonly durumunda çalışmaz.
-   * 
+   *
    * @returns void
    */
   handleToggle(): void {
@@ -246,4 +253,3 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     this.markAsTouched();
   }
 }
-

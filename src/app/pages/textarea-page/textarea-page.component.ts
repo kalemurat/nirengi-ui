@@ -12,12 +12,12 @@ import { TextareaComponent, Size } from '../../../../projects/nirengi-ui-kit/src
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TextareaComponent],
   templateUrl: './textarea-page.component.html',
-  styleUrl: './textarea-page.component.scss'
+  styleUrl: './textarea-page.component.scss',
 })
 export class TextareaPageComponent {
   /** Size enum referansı */
   protected readonly sizes = Object.values(Size);
-  
+
   /** Demo form control */
   protected readonly demoControl = new FormControl('');
 }

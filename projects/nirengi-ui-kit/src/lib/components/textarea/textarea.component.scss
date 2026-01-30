@@ -1,73 +1,73 @@
 .nui-textarea {
-    @apply flex flex-col gap-1.5 w-full;
+  @apply flex w-full flex-col gap-1.5;
 
-    &__label {
-        @apply text-sm font-medium text-gray-700;
+  &__label {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  &__wrapper {
+    @apply relative flex w-full;
+  }
+
+  &__input {
+    @apply w-full resize-y rounded-lg border border-gray-300 text-gray-900 transition-all duration-200 placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500;
+
+    // Sizes
+    &--xs {
+      @apply px-2.5 py-1.5 text-xs;
     }
 
-    &__wrapper {
-        @apply relative flex w-full;
+    &--sm {
+      @apply px-3 py-2 text-sm;
     }
 
-    &__input {
-        @apply w-full border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed placeholder:text-gray-400 transition-all duration-200 resize-y;
-
-        // Sizes
-        &--xs {
-            @apply text-xs px-2.5 py-1.5;
-        }
-
-        &--sm {
-            @apply text-sm px-3 py-2;
-        }
-
-        &--md {
-            @apply text-sm px-3.5 py-2.5;
-        }
-
-        &--lg {
-            @apply text-base px-4 py-3;
-        }
-
-        &--xl {
-            @apply text-lg px-5 py-3.5;
-        }
-
-        // States
-        &--error {
-            @apply border-red-500 focus:ring-red-500;
-        }
-
-        &--with-icon {
-            @apply pl-10;
-        }
-
-        &--auto-resize {
-            @apply resize-none overflow-hidden;
-        }
+    &--md {
+      @apply px-3.5 py-2.5 text-sm;
     }
 
-    &__icon {
-        @apply absolute top-3 left-3 flex items-start pointer-events-none text-gray-400;
+    &--lg {
+      @apply px-4 py-3 text-base;
     }
 
-    &__footer {
-        @apply flex justify-between items-center gap-2 mt-1;
+    &--xl {
+      @apply px-5 py-3.5 text-lg;
     }
 
-    &__hint {
-        @apply text-xs text-gray-500;
+    // States
+    &--error {
+      @apply border-red-500 focus:ring-red-500;
     }
 
-    &__error {
-        @apply text-xs text-red-600 font-medium;
+    &--with-icon {
+      @apply pl-10;
     }
 
-    &__count {
-        @apply text-xs text-gray-500 font-medium;
-
-        &--over-limit {
-            @apply text-red-600;
-        }
+    &--auto-resize {
+      @apply resize-none overflow-hidden;
     }
+  }
+
+  &__icon {
+    @apply pointer-events-none absolute left-3 top-3 flex items-start text-gray-400;
+  }
+
+  &__footer {
+    @apply mt-1 flex items-center justify-between gap-2;
+  }
+
+  &__hint {
+    @apply text-xs text-gray-500;
+  }
+
+  &__error {
+    @apply text-xs font-medium text-red-600;
+  }
+
+  &__count {
+    @apply text-xs font-medium text-gray-500;
+
+    &--over-limit {
+      @apply text-red-600;
+    }
+  }
 }

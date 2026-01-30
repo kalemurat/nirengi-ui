@@ -1,11 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-    ButtonComponent,
-    ButtonType,
-    Size,
-    ColorVariant
-} from 'nirengi-ui-kit';
+import { ButtonComponent, ButtonType, Size, ColorVariant } from 'nirengi-ui-kit';
 
 /**
  * Button Component Showcase Sayfası.
@@ -16,7 +11,7 @@ import {
   standalone: true,
   imports: [CommonModule, ButtonComponent],
   templateUrl: './button-page.html',
-  styleUrl: './button-page.scss'
+  styleUrl: './button-page.scss',
 })
 export class ButtonPageComponent {
   /** Component enum referansları */
@@ -31,7 +26,7 @@ export class ButtonPageComponent {
     ButtonType.Solid,
     ButtonType.Outline,
     ButtonType.Ghost,
-    ButtonType.Soft
+    ButtonType.Soft,
   ]);
 
   /**
@@ -42,7 +37,7 @@ export class ButtonPageComponent {
     Size.Small,
     Size.Medium,
     Size.Large,
-    Size.XLarge
+    Size.XLarge,
   ]);
 
   /**
@@ -55,7 +50,7 @@ export class ButtonPageComponent {
     ColorVariant.Warning,
     ColorVariant.Danger,
     ColorVariant.Info,
-    ColorVariant.Neutral
+    ColorVariant.Neutral,
   ]);
 
   /**

@@ -1,7 +1,7 @@
 /**
  * UI Kit spacing (boşluk) design token'ları.
  * Tailwind CSS spacing sistemiyle uyumlu.
- * 
+ *
  * @see https://tailwindcss.com/docs/customizing-spacing
  */
 
@@ -121,5 +121,5 @@ export const designTokenSpacing: SpacingScale = {
   64: '16rem',
   72: '18rem',
   80: '20rem',
-  96: '24rem'
+  96: '24rem',
 };

@@ -11,30 +11,14 @@
     "types": [],
     "baseUrl": "../../",
     "paths": {
-      "@common/*": [
-        "./projects/nirengi-ui-kit/src/lib/common/*"
-      ],
-      "@design-tokens/*": [
-        "./projects/nirengi-ui-kit/src/lib/design-tokens/*"
-      ],
-      "@components/*": [
-        "./projects/nirengi-ui-kit/src/lib/components/*"
-      ],
-      "@directives/*": [
-        "./projects/nirengi-ui-kit/src/lib/directives/*"
-      ],
-      "@pipes/*": [
-        "./projects/nirengi-ui-kit/src/lib/pipes/*"
-      ],
-      "@styles/*": [
-        "./projects/nirengi-ui-kit/src/lib/styles/*"
-      ]
+      "@common/*": ["./projects/nirengi-ui-kit/src/lib/common/*"],
+      "@design-tokens/*": ["./projects/nirengi-ui-kit/src/lib/design-tokens/*"],
+      "@components/*": ["./projects/nirengi-ui-kit/src/lib/components/*"],
+      "@directives/*": ["./projects/nirengi-ui-kit/src/lib/directives/*"],
+      "@pipes/*": ["./projects/nirengi-ui-kit/src/lib/pipes/*"],
+      "@styles/*": ["./projects/nirengi-ui-kit/src/lib/styles/*"]
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.spec.ts"]
 }

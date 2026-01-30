@@ -1,7 +1,7 @@
 /**
  * UI Kit typography (tipografi) design token'ları.
  * Font aileleri, boyutları, ağırlıkları ve line-height değerleri.
- * 
+ *
  * @see https://tailwindcss.com/docs/font-size
  */
 
@@ -74,10 +74,10 @@ export const designTokenFontFamily: FontFamily = {
     'Roboto',
     'Helvetica Neue',
     'Arial',
-    'sans-serif'
+    'sans-serif',
   ],
   serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-  mono: ['Fira Code', 'Consolas', 'Monaco', 'Courier New', 'monospace']
+  mono: ['Fira Code', 'Consolas', 'Monaco', 'Courier New', 'monospace'],
 };
 
 /**
@@ -97,7 +97,7 @@ export const designTokenFontSizes: FontSizes = {
   '6xl': { fontSize: '3.75rem', lineHeight: '1' },
   '7xl': { fontSize: '4.5rem', lineHeight: '1' },
   '8xl': { fontSize: '6rem', lineHeight: '1' },
-  '9xl': { fontSize: '8rem', lineHeight: '1' }
+  '9xl': { fontSize: '8rem', lineHeight: '1' },
 };
 
 /**
@@ -112,5 +112,5 @@ export const designTokenFontWeights: FontWeights = {
   semibold: '600',
   bold: '700',
   extrabold: '800',
-  black: '900'
+  black: '900',
 };

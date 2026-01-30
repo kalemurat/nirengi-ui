@@ -1,337 +1,333 @@
 /* select.component.scss */
-@use "sass:map";
+@use 'sass:map';
 
 .nui-select {
-    @apply relative flex flex-col w-full;
+  @apply relative flex w-full flex-col;
 
-    /* Gap map from size constants */
+  /* Gap map from size constants */
+  &--small {
+    @apply gap-1;
+  }
+
+  &--medium {
+    @apply gap-1.5;
+  }
+
+  &--large {
+    @apply gap-2;
+  }
+
+  /* Variant modifiers (block-level). These allow `nui-select--primary` etc. */
+  &--primary {
+    .nui-select__trigger {
+      @apply border-blue-500 text-blue-700 placeholder-blue-300 focus:ring-blue-500;
+    }
+
+    .nui-select__icon {
+      @apply text-blue-500;
+    }
+
+    .nui-select__clear {
+      @apply text-blue-500;
+    }
+
+    .nui-select__label {
+      @apply text-blue-700;
+    }
+
+    .nui-select__hint {
+      @apply text-blue-500;
+    }
+  }
+
+  &--secondary {
+    .nui-select__trigger {
+      @apply border-gray-400 text-gray-800 placeholder-gray-400 focus:ring-gray-400;
+    }
+
+    .nui-select__icon {
+      @apply text-gray-500;
+    }
+
+    .nui-select__label {
+      @apply text-gray-700;
+    }
+
+    .nui-select__hint {
+      @apply text-gray-500;
+    }
+  }
+
+  &--danger {
+    .nui-select__trigger {
+      @apply border-red-600 text-red-700 placeholder-red-300 focus:ring-red-600;
+    }
+
+    .nui-select__icon,
+    .nui-select__clear {
+      @apply text-red-600;
+    }
+
+    .nui-select__label {
+      @apply text-red-700;
+    }
+
+    .nui-select__hint {
+      @apply text-red-600;
+    }
+  }
+
+  &--success {
+    .nui-select__trigger {
+      @apply border-green-500 text-green-900 placeholder-green-300 focus:ring-green-500;
+    }
+
+    .nui-select__icon,
+    .nui-select__clear {
+      @apply text-green-500;
+    }
+
+    .nui-select__label {
+      @apply text-green-700;
+    }
+
+    .nui-select__hint {
+      @apply text-green-600;
+    }
+  }
+
+  &--warning {
+    .nui-select__trigger {
+      @apply border-yellow-500 text-yellow-900 placeholder-yellow-300 focus:ring-yellow-500;
+    }
+
+    .nui-select__icon,
+    .nui-select__clear {
+      @apply text-yellow-600;
+    }
+
+    .nui-select__label {
+      @apply text-yellow-800;
+    }
+
+    .nui-select__hint {
+      @apply text-yellow-700;
+    }
+  }
+
+  &--info {
+    .nui-select__trigger {
+      @apply border-cyan-500 text-cyan-700 placeholder-cyan-300 focus:ring-cyan-500;
+    }
+
+    .nui-select__icon {
+      @apply text-cyan-500;
+    }
+
+    .nui-select__label {
+      @apply text-cyan-700;
+    }
+
+    .nui-select__hint {
+      @apply text-cyan-600;
+    }
+  }
+
+  &--neutral {
+    .nui-select__trigger {
+      @apply border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-gray-300;
+    }
+
+    .nui-select__icon {
+      @apply text-gray-400;
+    }
+
+    .nui-select__label {
+      @apply text-gray-700;
+    }
+
+    .nui-select__hint {
+      @apply text-gray-500;
+    }
+  }
+
+  &__label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  &__container {
+    @apply relative w-full;
+  }
+
+  &__trigger {
+    @apply flex w-full cursor-pointer items-center justify-between rounded-md border bg-white transition-colors duration-200;
+    @apply border-gray-300 text-left text-gray-900;
+    @apply focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500;
+
+    /* Sizes */
     &--small {
-        @apply gap-1;
+      @apply h-8 px-2 text-xs;
     }
 
     &--medium {
-        @apply gap-1.5;
+      @apply h-10 px-3 text-sm;
     }
 
     &--large {
-        @apply gap-2;
+      @apply h-12 px-4 text-base;
     }
 
-    /* Variant modifiers (block-level). These allow `nui-select--primary` etc. */
-    &--primary {
-        .nui-select__trigger {
-            @apply border-blue-500 text-blue-700 placeholder-blue-300 focus:ring-blue-500;
-        }
-
-        .nui-select__icon {
-            @apply text-blue-500;
-        }
-
-        .nui-select__clear {
-            @apply text-blue-500;
-        }
-
-        .nui-select__label {
-            @apply text-blue-700;
-        }
-
-        .nui-select__hint {
-            @apply text-blue-500;
-        }
-    }
-
-    &--secondary {
-        .nui-select__trigger {
-            @apply border-gray-400 text-gray-800 placeholder-gray-400 focus:ring-gray-400;
-        }
-
-        .nui-select__icon {
-            @apply text-gray-500;
-        }
-
-        .nui-select__label {
-            @apply text-gray-700;
-        }
-
-        .nui-select__hint {
-            @apply text-gray-500;
-        }
-    }
-
-    &--danger {
-        .nui-select__trigger {
-            @apply border-red-600 text-red-700 placeholder-red-300 focus:ring-red-600;
-        }
-
-        .nui-select__icon,
-        .nui-select__clear {
-            @apply text-red-600;
-        }
-
-        .nui-select__label {
-            @apply text-red-700;
-        }
-
-        .nui-select__hint {
-            @apply text-red-600;
-        }
+    /* States */
+    &--disabled {
+      @apply cursor-not-allowed border-gray-200 bg-gray-50 text-gray-500;
     }
 
     &--success {
-        .nui-select__trigger {
-            @apply border-green-500 text-green-900 placeholder-green-300 focus:ring-green-500;
-        }
-
-        .nui-select__icon,
-        .nui-select__clear {
-            @apply text-green-500;
-        }
-
-        .nui-select__label {
-            @apply text-green-700;
-        }
-
-        .nui-select__hint {
-            @apply text-green-600;
-        }
+      @apply border-green-500 text-green-900 placeholder-green-300 focus:ring-green-500;
     }
 
     &--warning {
-        .nui-select__trigger {
-            @apply border-yellow-500 text-yellow-900 placeholder-yellow-300 focus:ring-yellow-500;
-        }
-
-        .nui-select__icon,
-        .nui-select__clear {
-            @apply text-yellow-600;
-        }
-
-        .nui-select__label {
-            @apply text-yellow-800;
-        }
-
-        .nui-select__hint {
-            @apply text-yellow-700;
-        }
+      @apply border-yellow-500 text-yellow-900 placeholder-yellow-300 focus:ring-yellow-500;
     }
 
-    &--info {
-        .nui-select__trigger {
-            @apply border-cyan-500 text-cyan-700 placeholder-cyan-300 focus:ring-cyan-500;
-        }
+    &--open {
+      @apply border-blue-500 ring-2 ring-blue-500 ring-opacity-20;
+    }
+  }
 
-        .nui-select__icon {
-            @apply text-cyan-500;
-        }
+  &__value {
+    @apply mr-2 flex flex-1 items-center overflow-hidden;
+    /* Remove simple truncate here as it conflicts with chips container flex layout */
 
-        .nui-select__label {
-            @apply text-cyan-700;
-        }
+    &--placeholder {
+      @apply truncate text-gray-400;
+    }
+  }
 
-        .nui-select__hint {
-            @apply text-cyan-600;
-        }
+  &__chips {
+    /* Prevents wrapping, hides overflow, adds spacing */
+    @apply flex w-full flex-nowrap items-center gap-1 overflow-hidden py-1;
+
+    /* Mask to fade out the end if items overflow */
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  }
+
+  &__chip {
+    @apply flex items-center whitespace-nowrap rounded border border-gray-200 bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-700;
+    /* flex-shrink-0 prevents squashing, ensuring whole chips are either seen or hidden/cut off */
+    @apply flex-shrink-0;
+
+    &--remove {
+      @apply ml-1 cursor-pointer text-gray-400 hover:text-gray-600;
+    }
+  }
+
+  &__clear {
+    @apply z-10 mr-1 flex cursor-pointer items-center justify-center rounded-full p-1 text-gray-400 transition-colors;
+    @apply hover:bg-gray-100 hover:text-gray-600;
+
+    /* Status colors */
+    .nui-select__trigger--error & {
+      @apply text-red-500;
     }
 
-    &--neutral {
-        .nui-select__trigger {
-            @apply border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-gray-300;
-        }
-
-        .nui-select__icon {
-            @apply text-gray-400;
-        }
-
-        .nui-select__label {
-            @apply text-gray-700;
-        }
-
-        .nui-select__hint {
-            @apply text-gray-500;
-        }
+    .nui-select__trigger--success & {
+      @apply text-green-500;
     }
 
-    &__label {
-        @apply font-medium text-gray-700 block text-sm;
+    .nui-select__trigger--warning & {
+      @apply text-yellow-600;
+    }
+  }
+
+  &__icon {
+    @apply flex flex-shrink-0 items-center justify-center text-gray-400 transition-transform duration-200;
+
+    &--open {
+      @apply rotate-180 transform;
     }
 
-    &__container {
-        @apply relative w-full;
+    /* Status colors: inherit from parent modifier */
+    .nui-select__trigger--error & {
+      @apply text-red-500;
     }
 
-    &__trigger {
-        @apply flex items-center justify-between w-full border rounded-md bg-white transition-colors duration-200 cursor-pointer;
-        @apply text-left text-gray-900 border-gray-300;
-        @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-
-        /* Sizes */
-        &--small {
-            @apply h-8 px-2 text-xs;
-        }
-
-        &--medium {
-            @apply h-10 px-3 text-sm;
-        }
-
-        &--large {
-            @apply h-12 px-4 text-base;
-        }
-
-        /* States */
-        &--disabled {
-            @apply bg-gray-50 text-gray-500 cursor-not-allowed border-gray-200;
-        }
-
-
-
-        &--success {
-            @apply border-green-500 text-green-900 placeholder-green-300 focus:ring-green-500;
-        }
-
-        &--warning {
-            @apply border-yellow-500 text-yellow-900 placeholder-yellow-300 focus:ring-yellow-500;
-        }
-
-        &--open {
-            @apply border-blue-500 ring-2 ring-blue-500 ring-opacity-20;
-        }
+    .nui-select__trigger--success & {
+      @apply text-green-500;
     }
 
-    &__value {
-        @apply flex-1 flex items-center overflow-hidden mr-2;
-        /* Remove simple truncate here as it conflicts with chips container flex layout */
+    .nui-select__trigger--warning & {
+      @apply text-yellow-600;
+    }
+  }
 
-        &--placeholder {
-            @apply text-gray-400 truncate;
-        }
+  &__dropdown {
+    @apply absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg;
+  }
+
+  &__search {
+    @apply border-b border-gray-100 p-2;
+
+    &-input {
+      @apply w-full rounded-md border border-gray-200 bg-gray-50;
+      @apply focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500;
+      @apply placeholder-gray-400;
+
+      /* Parent size modifier mapping via at-root or manual class check */
+      .nui-select--small & {
+        @apply px-2 py-1 text-xs;
+      }
+
+      .nui-select--medium & {
+        @apply px-3 py-2 text-sm;
+      }
+
+      .nui-select--large & {
+        @apply px-4 py-3 text-base;
+      }
+    }
+  }
+
+  &__options {
+    @apply max-h-60 overflow-y-auto py-1;
+  }
+
+  &__option {
+    @apply flex cursor-pointer select-none items-center px-3 py-2 text-sm text-gray-700 transition-colors;
+    @apply hover:bg-gray-50;
+
+    &--selected {
+      @apply bg-blue-50 font-medium text-blue-700;
+
+      &:hover {
+        @apply bg-blue-50;
+      }
     }
 
-    &__chips {
-        /* Prevents wrapping, hides overflow, adds spacing */
-        @apply flex flex-nowrap items-center gap-1 py-1 overflow-hidden w-full;
-
-        /* Mask to fade out the end if items overflow */
-        mask-image: linear-gradient(to right, black 85%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    &--disabled {
+      @apply cursor-not-allowed bg-transparent opacity-50 hover:bg-transparent;
     }
 
-    &__chip {
-        @apply flex items-center bg-gray-100 rounded px-1.5 py-0.5 text-xs font-medium text-gray-700 border border-gray-200 whitespace-nowrap;
-        /* flex-shrink-0 prevents squashing, ensuring whole chips are either seen or hidden/cut off */
-        @apply flex-shrink-0;
-
-        &--remove {
-            @apply ml-1 text-gray-400 hover:text-gray-600 cursor-pointer;
-        }
+    /* Checkmark place */
+    &-check {
+      @apply ml-auto text-blue-600;
     }
+  }
 
-    &__clear {
-        @apply flex items-center justify-center text-gray-400 p-1 mr-1 rounded-full cursor-pointer transition-colors z-10;
-        @apply hover:bg-gray-100 hover:text-gray-600;
+  &__empty {
+    @apply px-3 py-4 text-center text-sm text-gray-500;
+  }
 
-        /* Status colors */
-        .nui-select__trigger--error & {
-            @apply text-red-500;
-        }
+  &__hint {
+    @apply mt-1 text-xs text-gray-500;
+  }
 
-        .nui-select__trigger--success & {
-            @apply text-green-500;
-        }
+  &__success {
+    @apply mt-1 text-xs text-green-600;
+  }
 
-        .nui-select__trigger--warning & {
-            @apply text-yellow-600;
-        }
-    }
-
-    &__icon {
-        @apply flex items-center justify-center text-gray-400 flex-shrink-0 transition-transform duration-200;
-
-        &--open {
-            @apply transform rotate-180;
-        }
-
-        /* Status colors: inherit from parent modifier */
-        .nui-select__trigger--error & {
-            @apply text-red-500;
-        }
-
-        .nui-select__trigger--success & {
-            @apply text-green-500;
-        }
-
-        .nui-select__trigger--warning & {
-            @apply text-yellow-600;
-        }
-    }
-
-    &__dropdown {
-        @apply absolute left-0 right-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 z-50 overflow-hidden;
-    }
-
-    &__search {
-        @apply p-2 border-b border-gray-100;
-
-        &-input {
-            @apply w-full border border-gray-200 rounded-md bg-gray-50;
-            @apply focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500;
-            @apply placeholder-gray-400;
-
-            /* Parent size modifier mapping via at-root or manual class check */
-            .nui-select--small & {
-                @apply px-2 py-1 text-xs;
-            }
-
-            .nui-select--medium & {
-                @apply px-3 py-2 text-sm;
-            }
-
-            .nui-select--large & {
-                @apply px-4 py-3 text-base;
-            }
-        }
-    }
-
-    &__options {
-        @apply max-h-60 overflow-y-auto py-1;
-    }
-
-    &__option {
-        @apply flex items-center px-3 py-2 text-sm text-gray-700 cursor-pointer select-none transition-colors;
-        @apply hover:bg-gray-50;
-
-        &--selected {
-            @apply bg-blue-50 text-blue-700 font-medium;
-
-            &:hover {
-                @apply bg-blue-50;
-            }
-        }
-
-        &--disabled {
-            @apply opacity-50 cursor-not-allowed bg-transparent hover:bg-transparent;
-        }
-
-        /* Checkmark place */
-        &-check {
-            @apply ml-auto text-blue-600;
-        }
-    }
-
-    &__empty {
-        @apply px-3 py-4 text-center text-sm text-gray-500;
-    }
-
-    &__hint {
-        @apply text-xs text-gray-500 mt-1;
-    }
-
-    &__success {
-        @apply text-xs text-green-600 mt-1;
-    }
-
-    &__warning {
-        @apply text-xs text-yellow-600 mt-1;
-    }
-
-
+  &__warning {
+    @apply mt-1 text-xs text-yellow-600;
+  }
 }

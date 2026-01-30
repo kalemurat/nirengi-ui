@@ -10,14 +10,15 @@
     @for (category of menuCategories(); track category[0]) {
       <div class="menu-panel__category">
         <h3 class="menu-panel__category-title">{{ category[0] }}</h3>
-        
+
         <ul class="menu-panel__list">
           @for (config of category[1]; track config.id) {
             <li class="menu-panel__item">
-              <a 
+              <a
                 [routerLink]="['/showcase', config.id]"
                 routerLinkActive="menu-panel__link--active"
-                class="menu-panel__link">
+                class="menu-panel__link"
+              >
                 <span class="menu-panel__label">{{ config.name }}</span>
                 <span class="menu-panel__description">{{ config.description }}</span>
               </a>

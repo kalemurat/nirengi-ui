@@ -1,45 +1,45 @@
 /* Table SCSS */
 .nui-table {
-    @apply w-full text-left text-sm text-gray-700;
+  @apply w-full text-left text-sm text-gray-700;
 
-    &__head {
-        @apply bg-gray-50 uppercase text-xs font-semibold text-gray-600;
+  &__head {
+    @apply bg-gray-50 text-xs font-semibold uppercase text-gray-600;
 
-        th {
-            @apply px-4 py-3 whitespace-nowrap;
-        }
+    th {
+      @apply whitespace-nowrap px-4 py-3;
+    }
+  }
+
+  &__body {
+    @apply divide-y divide-gray-100 bg-white;
+  }
+
+  &__row {
+    @apply transition-colors duration-150;
+
+    &:hover {
+      @apply bg-gray-50;
     }
 
-    &__body {
-        @apply bg-white divide-y divide-gray-100;
+    &--head {
+      @apply bg-gray-50;
     }
+  }
 
-    &__row {
-        @apply transition-colors duration-150;
-
-        &:hover {
-            @apply bg-gray-50;
-        }
-
-        &--head {
-            @apply bg-gray-50;
-        }
-    }
-
-    td {
-        @apply px-4 py-3 whitespace-nowrap;
-    }
+  td {
+    @apply whitespace-nowrap px-4 py-3;
+  }
 }
 
 /* Virtual Scroll Specifics */
 cdk-virtual-scroll-viewport {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 
-    /* Ensure the table inside takes full width */
-    table {
-        width: 100%;
-        table-layout: fixed;
-        /* Important for performance and consistent column widths in virtual scroll */
-    }
+  /* Ensure the table inside takes full width */
+  table {
+    width: 100%;
+    table-layout: fixed;
+    /* Important for performance and consistent column widths in virtual scroll */
+  }
 }

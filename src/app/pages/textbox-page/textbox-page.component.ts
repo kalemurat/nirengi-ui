@@ -11,12 +11,12 @@ import { TextboxComponent, Size } from '../../../../projects/nirengi-ui-kit/src/
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TextboxComponent],
   templateUrl: './textbox-page.component.html',
-  styleUrl: './textbox-page.component.scss'
+  styleUrl: './textbox-page.component.scss',
 })
 export class TextboxPageComponent {
   /** Size enum referansı */
   protected readonly sizes = Object.values(Size);
-  
+
   /** Demo form control */
   protected readonly demoControl = new FormControl('');
 }

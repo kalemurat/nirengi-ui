@@ -1,4 +1,5 @@
-<div class="nui-select"
+<div
+  class="nui-select"
   [class.nui-select--small]="size() === Size.Small"
   [class.nui-select--medium]="size() === Size.Medium"
   [class.nui-select--large]="size() === Size.Large"
@@ -8,8 +9,8 @@
   [class.nui-select--warning]="variant() === ColorVariant.Warning"
   [class.nui-select--danger]="variant() === ColorVariant.Danger"
   [class.nui-select--info]="variant() === ColorVariant.Info"
-  [class.nui-select--neutral]="variant() === ColorVariant.Neutral">
-
+  [class.nui-select--neutral]="variant() === ColorVariant.Neutral"
+>
   <!-- Label -->
   @if (label()) {
     <label [for]="inputId" class="nui-select__label">
@@ -19,21 +20,20 @@
 
   <div class="nui-select__container" #container>
     <!-- Trigger Button -->
-    <div 
+    <div
       class="nui-select__trigger"
       [class.nui-select__trigger--small]="size() === Size.Small"
       [class.nui-select__trigger--medium]="size() === Size.Medium"
       [class.nui-select__trigger--large]="size() === Size.Large"
       [class.nui-select__trigger--disabled]="isDisabled()"
-
       [class.nui-select__trigger--success]="success()"
       [class.nui-select__trigger--warning]="warning()"
       [class.nui-select__trigger--open]="isOpen()"
       (click)="toggleDropdown()"
       tabindex="0"
       (keydown.enter)="toggleDropdown()"
-      (keydown.space)="toggleDropdown()">
-
+      (keydown.space)="toggleDropdown()"
+    >
       <!-- Value Display -->
       <div class="nui-select__value" [class.nui-select__value--placeholder]="!hasValue()">
         @if (multiple() && hasValue()) {
@@ -73,40 +73,43 @@
         <!-- Search Input -->
         @if (searchable()) {
           <div class="nui-select__search">
-            <input 
+            <input
               #searchInput
-              type="text" 
-              class="nui-select__search-input" 
+              type="text"
+              class="nui-select__search-input"
               [placeholder]="'Ara...'"
               (input)="onSearch($event)"
-              (click)="$event.stopPropagation()">
+              (click)="$event.stopPropagation()"
+            />
           </div>
         }
 
         <!-- Options List -->
         <div class="nui-select__options">
           @for (option of filteredOptions(); track trackByFn($index, option)) {
-            <div 
+            <div
               class="nui-select__option"
               [class.nui-select__option--selected]="isSelected(option)"
-              (click)="selectOption(option)">
-              
+              (click)="selectOption(option)"
+            >
               <!-- Content -->
-              <ng-container 
-                *ngTemplateOutlet="itemTemplate() || defaultItemTemplate; context: { $implicit: option, selected: isSelected(option) }">
+              <ng-container
+                *ngTemplateOutlet="
+                  itemTemplate() || defaultItemTemplate;
+                  context: { $implicit: option, selected: isSelected(option) }
+                "
+              >
               </ng-container>
 
               <!-- Checkmark for multiple (or single) -->
               @if (isSelected(option)) {
-                 <span class="nui-select__option-check">
-                    <nirengi-icon name="Check" [size]="16" />
-                 </span>
+                <span class="nui-select__option-check">
+                  <nirengi-icon name="Check" [size]="16" />
+                </span>
               }
             </div>
           } @empty {
-            <div class="nui-select__empty">
-              Sonuç bulunamadı.
-            </div>
+            <div class="nui-select__empty">Sonuç bulunamadı.</div>
           }
         </div>
       </div>
@@ -126,5 +129,4 @@
   <ng-template #defaultItemTemplate let-option>
     {{ getLabel(option) }}
   </ng-template>
-
 </div>

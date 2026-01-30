@@ -7,48 +7,57 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'heading',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   // Yeni Storybook-style showcase sayfası
   {
     path: 'showcase/:id',
-    component: ShowcaseLayoutComponent
+    component: ShowcaseLayoutComponent,
   },
   // Mevcut route'lar (korunuyor)
   {
     path: 'heading',
-    component: HeadingPageComponent
+    component: HeadingPageComponent,
   },
   {
     path: 'button',
-    component: ButtonPageComponent
+    component: ButtonPageComponent,
   },
   {
     path: 'icon',
-    loadComponent: () => import('./pages/icon-page/icon-page.component').then(m => m.IconPageComponent)
+    loadComponent: () =>
+      import('./pages/icon-page/icon-page.component').then((m) => m.IconPageComponent),
   },
   {
     path: 'badge',
-    loadComponent: () => import('./pages/badge-page/badge-page.component').then(m => m.BadgePageComponent)
+    loadComponent: () =>
+      import('./pages/badge-page/badge-page.component').then((m) => m.BadgePageComponent),
   },
   {
     path: 'textbox',
-    loadComponent: () => import('./pages/textbox-page/textbox-page.component').then(m => m.TextboxPageComponent)
+    loadComponent: () =>
+      import('./pages/textbox-page/textbox-page.component').then((m) => m.TextboxPageComponent),
   },
   {
     path: 'textarea',
-    loadComponent: () => import('./pages/textarea-page/textarea-page.component').then(m => m.TextareaPageComponent)
+    loadComponent: () =>
+      import('./pages/textarea-page/textarea-page.component').then((m) => m.TextareaPageComponent),
   },
   {
     path: 'checkbox',
-    loadComponent: () => import('./pages/checkbox-page/checkbox-page.component').then(m => m.CheckboxPageComponent)
+    loadComponent: () =>
+      import('./pages/checkbox-page/checkbox-page.component').then((m) => m.CheckboxPageComponent),
   },
   {
     path: 'paragraph',
-    loadComponent: () => import('./pages/paragraph-page/paragraph-page.component').then(m => m.ParagraphPageComponent)
+    loadComponent: () =>
+      import('./pages/paragraph-page/paragraph-page.component').then(
+        (m) => m.ParagraphPageComponent
+      ),
   },
   {
     path: 'select',
-    loadComponent: () => import('./pages/select-page/select-page.component').then(m => m.SelectPageComponent)
-  }
+    loadComponent: () =>
+      import('./pages/select-page/select-page.component').then((m) => m.SelectPageComponent),
+  },
 ];

@@ -1,4 +1,11 @@
-import { Component, input, forwardRef, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  forwardRef,
+  computed,
+  effect,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
@@ -23,15 +30,15 @@ import { Size } from '../../common/enums/size.enum';
  * - ✅ Tailwind + BEM styling
  *
  * @example
- * <nui-textarea 
- *   label="Açıklama" 
- *   placeholder="Detayları girin" 
- *   [formControl]="descCtrl" 
+ * <nui-textarea
+ *   label="Açıklama"
+ *   placeholder="Detayları girin"
+ *   [formControl]="descCtrl"
  * />
  *
  * @example
- * <nui-textarea 
- *   label="Yorum" 
+ * <nui-textarea
+ *   label="Yorum"
  *   icon="MessageSquare"
  *   [rows]="5"
  *   [maxlength]="500"
@@ -52,9 +59,9 @@ import { Size } from '../../common/enums/size.enum';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TextareaComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TextareaComponent extends ValueAccessorBase<string> {
   /**
@@ -140,7 +147,7 @@ export class TextareaComponent extends ValueAccessorBase<string> {
 
   constructor() {
     super();
-    
+
     // Sync value input
     effect(() => {
       const val = this.valueInput();
@@ -158,24 +165,30 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   /**
    * Icon boyutunu component size'a göre hesaplayan computed signal.
    * Size değiştiğinde otomatik güncellenir.
-   * 
+   *
    * @returns Icon pixel boyutu
    */
   readonly iconSize = computed(() => {
     switch (this.size()) {
-      case Size.XSmall: return 14;
-      case Size.Small: return 16;
-      case Size.Medium: return 18;
-      case Size.Large: return 20;
-      case Size.XLarge: return 24;
-      default: return 18;
+      case Size.XSmall:
+        return 14;
+      case Size.Small:
+        return 16;
+      case Size.Medium:
+        return 18;
+      case Size.Large:
+        return 20;
+      case Size.XLarge:
+        return 24;
+      default:
+        return 18;
     }
   });
 
   /**
    * Textarea için CSS class'larını hesaplayan computed signal.
    * Reaktif olarak size değişikliklerini takip eder.
-   * 
+   *
    * @returns Size-based CSS class string'i
    */
   protected readonly textareaClasses = computed(() => {
@@ -185,13 +198,13 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   /**
    * Karakter sayacı metnini hesaplayan computed signal.
    * Maxlength varsa "mevcut/maksimum" formatında gösterilir.
-   * 
+   *
    * @returns Karakter sayacı metni veya undefined
    */
   protected readonly characterCount = computed(() => {
     const max = this.maxlength();
     if (!max) return undefined;
-    
+
     const current = this.value()?.length || 0;
     return `${current}/${max}`;
   });
@@ -199,13 +212,13 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   /**
    * Karakter limitinin aşılıp aşılmadığını kontrol eden computed signal.
    * True ise karakter sayacı kırmızı renkte gösterilir.
-   * 
+   *
    * @returns Limit aşıldıysa true, değilse false
    */
   protected readonly isOverLimit = computed(() => {
     const max = this.maxlength();
     if (!max) return false;
-    
+
     const current = this.value()?.length || 0;
     return current > max;
   });
@@ -214,16 +227,16 @@ export class TextareaComponent extends ValueAccessorBase<string> {
    * Input event handler.
    * Kullanıcı textarea'ya yazdığında tetiklenir.
    * Auto-resize aktifse yüksekliği ayarlar.
-   * 
+   *
    * @param event - Input event
    */
   onInput(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
     const value = textarea.value;
-    
+
     // Update value
     this.updateValue(value);
-    
+
     // Auto resize if enabled
     if (this.autoResize()) {
       this.adjustHeight(textarea);
@@ -233,7 +246,7 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   /**
    * Textarea yüksekliğini içeriğe göre ayarlar.
    * Auto-resize özelliği için kullanılır.
-   * 
+   *
    * @param textarea - HTML textarea elementi
    */
   private adjustHeight(textarea: HTMLTextAreaElement): void {

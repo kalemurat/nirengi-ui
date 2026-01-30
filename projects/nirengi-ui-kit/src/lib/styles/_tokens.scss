@@ -5,159 +5,159 @@
  */
 
 :root {
-    /* ===== COLOR TOKENS ===== */
+  /* ===== COLOR TOKENS ===== */
 
-    /* Primary Colors */
-    --nui-primary-50: #eff6ff;
-    --nui-primary-100: #dbeafe;
-    --nui-primary-200: #bfdbfe;
-    --nui-primary-300: #93c5fd;
-    --nui-primary-400: #60a5fa;
-    --nui-primary-500: #3b82f6;
-    --nui-primary-600: #2563eb;
-    --nui-primary-700: #1d4ed8;
-    --nui-primary-800: #1e40af;
-    --nui-primary-900: #1e3a8a;
-    --nui-primary-950: #172554;
+  /* Primary Colors */
+  --nui-primary-50: #eff6ff;
+  --nui-primary-100: #dbeafe;
+  --nui-primary-200: #bfdbfe;
+  --nui-primary-300: #93c5fd;
+  --nui-primary-400: #60a5fa;
+  --nui-primary-500: #3b82f6;
+  --nui-primary-600: #2563eb;
+  --nui-primary-700: #1d4ed8;
+  --nui-primary-800: #1e40af;
+  --nui-primary-900: #1e3a8a;
+  --nui-primary-950: #172554;
 
-    /* Secondary Colors */
-    --nui-secondary-50: #f9fafb;
-    --nui-secondary-100: #f3f4f6;
-    --nui-secondary-200: #e5e7eb;
-    --nui-secondary-300: #d1d5db;
-    --nui-secondary-400: #9ca3af;
-    --nui-secondary-500: #6b7280;
-    --nui-secondary-600: #4b5563;
-    --nui-secondary-700: #374151;
-    --nui-secondary-800: #1f2937;
-    --nui-secondary-900: #111827;
-    --nui-secondary-950: #030712;
+  /* Secondary Colors */
+  --nui-secondary-50: #f9fafb;
+  --nui-secondary-100: #f3f4f6;
+  --nui-secondary-200: #e5e7eb;
+  --nui-secondary-300: #d1d5db;
+  --nui-secondary-400: #9ca3af;
+  --nui-secondary-500: #6b7280;
+  --nui-secondary-600: #4b5563;
+  --nui-secondary-700: #374151;
+  --nui-secondary-800: #1f2937;
+  --nui-secondary-900: #111827;
+  --nui-secondary-950: #030712;
 
-    /* Success Colors */
-    --nui-success-50: #f0fdf4;
-    --nui-success-100: #dcfce7;
-    --nui-success-200: #bbf7d0;
-    --nui-success-300: #86efac;
-    --nui-success-400: #4ade80;
-    --nui-success-500: #22c55e;
-    --nui-success-600: #16a34a;
-    --nui-success-700: #15803d;
-    --nui-success-800: #166534;
-    --nui-success-900: #14532d;
-    --nui-success-950: #052e16;
+  /* Success Colors */
+  --nui-success-50: #f0fdf4;
+  --nui-success-100: #dcfce7;
+  --nui-success-200: #bbf7d0;
+  --nui-success-300: #86efac;
+  --nui-success-400: #4ade80;
+  --nui-success-500: #22c55e;
+  --nui-success-600: #16a34a;
+  --nui-success-700: #15803d;
+  --nui-success-800: #166534;
+  --nui-success-900: #14532d;
+  --nui-success-950: #052e16;
 
-    /* Warning Colors */
-    --nui-warning-50: #fffbeb;
-    --nui-warning-100: #fef3c7;
-    --nui-warning-200: #fde68a;
-    --nui-warning-300: #fcd34d;
-    --nui-warning-400: #fbbf24;
-    --nui-warning-500: #f59e0b;
-    --nui-warning-600: #d97706;
-    --nui-warning-700: #b45309;
-    --nui-warning-800: #92400e;
-    --nui-warning-900: #78350f;
-    --nui-warning-950: #451a03;
+  /* Warning Colors */
+  --nui-warning-50: #fffbeb;
+  --nui-warning-100: #fef3c7;
+  --nui-warning-200: #fde68a;
+  --nui-warning-300: #fcd34d;
+  --nui-warning-400: #fbbf24;
+  --nui-warning-500: #f59e0b;
+  --nui-warning-600: #d97706;
+  --nui-warning-700: #b45309;
+  --nui-warning-800: #92400e;
+  --nui-warning-900: #78350f;
+  --nui-warning-950: #451a03;
 
-    /* Danger Colors */
-    --nui-danger-50: #fef2f2;
-    --nui-danger-100: #fee2e2;
-    --nui-danger-200: #fecaca;
-    --nui-danger-300: #fca5a5;
-    --nui-danger-400: #f87171;
-    --nui-danger-500: #ef4444;
-    --nui-danger-600: #dc2626;
-    --nui-danger-700: #b91c1c;
-    --nui-danger-800: #991b1b;
-    --nui-danger-900: #7f1d1d;
-    --nui-danger-950: #450a0a;
+  /* Danger Colors */
+  --nui-danger-50: #fef2f2;
+  --nui-danger-100: #fee2e2;
+  --nui-danger-200: #fecaca;
+  --nui-danger-300: #fca5a5;
+  --nui-danger-400: #f87171;
+  --nui-danger-500: #ef4444;
+  --nui-danger-600: #dc2626;
+  --nui-danger-700: #b91c1c;
+  --nui-danger-800: #991b1b;
+  --nui-danger-900: #7f1d1d;
+  --nui-danger-950: #450a0a;
 
-    /* Info Colors */
-    --nui-info-50: #ecfeff;
-    --nui-info-100: #cffafe;
-    --nui-info-200: #a5f3fc;
-    --nui-info-300: #67e8f9;
-    --nui-info-400: #22d3ee;
-    --nui-info-500: #06b6d4;
-    --nui-info-600: #0891b2;
-    --nui-info-700: #0e7490;
-    --nui-info-800: #155e75;
-    --nui-info-900: #164e63;
-    --nui-info-950: #083344;
+  /* Info Colors */
+  --nui-info-50: #ecfeff;
+  --nui-info-100: #cffafe;
+  --nui-info-200: #a5f3fc;
+  --nui-info-300: #67e8f9;
+  --nui-info-400: #22d3ee;
+  --nui-info-500: #06b6d4;
+  --nui-info-600: #0891b2;
+  --nui-info-700: #0e7490;
+  --nui-info-800: #155e75;
+  --nui-info-900: #164e63;
+  --nui-info-950: #083344;
 
-    /* Neutral Colors */
-    --nui-neutral-50: #f8fafc;
-    --nui-neutral-100: #f1f5f9;
-    --nui-neutral-200: #e2e8f0;
-    --nui-neutral-300: #cbd5e1;
-    --nui-neutral-400: #94a3b8;
-    --nui-neutral-500: #64748b;
-    --nui-neutral-600: #475569;
-    --nui-neutral-700: #334155;
-    --nui-neutral-800: #1e293b;
-    --nui-neutral-900: #0f172a;
-    --nui-neutral-950: #020617;
+  /* Neutral Colors */
+  --nui-neutral-50: #f8fafc;
+  --nui-neutral-100: #f1f5f9;
+  --nui-neutral-200: #e2e8f0;
+  --nui-neutral-300: #cbd5e1;
+  --nui-neutral-400: #94a3b8;
+  --nui-neutral-500: #64748b;
+  --nui-neutral-600: #475569;
+  --nui-neutral-700: #334155;
+  --nui-neutral-800: #1e293b;
+  --nui-neutral-900: #0f172a;
+  --nui-neutral-950: #020617;
 
-    /* ===== SPACING TOKENS ===== */
-    --nui-spacing-0: 0;
-    --nui-spacing-px: 1px;
-    --nui-spacing-0-5: 0.125rem;
-    --nui-spacing-1: 0.25rem;
-    --nui-spacing-2: 0.5rem;
-    --nui-spacing-3: 0.75rem;
-    --nui-spacing-4: 1rem;
-    --nui-spacing-5: 1.25rem;
-    --nui-spacing-6: 1.5rem;
-    --nui-spacing-8: 2rem;
-    --nui-spacing-10: 2.5rem;
-    --nui-spacing-12: 3rem;
-    --nui-spacing-16: 4rem;
-    --nui-spacing-20: 5rem;
-    --nui-spacing-24: 6rem;
+  /* ===== SPACING TOKENS ===== */
+  --nui-spacing-0: 0;
+  --nui-spacing-px: 1px;
+  --nui-spacing-0-5: 0.125rem;
+  --nui-spacing-1: 0.25rem;
+  --nui-spacing-2: 0.5rem;
+  --nui-spacing-3: 0.75rem;
+  --nui-spacing-4: 1rem;
+  --nui-spacing-5: 1.25rem;
+  --nui-spacing-6: 1.5rem;
+  --nui-spacing-8: 2rem;
+  --nui-spacing-10: 2.5rem;
+  --nui-spacing-12: 3rem;
+  --nui-spacing-16: 4rem;
+  --nui-spacing-20: 5rem;
+  --nui-spacing-24: 6rem;
 
-    /* ===== TYPOGRAPHY TOKENS ===== */
-    --nui-font-sans: Inter, system-ui, -apple-system, sans-serif;
-    --nui-font-mono: 'Fira Code', Consolas, monospace;
+  /* ===== TYPOGRAPHY TOKENS ===== */
+  --nui-font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --nui-font-mono: 'Fira Code', Consolas, monospace;
 
-    --nui-text-xs: 0.75rem;
-    --nui-text-sm: 0.875rem;
-    --nui-text-base: 1rem;
-    --nui-text-lg: 1.125rem;
-    --nui-text-xl: 1.25rem;
-    --nui-text-2xl: 1.5rem;
-    --nui-text-3xl: 1.875rem;
+  --nui-text-xs: 0.75rem;
+  --nui-text-sm: 0.875rem;
+  --nui-text-base: 1rem;
+  --nui-text-lg: 1.125rem;
+  --nui-text-xl: 1.25rem;
+  --nui-text-2xl: 1.5rem;
+  --nui-text-3xl: 1.875rem;
 
-    --nui-font-thin: 100;
-    --nui-font-light: 300;
-    --nui-font-normal: 400;
-    --nui-font-medium: 500;
-    --nui-font-semibold: 600;
-    --nui-font-bold: 700;
-    --nui-font-black: 900;
+  --nui-font-thin: 100;
+  --nui-font-light: 300;
+  --nui-font-normal: 400;
+  --nui-font-medium: 500;
+  --nui-font-semibold: 600;
+  --nui-font-bold: 700;
+  --nui-font-black: 900;
 
-    /* ===== SHADOW TOKENS ===== */
-    --nui-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --nui-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --nui-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --nui-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --nui-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* ===== SHADOW TOKENS ===== */
+  --nui-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --nui-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --nui-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --nui-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --nui-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
-    /* ===== BORDER RADIUS TOKENS ===== */
-    --nui-radius-sm: 0.125rem;
-    --nui-radius-md: 0.375rem;
-    --nui-radius-lg: 0.5rem;
-    --nui-radius-xl: 0.75rem;
-    --nui-radius-full: 9999px;
+  /* ===== BORDER RADIUS TOKENS ===== */
+  --nui-radius-sm: 0.125rem;
+  --nui-radius-md: 0.375rem;
+  --nui-radius-lg: 0.5rem;
+  --nui-radius-xl: 0.75rem;
+  --nui-radius-full: 9999px;
 
-    /* ===== Z-INDEX TOKENS ===== */
-    --nui-z-tooltip: 1000;
-    --nui-z-modal: 1100;
-    --nui-z-popover: 1200;
-    --nui-z-dropdown: 1300;
+  /* ===== Z-INDEX TOKENS ===== */
+  --nui-z-tooltip: 1000;
+  --nui-z-modal: 1100;
+  --nui-z-popover: 1200;
+  --nui-z-dropdown: 1300;
 
-    /* ===== TRANSITION TOKENS ===== */
-    --nui-transition-fast: 150ms;
-    --nui-transition-base: 200ms;
-    --nui-transition-slow: 300ms;
-    --nui-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  /* ===== TRANSITION TOKENS ===== */
+  --nui-transition-fast: 150ms;
+  --nui-transition-base: 200ms;
+  --nui-transition-slow: 300ms;
+  --nui-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }

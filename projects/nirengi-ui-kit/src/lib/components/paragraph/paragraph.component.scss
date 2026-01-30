@@ -6,183 +6,183 @@
 // Okunabilirlik ve accessibility için tasarlanmıştır.
 
 .nui-paragraph {
-    // Base styles
-    @apply transition-colors duration-200;
+  // Base styles
+  @apply transition-colors duration-200;
 
-    // ============================================================================
-    // SIZE VARIANTS
-    // Font boyutları
-    // ============================================================================
+  // ============================================================================
+  // SIZE VARIANTS
+  // Font boyutları
+  // ============================================================================
 
-    &--xs {
-        @apply text-xs;
-    }
+  &--xs {
+    @apply text-xs;
+  }
 
-    &--sm {
-        @apply text-sm;
-    }
+  &--sm {
+    @apply text-sm;
+  }
 
-    &--md {
-        @apply text-base;
-    }
+  &--md {
+    @apply text-base;
+  }
 
-    &--lg {
-        @apply text-lg;
-    }
+  &--lg {
+    @apply text-lg;
+  }
 
-    &--xl {
-        @apply text-xl;
-    }
+  &--xl {
+    @apply text-xl;
+  }
 
-    // ============================================================================
-    // COLOR VARIANTS
-    // ============================================================================
+  // ============================================================================
+  // COLOR VARIANTS
+  // ============================================================================
 
-    &--primary {
-        @apply text-blue-700;
-    }
+  &--primary {
+    @apply text-blue-700;
+  }
 
-    &--secondary {
-        @apply text-purple-700;
-    }
+  &--secondary {
+    @apply text-purple-700;
+  }
 
-    &--success {
-        @apply text-green-700;
-    }
+  &--success {
+    @apply text-green-700;
+  }
 
-    &--warning {
-        @apply text-yellow-700;
-    }
+  &--warning {
+    @apply text-yellow-700;
+  }
 
-    &--danger {
-        @apply text-red-700;
-    }
+  &--danger {
+    @apply text-red-700;
+  }
 
-    &--info {
-        @apply text-cyan-700;
-    }
+  &--info {
+    @apply text-cyan-700;
+  }
 
-    &--neutral {
-        @apply text-gray-700;
-    }
+  &--neutral {
+    @apply text-gray-700;
+  }
 
-    // ============================================================================
-    // ALIGNMENT VARIANTS
-    // ============================================================================
+  // ============================================================================
+  // ALIGNMENT VARIANTS
+  // ============================================================================
 
-    &--left {
-        @apply text-left;
-    }
+  &--left {
+    @apply text-left;
+  }
 
-    &--center {
-        @apply text-center;
-    }
+  &--center {
+    @apply text-center;
+  }
 
-    &--right {
-        @apply text-right;
-    }
+  &--right {
+    @apply text-right;
+  }
 
-    &--justify {
-        @apply text-justify;
-    }
+  &--justify {
+    @apply text-justify;
+  }
 
-    // ============================================================================
-    // FONT WEIGHT VARIANTS
-    // ============================================================================
+  // ============================================================================
+  // FONT WEIGHT VARIANTS
+  // ============================================================================
 
-    &--light {
-        @apply font-light;
-    }
+  &--light {
+    @apply font-light;
+  }
 
-    &--normal {
-        @apply font-normal;
-    }
+  &--normal {
+    @apply font-normal;
+  }
 
-    &--medium {
-        @apply font-medium;
-    }
+  &--medium {
+    @apply font-medium;
+  }
 
-    &--semibold {
-        @apply font-semibold;
-    }
+  &--semibold {
+    @apply font-semibold;
+  }
 
-    &--bold {
-        @apply font-bold;
-    }
+  &--bold {
+    @apply font-bold;
+  }
 
-    // ============================================================================
-    // LEADING (LINE HEIGHT) VARIANTS
-    // ============================================================================
+  // ============================================================================
+  // LEADING (LINE HEIGHT) VARIANTS
+  // ============================================================================
 
-    &--none {
-        @apply leading-none;
-    }
+  &--none {
+    @apply leading-none;
+  }
 
-    &--tight {
-        @apply leading-tight;
-    }
+  &--tight {
+    @apply leading-tight;
+  }
 
-    &--snug {
-        @apply leading-snug;
-    }
+  &--snug {
+    @apply leading-snug;
+  }
 
-    &--normal {
-        @apply leading-normal;
-    }
+  &--normal {
+    @apply leading-normal;
+  }
 
-    &--relaxed {
-        @apply leading-relaxed;
-    }
+  &--relaxed {
+    @apply leading-relaxed;
+  }
 
-    &--loose {
-        @apply leading-loose;
-    }
+  &--loose {
+    @apply leading-loose;
+  }
 
-    // ============================================================================
-    // TEXT OVERFLOW & TRUNCATE
-    // ============================================================================
+  // ============================================================================
+  // TEXT OVERFLOW & TRUNCATE
+  // ============================================================================
 
-    &--truncate {
-        @apply truncate;
-    }
+  &--truncate {
+    @apply truncate;
+  }
 
-    &--line-clamp-1 {
-        @apply line-clamp-1;
-    }
+  &--line-clamp-1 {
+    @apply line-clamp-1;
+  }
 
-    &--line-clamp-2 {
-        @apply line-clamp-2;
-    }
+  &--line-clamp-2 {
+    @apply line-clamp-2;
+  }
 
-    &--line-clamp-3 {
-        @apply line-clamp-3;
-    }
+  &--line-clamp-3 {
+    @apply line-clamp-3;
+  }
 
-    &--line-clamp-4 {
-        @apply line-clamp-4;
-    }
+  &--line-clamp-4 {
+    @apply line-clamp-4;
+  }
 
-    &--line-clamp-5 {
-        @apply line-clamp-5;
-    }
+  &--line-clamp-5 {
+    @apply line-clamp-5;
+  }
 
-    &--line-clamp-6 {
-        @apply line-clamp-6;
-    }
+  &--line-clamp-6 {
+    @apply line-clamp-6;
+  }
 
-    // ============================================================================
-    // TEXT STYLE
-    // ============================================================================
+  // ============================================================================
+  // TEXT STYLE
+  // ============================================================================
 
-    &--italic {
-        @apply italic;
-    }
+  &--italic {
+    @apply italic;
+  }
 
-    // ============================================================================
-    // SPACING
-    // ============================================================================
+  // ============================================================================
+  // SPACING
+  // ============================================================================
 
-    &--margin-bottom {
-        @apply mb-4;
-    }
+  &--margin-bottom {
+    @apply mb-4;
+  }
 }

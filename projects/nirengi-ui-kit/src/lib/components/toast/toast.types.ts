@@ -2,7 +2,7 @@ export enum ToastVariant {
   Success = 'success',
   Error = 'error',
   Info = 'info',
-  Warning = 'warning'
+  Warning = 'warning',
 }
 
 export type ToastPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';

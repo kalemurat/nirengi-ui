@@ -1,30 +1,24 @@
 <div class="showcase">
   <header class="showcase__header">
     <h2 class="showcase__title">Button Component</h2>
-    <p class="showcase__description">
-      Modern button component with 4 types, 7 color variants, and 5 sizes.
-    </p>
+    <p class="showcase__description">Modern button component with 4 types, 7 color variants, and 5 sizes.</p>
   </header>
 
   <!-- BUTTON TYPES SHOWCASE -->
   @for (type of buttonTypes(); track type) {
     <section class="showcase__section">
       <h3 class="showcase__section-title">{{ type | titlecase }} Type</h3>
-      
+
       <!-- All Variants for this Type -->
       <div class="showcase__grid">
         @for (variant of buttonVariants(); track variant) {
           <div class="showcase__item">
             <h4 class="showcase__item-title">{{ variant | titlecase }}</h4>
-            
+
             <!-- All Sizes for this Variant -->
             <div class="showcase__size-group">
               @for (size of buttonSizes(); track size) {
-                <nui-button
-                  [type]="type"
-                  [variant]="variant"
-                  [size]="size"
-                  (clicked)="handleButtonClick()">
+                <nui-button [type]="type" [variant]="variant" [size]="size" (clicked)="handleButtonClick()">
                   {{ size | uppercase }}
                 </nui-button>
               }
@@ -38,7 +32,7 @@
   <!-- SPECIAL STATES -->
   <section class="showcase__section">
     <h3 class="showcase__section-title">Special States</h3>
-    
+
     <div class="showcase__grid">
       <div class="showcase__item">
         <h4 class="showcase__item-title">Disabled State</h4>

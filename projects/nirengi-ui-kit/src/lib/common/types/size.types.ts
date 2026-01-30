@@ -9,7 +9,7 @@ export type SizeType = `${Size}`;
 /**
  * Responsive boyut konfigürasyonu tipi.
  * Farklı ekran boyutları için farklı size değerleri tanımlanabilir.
- * 
+ *
  * @example
  * const responsiveSize: ResponsiveSizeConfig = {
  *   base: 'sm',

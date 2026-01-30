@@ -1,7 +1,7 @@
 /**
  * UI Kit bileşenleri için standart renk varyantları.
  * Semantik anlamları olan renk temaları sağlar.
- * 
+ *
  * @example
  * <nui-button [variant]="ColorVariant.Primary">Kaydet</nui-button>
  * <nui-alert [variant]="ColorVariant.Danger">Hata mesajı</nui-alert>
@@ -47,5 +47,5 @@ export enum ColorVariant {
    * Nötr/Gri renk.
    * Kullanım: İptal button'ları, devre dışı durumlar, arka plan.
    */
-  Neutral = 'neutral'
+  Neutral = 'neutral',
 }

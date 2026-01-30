@@ -32,59 +32,93 @@ import { IconName } from '../icon/icon.types';
       </button>
     </div>
   `,
-  styles: [`
-    .nui-toast {
-      @apply flex items-start gap-3 p-4 rounded-lg shadow-lg border border-transparent transition-all duration-300 pointer-events-auto min-w-[320px] max-w-sm;
-      
-      &__content {
-        @apply flex-1 pt-0.5;
-      }
+  styles: [
+    `
+      .nui-toast {
+        @apply pointer-events-auto flex min-w-[320px] max-w-sm items-start gap-3 rounded-lg border border-transparent p-4 shadow-lg transition-all duration-300;
 
-      &__title {
-        @apply text-sm font-semibold leading-5 text-gray-900;
-      }
+        &__content {
+          @apply flex-1 pt-0.5;
+        }
 
-      &__description {
-        @apply mt-1 text-sm text-gray-500 leading-relaxed;
-      }
+        &__title {
+          @apply text-sm font-semibold leading-5 text-gray-900;
+        }
 
-      &__close {
-        @apply text-gray-400 hover:text-gray-600 transition-colors p-1 -mr-2 -mt-1 rounded-md hover:bg-black/5;
-      }
+        &__description {
+          @apply mt-1 text-sm leading-relaxed text-gray-500;
+        }
 
-      &--success {
-        @apply bg-green-50 border-green-200 dark:bg-green-900/30 dark:border-green-800;
-        .nui-toast__icon { @apply text-green-500 dark:text-green-400; }
-        .nui-toast__title { @apply text-green-900 dark:text-green-100; }
-        .nui-toast__description { @apply text-green-700 dark:text-green-300; }
-        .nui-toast__close { @apply text-green-500 hover:text-green-700 hover:bg-green-200/50 dark:text-green-400 dark:hover:text-green-200 dark:hover:bg-green-800/50; }
-      }
+        &__close {
+          @apply -mr-2 -mt-1 rounded-md p-1 text-gray-400 transition-colors hover:bg-black/5 hover:text-gray-600;
+        }
 
-      &--error {
-        @apply bg-red-50 border-red-200 dark:bg-red-900/30 dark:border-red-800;
-        .nui-toast__icon { @apply text-red-500 dark:text-red-400; }
-        .nui-toast__title { @apply text-red-900 dark:text-red-100; }
-        .nui-toast__description { @apply text-red-700 dark:text-red-300; }
-        .nui-toast__close { @apply text-red-500 hover:text-red-700 hover:bg-red-200/50 dark:text-red-400 dark:hover:text-red-200 dark:hover:bg-red-800/50; }
-      }
+        &--success {
+          @apply border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/30;
+          .nui-toast__icon {
+            @apply text-green-500 dark:text-green-400;
+          }
+          .nui-toast__title {
+            @apply text-green-900 dark:text-green-100;
+          }
+          .nui-toast__description {
+            @apply text-green-700 dark:text-green-300;
+          }
+          .nui-toast__close {
+            @apply text-green-500 hover:bg-green-200/50 hover:text-green-700 dark:text-green-400 dark:hover:bg-green-800/50 dark:hover:text-green-200;
+          }
+        }
 
-      &--warning {
-        @apply bg-yellow-50 border-yellow-200 dark:bg-yellow-900/30 dark:border-yellow-800;
-        .nui-toast__icon { @apply text-yellow-500 dark:text-yellow-400; }
-        .nui-toast__title { @apply text-yellow-900 dark:text-yellow-100; }
-        .nui-toast__description { @apply text-yellow-700 dark:text-yellow-300; }
-        .nui-toast__close { @apply text-yellow-500 hover:text-yellow-700 hover:bg-yellow-200/50 dark:text-yellow-400 dark:hover:text-yellow-200 dark:hover:bg-yellow-800/50; }
-      }
+        &--error {
+          @apply border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/30;
+          .nui-toast__icon {
+            @apply text-red-500 dark:text-red-400;
+          }
+          .nui-toast__title {
+            @apply text-red-900 dark:text-red-100;
+          }
+          .nui-toast__description {
+            @apply text-red-700 dark:text-red-300;
+          }
+          .nui-toast__close {
+            @apply text-red-500 hover:bg-red-200/50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-800/50 dark:hover:text-red-200;
+          }
+        }
 
-      &--info {
-        @apply bg-blue-50 border-blue-200 dark:bg-blue-900/30 dark:border-blue-800;
-        .nui-toast__icon { @apply text-blue-500 dark:text-blue-400; }
-        .nui-toast__title { @apply text-blue-900 dark:text-blue-100; }
-        .nui-toast__description { @apply text-blue-700 dark:text-blue-300; }
-        .nui-toast__close { @apply text-blue-500 hover:text-blue-700 hover:bg-blue-200/50 dark:text-blue-400 dark:hover:text-blue-200 dark:hover:bg-blue-800/50; }
+        &--warning {
+          @apply border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/30;
+          .nui-toast__icon {
+            @apply text-yellow-500 dark:text-yellow-400;
+          }
+          .nui-toast__title {
+            @apply text-yellow-900 dark:text-yellow-100;
+          }
+          .nui-toast__description {
+            @apply text-yellow-700 dark:text-yellow-300;
+          }
+          .nui-toast__close {
+            @apply text-yellow-500 hover:bg-yellow-200/50 hover:text-yellow-700 dark:text-yellow-400 dark:hover:bg-yellow-800/50 dark:hover:text-yellow-200;
+          }
+        }
+
+        &--info {
+          @apply border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/30;
+          .nui-toast__icon {
+            @apply text-blue-500 dark:text-blue-400;
+          }
+          .nui-toast__title {
+            @apply text-blue-900 dark:text-blue-100;
+          }
+          .nui-toast__description {
+            @apply text-blue-700 dark:text-blue-300;
+          }
+          .nui-toast__close {
+            @apply text-blue-500 hover:bg-blue-200/50 hover:text-blue-700 dark:text-blue-400 dark:hover:bg-blue-800/50 dark:hover:text-blue-200;
+          }
+        }
       }
-    }
-  `]
+    `,
+  ],
 })
 export class ToastComponent {
   data = input.required<ToastData>();
@@ -92,11 +126,16 @@ export class ToastComponent {
 
   iconName = computed<IconName>(() => {
     switch (this.data().variant) {
-      case ToastVariant.Success: return 'Check';
-      case ToastVariant.Error: return 'CircleAlert'; 
-      case ToastVariant.Warning: return 'TriangleAlert'; 
-      case ToastVariant.Info: return 'Info';
-      default: return 'Info';
+      case ToastVariant.Success:
+        return 'Check';
+      case ToastVariant.Error:
+        return 'CircleAlert';
+      case ToastVariant.Warning:
+        return 'TriangleAlert';
+      case ToastVariant.Info:
+        return 'Info';
+      default:
+        return 'Info';
     }
   });
 

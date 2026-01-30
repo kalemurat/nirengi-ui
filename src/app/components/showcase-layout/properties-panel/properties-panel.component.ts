@@ -11,13 +11,13 @@ import { PropertyConfig } from '../../../core/interfaces/showcase-config.interfa
 /**
  * Properties Panel Component.
  * Component property'lerini JSON-driven olarak gösterir ve düzenleme imkanı verir.
- * 
+ *
  * ## Özellikler
  * - ✅ JSON-driven property editor
  * - ✅ Enum, boolean, string, number tipleri
  * - ✅ Content projection açıklamaları
  * - ✅ Anlık property değişimi
- * 
+ *
  * @see {@link PropertyStateService}
  * @see {@link PropertyConfig}
  */
@@ -27,7 +27,7 @@ import { PropertyConfig } from '../../../core/interfaces/showcase-config.interfa
   imports: [CommonModule, FormsModule],
   templateUrl: './properties-panel.component.html',
   styleUrl: './properties-panel.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertiesPanelComponent {
   /**
@@ -42,9 +42,7 @@ export class PropertiesPanelComponent {
    * Route parametresinden reactive olarak alınır.
    */
   private readonly componentId = toSignal(
-    this.route.params.pipe(
-      map(params => params['id'] || 'button')
-    ),
+    this.route.params.pipe(map((params) => params['id'] || 'button')),
     { initialValue: 'button' }
   );
 
@@ -61,21 +59,19 @@ export class PropertiesPanelComponent {
    * Property'ler listesi.
    * Config'den okunur.
    */
-  protected readonly properties = computed(() => 
-    this.currentConfig()?.properties || []
-  );
+  protected readonly properties = computed(() => this.currentConfig()?.properties || []);
 
   /**
    * Görünür property'ler listesi.
    * hideInPanel = true olan property'ler filtrelenir.
    */
-  protected readonly visibleProperties = computed(() => 
-    this.properties().filter(prop => !prop.hideInPanel)
+  protected readonly visibleProperties = computed(() =>
+    this.properties().filter((prop) => !prop.hideInPanel)
   );
 
   /**
    * Property değerini okur.
-   * 
+   *
    * @param name - Property adı
    * @returns Property değeri
    */
@@ -86,7 +82,7 @@ export class PropertiesPanelComponent {
   /**
    * Property değerini günceller.
    * Signal reaktif olarak güncellenir.
-   * 
+   *
    * @param name - Property adı
    * @param value - Yeni değer
    */

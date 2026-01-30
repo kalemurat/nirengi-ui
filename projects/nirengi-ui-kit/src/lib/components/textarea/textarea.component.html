@@ -40,10 +40,7 @@
     }
 
     @if (characterCount()) {
-      <span 
-        class="nui-textarea__count"
-        [class.nui-textarea__count--over-limit]="isOverLimit()"
-      >
+      <span class="nui-textarea__count" [class.nui-textarea__count--over-limit]="isOverLimit()">
         {{ characterCount() }}
       </span>
     }
