@@ -182,9 +182,7 @@
             @apply bg-gray-50 text-gray-500 cursor-not-allowed border-gray-200;
         }
 
-        &--error {
-            @apply border-red-500 text-red-900 placeholder-red-300 focus:ring-red-500;
-        }
+
 
         &--success {
             @apply border-green-500 text-green-900 placeholder-green-300 focus:ring-green-500;
@@ -335,7 +333,5 @@
         @apply text-xs text-yellow-600 mt-1;
     }
 
-    &__error {
-        @apply text-xs text-red-600 mt-1;
-    }
+
 }

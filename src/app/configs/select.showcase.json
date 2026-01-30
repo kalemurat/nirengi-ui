@@ -110,13 +110,7 @@
       "defaultValue": false,
       "description": "Allow multiple selections"
     },
-    {
-      "name": "error",
-      "type": "string",
-      "label": "Error Message",
-      "defaultValue": "",
-      "description": "Error message to display"
-    },
+
     {
       "name": "hint",
       "type": "string",

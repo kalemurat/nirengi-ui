@@ -1,17 +1,17 @@
 import {
-  Component,
-  input,
-  signal,
-  computed,
-  contentChild,
-  TemplateRef,
-  ElementRef,
-  HostListener,
-  inject,
-  ChangeDetectionStrategy,
-  forwardRef,
-  viewChild,
-  effect
+    Component,
+    input,
+    signal,
+    computed,
+    contentChild,
+    TemplateRef,
+    ElementRef,
+    HostListener,
+    inject,
+    ChangeDetectionStrategy,
+    forwardRef,
+    viewChild,
+    effect
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -138,11 +138,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   readonly hint = input<string>();
 
-  /**
-   * Hata mesajı metni.
-   * Bileşen hata durumundayken (kırmızı çerçeve) altında gösterilir.
-   */
-  readonly error = input<string>();
+
 
   /**
    * Başarı mesajı metni.
