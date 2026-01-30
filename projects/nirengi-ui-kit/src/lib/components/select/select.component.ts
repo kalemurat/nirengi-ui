@@ -164,7 +164,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    *
    * @see ColorVariant
    */
-  readonly variant = input<ColorVariant>(ColorVariant.Primary);
+  readonly variant = input<ColorVariant>(ColorVariant.Secondary);
 
   /**
    * Seçeneklerin render edilmesi için özel şablon.
