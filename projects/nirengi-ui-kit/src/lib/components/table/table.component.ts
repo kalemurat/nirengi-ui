@@ -112,6 +112,14 @@ export class TableComponent<T> {
   size = input<Size>(Size.Medium);
 
   /**
+   * Tablo yükleniyor durumunu gösterir.
+   * True olduğunda tablo içeriği blur olur ve loading spinner gösterilir.
+   * Pagination butonları disable olur.
+   * @default false
+   */
+  loading = input<boolean>(false);
+
+  /**
    * Sütun tanımları.
    * Eğer headTemplate/rowTemplate verilmezse bu tanımlara göre otomatik tablo oluşturulur.
    */
@@ -378,12 +386,19 @@ export class TableComponent<T> {
   }
 
   /**
+   * Global filtreleme değeri değiştiğinde tetiklenir.
+   * Backend tarafında filtreleme yapmak için kullanılabilir.
+   */
+  globalFilterChange = output<string>();
+
+  /**
    * Global filtreleme uygular.
    * @param value Arama değeri
    */
   filterGlobal(value: string) {
     this.globalFilterState.set(value);
     this.currentPage.set(1);
+    this.globalFilterChange.emit(value);
   }
 
   /**

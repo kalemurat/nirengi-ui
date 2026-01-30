@@ -8,8 +8,9 @@
           type="text" 
           [value]="globalFilterState()"
           (input)="filterGlobal($any($event.target).value)"
+          [disabled]="loading()"
           placeholder="Ara..."
-          class="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+          class="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
         />
       </div>
     </div>
@@ -121,6 +122,16 @@
         </table>
       </div>
     }
+
+    <!-- Loading Overlay -->
+    @if (loading()) {
+      <div class="absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm transition-all duration-300">
+        <svg class="animate-spin h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+    }
   </div>
 
   <!-- Pagination -->
@@ -142,7 +153,8 @@
         <select 
           [value]="pageSize()" 
           (change)="onPageSizeChange($event)"
-          class="block w-full rounded-md border-0 py-1.5 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 cursor-pointer">
+          [disabled]="loading()"
+          class="block w-full rounded-md border-0 py-1.5 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
           @for (opt of pageSizeOptions(); track opt) {
             <option [value]="opt">{{ opt }}</option>
           }
@@ -154,7 +166,7 @@
           <!-- Previous -->
           <button 
             (click)="setPage(currentPage() - 1)" 
-            [disabled]="currentPage() === 1"
+            [disabled]="currentPage() === 1 || loading()"
             [ngClass]="paginationButtonClass()"
             class="relative inline-flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed">
             <span class="sr-only">Önceki</span>
@@ -171,13 +183,14 @@
              } @else {
                <button 
                  (click)="setPage(p)"
+                 [disabled]="loading()"
                  [class.bg-primary-600]="p === currentPage()"
                  [class.text-white]="p === currentPage()"
-                 [class.hover:bg-primary-500]="p === currentPage()"
+                 [class.hover:bg-primary-500]="p === currentPage() && !loading()"
                  [class.text-gray-900]="p !== currentPage()"
-                 [class.hover:bg-gray-50]="p !== currentPage()"
+                 [class.hover:bg-gray-50]="p !== currentPage() && !loading()"
                  [ngClass]="paginationButtonClass()"
-                 class="relative inline-flex items-center justify-center font-semibold rounded-full focus:z-20 focus:outline-offset-0 transition-colors mx-0.5">
+                 class="relative inline-flex items-center justify-center font-semibold rounded-full focus:z-20 focus:outline-offset-0 transition-colors mx-0.5 disabled:opacity-50 disabled:cursor-not-allowed">
                  {{ p }}
                </button>
              }
@@ -186,7 +199,7 @@
           <!-- Next -->
           <button 
             (click)="setPage(currentPage() + 1)" 
-            [disabled]="currentPage() === totalPages()"
+            [disabled]="currentPage() === totalPages() || loading()"
             [ngClass]="paginationButtonClass()"
             class="relative inline-flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed">
             <span class="sr-only">Sonraki</span>

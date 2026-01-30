@@ -99,6 +99,13 @@
         {"label": "Extra Large", "value": "xl"}
       ],
       "description": "Tablo boyutu."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "label": "Loading",
+      "defaultValue": false,
+      "description": "Tablo yükleniyor durumunu gösterir."
     }
   ],
   "events": [
@@ -106,6 +113,11 @@
       "name": "pageChange",
       "label": "Page Change",
       "payloadDescription": "Sayfa değiştiğinde tetiklenir (Page number)."
+    },
+    {
+      "name": "globalFilterChange",
+      "label": "Global Filter Change",
+      "payloadDescription": "Global arama yapıldığında tetiklenir (Arama metni)."
     }
   ],
   "examples": [
