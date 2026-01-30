@@ -54,7 +54,7 @@ import { IconName } from '../icon/icon.types';
         }
 
         &--success {
-          @apply border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/30;
+          @apply border-green-300 bg-green-100 dark:border-green-800 dark:bg-green-900;
           .nui-toast__icon {
             @apply text-green-500 dark:text-green-400;
           }
@@ -62,7 +62,7 @@ import { IconName } from '../icon/icon.types';
             @apply text-green-900 dark:text-green-100;
           }
           .nui-toast__description {
-            @apply text-green-700 dark:text-green-300;
+            @apply text-green-800 dark:text-green-300;
           }
           .nui-toast__close {
             @apply text-green-500 hover:bg-green-200/50 hover:text-green-700 dark:text-green-400 dark:hover:bg-green-800/50 dark:hover:text-green-200;
@@ -70,7 +70,7 @@ import { IconName } from '../icon/icon.types';
         }
 
         &--error {
-          @apply border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/30;
+          @apply border-red-300 bg-red-100 dark:border-red-800 dark:bg-red-900;
           .nui-toast__icon {
             @apply text-red-500 dark:text-red-400;
           }
@@ -78,7 +78,7 @@ import { IconName } from '../icon/icon.types';
             @apply text-red-900 dark:text-red-100;
           }
           .nui-toast__description {
-            @apply text-red-700 dark:text-red-300;
+            @apply text-red-800 dark:text-red-300;
           }
           .nui-toast__close {
             @apply text-red-500 hover:bg-red-200/50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-800/50 dark:hover:text-red-200;
@@ -86,7 +86,7 @@ import { IconName } from '../icon/icon.types';
         }
 
         &--warning {
-          @apply border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/30;
+          @apply border-yellow-300 bg-yellow-100 dark:border-yellow-800 dark:bg-yellow-900;
           .nui-toast__icon {
             @apply text-yellow-500 dark:text-yellow-400;
           }
@@ -94,7 +94,7 @@ import { IconName } from '../icon/icon.types';
             @apply text-yellow-900 dark:text-yellow-100;
           }
           .nui-toast__description {
-            @apply text-yellow-700 dark:text-yellow-300;
+            @apply text-yellow-800 dark:text-yellow-300;
           }
           .nui-toast__close {
             @apply text-yellow-500 hover:bg-yellow-200/50 hover:text-yellow-700 dark:text-yellow-400 dark:hover:bg-yellow-800/50 dark:hover:text-yellow-200;
@@ -102,7 +102,7 @@ import { IconName } from '../icon/icon.types';
         }
 
         &--info {
-          @apply border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/30;
+          @apply border-blue-300 bg-blue-100 dark:border-blue-800 dark:bg-blue-900;
           .nui-toast__icon {
             @apply text-blue-500 dark:text-blue-400;
           }
@@ -110,7 +110,7 @@ import { IconName } from '../icon/icon.types';
             @apply text-blue-900 dark:text-blue-100;
           }
           .nui-toast__description {
-            @apply text-blue-700 dark:text-blue-300;
+            @apply text-blue-800 dark:text-blue-300;
           }
           .nui-toast__close {
             @apply text-blue-500 hover:bg-blue-200/50 hover:text-blue-700 dark:text-blue-400 dark:hover:bg-blue-800/50 dark:hover:text-blue-200;
