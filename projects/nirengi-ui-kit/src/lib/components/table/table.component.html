@@ -1,0 +1,210 @@
+<div class="nui-table-container flex flex-col gap-4 w-full h-full">
+  
+  <!-- Toolbar / Global Filter -->
+  @if (showGlobalFilter()) {
+    <div class="nui-table-toolbar flex justify-end">
+      <div class="relative w-64">
+        <input 
+          type="text" 
+          [value]="globalFilterState()"
+          (input)="filterGlobal($any($event.target).value)"
+          placeholder="Ara..."
+          class="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+        />
+      </div>
+    </div>
+  }
+
+  <!-- Table Wrapper -->
+  <div class="nui-table-wrapper border rounded-lg overflow-hidden bg-white shadow-sm flex-1 flex flex-col relative w-full overflow-x-auto"
+       [class.overflow-y-auto]="!virtualScroll()"
+       [class.overflow-y-hidden]="virtualScroll()">
+    
+    <!-- Virtual Scroll Mode -->
+    @if (virtualScroll()) {
+      <cdk-virtual-scroll-viewport [itemSize]="itemSize()" [style.height]="scrollHeight()" class="w-full">
+        <table class="nui-table w-full text-left border-collapse table-fixed">
+
+          <thead class="nui-table__head bg-gray-50 border-b sticky top-0 z-10 shadow-sm">
+             <tr class="nui-table__row nui-table__row--head h-12">
+               @if (headTemplate()) {
+                 <ng-container *ngTemplateOutlet="headTemplate(); context: { filter: filter.bind(this) }"></ng-container>
+               } @else if (columns().length) {
+                 @for (col of columns(); track col.field) {
+                   <th class="p-4 text-left font-medium text-gray-500 whitespace-nowrap">
+                     {{ col.header }}
+                     @if (col.filterable) {
+                       <div class="mt-2">
+                         <input 
+                           type="text" 
+                           (input)="filter(col.field, $any($event.target).value)" 
+                           (click)="$event.stopPropagation()"
+                           class="w-full px-2 py-1 text-xs font-normal border rounded focus:outline-none focus:border-primary-500 text-gray-700"
+                           [placeholder]="'Filter ' + col.header" />
+                       </div>
+                     }
+                   </th>
+                 }
+               } @else {
+                  <ng-container *ngTemplateOutlet="defaultHead; context: { filter: filter.bind(this) }"></ng-container>
+               }
+             </tr>
+          </thead>
+          <tbody class="nui-table__body divide-y">
+            <tr *cdkVirtualFor="let item of viewData(); templateCacheSize: 0" 
+                class="nui-table__row hover:bg-gray-50 transition-colors" 
+                [ngClass]="rowHeightClass()"
+                [style.height.px]="itemSize()">
+              @if (rowTemplate()) {
+                 <ng-container *ngTemplateOutlet="rowTemplate(); context: { $implicit: item }"></ng-container>
+              } @else if (columns().length) {
+                @for (col of columns(); track col.field) {
+                  <td class="p-4 text-gray-900 whitespace-nowrap">{{ $any(item)[col.field] }}</td>
+                }
+              } @else {
+                 <ng-container *ngTemplateOutlet="defaultRow; context: { $implicit: item }"></ng-container>
+              }
+            </tr>
+          </tbody>
+        </table>
+      </cdk-virtual-scroll-viewport>
+    } @else {
+      <!-- Standard Mode -->
+      <div class="overflow-auto w-full h-full">
+        <table class="nui-table w-full text-left border-collapse">
+
+          <thead class="nui-table__head bg-gray-50 border-b sticky top-0 z-10">
+             <tr class="nui-table__row nui-table__row--head h-12">
+               @if (headTemplate()) {
+                  <ng-container *ngTemplateOutlet="headTemplate(); context: { filter: filter.bind(this) }"></ng-container>
+               } @else if (columns().length) {
+                 @for (col of columns(); track col.field) {
+                   <th class="p-4 text-left font-medium text-gray-500 whitespace-nowrap">
+                     {{ col.header }}
+                     @if (col.filterable) {
+                       <div class="mt-2">
+                         <input 
+                           type="text" 
+                           (input)="filter(col.field, $any($event.target).value)" 
+                           (click)="$event.stopPropagation()"
+                           class="w-full px-2 py-1 text-xs font-normal border rounded focus:outline-none focus:border-primary-500 text-gray-700"
+                           [placeholder]="'Filter ' + col.header" />
+                       </div>
+                     }
+                   </th>
+                 }
+               } @else {
+                  <ng-container *ngTemplateOutlet="defaultHead; context: { filter: filter.bind(this) }"></ng-container>
+               }
+             </tr>
+          </thead>
+          <tbody class="nui-table__body divide-y">
+            @for (item of viewData(); track $index) {
+              <tr class="nui-table__row hover:bg-gray-50 transition-colors"
+                  [ngClass]="rowHeightClass()">
+                @if (rowTemplate()) {
+                   <ng-container *ngTemplateOutlet="rowTemplate(); context: { $implicit: item }"></ng-container>
+                } @else if (columns().length) {
+                  @for (col of columns(); track col.field) {
+                    <td class="p-4 text-gray-900 whitespace-nowrap">{{ $any(item)[col.field] }}</td>
+                  }
+                } @else {
+                   <ng-container *ngTemplateOutlet="defaultRow; context: { $implicit: item }"></ng-container>
+                }
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="100%" class="p-4 text-center text-gray-500">Kayıt bulunamadı.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (pagination() && !virtualScroll() && _totalRecords() > 0) {
+    <div class="nui-table-pagination flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-200">
+      
+      <!-- Info (Mobile & Desktop) -->
+      <div class="flex items-center justify-between w-full sm:w-auto mb-4 sm:mb-0">
+        <div class="text-sm text-gray-700">
+          <span class="font-medium">{{ _totalRecords() }}</span> kayıttan
+          <span class="font-medium">{{ visibleRange().start }}</span> - 
+          <span class="font-medium">{{ visibleRange().end }}</span> arası
+          <span class="hidden sm:inline">gösteriliyor</span>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <!-- Page Size -->
+        <select 
+          [value]="pageSize()" 
+          (change)="onPageSizeChange($event)"
+          class="block w-full rounded-md border-0 py-1.5 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 cursor-pointer">
+          @for (opt of pageSizeOptions(); track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+
+
+        <!-- Navigation -->
+        <nav class="isolate inline-flex items-center gap-1 rounded-md" aria-label="Pagination">
+          <!-- Previous -->
+          <button 
+            (click)="setPage(currentPage() - 1)" 
+            [disabled]="currentPage() === 1"
+            [ngClass]="paginationButtonClass()"
+            class="relative inline-flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed">
+            <span class="sr-only">Önceki</span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          
+
+        <!-- Numbers -->
+          @for (p of pages(); track $index) {
+             @if (p === '...') {
+                <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 focus:outline-offset-0">...</span>
+             } @else {
+               <button 
+                 (click)="setPage(p)"
+                 [class.bg-primary-600]="p === currentPage()"
+                 [class.text-white]="p === currentPage()"
+                 [class.hover:bg-primary-500]="p === currentPage()"
+                 [class.text-gray-900]="p !== currentPage()"
+                 [class.hover:bg-gray-50]="p !== currentPage()"
+                 [ngClass]="paginationButtonClass()"
+                 class="relative inline-flex items-center justify-center font-semibold rounded-full focus:z-20 focus:outline-offset-0 transition-colors mx-0.5">
+                 {{ p }}
+               </button>
+             }
+          }
+
+          <!-- Next -->
+          <button 
+            (click)="setPage(currentPage() + 1)" 
+            [disabled]="currentPage() === totalPages()"
+            [ngClass]="paginationButtonClass()"
+            class="relative inline-flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed">
+            <span class="sr-only">Sonraki</span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Default Templates (Fallbacks) -->
+<ng-template #defaultHead>
+  <th class="p-4 text-left font-medium text-gray-500">Header</th>
+</ng-template>
+
+<ng-template #defaultRow let-item>
+  <td class="p-4 text-gray-900">{{ item | json }}</td>
+</ng-template>

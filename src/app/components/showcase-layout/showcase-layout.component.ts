@@ -21,10 +21,11 @@ import checkboxConfig from '../../configs/checkbox.showcase.json';
 import radioConfig from '../../configs/radio.showcase.json';
 import breadcrumbConfig from '../../configs/breadcrumb.showcase.json';
 import listConfig from '../../configs/list.showcase.json';
+import tableConfig from '../../configs/table.showcase.json';
 
 
 // Component imports
-import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent, RadioComponent, BreadcrumbComponent, ListComponent } from 'nirengi-ui-kit';
+import { ButtonComponent, SelectComponent, HeadingComponent, ParagraphComponent, IconComponent, BadgeComponent, TextboxComponent, TextareaComponent, CheckboxComponent, RadioComponent, BreadcrumbComponent, ListComponent, TableComponent } from 'nirengi-ui-kit';
 
 
 
@@ -160,6 +161,12 @@ export class ShowcaseLayoutComponent {
     this.registry.registerComponent(
       listConfig as any,
       () => Promise.resolve(ListComponent)
+    );
+
+    // Table Component
+    this.registry.registerComponent(
+      tableConfig as any,
+      () => Promise.resolve(TableComponent)
     );
   }
 }

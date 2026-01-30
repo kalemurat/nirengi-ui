@@ -1,21 +1,9 @@
-import {
-    Component,
-    ViewChild,
-    ViewContainerRef,
-    inject,
-    computed,
-    effect,
-    ChangeDetectionStrategy,
-    AfterViewInit,
-    OnDestroy,
-    DestroyRef,
-    signal,
-    ComponentRef
-} from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, inject, computed, effect, ChangeDetectionStrategy, AfterViewInit, OnDestroy, DestroyRef, signal, ComponentRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { ComponentRegistryService } from '../../../core/services/component-registry.service';
 import { PropertyStateService } from '../../../core/services/property-state.service';
 import { EventLoggerService } from '../../../core/services/event-logger.service';
@@ -77,6 +65,12 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * ViewChild hazır mı?
    */
   private viewInitialized = signal(false);
+
+  /**
+   * Component temizlendiğinde/değiştiğinde tetiklenen subject.
+   * Subscription'ları sonlandırmak için kullanılır.
+   */
+  private readonly componentDestroy$ = new Subject<void>();
 
   /**
    * Aktif component ID.
@@ -165,6 +159,8 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.componentDestroy$.next();
+    this.componentDestroy$.complete();
     this.clearComponent();
   }
 
@@ -209,6 +205,9 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * Önceki component'i clear eder.
    */
   private clearComponent(): void {
+    // Event subscription'larını temizle
+    this.componentDestroy$.next();
+
     if (this.dynamicComponentContainer) {
       this.dynamicComponentContainer.clear();
     }
@@ -314,14 +313,21 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     config.events?.forEach((event: any) => {
       const eventEmitter = instance[event.name];
       
-      if (eventEmitter && typeof eventEmitter.subscribe === 'function') {
-        // takeUntilDestroyed ile otomatik cleanup - memory leak önlenir
-        eventEmitter
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((payload: any) => {
+      if (eventEmitter) {
+        if (typeof eventEmitter.pipe === 'function' && typeof eventEmitter.subscribe === 'function') {
+          eventEmitter
+            .pipe(takeUntil(this.componentDestroy$))
+            .subscribe((payload: any) => {
+              this.eventLogger.logEvent(componentId, event.name, payload);
+            });
+        } else if (typeof eventEmitter.subscribe === 'function') {
+          const sub = eventEmitter.subscribe((payload: any) => {
             this.eventLogger.logEvent(componentId, event.name, payload);
           });
+          this.componentDestroy$.pipe(take(1)).subscribe(() => sub.unsubscribe());
+        }
       }
+
     });
   }
 }

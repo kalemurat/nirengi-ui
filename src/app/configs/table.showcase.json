@@ -1,0 +1,131 @@
+{
+  "id": "table",
+  "name": "Table",
+  "description": "Performanslı, filtrelenebilir ve esnek veri tablosu.",
+  "category": "Data Display",
+  "selector": "nui-table",
+  "properties": [
+    {
+      "name": "data",
+      "type": "array",
+      "label": "Data Source",
+      "defaultValue": [
+        {"id": 1, "name": "Ahmet Yılmaz", "role": "Admin", "active": true},
+        {"id": 2, "name": "Ayşe Demir", "role": "User", "active": false},
+        {"id": 3, "name": "Mehmet Kaya", "role": "Editor", "active": true},
+        {"id": 4, "name": "Fatma Şahin", "role": "User", "active": true},
+        {"id": 5, "name": "Ali Öztürk", "role": "Admin", "active": false}
+      ],
+      "description": "Tabloda gösterilecek veri listesi."
+    },
+    {
+      "name": "virtualScroll",
+      "type": "boolean",
+      "label": "Virtual Scroll",
+      "defaultValue": false,
+      "description": "Sanal kaydırma modunu açar (Büyük veri setleri için)."
+    },
+    {
+      "name": "itemSize",
+      "type": "number",
+      "label": "Item Size (px)",
+      "defaultValue": 48,
+      "description": "Virtual Scroll modunda satır yüksekliği."
+    },
+    {
+      "name": "scrollHeight",
+      "type": "string",
+      "label": "Scroll Height",
+      "defaultValue": "400px",
+      "description": "Virtual Scroll modunda tablo yüksekliği (örn: 400px, 100%)."
+    },
+    {
+      "name": "pagination",
+      "type": "boolean",
+      "label": "Pagination",
+      "defaultValue": true,
+      "description": "Sayfalama özelliğini açar/kapatır (Virtual Scroll kapalıysa)."
+    },
+    {
+      "name": "pageSize",
+      "type": "number",
+      "label": "Page Size",
+      "defaultValue": 5,
+      "description": "Sayfa başına gösterilecek kayıt sayısı."
+    },
+    {
+      "name": "showGlobalFilter",
+      "type": "boolean",
+      "label": "Global Filter",
+      "defaultValue": true,
+      "description": "Global arama kutusunu gösterir."
+    },
+    {
+      "name": "filterDebounce",
+      "type": "number",
+      "label": "Filter Debounce (ms)",
+      "defaultValue": 300,
+      "description": "Filtreleme gecikme süresi."
+    },
+    {
+      "name": "columns",
+      "type": "array",
+      "label": "Columns (Auto Render)",
+      "defaultValue": [
+        {"field": "id", "header": "ID"},
+        {"field": "name", "header": "Full Name", "filterable": true},
+        {"field": "role", "header": "Role Status", "filterable": true},
+        {"field": "active", "header": "Is Active"}
+      ],
+      "description": "Otomatik render için sütun tanımları."
+    },
+    {
+      "name": "totalRecords",
+      "type": "number",
+      "label": "Total Records",
+      "defaultValue": null,
+      "description": "Backend sayfalama için toplam kayıt sayısı."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        {"label": "Extra Small", "value": "xs"},
+        {"label": "Small", "value": "sm"},
+        {"label": "Medium", "value": "md"},
+        {"label": "Large", "value": "lg"},
+        {"label": "Extra Large", "value": "xl"}
+      ],
+      "description": "Tablo boyutu."
+    }
+  ],
+  "events": [
+    {
+      "name": "pageChange",
+      "label": "Page Change",
+      "payloadDescription": "Sayfa değiştiğinde tetiklenir (Page number)."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Standart tablo kullanımı.",
+      "propertyValues": {
+        "virtualScroll": false,
+        "pagination": true,
+        "pageSize": 5,
+        "showGlobalFilter": true
+      }
+    },
+    {
+      "title": "Virtual Scroll",
+      "description": "Sanal kaydırma modu (Pagination devre dışı).",
+      "propertyValues": {
+        "virtualScroll": true,
+        "itemSize": 48
+      }
+    }
+  ]
+}

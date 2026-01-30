@@ -323,7 +323,15 @@ export type { BreadcrumbItem } from './lib/components/breadcrumb/breadcrumb.comp
  * @see {@link ListComponent}
  * @see {@link ListItem}
  */
-
 export { ListComponent } from './lib/components/list/list.component';
 export type { ListItem } from './lib/components/list/list.component';
+
+/**
+ * Table component and types.
+ * @see {@link TableComponent}
+ * @see {@link FilterMatchMode}
+ * @see {@link FilterMetadata}
+ */
+export { TableComponent } from './lib/components/table/table.component';
+export type { FilterMatchMode, FilterMetadata } from './lib/components/table/table.component';
 
