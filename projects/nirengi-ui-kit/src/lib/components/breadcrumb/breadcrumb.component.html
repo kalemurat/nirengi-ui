@@ -1,0 +1,40 @@
+<nav aria-label="breadcrumb" [class]="containerClasses()">
+  <ol [class]="listClasses()">
+    @for (item of items(); track $index; let last = $last) {
+      <li [class]="itemClasses()">
+        @if (item.url && !item.disabled) {
+          <a [routerLink]="item.url" 
+             [queryParams]="item.queryParams" 
+             [fragment]="item.fragment"
+             class="nui-breadcrumb__link"
+             [attr.aria-current]="last ? 'page' : null">
+            @if (item.icon) {
+              <i [class]="item.icon" class="nui-breadcrumb__icon"></i>
+            }
+            {{ item.label }}
+          </a>
+        } @else {
+          <span class="nui-breadcrumb__text" 
+                [class.nui-breadcrumb__text--current]="last"
+                [class.nui-breadcrumb__text--disabled]="item.disabled"
+                [attr.aria-current]="last ? 'page' : null">
+            @if (item.icon) {
+              <i [class]="item.icon" class="nui-breadcrumb__icon"></i>
+            }
+            {{ item.label }}
+          </span>
+        }
+
+        @if (!last) {
+          <span class="nui-breadcrumb__separator" aria-hidden="true">
+            @if (isTemplate(separator())) {
+              <ng-container *ngTemplateOutlet="$any(separator())"></ng-container>
+            } @else {
+              {{ separator() }}
+            }
+          </span>
+        }
+      </li>
+    }
+  </ol>
+</nav>

@@ -309,3 +309,11 @@ export { SelectComponent } from './lib/components/select/select.component';
  * @see {@link RadioComponent}
  */
 export { RadioComponent } from './lib/components/radio/radio.component';
+
+/**
+ * Breadcrumb component.
+ * @see {@link BreadcrumbComponent}
+ */
+export { BreadcrumbComponent } from './lib/components/breadcrumb/breadcrumb.component';
+export type { BreadcrumbItem } from './lib/components/breadcrumb/breadcrumb.component';
+

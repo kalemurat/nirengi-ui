@@ -1,16 +1,16 @@
 import {
-  Component,
-  ViewChild,
-  ViewContainerRef,
-  inject,
-  computed,
-  effect,
-  ChangeDetectionStrategy,
-  AfterViewInit,
-  OnDestroy,
-  DestroyRef,
-  signal,
-  ComponentRef
+    Component,
+    ViewChild,
+    ViewContainerRef,
+    inject,
+    computed,
+    effect,
+    ChangeDetectionStrategy,
+    AfterViewInit,
+    OnDestroy,
+    DestroyRef,
+    signal,
+    ComponentRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -145,7 +145,8 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
         const value = properties[prop.name];
         if (value !== undefined) {
           try {
-            const inputName = this.mapPropertyName(prop.name);
+            const inputName = this.mapPropertyName(prop.name, config.id);
+
             componentRef.setInput(inputName, value);
           } catch (error) {
             console.warn(`Failed to set input ${prop.name}:`, error);
@@ -263,7 +264,8 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
       const value = this.propertyState.getProperty(prop.name);
       if (value !== undefined) {
         try {
-          const inputName = this.mapPropertyName(prop.name);
+          const inputName = this.mapPropertyName(prop.name, config.id);
+
           componentRef.setInput(inputName, value);
         } catch (error) {
           console.warn(`Failed to set initial input ${prop.name}:`, error);
@@ -282,12 +284,18 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * @param propertyName - Showcase config'teki property ismi
    * @returns Component'in beklediği input ismi
    */
-  private mapPropertyName(propertyName: string): string {
-    const mapping: Record<string, string> = {
-      'items': 'options',
-      // Gerekirse buraya başka mapping'ler eklenebilir
-    };
-    return mapping[propertyName] || propertyName;
+  private mapPropertyName(propertyName: string, componentId: string): string {
+    const mapping: Record<string, string> = {};
+
+    // Component-specific mappings
+    if (componentId === 'select' && propertyName === 'items') {
+      return 'options';
+    }
+
+    // Default mapping (globals if any)
+    // return mapping[propertyName] || propertyName;
+    
+    return propertyName;
   }
 
   /**

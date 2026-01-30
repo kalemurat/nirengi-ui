@@ -1,0 +1,80 @@
+{
+  "id": "breadcrumb",
+  "name": "Breadcrumb",
+  "description": "Navigation aid that shows the user's location within a website.",
+  "category": "Navigation",
+  "selector": "nui-breadcrumb",
+  "properties": [
+    {
+      "name": "items",
+      "type": "array",
+      "label": "Breadcrumb Items",
+      "defaultValue": [
+        { "label": "Home", "url": "/" },
+        { "label": "Library", "url": "/library" },
+        { "label": "Data", "disabled": true }
+      ],
+      "description": "Array of breadcrumb items to display",
+      "readOnly": true
+    },
+    {
+      "name": "separator",
+      "type": "string",
+      "label": "Separator",
+      "defaultValue": "/",
+      "description": "Character or string to use as separator"
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" }
+      ],
+      "description": "Size of the breadcrumb"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Standard breadcrumb navigation",
+      "propertyValues": {
+        "items": [
+          { "label": "Home", "url": "/" },
+          { "label": "Products", "url": "/products" },
+          { "label": "Details", "disabled": true }
+        ],
+        "separator": "/",
+        "size": "md"
+      }
+    },
+    {
+      "title": "Custom Separator",
+      "description": "Breadcrumb with '>' separator",
+      "propertyValues": {
+        "items": [
+          { "label": "Account", "url": "/account" },
+          { "label": "Settings", "url": "/account/settings" },
+          { "label": "Security", "disabled": true }
+        ],
+        "separator": ">",
+        "size": "md"
+      }
+    },
+    {
+      "title": "Small Size",
+      "description": "Compact breadcrumb",
+      "propertyValues": {
+        "items": [
+          { "label": "Root", "url": "/" },
+          { "label": "Branch", "url": "/branch" },
+          { "label": "Leaf", "disabled": true }
+        ],
+        "size": "sm"
+      }
+    }
+  ]
+}
