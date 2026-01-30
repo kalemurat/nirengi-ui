@@ -1,0 +1,16 @@
+<ul [class]="containerClasses()">
+  @for (item of items(); track item.id) {
+    <li class="nui-list__item">
+      <ng-container
+        [ngTemplateOutlet]="itemTemplate() || defaultTemplate"
+        [ngTemplateOutletContext]="{ $implicit: item }"
+      ></ng-container>
+    </li>
+  }
+</ul>
+
+<ng-template #defaultTemplate let-item>
+  <div class="px-4 py-2 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+    <span class="text-gray-700">{{ item.label || item.name || item.text || item.id }}</span>
+  </div>
+</ng-template>

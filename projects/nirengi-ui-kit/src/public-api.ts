@@ -317,3 +317,13 @@ export { RadioComponent } from './lib/components/radio/radio.component';
 export { BreadcrumbComponent } from './lib/components/breadcrumb/breadcrumb.component';
 export type { BreadcrumbItem } from './lib/components/breadcrumb/breadcrumb.component';
 
+
+/**
+ * List component and interface.
+ * @see {@link ListComponent}
+ * @see {@link ListItem}
+ */
+
+export { ListComponent } from './lib/components/list/list.component';
+export type { ListItem } from './lib/components/list/list.component';
+

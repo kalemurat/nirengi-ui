@@ -1,0 +1,41 @@
+{
+  "id": "list",
+  "name": "List",
+  "description": "A flexible list component that supports custom item templates and content projection.",
+  "category": "Data Display",
+  "selector": "nui-list",
+  "properties": [
+    {
+      "name": "items",
+      "type": "array",
+      "label": "Items",
+      "defaultValue": [
+        { "id": 1, "name": "Item 1", "description": "Description 1" },
+        { "id": 2, "name": "Item 2", "description": "Description 2" },
+        { "id": 3, "name": "Item 3", "description": "Description 3" }
+      ],
+      "description": "Array of items to display. Each item must have a unique 'id' property.",
+      "readOnly": true
+    },
+    {
+      "name": "listClass",
+      "type": "string",
+      "label": "List Class",
+      "defaultValue": "",
+      "description": "Custom CSS class for the list container (ul)."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic List",
+      "description": "A simple list using the default item template.",
+      "propertyValues": {
+        "items": [
+            { "id": 101, "name": "Apple" },
+            { "id": 102, "name": "Banana" },
+            { "id": 103, "name": "Cherry" }
+        ]
+      }
+    }
+  ]
+}

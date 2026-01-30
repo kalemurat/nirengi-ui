@@ -1,0 +1,12 @@
+.nui-list {
+    @apply w-full list-none p-0 m-0;
+
+    &__item {
+        @apply w-full;
+
+        // Optional: Add default spacing or border if needed, 
+        // but keep it minimal as requested so user controls content.
+        // However, a basic list usually implies some structure.
+        // Let's keep it strictly structural.
+    }
+}
