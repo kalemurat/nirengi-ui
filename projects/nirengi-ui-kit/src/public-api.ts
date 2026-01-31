@@ -368,3 +368,12 @@ export * from './lib/components/tabs-demo';
  * @see {@link SwitchComponent}
  */
 export { SwitchComponent } from './lib/components/switch/switch.component';
+
+/**
+ * Popover directive and component.
+ * @see {@link PopoverDirective}
+ * @see {@link PopoverComponent}
+ * @see {@link PopoverPosition}
+ */
+export * from './lib/components/popover';
+export * from './lib/components/popover-demo';

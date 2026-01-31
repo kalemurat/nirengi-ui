@@ -1,0 +1,54 @@
+{
+  "id": "popover",
+  "name": "Popover",
+  "selector": "nirengi-popover-demo",
+  "description": "Tıklama ile tetiklenen, özelleştirilebilir bir içerik penceresi açan direktif.",
+  "category": "Overlay",
+  "properties": [
+    {
+      "name": "position",
+      "label": "Position",
+      "description": "Popover'ın açılacağı konum.",
+      "type": "enum",
+      "options": [
+        { "label": "Top", "value": "top" },
+        { "label": "Bottom", "value": "bottom" },
+        { "label": "Left", "value": "left" },
+        { "label": "Right", "value": "right" },
+        { "label": "Top Start", "value": "top-start" },
+        { "label": "Top End", "value": "top-end" },
+        { "label": "Bottom Start", "value": "bottom-start" },
+        { "label": "Bottom End", "value": "bottom-end" },
+        { "label": "Left Start", "value": "left-start" },
+        { "label": "Left End", "value": "left-end" },
+        { "label": "Right Start", "value": "right-start" },
+        { "label": "Right End", "value": "right-end" }
+      ],
+      "defaultValue": "bottom"
+    },
+    {
+      "name": "closeOnOutsideClick",
+      "label": "Close on Outside Click",
+      "description": "Dışarı tıklandığında popover'ın kapanıp kapanmayacağını belirler.",
+      "type": "boolean",
+      "defaultValue": true
+    }
+  ],
+  "events": [],
+  "examples": [
+    {
+      "title": "Temel Kullanım",
+      "description": "Butona tıklandığında altta açılan popover.",
+      "propertyValues": {
+        "position": "bottom"
+      }
+    },
+    {
+      "title": "Sağ Konum",
+      "description": "Butonun sağında açılan popover.",
+      "propertyValues": {
+        "position": "right"
+      }
+    }
+  ]
+}

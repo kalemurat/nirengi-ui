@@ -29,29 +29,31 @@ import modalConfig from '../../configs/modal.showcase.json';
 import tabsConfig from '../../configs/tabs.showcase.json';
 import tooltipConfig from '../../configs/tooltip.showcase.json';
 import switchConfig from '../../configs/switch.showcase.json';
+import popoverConfig from '../../configs/popover.showcase.json';
 
 // Component imports
 import {
-  ButtonComponent,
-  SelectComponent,
-  HeadingComponent,
-  ParagraphComponent,
-  IconComponent,
-  BadgeComponent,
-  TextboxComponent,
-  TextareaComponent,
-  CheckboxComponent,
-  RadioComponent,
-  BreadcrumbComponent,
-  ListComponent,
-  TableComponent,
-  AccordionComponent,
-  DatepickerComponent,
-  ToastDemoComponent,
-  ModalDemoComponent,
-  TabsDemoComponent,
-  TooltipDemoComponent,
-  SwitchComponent,
+    ButtonComponent,
+    SelectComponent,
+    HeadingComponent,
+    ParagraphComponent,
+    IconComponent,
+    BadgeComponent,
+    TextboxComponent,
+    TextareaComponent,
+    CheckboxComponent,
+    RadioComponent,
+    BreadcrumbComponent,
+    ListComponent,
+    TableComponent,
+    AccordionComponent,
+    DatepickerComponent,
+    ToastDemoComponent,
+    ModalDemoComponent,
+    TabsDemoComponent,
+    TooltipDemoComponent,
+    SwitchComponent,
+    PopoverDemoComponent,
 } from 'nirengi-ui-kit';
 
 /**
@@ -177,5 +179,10 @@ export class ShowcaseLayoutComponent {
 
     // Switch Component
     this.registry.registerComponent(switchConfig as any, () => Promise.resolve(SwitchComponent));
+
+    // Popover Component
+    this.registry.registerComponent(popoverConfig as any, () =>
+      Promise.resolve(PopoverDemoComponent)
+    );
   }
 }
