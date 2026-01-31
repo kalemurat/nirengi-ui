@@ -28,28 +28,30 @@ import toastConfig from '../../configs/toast.showcase.json';
 import modalConfig from '../../configs/modal.showcase.json';
 import tabsConfig from '../../configs/tabs.showcase.json';
 import tooltipConfig from '../../configs/tooltip.showcase.json';
+import switchConfig from '../../configs/switch.showcase.json';
 
 // Component imports
 import {
-    ButtonComponent,
-    SelectComponent,
-    HeadingComponent,
-    ParagraphComponent,
-    IconComponent,
-    BadgeComponent,
-    TextboxComponent,
-    TextareaComponent,
-    CheckboxComponent,
-    RadioComponent,
-    BreadcrumbComponent,
-    ListComponent,
-    TableComponent,
-    AccordionComponent,
-    DatepickerComponent,
-    ToastDemoComponent,
-    ModalDemoComponent,
-    TabsDemoComponent,
-    TooltipDemoComponent,
+  ButtonComponent,
+  SelectComponent,
+  HeadingComponent,
+  ParagraphComponent,
+  IconComponent,
+  BadgeComponent,
+  TextboxComponent,
+  TextareaComponent,
+  CheckboxComponent,
+  RadioComponent,
+  BreadcrumbComponent,
+  ListComponent,
+  TableComponent,
+  AccordionComponent,
+  DatepickerComponent,
+  ToastDemoComponent,
+  ModalDemoComponent,
+  TabsDemoComponent,
+  TooltipDemoComponent,
+  SwitchComponent,
 } from 'nirengi-ui-kit';
 
 /**
@@ -172,5 +174,8 @@ export class ShowcaseLayoutComponent {
     this.registry.registerComponent(tooltipConfig as any, () =>
       Promise.resolve(TooltipDemoComponent)
     );
+
+    // Switch Component
+    this.registry.registerComponent(switchConfig as any, () => Promise.resolve(SwitchComponent));
   }
 }

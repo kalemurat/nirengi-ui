@@ -288,7 +288,6 @@ export {
 // DIRECTIVES (Gelecekte eklenecek)
 // ============================================================================
 
-
 /**
  * Tooltip directive and component.
  * @see {@link TooltipDirective}
@@ -363,3 +362,9 @@ export * from './lib/components/modal';
 export * from './lib/components/modal-demo';
 export * from './lib/components/tabs';
 export * from './lib/components/tabs-demo';
+
+/**
+ * Switch component.
+ * @see {@link SwitchComponent}
+ */
+export { SwitchComponent } from './lib/components/switch/switch.component';

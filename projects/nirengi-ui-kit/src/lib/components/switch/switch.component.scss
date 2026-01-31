@@ -1,0 +1,196 @@
+.nui-switch {
+  @apply inline-flex cursor-pointer select-none items-center gap-3;
+
+  &__label {
+    @apply flex cursor-pointer items-center gap-3;
+  }
+
+  &__control {
+    @apply relative inline-block flex-shrink-0;
+  }
+
+  &__input {
+    @apply absolute h-0 w-0 opacity-0;
+  }
+
+  &__track {
+    @apply absolute bottom-0 left-0 right-0 top-0 cursor-pointer rounded-full bg-gray-200 transition-colors duration-300;
+  }
+
+  &__thumb {
+    @apply absolute bottom-1 left-1 rounded-full bg-white shadow-sm transition-transform duration-300;
+  }
+
+  &__text {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  &__content {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  // Size variations
+  &--xs {
+    .nui-switch__control {
+      @apply h-4 w-7;
+    }
+    .nui-switch__thumb {
+      @apply h-2 w-2 shadow;
+      bottom: 0.25rem;
+    }
+    .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
+      transform: translateX(12px);
+    }
+    .nui-switch__text {
+      @apply text-xs;
+    }
+  }
+
+  &--sm {
+    .nui-switch__control {
+      @apply h-5 w-9;
+    }
+    .nui-switch__thumb {
+      @apply h-3 w-3 shadow;
+      bottom: 0.25rem;
+    }
+    .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
+      transform: translateX(16px);
+    }
+    .nui-switch__text {
+      @apply text-sm;
+    }
+  }
+
+  &--md {
+    .nui-switch__control {
+      @apply h-6 w-11;
+    }
+    .nui-switch__thumb {
+      @apply h-4 w-4 shadow;
+      bottom: 0.25rem;
+    }
+    .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
+      transform: translateX(20px);
+    }
+    .nui-switch__text {
+      @apply text-base;
+    }
+  }
+
+  &--lg {
+    .nui-switch__control {
+      @apply h-7 w-14;
+    }
+    .nui-switch__thumb {
+      @apply h-5 w-5 shadow;
+      bottom: 0.25rem;
+    }
+    .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
+      transform: translateX(28px);
+    }
+    .nui-switch__text {
+      @apply text-lg;
+    }
+  }
+
+  &--xl {
+    .nui-switch__control {
+      @apply h-8 w-16;
+    }
+    .nui-switch__thumb {
+      @apply h-6 w-6 shadow;
+      bottom: 0.25rem;
+    }
+    .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
+      transform: translateX(32px);
+    }
+    .nui-switch__text {
+      @apply text-xl;
+    }
+  }
+
+  // Variant Checks
+  // Primary
+  &--primary {
+    .nui-switch__input:checked + .nui-switch__track {
+      @apply bg-blue-600;
+    }
+    .nui-switch__input:focus + .nui-switch__track {
+      @apply ring-2 ring-blue-500 ring-offset-2;
+    }
+  }
+
+  // Secondary
+  &--secondary {
+    .nui-switch__input:checked + .nui-switch__track {
+      @apply bg-gray-600;
+    }
+    .nui-switch__input:focus + .nui-switch__track {
+      @apply ring-2 ring-gray-500 ring-offset-2;
+    }
+  }
+
+  // Success
+  &--success {
+    .nui-switch__input:checked + .nui-switch__track {
+      @apply bg-green-600;
+    }
+    .nui-switch__input:focus + .nui-switch__track {
+      @apply ring-2 ring-green-500 ring-offset-2;
+    }
+  }
+
+  // Warning
+  &--warning {
+    .nui-switch__input:checked + .nui-switch__track {
+      @apply bg-yellow-500;
+    }
+    .nui-switch__input:focus + .nui-switch__track {
+      @apply ring-2 ring-yellow-400 ring-offset-2;
+    }
+  }
+
+  // Danger
+  &--danger {
+    .nui-switch__input:checked + .nui-switch__track {
+      @apply bg-red-600;
+    }
+    .nui-switch__input:focus + .nui-switch__track {
+      @apply ring-2 ring-red-500 ring-offset-2;
+    }
+  }
+
+  // Info
+  &--info {
+    .nui-switch__input:checked + .nui-switch__track {
+      @apply bg-cyan-600;
+    }
+    .nui-switch__input:focus + .nui-switch__track {
+      @apply ring-2 ring-cyan-500 ring-offset-2;
+    }
+  }
+
+  // Neutral
+  &--neutral {
+    .nui-switch__input:checked + .nui-switch__track {
+      @apply bg-gray-500;
+    }
+    .nui-switch__input:focus + .nui-switch__track {
+      @apply ring-2 ring-gray-400 ring-offset-2;
+    }
+  }
+
+  // Disabled state
+  &--disabled {
+    @apply cursor-not-allowed opacity-50;
+
+    .nui-switch__track,
+    .nui-switch__input,
+    .nui-switch__content,
+    .nui-switch__text,
+    .nui-switch__label {
+      @apply cursor-not-allowed;
+    }
+  }
+}
