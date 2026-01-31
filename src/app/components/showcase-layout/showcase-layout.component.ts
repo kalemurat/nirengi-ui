@@ -30,30 +30,32 @@ import tabsConfig from '../../configs/tabs.showcase.json';
 import tooltipConfig from '../../configs/tooltip.showcase.json';
 import switchConfig from '../../configs/switch.showcase.json';
 import popoverConfig from '../../configs/popover.showcase.json';
+import fileUploadConfig from '../../configs/file-upload.showcase.json';
 
 // Component imports
 import {
-    ButtonComponent,
-    SelectComponent,
-    HeadingComponent,
-    ParagraphComponent,
-    IconComponent,
-    BadgeComponent,
-    TextboxComponent,
-    TextareaComponent,
-    CheckboxComponent,
-    RadioComponent,
-    BreadcrumbComponent,
-    ListComponent,
-    TableComponent,
-    AccordionComponent,
-    DatepickerComponent,
-    ToastDemoComponent,
-    ModalDemoComponent,
-    TabsDemoComponent,
-    TooltipDemoComponent,
-    SwitchComponent,
-    PopoverDemoComponent,
+  ButtonComponent,
+  SelectComponent,
+  HeadingComponent,
+  ParagraphComponent,
+  IconComponent,
+  BadgeComponent,
+  TextboxComponent,
+  TextareaComponent,
+  CheckboxComponent,
+  RadioComponent,
+  BreadcrumbComponent,
+  ListComponent,
+  TableComponent,
+  AccordionComponent,
+  DatepickerComponent,
+  ToastDemoComponent,
+  ModalDemoComponent,
+  TabsDemoComponent,
+  TooltipDemoComponent,
+  SwitchComponent,
+  PopoverDemoComponent,
+  FileUploadComponent,
 } from 'nirengi-ui-kit';
 
 /**
@@ -183,6 +185,11 @@ export class ShowcaseLayoutComponent {
     // Popover Component
     this.registry.registerComponent(popoverConfig as any, () =>
       Promise.resolve(PopoverDemoComponent)
+    );
+
+    // File Upload Component
+    this.registry.registerComponent(fileUploadConfig as any, () =>
+      Promise.resolve(FileUploadComponent)
     );
   }
 }

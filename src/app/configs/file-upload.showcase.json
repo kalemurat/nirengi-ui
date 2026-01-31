@@ -1,0 +1,105 @@
+{
+  "id": "file-upload",
+  "name": "File Upload",
+  "description": "Component for uploading files via drag and drop or click.",
+  "category": "Forms",
+  "selector": "nui-file-upload",
+  "properties": [
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "label": "Multiple",
+      "defaultValue": false,
+      "description": "Allow multiple file selection"
+    },
+    {
+      "name": "accept",
+      "type": "string",
+      "label": "Accepted Files",
+      "defaultValue": "",
+      "description": "Comma-separated list of accepted file types (e.g. .png, .jpg)"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable file upload interaction"
+    },
+    {
+      "name": "uploadLabel",
+      "type": "string",
+      "label": "Upload Label",
+      "defaultValue": "Yükle",
+      "description": "Text to display on the upload button"
+    },
+    {
+      "name": "removeAllLabel",
+      "type": "string",
+      "label": "Remove All Label",
+      "defaultValue": "Tümünü kaldır",
+      "description": "Text to display on the remove all button"
+    },
+    {
+      "name": "clickLabel",
+      "type": "string",
+      "label": "Click Label",
+      "defaultValue": "Dosya yüklemek için tıklayın",
+      "description": "Text for the clickable part of the drop zone"
+    },
+    {
+      "name": "dragDropLabel",
+      "type": "string",
+      "label": "Drag Drop Label",
+      "defaultValue": "veya sürükleyip bırakın",
+      "description": "Text for the drag and drop part of the drop zone"
+    }
+  ],
+  "events": [
+    {
+      "name": "fileSelected",
+      "label": "File Selected",
+      "payloadDescription": "Array of currently selected File objects"
+    },
+    {
+      "name": "upload",
+      "label": "Upload Clicked",
+      "payloadDescription": "Array of files to be uploaded"
+    },
+    {
+      "name": "fileDeleted",
+      "label": "File Deleted",
+      "payloadDescription": "Single File object that was removed"
+    },
+    {
+      "name": "filesCleared",
+      "label": "Files Cleared",
+      "payloadDescription": "Array of all files that were cleared"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Single File Upload",
+      "description": "Basic usage for single file upload.",
+      "propertyValues": {
+        "multiple": false,
+        "accept": ".png,.jpg,.jpeg,.pdf"
+      }
+    },
+    {
+      "title": "Multiple File Upload",
+      "description": "Allow selecting multiple files at once.",
+      "propertyValues": {
+        "multiple": true,
+        "accept": ""
+      }
+    },
+    {
+      "title": "Disabled State",
+      "description": "File upload in disabled state.",
+      "propertyValues": {
+        "disabled": true
+      }
+    }
+  ]
+}

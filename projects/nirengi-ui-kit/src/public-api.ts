@@ -377,3 +377,9 @@ export { SwitchComponent } from './lib/components/switch/switch.component';
  */
 export * from './lib/components/popover';
 export * from './lib/components/popover-demo';
+
+/**
+ * File Upload component.
+ * @see {@link FileUploadComponent}
+ */
+export * from './lib/components/file-upload';
