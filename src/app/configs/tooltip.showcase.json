@@ -1,0 +1,40 @@
+{
+  "id": "tooltip",
+  "name": "Tooltip",
+  "selector": "nirengi-tooltip-demo",
+  "description": "Kullanıcıya ek bilgi sağlayan açılır ipucu mesajı.",
+  "category": "Overlay",
+  "properties": [
+    {
+      "name": "tooltipText",
+      "label": "Tooltip Text",
+      "description": "Tooltip içinde gösterilecek metin.",
+      "type": "string",
+      "defaultValue": "Örnek Tooltip Mesajı"
+    },
+    {
+      "name": "tooltipPosition",
+      "label": "Position",
+      "description": "Tooltip'in görüneceği konum (top, bottom, left, right).",
+      "type": "enum",
+      "options": [
+        { "label": "Top", "value": "top" },
+        { "label": "Bottom", "value": "bottom" },
+        { "label": "Left", "value": "left" },
+        { "label": "Right", "value": "right" }
+      ],
+      "defaultValue": "top"
+    }
+  ],
+  "events": [],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Standart tooltip kullanımı.",
+      "propertyValues": {
+        "tooltipText": "Mesaj",
+        "tooltipPosition": "top"
+      }
+    }
+  ]
+}

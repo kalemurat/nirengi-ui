@@ -27,27 +27,29 @@ import datepickerConfig from '../../configs/datepicker.showcase.json';
 import toastConfig from '../../configs/toast.showcase.json';
 import modalConfig from '../../configs/modal.showcase.json';
 import tabsConfig from '../../configs/tabs.showcase.json';
+import tooltipConfig from '../../configs/tooltip.showcase.json';
 
 // Component imports
 import {
-  ButtonComponent,
-  SelectComponent,
-  HeadingComponent,
-  ParagraphComponent,
-  IconComponent,
-  BadgeComponent,
-  TextboxComponent,
-  TextareaComponent,
-  CheckboxComponent,
-  RadioComponent,
-  BreadcrumbComponent,
-  ListComponent,
-  TableComponent,
-  AccordionComponent,
-  DatepickerComponent,
-  ToastDemoComponent,
-  ModalDemoComponent,
-  TabsDemoComponent,
+    ButtonComponent,
+    SelectComponent,
+    HeadingComponent,
+    ParagraphComponent,
+    IconComponent,
+    BadgeComponent,
+    TextboxComponent,
+    TextareaComponent,
+    CheckboxComponent,
+    RadioComponent,
+    BreadcrumbComponent,
+    ListComponent,
+    TableComponent,
+    AccordionComponent,
+    DatepickerComponent,
+    ToastDemoComponent,
+    ModalDemoComponent,
+    TabsDemoComponent,
+    TooltipDemoComponent,
 } from 'nirengi-ui-kit';
 
 /**
@@ -165,5 +167,10 @@ export class ShowcaseLayoutComponent {
 
     // Tabs Component
     this.registry.registerComponent(tabsConfig as any, () => Promise.resolve(TabsDemoComponent));
+
+    // Tooltip Component
+    this.registry.registerComponent(tooltipConfig as any, () =>
+      Promise.resolve(TooltipDemoComponent)
+    );
   }
 }

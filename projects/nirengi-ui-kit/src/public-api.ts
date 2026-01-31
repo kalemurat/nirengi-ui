@@ -288,7 +288,16 @@ export {
 // DIRECTIVES (Gelecekte eklenecek)
 // ============================================================================
 
-// export { TooltipDirective } from './lib/directives/tooltip/tooltip.directive';
+
+/**
+ * Tooltip directive and component.
+ * @see {@link TooltipDirective}
+ * @see {@link TooltipComponent}
+ * @see {@link TooltipPosition}
+ */
+export * from './lib/components/tooltip';
+export * from './lib/components/tooltip-demo';
+
 // export { ClickOutsideDirective } from './lib/directives/click-outside/click-outside.directive';
 
 // ============================================================================
