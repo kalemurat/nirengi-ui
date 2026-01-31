@@ -352,3 +352,5 @@ export * from './lib/components/toast';
 export * from './lib/components/toast-demo';
 export * from './lib/components/modal';
 export * from './lib/components/modal-demo';
+export * from './lib/components/tabs';
+export * from './lib/components/tabs-demo';
