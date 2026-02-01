@@ -1,4 +1,4 @@
-<div class="nui-textarea">
+<div class="nui-textarea" [ngClass]="containerClasses()">
   @if (label()) {
     <label class="nui-textarea__label" [for]="textareaId">
       {{ label() }}
@@ -21,7 +21,6 @@
       [rows]="rows()"
       [attr.maxlength]="maxlength() || null"
       class="nui-textarea__input"
-      [class.nui-textarea__input--error]="error()"
       [class.nui-textarea__input--with-icon]="icon()"
       [class.nui-textarea__input--auto-resize]="autoResize()"
       [ngClass]="textareaClasses()"
@@ -31,12 +30,8 @@
   </div>
 
   <div class="nui-textarea__footer">
-    @if (error()) {
-      <span class="nui-textarea__error">{{ error() }}</span>
-    } @else if (hint()) {
+    @if (hint()) {
       <span class="nui-textarea__hint">{{ hint() }}</span>
-    } @else {
-      <span></span>
     }
 
     @if (characterCount()) {

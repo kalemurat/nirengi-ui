@@ -12,6 +12,7 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../icon/icon.types';
 import { Size } from '../../common/enums/size.enum';
+import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
  * Modern textarea component.
@@ -89,10 +90,10 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   readonly hint = input<string>();
 
   /**
-   * Hata mesajı.
-   * Varsa textarea'yı error state'ine çevirir.
+   * Component renk varyasyonu.
+   * @default ColorVariant.Neutral
    */
-  readonly error = input<string>();
+  readonly variant = input<ColorVariant>(ColorVariant.Neutral);
 
   /**
    * Icon ismi.
@@ -184,6 +185,16 @@ export class TextareaComponent extends ValueAccessorBase<string> {
         return 18;
     }
   });
+
+  /**
+   * Textarea için CSS class'larını hesaplayan computed signal.
+   * Reaktif olarak size değişikliklerini takip eder.
+   *
+  /**
+   * Container element için CSS class'larını hesaplayan computed signal.
+   * Variant değişikliklerini takip eder.
+   */
+  readonly containerClasses = computed(() => `nui-textarea--${this.variant()}`);
 
   /**
    * Textarea için CSS class'larını hesaplayan computed signal.

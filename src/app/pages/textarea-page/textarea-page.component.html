@@ -25,8 +25,13 @@
     <h2 class="textarea-page__title">States</h2>
     <div class="textarea-page__grid">
       <div class="textarea-page__card">
-        <h3 class="textarea-page__card-title">Error State</h3>
-        <nui-textarea label="Message" value="This is too short" error="Message must be at least 20 characters" />
+        <h3 class="textarea-page__card-title">Danger (Error) State</h3>
+        <nui-textarea
+          label="Message"
+          value="This is too short"
+          [variant]="ColorVariant.Danger"
+          hint="Message must be at least 20 characters"
+        />
       </div>
 
       <div class="textarea-page__card">
@@ -154,7 +159,7 @@
   <!-- Sizes -->
   <section class="textarea-page__section">
     <h2 class="textarea-page__title">Sizes</h2>
-    <div class="textarea-page__row rounded-xl border bg-white p-6">
+    <div class="textarea-page__row">
       @for (size of sizes; track size) {
         <nui-textarea
           [label]="'Size: ' + size"
@@ -179,10 +184,10 @@
           [rows]="5"
           [maxlength]="200"
         />
-        <div class="mt-4 rounded bg-gray-50 p-3 font-mono text-sm">
-          <div class="mb-2 font-semibold">Value:</div>
-          <div class="whitespace-pre-wrap">{{ demoControl.value || '(empty)' }}</div>
-          <div class="mt-2 text-gray-500">Length: {{ (demoControl.value || '').length }} characters</div>
+        <div class="textarea-page__preview">
+          <div class="textarea-page__preview-label">Value:</div>
+          <div class="textarea-page__preview-value">{{ demoControl.value || '(empty)' }}</div>
+          <div class="textarea-page__preview-meta">Length: {{ (demoControl.value || '').length }} characters</div>
         </div>
       </div>
     </div>

@@ -132,11 +132,11 @@
 
     &.nui-checkbox--checked .nui-checkbox__box,
     &.nui-checkbox--indeterminate .nui-checkbox__box {
-      @apply border-gray-600 bg-gray-600 text-white;
+      @apply border-purple-600 bg-purple-600 text-white;
     }
 
     .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
-      @apply border-gray-500;
+      @apply border-purple-500;
     }
   }
 

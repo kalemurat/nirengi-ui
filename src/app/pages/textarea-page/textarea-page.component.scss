@@ -14,7 +14,23 @@
   }
 
   &__row {
-    @apply flex flex-col gap-4;
+    @apply flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-6;
+  }
+
+  &__preview {
+    @apply mt-4 rounded bg-gray-50 p-3 font-mono text-sm;
+
+    &-label {
+      @apply mb-2 font-semibold;
+    }
+
+    &-value {
+      @apply whitespace-pre-wrap;
+    }
+
+    &-meta {
+      @apply mt-2 text-gray-500;
+    }
   }
 
   &__card {
