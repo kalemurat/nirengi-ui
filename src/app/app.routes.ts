@@ -6,15 +6,13 @@ import { ShowcaseLayoutComponent } from './components/showcase-layout/showcase-l
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'heading',
+    redirectTo: 'showcase/button',
     pathMatch: 'full',
   },
-  // Yeni Storybook-style showcase sayfası
   {
     path: 'showcase/:id',
     component: ShowcaseLayoutComponent,
   },
-  // Mevcut route'lar (korunuyor)
   {
     path: 'heading',
     component: HeadingPageComponent,
