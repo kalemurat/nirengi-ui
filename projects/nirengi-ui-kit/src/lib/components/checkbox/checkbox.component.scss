@@ -1,5 +1,5 @@
 .nui-checkbox {
-  @apply inline-flex cursor-pointer select-none items-start gap-3;
+  @apply inline-flex cursor-pointer select-none items-start gap-2;
 
   &__wrapper {
     @apply relative mt-0.5 flex-shrink-0;
@@ -22,7 +22,7 @@
   }
 
   &__content {
-    @apply flex flex-col gap-1;
+    @apply flex flex-col gap-1.5;
   }
 
   &__label {
@@ -48,7 +48,7 @@
     }
 
     .nui-checkbox__description {
-      @apply text-xs;
+      @apply text-[10px];
     }
   }
 
@@ -72,11 +72,11 @@
     }
 
     .nui-checkbox__label {
-      @apply text-base;
+      @apply text-sm;
     }
 
     .nui-checkbox__description {
-      @apply text-sm;
+      @apply text-xs;
     }
   }
 
@@ -86,11 +86,11 @@
     }
 
     .nui-checkbox__label {
-      @apply text-lg;
+      @apply text-base;
     }
 
     .nui-checkbox__description {
-      @apply text-base;
+      @apply text-sm;
     }
   }
 
@@ -100,11 +100,11 @@
     }
 
     .nui-checkbox__label {
-      @apply text-xl;
+      @apply text-lg;
     }
 
     .nui-checkbox__description {
-      @apply text-lg;
+      @apply text-base;
     }
   }
 

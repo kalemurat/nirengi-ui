@@ -150,7 +150,7 @@
   }
 
   &__content {
-    @apply ml-2 flex flex-col;
+    @apply ml-2 flex flex-col gap-1.5;
   }
 
   &__label-text {
@@ -163,13 +163,13 @@
       @apply text-sm;
     }
     &--md {
-      @apply text-base;
+      @apply text-sm;
     }
     &--lg {
-      @apply text-lg;
+      @apply text-base;
     }
     &--xl {
-      @apply text-xl;
+      @apply text-lg;
     }
 
     &--disabled {
@@ -178,7 +178,7 @@
   }
 
   &__description {
-    @apply mt-0.5 select-none text-gray-500;
+    @apply select-none text-gray-500;
 
     &--xs {
       @apply text-[10px];
@@ -187,13 +187,13 @@
       @apply text-xs;
     }
     &--md {
-      @apply text-sm;
+      @apply text-xs;
     }
     &--lg {
-      @apply text-base;
+      @apply text-sm;
     }
     &--xl {
-      @apply text-lg;
+      @apply text-base;
     }
 
     &--disabled {

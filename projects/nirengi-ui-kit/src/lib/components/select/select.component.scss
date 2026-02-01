@@ -2,23 +2,67 @@
 @use 'sass:map';
 
 .nui-select {
-  @apply relative flex w-full flex-col;
+  @apply relative flex w-full flex-col gap-1.5;
 
   /* Gap map from size constants */
   &--xs {
-    @apply gap-0.5;
+    .nui-select__label {
+      @apply text-xs;
+    }
+
+    .nui-select__hint,
+    .nui-select__success,
+    .nui-select__warning {
+      @apply text-[10px];
+    }
   }
 
-  &--small {
-    @apply gap-1;
+  &--sm {
+    .nui-select__label {
+      @apply text-sm;
+    }
+
+    .nui-select__hint,
+    .nui-select__success,
+    .nui-select__warning {
+      @apply text-xs;
+    }
   }
 
-  &--medium {
-    @apply gap-1.5;
+  &--md {
+    .nui-select__label {
+      @apply text-sm;
+    }
+
+    .nui-select__hint,
+    .nui-select__success,
+    .nui-select__warning {
+      @apply text-xs;
+    }
   }
 
-  &--large {
-    @apply gap-2;
+  &--lg {
+    .nui-select__label {
+      @apply text-base;
+    }
+
+    .nui-select__hint,
+    .nui-select__success,
+    .nui-select__warning {
+      @apply text-sm;
+    }
+  }
+
+  &--xl {
+    .nui-select__label {
+      @apply text-lg;
+    }
+
+    .nui-select__hint,
+    .nui-select__success,
+    .nui-select__warning {
+      @apply text-base;
+    }
   }
 
   /* Variant modifiers (block-level). These allow `nui-select--primary` etc. */
@@ -170,19 +214,23 @@
 
     /* Sizes */
     &--xs {
-      @apply h-7 px-2 text-xs;
+      @apply h-8 px-2.5 text-xs;
     }
 
-    &--small {
-      @apply h-8 px-2 text-xs;
+    &--sm {
+      @apply h-9 px-3 text-sm;
     }
 
-    &--medium {
-      @apply h-10 px-3 text-sm;
+    &--md {
+      @apply h-10 px-3.5 text-sm;
     }
 
-    &--large {
-      @apply h-12 px-4 text-base;
+    &--lg {
+      @apply h-11 px-4 text-base;
+    }
+
+    &--xl {
+      @apply h-12 px-5 text-lg;
     }
 
     /* States */
@@ -284,19 +332,23 @@
 
       /* Parent size modifier mapping via at-root or manual class check */
       .nui-select--xs & {
-        @apply px-2 py-0.5 text-xs;
-      }
-
-      .nui-select--small & {
         @apply px-2 py-1 text-xs;
       }
 
-      .nui-select--medium & {
+      .nui-select--sm & {
+        @apply px-2.5 py-1.5 text-sm;
+      }
+
+      .nui-select--md & {
         @apply px-3 py-2 text-sm;
       }
 
-      .nui-select--large & {
-        @apply px-4 py-3 text-base;
+      .nui-select--lg & {
+        @apply px-3.5 py-2.5 text-base;
+      }
+
+      .nui-select--xl & {
+        @apply px-4 py-3 text-lg;
       }
     }
   }
@@ -332,14 +384,14 @@
   }
 
   &__hint {
-    @apply mt-1 text-xs text-gray-500;
+    @apply text-xs text-gray-500;
   }
 
   &__success {
-    @apply mt-1 text-xs text-green-600;
+    @apply text-xs text-green-600;
   }
 
   &__warning {
-    @apply mt-1 text-xs text-yellow-600;
+    @apply text-xs text-yellow-600;
   }
 }

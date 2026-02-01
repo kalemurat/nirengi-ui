@@ -37,13 +37,13 @@
   /* Sizes */
   &--xs {
     .nui-tabs__header-item {
-      @apply px-2 py-1 text-[10px];
+      @apply px-2 py-1 text-xs;
     }
   }
 
   &--sm {
     .nui-tabs__header-item {
-      @apply px-3 py-1.5 text-xs;
+      @apply px-3 py-1.5 text-sm;
     }
   }
 

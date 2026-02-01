@@ -1,17 +1,17 @@
 import {
-  Component,
-  input,
-  signal,
-  computed,
-  contentChild,
-  TemplateRef,
-  ElementRef,
-  HostListener,
-  inject,
-  ChangeDetectionStrategy,
-  forwardRef,
-  viewChild,
-  effect,
+    Component,
+    input,
+    signal,
+    computed,
+    contentChild,
+    TemplateRef,
+    ElementRef,
+    HostListener,
+    inject,
+    ChangeDetectionStrategy,
+    forwardRef,
+    viewChild,
+    effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -204,13 +204,18 @@ export class SelectComponent extends ValueAccessorBase<any> {
   protected readonly ColorVariant = ColorVariant;
 
   /**
-   * Computed: BEM modifier formatında variant classname.
-   * Örnek: `nui-select--primary`, `nui-select--danger`
-   * Template içinde kullanılmak üzere hesaplanır.
-   *
-   * @returns string - BEM modifier sınıfı
+   * Computed: Container classes including variant and size.
    */
-  readonly variantClass = computed(() => `nui-select--${this.variant()}`);
+  readonly containerClasses = computed(() => {
+    return `nui-select--${this.variant()} nui-select--${this.size()}`;
+  });
+
+  /**
+   * Computed: Trigger classes for size.
+   */
+  readonly triggerClasses = computed(() => {
+    return `nui-select__trigger--${this.size()}`;
+  });
 
   constructor() {
     super();

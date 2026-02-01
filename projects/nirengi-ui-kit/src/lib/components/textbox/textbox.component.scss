@@ -1,6 +1,50 @@
 .nui-textbox {
   @apply flex w-full flex-col gap-1.5;
 
+  &--xs {
+    .nui-textbox__label {
+      @apply text-xs;
+    }
+    .nui-textbox__hint {
+      @apply text-[10px];
+    }
+  }
+
+  &--sm {
+    .nui-textbox__label {
+      @apply text-sm;
+    }
+    .nui-textbox__hint {
+      @apply text-xs;
+    }
+  }
+
+  &--md {
+    .nui-textbox__label {
+      @apply text-sm;
+    }
+    .nui-textbox__hint {
+      @apply text-xs;
+    }
+  }
+
+  &--lg {
+    .nui-textbox__label {
+      @apply text-base;
+    }
+    .nui-textbox__hint {
+      @apply text-sm;
+    }
+  }
+
+  &--xl {
+    .nui-textbox__label {
+      @apply text-lg;
+    }
+    .nui-textbox__hint {
+      @apply text-base;
+    }
+  }
   &__label {
     @apply text-sm font-medium text-gray-700;
   }
@@ -44,7 +88,7 @@
   }
 
   &__hint {
-    @apply mt-1 text-xs text-gray-500;
+    @apply text-xs text-gray-500;
   }
 
   // ============================================================================

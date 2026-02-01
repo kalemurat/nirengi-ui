@@ -161,7 +161,7 @@ export class TextboxComponent extends ValueAccessorBase<string> {
    * Container CSS classes (variant).
    */
   protected readonly containerClasses = computed(() => {
-    return `nui-textbox--${this.variant()}`;
+    return `nui-textbox--${this.variant()} nui-textbox--${this.size()}`;
   });
 
   /**

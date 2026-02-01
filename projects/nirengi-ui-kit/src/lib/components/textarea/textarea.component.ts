@@ -194,7 +194,7 @@ export class TextareaComponent extends ValueAccessorBase<string> {
    * Container element için CSS class'larını hesaplayan computed signal.
    * Variant değişikliklerini takip eder.
    */
-  readonly containerClasses = computed(() => `nui-textarea--${this.variant()}`);
+  readonly containerClasses = computed(() => `nui-textarea--${this.variant()} nui-textarea--${this.size()}`);
 
   /**
    * Textarea için CSS class'larını hesaplayan computed signal.

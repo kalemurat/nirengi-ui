@@ -1,15 +1,6 @@
 <div
   class="nui-select"
-  [class.nui-select--small]="size() === Size.Small"
-  [class.nui-select--medium]="size() === Size.Medium"
-  [class.nui-select--large]="size() === Size.Large"
-  [class.nui-select--primary]="variant() === ColorVariant.Primary"
-  [class.nui-select--secondary]="variant() === ColorVariant.Secondary"
-  [class.nui-select--success]="variant() === ColorVariant.Success"
-  [class.nui-select--warning]="variant() === ColorVariant.Warning"
-  [class.nui-select--danger]="variant() === ColorVariant.Danger"
-  [class.nui-select--info]="variant() === ColorVariant.Info"
-  [class.nui-select--neutral]="variant() === ColorVariant.Neutral"
+  [ngClass]="containerClasses()"
 >
   <!-- Label -->
   @if (label()) {
@@ -22,9 +13,7 @@
     <!-- Trigger Button -->
     <div
       class="nui-select__trigger"
-      [class.nui-select__trigger--small]="size() === Size.Small"
-      [class.nui-select__trigger--medium]="size() === Size.Medium"
-      [class.nui-select__trigger--large]="size() === Size.Large"
+      [ngClass]="triggerClasses()"
       [class.nui-select__trigger--disabled]="isDisabled()"
       [class.nui-select__trigger--success]="success()"
       [class.nui-select__trigger--warning]="warning()"

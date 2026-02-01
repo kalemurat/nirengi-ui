@@ -1,8 +1,8 @@
 .nui-switch {
-  @apply inline-flex cursor-pointer select-none items-center gap-3;
+  @apply inline-flex cursor-pointer select-none items-center gap-2;
 
   &__label {
-    @apply flex cursor-pointer items-center gap-3;
+    @apply flex cursor-pointer items-center gap-2;
   }
 
   &__control {
@@ -21,12 +21,9 @@
     @apply absolute bottom-1 left-1 rounded-full bg-white shadow-sm transition-transform duration-300;
   }
 
-  &__text {
-    @apply text-sm font-medium text-gray-700;
-  }
-
+  &__text,
   &__content {
-    @apply text-sm font-medium text-gray-700;
+    @apply font-medium text-gray-700;
   }
 
   // Size variations
@@ -41,7 +38,8 @@
     .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
       transform: translateX(12px);
     }
-    .nui-switch__text {
+    .nui-switch__text,
+    .nui-switch__content {
       @apply text-xs;
     }
   }
@@ -57,7 +55,8 @@
     .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
       transform: translateX(16px);
     }
-    .nui-switch__text {
+    .nui-switch__text,
+    .nui-switch__content {
       @apply text-sm;
     }
   }
@@ -73,8 +72,9 @@
     .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
       transform: translateX(20px);
     }
-    .nui-switch__text {
-      @apply text-base;
+    .nui-switch__text,
+    .nui-switch__content {
+      @apply text-sm;
     }
   }
 
@@ -89,8 +89,9 @@
     .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
       transform: translateX(28px);
     }
-    .nui-switch__text {
-      @apply text-lg;
+    .nui-switch__text,
+    .nui-switch__content {
+      @apply text-base;
     }
   }
 
@@ -105,8 +106,9 @@
     .nui-switch__input:checked + .nui-switch__track .nui-switch__thumb {
       transform: translateX(32px);
     }
-    .nui-switch__text {
-      @apply text-xl;
+    .nui-switch__text,
+    .nui-switch__content {
+      @apply text-lg;
     }
   }
 

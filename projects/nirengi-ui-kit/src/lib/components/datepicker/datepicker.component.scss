@@ -1,8 +1,8 @@
 .datepicker {
-  @apply relative w-full;
+  @apply relative w-full flex flex-col gap-1.5;
 
   &__label {
-    @apply mb-1.5 block w-full truncate text-sm font-medium text-gray-700;
+    @apply block w-full truncate text-sm font-medium text-gray-700;
   }
 
   &__input-wrapper {
@@ -38,11 +38,11 @@
   }
 
   &__hint {
-    @apply mt-1 w-full truncate text-xs text-gray-500;
+    @apply w-full truncate text-xs text-gray-500;
   }
 
   &__error {
-    @apply mt-1 w-full truncate text-xs font-medium text-red-600;
+    @apply w-full truncate text-xs font-medium text-red-600;
   }
 
   /* Variant Modifiers applied to parent */
@@ -245,7 +245,7 @@
   /* Sizes - Applied to root .datepicker */
   &--xs {
     .datepicker__label {
-      @apply mb-1 text-xs;
+      @apply text-xs;
     }
 
     .datepicker__input {
@@ -258,13 +258,13 @@
 
     .datepicker__hint,
     .datepicker__error {
-      @apply mt-0.5 text-[10px];
+      @apply text-[10px];
     }
   }
 
   &--sm {
     .datepicker__label {
-      @apply mb-1 text-xs;
+      @apply text-sm;
     }
 
     .datepicker__input {
@@ -277,13 +277,13 @@
 
     .datepicker__hint,
     .datepicker__error {
-      @apply mt-0.5 text-[11px];
+      @apply text-xs;
     }
   }
 
   &--md {
     .datepicker__label {
-      @apply mb-1.5 text-sm;
+      @apply text-sm;
     }
 
     .datepicker__input {
@@ -296,13 +296,13 @@
 
     .datepicker__hint,
     .datepicker__error {
-      @apply mt-0.5 text-xs;
+      @apply text-xs;
     }
   }
 
   &--lg {
     .datepicker__label {
-      @apply mb-1.5 text-base;
+      @apply text-base;
     }
 
     .datepicker__input {
@@ -315,13 +315,13 @@
 
     .datepicker__hint,
     .datepicker__error {
-      @apply mt-0.5 text-sm;
+      @apply text-sm;
     }
   }
 
   &--xl {
     .datepicker__label {
-      @apply mb-2 text-lg;
+      @apply text-lg;
     }
 
     .datepicker__input {
@@ -334,7 +334,7 @@
 
     .datepicker__hint,
     .datepicker__error {
-      @apply mt-0.5 text-base;
+      @apply text-base;
     }
   }
 

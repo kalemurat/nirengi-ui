@@ -1,6 +1,56 @@
 .nui-textarea {
   @apply flex w-full flex-col gap-1.5;
 
+  &--xs {
+    .nui-textarea__label {
+      @apply text-xs;
+    }
+    .nui-textarea__hint,
+    .nui-textarea__count {
+      @apply text-[10px];
+    }
+  }
+
+  &--sm {
+    .nui-textarea__label {
+      @apply text-sm;
+    }
+    .nui-textarea__hint,
+    .nui-textarea__count {
+      @apply text-xs;
+    }
+  }
+
+  &--md {
+    .nui-textarea__label {
+      @apply text-sm;
+    }
+    .nui-textarea__hint,
+    .nui-textarea__count {
+      @apply text-xs;
+    }
+  }
+
+  &--lg {
+    .nui-textarea__label {
+      @apply text-base;
+    }
+    .nui-textarea__hint,
+    .nui-textarea__count {
+      @apply text-sm;
+    }
+  }
+
+  &--xl {
+    .nui-textarea__label {
+      @apply text-lg;
+    }
+    .nui-textarea__hint,
+    .nui-textarea__count {
+      @apply text-base;
+    }
+  }
+
   &__label {
     @apply text-sm font-medium text-gray-700;
   }
@@ -48,7 +98,7 @@
   }
 
   &__footer {
-    @apply mt-1 flex items-center justify-between gap-2;
+    @apply flex items-center justify-between gap-2;
   }
 
   &__hint {
