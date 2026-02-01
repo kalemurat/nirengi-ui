@@ -340,7 +340,7 @@ export type { ListItem } from './lib/components/list/list.component';
  * @see {@link FilterMetadata}
  */
 export { TableComponent } from './lib/components/table/table.component';
-export type { FilterMatchMode, FilterMetadata } from './lib/components/table/table.component';
+export type { FilterMatchMode, FilterMetadata, TableColumn } from './lib/components/table/table.component';
 
 /**
  * Accordion component and types.

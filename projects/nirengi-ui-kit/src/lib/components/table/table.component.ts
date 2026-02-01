@@ -16,7 +16,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs/operators';
 import { Size } from '../../common/enums/size.enum';
 
-export type FilterMatchMode = 'contains' | 'equals' | 'startsWith' | 'endsWith';
+export type FilterMatchMode = 'contains' | 'equals' | 'startsWith' | 'endsWith' | 'in';
 export type FilterMetadata = {
   value: any;
   matchMode: FilterMatchMode;
@@ -140,6 +140,43 @@ export class TableComponent<T> {
    * Backend tabanlı sayfalama için kullanılır.
    */
   pageChange = output<number | string>();
+
+  /**
+   * Tablo grid (çizgi) görünümü.
+   * - 'none': Çizgi yok
+   * - 'horizontal': Sadece yatay çizgiler
+   * - 'vertical': Sadece dikey çizgiler
+   * - 'both': Hem yatay hem dikey çizgiler
+   * @default 'horizontal'
+   */
+  gridLines = input<'none' | 'horizontal' | 'vertical' | 'both'>('horizontal');
+
+  /**
+   * Satırları benzersiz şekilde tanımlamak için kullanılan özelliğin (field) adı.
+   * Angular'ın `trackBy` mantığına benzer şekilde çalışır, ancak fonksiyon yerine string path alır.
+   * İç içe veri yollarını destekler (örn: 'user.id').
+   * Verilmezse array index'i kullanılır.
+   *
+   * @example
+   * <nui-table trackBy="id" ... />
+   * <nui-table trackBy="category.code" ... />
+   */
+  readonly trackBy = input<string>();
+
+  /**
+   * Template döngüsü için izleme değeri hesaplar.
+   * trackBy verilmişse ilgili satırın property değerini, verilmemişse index döner.
+   *
+   * @param index Döngü index numarası
+   * @param item Satır verisi
+   */
+  getTrackByValue(index: number, item: any): any {
+    const key = this.trackBy();
+    if (!key) return index;
+
+    // Nested property resolution (e.g. 'user.details.id')
+    return key.split('.').reduce((obj: any, prop: string) => obj && obj[prop], item);
+  }
 
   /**
    * Global filtreleme için eşleşme modu.
@@ -480,6 +517,13 @@ export class TableComponent<T> {
         return sValue.startsWith(sFilter);
       case 'endsWith':
         return sValue.endsWith(sFilter);
+      case 'in':
+        // Check if filter is array and includes the value
+        if (Array.isArray(filter)) {
+            // We need raw comparison for booleans/numbers inside array, or stringified
+            return filter.some(f => String(f).toLowerCase() === sValue);
+        }
+        return false;
       default:
         return sValue.includes(sFilter);
     }

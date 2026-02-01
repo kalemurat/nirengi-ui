@@ -90,9 +90,9 @@ export class TextboxComponent extends ValueAccessorBase<string> {
 
   /**
    * Component color variant.
-   * @default ColorVariant.Primary
+   * @default ColorVariant.Neutral
    */
-  readonly variant = input<ColorVariant>(ColorVariant.Primary);
+  readonly variant = input<ColorVariant>(ColorVariant.Neutral);
 
   /**
    * Icon name to display.

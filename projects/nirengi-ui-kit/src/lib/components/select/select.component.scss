@@ -5,6 +5,10 @@
   @apply relative flex w-full flex-col;
 
   /* Gap map from size constants */
+  &--xs {
+    @apply gap-0.5;
+  }
+
   &--small {
     @apply gap-1;
   }
@@ -165,6 +169,10 @@
     @apply focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500;
 
     /* Sizes */
+    &--xs {
+      @apply h-7 px-2 text-xs;
+    }
+
     &--small {
       @apply h-8 px-2 text-xs;
     }
@@ -275,6 +283,10 @@
       @apply placeholder-gray-400;
 
       /* Parent size modifier mapping via at-root or manual class check */
+      .nui-select--xs & {
+        @apply px-2 py-0.5 text-xs;
+      }
+
       .nui-select--small & {
         @apply px-2 py-1 text-xs;
       }
