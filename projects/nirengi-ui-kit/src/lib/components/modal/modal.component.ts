@@ -51,7 +51,7 @@ import { Size } from '../../common/enums/size.enum';
           <div class="nui-modal__header">
             <div class="flex items-center gap-3">
               @if (data().options.icon) {
-                <nirengi-icon [name]="data().options.icon!" class="text-gray-400" />
+                <nirengi-icon [name]="data().options.icon!" class="text-tertiary" />
               }
               @if (data().options.title) {
                 <nui-heading
@@ -94,11 +94,11 @@ import { Size } from '../../common/enums/size.enum';
         @apply fixed inset-0 z-[50] flex items-center justify-center overflow-y-auto overflow-x-hidden p-4;
 
         &__backdrop {
-          @apply fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300;
+          @apply fixed inset-0 bg-neutral-900/60 backdrop-blur-sm transition-opacity duration-300;
         }
 
         &__panel {
-          @apply relative flex max-h-[90vh] w-full transform flex-col overflow-hidden rounded-2xl bg-white shadow-2xl transition-all dark:bg-slate-900;
+          @apply relative flex max-h-[90vh] w-full transform flex-col overflow-hidden rounded-2xl bg-primary shadow-2xl transition-all;
 
           &--sm {
             @apply max-w-sm;
@@ -115,7 +115,7 @@ import { Size } from '../../common/enums/size.enum';
         }
 
         &__header {
-          @apply flex items-center justify-between border-b border-gray-100 px-6 py-4 dark:border-slate-800;
+          @apply flex items-center justify-between border-b border-subtle px-6 py-4;
         }
 
         &__content {

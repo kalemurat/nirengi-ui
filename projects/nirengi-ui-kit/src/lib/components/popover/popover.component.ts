@@ -31,7 +31,7 @@ import { Injector } from '@angular/core';
       }
       .popover {
         /* Temel popover stili */
-        @apply z-50 min-w-[200px] scale-95 rounded-lg border border-slate-200 bg-white p-4 opacity-0 shadow-xl transition-all duration-200 dark:border-slate-700 dark:bg-slate-800;
+        @apply z-50 min-w-[200px] scale-95 rounded-lg border border-default bg-primary p-4 opacity-0 shadow-xl transition-all duration-200;
 
         /* Görünürlük kontrolü */
         &--visible {

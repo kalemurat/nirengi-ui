@@ -157,16 +157,16 @@
 
       <div class="nui-table-pagination__controls">
         <!-- Page Size -->
-        <select
-          [value]="pageSize()"
-          (change)="onPageSizeChange($event)"
+        <nui-select
+          [ngModel]="pageSize()"
+          (ngModelChange)="onPageSizeChange($event)"
+          [options]="pageSizeOptions()"
+          [size]="Size.XSmall"
           [disabled]="loading()"
+          [clearable]="false"
+          [appendToBody]="true"
           class="nui-table-pagination__size-select"
-        >
-          @for (opt of pageSizeOptions(); track opt) {
-            <option [value]="opt">{{ opt }}</option>
-          }
-        </select>
+        ></nui-select>
 
         <!-- Navigation -->
         <nav class="nui-table-pagination__nav" aria-label="Pagination">

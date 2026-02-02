@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { SelectComponent } from '../select/select.component';
 import { Size } from '../../common/enums/size.enum';
 
 export type FilterMatchMode = 'contains' | 'equals' | 'startsWith' | 'endsWith' | 'in';
@@ -50,16 +52,13 @@ export interface TableColumn {
 @Component({
   selector: 'nui-table',
   standalone: true,
-  imports: [CommonModule, ScrollingModule],
+  imports: [CommonModule, ScrollingModule, FormsModule, SelectComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent<T> {
-  // Expose Size enum to template
-  protected readonly Size = Size;
-
   // Inputs
 
   /**
@@ -136,12 +135,6 @@ export class TableComponent<T> {
   totalRecords = input<number | undefined>(undefined);
 
   /**
-   * Sayfa değişim eventi.
-   * Backend tabanlı sayfalama için kullanılır.
-   */
-  pageChange = output<number | string>();
-
-  /**
    * Tablo grid (çizgi) görünümü.
    * - 'none': Çizgi yok
    * - 'horizontal': Sadece yatay çizgiler
@@ -164,31 +157,10 @@ export class TableComponent<T> {
   readonly trackBy = input<string>();
 
   /**
-   * Template döngüsü için izleme değeri hesaplar.
-   * trackBy verilmişse ilgili satırın property değerini, verilmemişse index döner.
-   *
-   * @param index Döngü index numarası
-   * @param item Satır verisi
-   */
-  getTrackByValue(index: number, item: any): any {
-    const key = this.trackBy();
-    if (!key) return index;
-
-    // Nested property resolution (e.g. 'user.details.id')
-    return key.split('.').reduce((obj: any, prop: string) => obj && obj[prop], item);
-  }
-
-  /**
    * Global filtreleme için eşleşme modu.
    * @default 'contains'
    */
   globalFilterMatchMode = input<FilterMatchMode>('contains');
-
-  // Templates via ContentChild (implicitly finding ng-templates with directives is cleaner but simple templates works too)
-  // We expect user to use <ng-template nuiTableHead> and <ng-template nuiTableRow>
-  // But since we can't easily export directives in same file without clutter, let's look for templates via strict inputs or directives.
-  // The user requested "template", let's use Inputs for explicit template passing OR ContentChild for ease of use.
-  // Let's support ContentChild with specific directives.
 
   /**
    * Global filtreleme input alanını gösterip/gizler.
@@ -201,6 +173,22 @@ export class TableComponent<T> {
    * @default [5, 10, 20, 50]
    */
   pageSizeOptions = input<number[]>([5, 10, 20, 50]);
+
+  // Outputs
+
+  /**
+   * Sayfa değişim eventi.
+   * Backend tabanlı sayfalama için kullanılır.
+   */
+  pageChange = output<number | string>();
+
+  /**
+   * Global filtreleme değeri değiştiğinde tetiklenir.
+   * Backend tarafında filtreleme yapmak için kullanılabilir.
+   */
+  globalFilterChange = output<string>();
+
+  // Content Children
 
   /**
    * Tablo başlık şablonu.
@@ -216,31 +204,12 @@ export class TableComponent<T> {
    */
   rowTemplate = contentChild<TemplateRef<any>>('rowTemplate');
 
-  // State
-  protected filtersState = signal<Record<string, FilterMetadata>>({}); // Protected for template if needed
-  protected globalFilterState = signal<string>('');
+  // Public Properties
 
-  // Pagination State
   currentPage = signal<number>(1);
+  readonly filterFn = this.filter.bind(this);
 
-  // Filter Logic
-  // We use debounce for the filter state to avoid heavy computations on every keystroke
-
-  // Note: We need to combine global filter + column filters
-  // And apply debounce.
-
-  private currentFilters = computed(() => ({
-    global: this.globalFilterState(),
-    columns: this.filtersState(),
-  }));
-
-  // Debounced Filter Signal
-  // We prefer using RxJS for debounce because signals are synchronous-glitch-free but don't have built-in time-based debounce easily without effects/timers.
-  // Converting the computed signal to observable -> debounce -> back to signal.
-  private filtersDebounced = toSignal(
-    toObservable(this.currentFilters).pipe(debounceTime(this.filterDebounce())),
-    { initialValue: { global: '' as string, columns: {} as Record<string, FilterMetadata> } }
-  );
+  // Public Computed
 
   // Applied Data (Filtered)
   filteredData = computed(() => {
@@ -273,10 +242,6 @@ export class TableComponent<T> {
       });
     }
 
-    // Reset pagination when filter changes
-    // This is a side effect. Signal computed should be pure.
-    // Ideally we reset page *when* filters change.
-    // We can do this in an effect or just reset current page if it exceeds bounds.
     return processed;
   });
 
@@ -298,7 +263,6 @@ export class TableComponent<T> {
       const end = start + size;
 
       // Auto-correct page if out of bounds
-      // We can't update signal here, so we just handle the slice gracefully
       if (start >= data.length) {
         return [];
       }
@@ -307,11 +271,6 @@ export class TableComponent<T> {
 
     return data;
   });
-
-  // Calculated Total Records
-  // If totalRecords input is provided, use it. Otherwise calculate from filtered data.
-  // We use a different name for internal computation to avoid conflict with input signal name if we strictly mapped it (but here input is `totalRecords`, computed is `_totalRecords` or we override).
-  // Actually, let's rename the internal computed to avoid confusion.
 
   _totalRecords = computed(() => {
     const inputTotal = this.totalRecords();
@@ -365,11 +324,6 @@ export class TableComponent<T> {
         pages.push('...');
       }
 
-      // Logic for middle range
-      // If current is near start: 1 2 3 4 5 ... 10
-      // If current is near end: 1 ... 6 7 8 9 10
-      // If current is in middle: 1 ... 4 5 6 ... 10
-
       let start = Math.max(2, current - 1);
       let end = Math.min(total - 1, current + 1);
 
@@ -402,63 +356,6 @@ export class TableComponent<T> {
     // Clean up duplicates if any edge cases messed up (simple check)
     return [...new Set(pages)];
   });
-
-  // ---- Public API for Templates ----
-
-  /**
-   * Sütun bazlı filtreleme uygular.
-   * Template içinde kullanılır.
-   * @param field Filtrelenecek alan adı
-   * @param value Filtre değeri
-   * @param matchMode Eşleşme modu (varsayılan: contains)
-   */
-  filter(field: string, value: any, matchMode: FilterMatchMode = 'contains') {
-    this.filtersState.update((s: Record<string, FilterMetadata>) => ({
-      ...s,
-      [field]: { value, matchMode },
-    }));
-    // Reset page to 1 on filter trigger
-    this.currentPage.set(1);
-  }
-
-  /**
-   * Global filtreleme değeri değiştiğinde tetiklenir.
-   * Backend tarafında filtreleme yapmak için kullanılabilir.
-   */
-  globalFilterChange = output<string>();
-
-  /**
-   * Global filtreleme uygular.
-   * @param value Arama değeri
-   */
-  filterGlobal(value: string) {
-    this.globalFilterState.set(value);
-    this.currentPage.set(1);
-    this.globalFilterChange.emit(value);
-  }
-
-  /**
-   * Sayfa değiştirir.
-   * @param page Yeni sayfa numarası
-   */
-  setPage(page: number | string) {
-    if (typeof page === 'string') return; // Ellipsis handle
-
-    if (page >= 1 && page <= this.totalPages()) {
-      this.currentPage.set(page);
-      this.pageChange.emit(page);
-    }
-  }
-
-  /**
-   * Sayfa boyutunu değiştirir.
-   */
-  onPageSizeChange(event: Event) {
-    const val = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(val);
-    this.currentPage.set(1);
-    this.pageChange.emit(1); // Reset to p1
-  }
 
   /**
    * Satır yüksekliği class'ı.
@@ -500,8 +397,93 @@ export class TableComponent<T> {
     }
   });
 
-  // Helpers
-  readonly filterFn = this.filter.bind(this);
+  // Protected Properties
+
+  // Expose Size enum to template
+  protected readonly Size = Size;
+
+  // State
+  protected filtersState = signal<Record<string, FilterMetadata>>({}); // Protected for template if needed
+  protected globalFilterState = signal<string>('');
+
+  // Private Properties
+
+  // Filter Logic
+  private currentFilters = computed(() => ({
+    global: this.globalFilterState(),
+    columns: this.filtersState(),
+  }));
+
+  // Debounced Filter Signal
+  private filtersDebounced = toSignal(
+    toObservable(this.currentFilters).pipe(debounceTime(this.filterDebounce())),
+    { initialValue: { global: '' as string, columns: {} as Record<string, FilterMetadata> } }
+  );
+
+  // Methods
+
+  /**
+   * Template döngüsü için izleme değeri hesaplar.
+   * trackBy verilmişse ilgili satırın property değerini, verilmemişse index döner.
+   *
+   * @param index Döngü index numarası
+   * @param item Satır verisi
+   */
+  getTrackByValue(index: number, item: any): any {
+    const key = this.trackBy();
+    if (!key) return index;
+
+    // Nested property resolution (e.g. 'user.details.id')
+    return key.split('.').reduce((obj: any, prop: string) => obj && obj[prop], item);
+  }
+
+  /**
+   * Sütun bazlı filtreleme uygular.
+   * Template içinde kullanılır.
+   * @param field Filtrelenecek alan adı
+   * @param value Filtre değeri
+   * @param matchMode Eşleşme modu (varsayılan: contains)
+   */
+  filter(field: string, value: any, matchMode: FilterMatchMode = 'contains') {
+    this.filtersState.update((s: Record<string, FilterMetadata>) => ({
+      ...s,
+      [field]: { value, matchMode },
+    }));
+    // Reset page to 1 on filter trigger
+    this.currentPage.set(1);
+  }
+
+  /**
+   * Global filtreleme uygular.
+   * @param value Arama değeri
+   */
+  filterGlobal(value: string) {
+    this.globalFilterState.set(value);
+    this.currentPage.set(1);
+    this.globalFilterChange.emit(value);
+  }
+
+  /**
+   * Sayfa değiştirir.
+   * @param page Yeni sayfa numarası
+   */
+  setPage(page: number | string) {
+    if (typeof page === 'string') return; // Ellipsis handle
+
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+      this.pageChange.emit(page);
+    }
+  }
+
+  /**
+   * Sayfa boyutunu değiştirir.
+   */
+  onPageSizeChange(value: number) {
+    this.pageSize.set(value);
+    this.currentPage.set(1);
+    this.pageChange.emit(1); // Reset to p1
+  }
 
   private matches(value: any, filter: any, mode: FilterMatchMode): boolean {
     if (value === undefined || value === null) return false;

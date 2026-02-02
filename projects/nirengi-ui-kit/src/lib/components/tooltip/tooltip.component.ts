@@ -26,7 +26,7 @@ import { TooltipPosition } from './tooltip.types';
       }
       .tooltip {
         /* Temel tooltip stili */
-        @apply pointer-events-none scale-95 whitespace-nowrap rounded bg-slate-800 px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-200;
+        @apply pointer-events-none scale-95 whitespace-nowrap rounded bg-inverse px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-200;
 
         /* Görünürlük kontrolü */
         &--visible {

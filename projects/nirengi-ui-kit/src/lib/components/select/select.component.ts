@@ -12,9 +12,11 @@ import {
   forwardRef,
   viewChild,
   effect,
+  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
 import { Size } from '../../common/enums/size.enum';
@@ -61,10 +63,11 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 @Component({
   selector: 'nui-select',
   standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent],
+  imports: [CommonModule, FormsModule, IconComponent, OverlayModule],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -200,8 +203,19 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
+  /**
+   * Dropdown menüsünü body'ye append eder.
+   * `overflow: hidden` olan container'lar içinde kullanıldığında gereklidir.
+   */
+  readonly appendToBody = input<boolean>(false);
+
   protected readonly Size = Size;
   protected readonly ColorVariant = ColorVariant;
+
+  /**
+   * Trigger genişliğini tutar (Overlay için).
+   */
+  readonly triggerWidth = signal<number | null>(null);
 
   /**
    * Computed: Container classes including variant and size.
@@ -215,6 +229,19 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   readonly triggerClasses = computed(() => {
     return `nui-select__trigger--${this.size()}`;
+  });
+
+  /**
+   * Overlay panel sınıfları.
+   * Body'ye append edildiğinde stilleri korumak için gerekli.
+   */
+  readonly overlayPanelClasses = computed(() => {
+    return [
+      'nui-select', // Needed to match SCSS structure .nui-select .child
+      'nui-select-overlay', // Global styles support
+      `nui-select--${this.size()}`,
+      `nui-select--${this.variant()}`,
+    ];
   });
 
   constructor() {
@@ -328,10 +355,28 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   toggleDropdown(): void {
     if (this.isDisabled()) return;
+
+    // Calculate width before opening
+    if (!this.isOpen() && this.appendToBody()) {
+      this.updateTriggerWidth();
+    }
+
     this.isOpen.update((v) => !v);
     if (!this.isOpen()) {
       this.onTouched();
       this.searchTerm.set('');
+    }
+  }
+
+  /**
+   * Trigger genişliğini günceller.
+   */
+  private updateTriggerWidth() {
+    const rect = this.elementRef.nativeElement
+      .querySelector('.nui-select__trigger')
+      ?.getBoundingClientRect();
+    if (rect) {
+      this.triggerWidth.set(rect.width);
     }
   }
 

@@ -15,6 +15,7 @@
 
   &__box {
     @apply flex items-center justify-center rounded border-2 transition-all duration-200;
+    @apply border-default bg-primary;
   }
 
   &__icon {
@@ -26,11 +27,11 @@
   }
 
   &__label {
-    @apply font-medium text-gray-900 transition-colors duration-200;
+    @apply font-medium text-primary transition-colors duration-200;
   }
 
   &__description {
-    @apply leading-snug text-gray-600;
+    @apply leading-snug text-secondary;
   }
 
   &__required {

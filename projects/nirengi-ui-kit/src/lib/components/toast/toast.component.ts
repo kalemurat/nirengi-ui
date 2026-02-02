@@ -42,78 +42,78 @@ import { IconName } from '../icon/icon.types';
         }
 
         &__title {
-          @apply text-sm font-semibold leading-5 text-gray-900;
+          @apply text-sm font-semibold leading-5 text-primary;
         }
 
         &__description {
-          @apply mt-1 text-sm leading-relaxed text-gray-500;
+          @apply mt-1 text-sm leading-relaxed text-secondary;
         }
 
         &__close {
-          @apply -mr-2 -mt-1 rounded-md p-1 text-gray-400 transition-colors hover:bg-black/5 hover:text-gray-600;
+          @apply -mr-2 -mt-1 rounded-md p-1 text-tertiary transition-colors hover:bg-neutral-900/5 hover:text-primary;
         }
 
         &--success {
-          @apply border-green-300 bg-green-100 dark:border-green-800 dark:bg-green-900;
+          @apply border-success-300 bg-success-100 dark:border-success-800 dark:bg-success-900;
           .nui-toast__icon {
-            @apply text-green-500 dark:text-green-400;
+            @apply text-success-500 dark:text-success-400;
           }
           .nui-toast__title {
-            @apply text-green-900 dark:text-green-100;
+            @apply text-success-900 dark:text-success-100;
           }
           .nui-toast__description {
-            @apply text-green-800 dark:text-green-300;
+            @apply text-success-800 dark:text-success-300;
           }
           .nui-toast__close {
-            @apply text-green-500 hover:bg-green-200/50 hover:text-green-700 dark:text-green-400 dark:hover:bg-green-800/50 dark:hover:text-green-200;
+            @apply text-success-500 hover:bg-success-200/50 hover:text-success-700 dark:text-success-400 dark:hover:bg-success-800/50 dark:hover:text-success-200;
           }
         }
 
         &--error {
-          @apply border-red-300 bg-red-100 dark:border-red-800 dark:bg-red-900;
+          @apply border-danger-300 bg-danger-100 dark:border-danger-800 dark:bg-danger-900;
           .nui-toast__icon {
-            @apply text-red-500 dark:text-red-400;
+            @apply text-danger-500 dark:text-danger-400;
           }
           .nui-toast__title {
-            @apply text-red-900 dark:text-red-100;
+            @apply text-danger-900 dark:text-danger-100;
           }
           .nui-toast__description {
-            @apply text-red-800 dark:text-red-300;
+            @apply text-danger-800 dark:text-danger-300;
           }
           .nui-toast__close {
-            @apply text-red-500 hover:bg-red-200/50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-800/50 dark:hover:text-red-200;
+            @apply text-danger-500 hover:bg-danger-200/50 hover:text-danger-700 dark:text-danger-400 dark:hover:bg-danger-800/50 dark:hover:text-danger-200;
           }
         }
 
         &--warning {
-          @apply border-yellow-300 bg-yellow-100 dark:border-yellow-800 dark:bg-yellow-900;
+          @apply border-warning-300 bg-warning-100 dark:border-warning-800 dark:bg-warning-900;
           .nui-toast__icon {
-            @apply text-yellow-500 dark:text-yellow-400;
+            @apply text-warning-500 dark:text-warning-400;
           }
           .nui-toast__title {
-            @apply text-yellow-900 dark:text-yellow-100;
+            @apply text-warning-900 dark:text-warning-100;
           }
           .nui-toast__description {
-            @apply text-yellow-800 dark:text-yellow-300;
+            @apply text-warning-800 dark:text-warning-300;
           }
           .nui-toast__close {
-            @apply text-yellow-500 hover:bg-yellow-200/50 hover:text-yellow-700 dark:text-yellow-400 dark:hover:bg-yellow-800/50 dark:hover:text-yellow-200;
+            @apply text-warning-500 hover:bg-warning-200/50 hover:text-warning-700 dark:text-warning-400 dark:hover:bg-warning-800/50 dark:hover:text-warning-200;
           }
         }
 
         &--info {
-          @apply border-blue-300 bg-blue-100 dark:border-blue-800 dark:bg-blue-900;
+          @apply border-info-300 bg-info-100 dark:border-info-800 dark:bg-info-900;
           .nui-toast__icon {
-            @apply text-blue-500 dark:text-blue-400;
+            @apply text-info-500 dark:text-info-400;
           }
           .nui-toast__title {
-            @apply text-blue-900 dark:text-blue-100;
+            @apply text-info-900 dark:text-info-100;
           }
           .nui-toast__description {
-            @apply text-blue-800 dark:text-blue-300;
+            @apply text-info-800 dark:text-info-300;
           }
           .nui-toast__close {
-            @apply text-blue-500 hover:bg-blue-200/50 hover:text-blue-700 dark:text-blue-400 dark:hover:bg-blue-800/50 dark:hover:text-blue-200;
+            @apply text-info-500 hover:bg-info-200/50 hover:text-info-700 dark:text-info-400 dark:hover:bg-info-800/50 dark:hover:text-info-200;
           }
         }
       }

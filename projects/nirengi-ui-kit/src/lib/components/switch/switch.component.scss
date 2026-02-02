@@ -14,16 +14,16 @@
   }
 
   &__track {
-    @apply absolute bottom-0 left-0 right-0 top-0 cursor-pointer rounded-full bg-gray-200 transition-colors duration-300;
+    @apply absolute bottom-0 left-0 right-0 top-0 cursor-pointer rounded-full bg-tertiary transition-colors duration-300;
   }
 
   &__thumb {
-    @apply absolute bottom-1 left-1 rounded-full bg-white shadow-sm transition-transform duration-300;
+    @apply absolute bottom-1 left-1 rounded-full bg-primary shadow-sm transition-transform duration-300;
   }
 
   &__text,
   &__content {
-    @apply font-medium text-gray-700;
+    @apply font-medium text-primary;
   }
 
   // Size variations
@@ -113,73 +113,81 @@
   }
 
   // Variant Checks
+  // Variant Checks
   // Primary
   &--primary {
     .nui-switch__input:checked + .nui-switch__track {
-      @apply bg-blue-600;
+      @apply bg-primary-600;
     }
     .nui-switch__input:focus + .nui-switch__track {
-      @apply ring-2 ring-blue-500 ring-offset-2;
+      @apply ring-2 ring-primary-500 ring-offset-2;
+      @apply ring-offset-primary;
     }
   }
 
   // Secondary
   &--secondary {
     .nui-switch__input:checked + .nui-switch__track {
-      @apply bg-gray-600;
+      @apply bg-secondary-600;
     }
     .nui-switch__input:focus + .nui-switch__track {
-      @apply ring-2 ring-gray-500 ring-offset-2;
+      @apply ring-2 ring-secondary-500 ring-offset-2;
+      @apply ring-offset-primary;
     }
   }
 
   // Success
   &--success {
     .nui-switch__input:checked + .nui-switch__track {
-      @apply bg-green-600;
+      @apply bg-success-600;
     }
     .nui-switch__input:focus + .nui-switch__track {
-      @apply ring-2 ring-green-500 ring-offset-2;
+      @apply ring-2 ring-success-500 ring-offset-2;
+      @apply ring-offset-primary;
     }
   }
 
   // Warning
   &--warning {
     .nui-switch__input:checked + .nui-switch__track {
-      @apply bg-yellow-500;
+      @apply bg-warning-500;
     }
     .nui-switch__input:focus + .nui-switch__track {
-      @apply ring-2 ring-yellow-400 ring-offset-2;
+      @apply ring-2 ring-warning-400 ring-offset-2;
+      @apply ring-offset-primary;
     }
   }
 
   // Danger
   &--danger {
     .nui-switch__input:checked + .nui-switch__track {
-      @apply bg-red-600;
+      @apply bg-danger-600;
     }
     .nui-switch__input:focus + .nui-switch__track {
-      @apply ring-2 ring-red-500 ring-offset-2;
+      @apply ring-2 ring-danger-500 ring-offset-2;
+      @apply ring-offset-primary;
     }
   }
 
   // Info
   &--info {
     .nui-switch__input:checked + .nui-switch__track {
-      @apply bg-cyan-600;
+      @apply bg-info-600;
     }
     .nui-switch__input:focus + .nui-switch__track {
-      @apply ring-2 ring-cyan-500 ring-offset-2;
+      @apply ring-2 ring-info-500 ring-offset-2;
+      @apply ring-offset-primary;
     }
   }
 
   // Neutral
   &--neutral {
     .nui-switch__input:checked + .nui-switch__track {
-      @apply bg-gray-500;
+      @apply bg-neutral-500;
     }
     .nui-switch__input:focus + .nui-switch__track {
-      @apply ring-2 ring-gray-400 ring-offset-2;
+      @apply ring-2 ring-neutral-400 ring-offset-2;
+      @apply ring-offset-primary;
     }
   }
 

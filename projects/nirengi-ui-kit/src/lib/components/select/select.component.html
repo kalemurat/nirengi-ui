@@ -10,6 +10,8 @@
     <!-- Trigger Button -->
     <div
       class="nui-select__trigger"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
       [ngClass]="triggerClasses()"
       [class.nui-select__trigger--disabled]="isDisabled()"
       [class.nui-select__trigger--success]="success()"
@@ -53,9 +55,9 @@
       </div>
     </div>
 
-    <!-- Dropdown Menu -->
-    @if (isOpen() && !isDisabled()) {
-      <div class="nui-select__dropdown">
+    <!-- Dropdown Template -->
+    <ng-template #dropdownContent>
+      <div class="nui-select__dropdown" [class.nui-select__dropdown--overlay]="appendToBody()">
         <!-- Search Input -->
         @if (searchable()) {
           <div class="nui-select__search">
@@ -99,6 +101,27 @@
           }
         </div>
       </div>
+    </ng-template>
+
+    <!-- Overlay Mode -->
+    @if (appendToBody() && isOpen() && !isDisabled()) {
+      <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        [cdkConnectedOverlayWidth]="triggerWidth() || '100%'"
+        [cdkConnectedOverlayPanelClass]="overlayPanelClasses()"
+        (backdropClick)="close()"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
+      >
+        <ng-container *ngTemplateOutlet="dropdownContent"></ng-container>
+      </ng-template>
+    }
+
+    <!-- Inline Mode -->
+    @if (!appendToBody() && isOpen() && !isDisabled()) {
+      <ng-container *ngTemplateOutlet="dropdownContent"></ng-container>
     }
   </div>
 
