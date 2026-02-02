@@ -1,5 +1,4 @@
 <div class="textarea-page">
-  
   <!-- Basic Usage -->
   <section class="textarea-page__section">
     <h2 class="textarea-page__title">Basic Usage</h2>
@@ -16,11 +15,7 @@
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">With Hint</h3>
-        <nui-textarea 
-          label="Comments" 
-          placeholder="Share your thoughts..." 
-          hint="Your feedback is valuable to us" 
-        />
+        <nui-textarea label="Comments" placeholder="Share your thoughts..." hint="Your feedback is valuable to us" />
       </div>
     </div>
   </section>
@@ -30,31 +25,32 @@
     <h2 class="textarea-page__title">States</h2>
     <div class="textarea-page__grid">
       <div class="textarea-page__card">
-        <h3 class="textarea-page__card-title">Error State</h3>
-        <nui-textarea 
-          label="Message" 
+        <h3 class="textarea-page__card-title">Danger (Error) State</h3>
+        <nui-textarea
+          label="Message"
           value="This is too short"
-          error="Message must be at least 20 characters" 
+          [variant]="ColorVariant.Danger"
+          hint="Message must be at least 20 characters"
         />
       </div>
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Disabled</h3>
-        <nui-textarea 
-          label="Terms and Conditions" 
+        <nui-textarea
+          label="Terms and Conditions"
           value="By using this service, you agree to our terms..."
           [rows]="4"
-          [disabled]="true" 
+          [disabled]="true"
         />
       </div>
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Readonly</h3>
-        <nui-textarea 
-          label="System Information" 
+        <nui-textarea
+          label="System Information"
           value="System logs and diagnostic information are displayed here. This field is read-only and cannot be edited."
           [rows]="4"
-          [readonly]="true" 
+          [readonly]="true"
         />
       </div>
     </div>
@@ -66,32 +62,17 @@
     <div class="textarea-page__grid">
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Message</h3>
-        <nui-textarea 
-          label="Your Message"
-          placeholder="Type your message..." 
-          icon="MessageSquare" 
-          [rows]="4"
-        />
+        <nui-textarea label="Your Message" placeholder="Type your message..." icon="MessageSquare" [rows]="4" />
       </div>
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Code</h3>
-        <nui-textarea 
-          label="Code Snippet" 
-          placeholder="Paste your code here..." 
-          icon="Code" 
-          [rows]="6"
-        />
+        <nui-textarea label="Code Snippet" placeholder="Paste your code here..." icon="Code" [rows]="6" />
       </div>
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Notes</h3>
-        <nui-textarea 
-          label="Meeting Notes" 
-          placeholder="Take notes..." 
-          icon="FileText" 
-          [rows]="5"
-        />
+        <nui-textarea label="Meeting Notes" placeholder="Take notes..." icon="FileText" [rows]="5" />
       </div>
     </div>
   </section>
@@ -102,26 +83,17 @@
     <div class="textarea-page__grid">
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">3 Rows (Default)</h3>
-        <nui-textarea 
-          placeholder="Default height with 3 rows..." 
-          [rows]="3"
-        />
+        <nui-textarea placeholder="Default height with 3 rows..." [rows]="3" />
       </div>
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">5 Rows</h3>
-        <nui-textarea 
-          placeholder="Medium height with 5 rows..." 
-          [rows]="5"
-        />
+        <nui-textarea placeholder="Medium height with 5 rows..." [rows]="5" />
       </div>
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">8 Rows</h3>
-        <nui-textarea 
-          placeholder="Large height with 8 rows..." 
-          [rows]="8"
-        />
+        <nui-textarea placeholder="Large height with 8 rows..." [rows]="8" />
       </div>
     </div>
   </section>
@@ -132,19 +104,14 @@
     <div class="textarea-page__grid">
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">With Counter (100 chars)</h3>
-        <nui-textarea 
-          label="Short Message"
-          placeholder="Keep it brief..." 
-          [maxlength]="100"
-          [rows]="3"
-        />
+        <nui-textarea label="Short Message" placeholder="Keep it brief..." [maxlength]="100" [rows]="3" />
       </div>
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">With Counter (500 chars)</h3>
-        <nui-textarea 
+        <nui-textarea
           label="Detailed Description"
-          placeholder="You can write more here..." 
+          placeholder="You can write more here..."
           [maxlength]="500"
           [rows]="5"
         />
@@ -152,7 +119,7 @@
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Over Limit Warning</h3>
-        <nui-textarea 
+        <nui-textarea
           label="Limited Text"
           value="This text is intentionally very long to demonstrate the over-limit warning feature. When you exceed the character limit, the counter will turn red to indicate that you've gone over the maximum allowed characters."
           [maxlength]="50"
@@ -168,9 +135,9 @@
     <div class="textarea-page__grid">
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Auto Resize Enabled</h3>
-        <nui-textarea 
+        <nui-textarea
           label="Dynamic Height"
-          placeholder="Start typing... The textarea will grow automatically!" 
+          placeholder="Start typing... The textarea will grow automatically!"
           [autoResize]="true"
           [rows]="2"
           hint="This textarea grows as you type"
@@ -179,9 +146,9 @@
 
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Standard (Resizable)</h3>
-        <nui-textarea 
+        <nui-textarea
           label="Manual Resize"
-          placeholder="You can manually resize this textarea by dragging the corner" 
+          placeholder="You can manually resize this textarea by dragging the corner"
           [rows]="3"
           hint="Drag the corner to resize"
         />
@@ -192,12 +159,12 @@
   <!-- Sizes -->
   <section class="textarea-page__section">
     <h2 class="textarea-page__title">Sizes</h2>
-    <div class="textarea-page__row bg-white p-6 rounded-xl border">
+    <div class="textarea-page__row">
       @for (size of sizes; track size) {
-        <nui-textarea 
-          [label]="'Size: ' + size" 
-          [size]="size" 
-          [placeholder]="'This is ' + size + ' textarea'" 
+        <nui-textarea
+          [label]="'Size: ' + size"
+          [size]="size"
+          [placeholder]="'This is ' + size + ' textarea'"
           [rows]="3"
         />
       }
@@ -210,19 +177,17 @@
     <div class="textarea-page__grid">
       <div class="textarea-page__card">
         <h3 class="textarea-page__card-title">Live Preview</h3>
-        <nui-textarea 
-          [formControl]="demoControl" 
-          label="Type something" 
-          placeholder="Watch the value update below..." 
+        <nui-textarea
+          [formControl]="demoControl"
+          label="Type something"
+          placeholder="Watch the value update below..."
           [rows]="5"
           [maxlength]="200"
         />
-        <div class="mt-4 p-3 bg-gray-50 rounded text-sm font-mono">
-          <div class="font-semibold mb-2">Value:</div>
-          <div class="whitespace-pre-wrap">{{ demoControl.value || '(empty)' }}</div>
-          <div class="mt-2 text-gray-500">
-            Length: {{ (demoControl.value || '').length }} characters
-          </div>
+        <div class="textarea-page__preview">
+          <div class="textarea-page__preview-label">Value:</div>
+          <div class="textarea-page__preview-value">{{ demoControl.value || '(empty)' }}</div>
+          <div class="textarea-page__preview-meta">Length: {{ (demoControl.value || '').length }} characters</div>
         </div>
       </div>
     </div>

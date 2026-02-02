@@ -2,6 +2,7 @@ const uiKitConfig = require('./projects/nirengi-ui-kit/tailwind.config.js');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    darkMode: 'class',
     content: [
         "./src/**/*.{html,ts}",
         "./projects/nirengi-ui-kit/src/**/*.{html,ts,scss}", // UI Kit content

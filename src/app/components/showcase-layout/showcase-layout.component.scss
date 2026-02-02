@@ -2,74 +2,74 @@
 // 3-panel layout: Sidebar, Main (Component + Events), and Properties
 
 .showcase-layout {
-    @apply h-screen w-full;
-    @apply grid;
-    grid-template-columns: 280px 1fr 380px;
-    grid-template-rows: 1fr;
-    @apply overflow-hidden;
+  @apply h-screen w-full;
+  @apply grid;
+  grid-template-columns: 280px 1fr 380px;
+  grid-template-rows: 1fr;
+  @apply overflow-hidden;
 
-    &__sidebar {
-        @apply h-full overflow-hidden;
-        grid-column: 1;
-        grid-row: 1;
-    }
+  &__sidebar {
+    @apply h-full overflow-hidden;
+    grid-column: 1;
+    grid-row: 1;
+  }
 
-    &__main {
-        @apply h-full flex flex-col overflow-hidden;
-        grid-column: 2;
-        grid-row: 1;
-    }
+  &__main {
+    @apply flex h-full flex-col overflow-hidden;
+    grid-column: 2;
+    grid-row: 1;
+  }
 
-    &__renderer {
-        @apply flex-1 overflow-hidden;
-    }
+  &__renderer {
+    @apply flex-1 overflow-hidden;
+  }
 
-    &__console {
-        @apply h-64 border-t border-gray-300;
-    }
+  &__console {
+    @apply h-64 border-t border-gray-300 dark:border-neutral-800;
+  }
 
-    &__properties {
-        @apply h-full overflow-hidden;
-        grid-column: 3;
-        grid-row: 1;
-    }
+  &__properties {
+    @apply h-full overflow-hidden;
+    grid-column: 3;
+    grid-row: 1;
+  }
 }
 
 // Responsive Design
 @media (max-width: 1280px) {
-    .showcase-layout {
-        grid-template-columns: 250px 1fr 320px;
+  .showcase-layout {
+    grid-template-columns: 250px 1fr 320px;
 
-        &__console {
-            @apply h-48;
-        }
+    &__console {
+      @apply h-48;
     }
+  }
 }
 
 @media (max-width: 1024px) {
-    .showcase-layout {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
+  .showcase-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
 
-        &__sidebar {
-            grid-column: 1;
-            grid-row: 1;
-            @apply h-auto max-h-64 border-b border-gray-200;
-        }
-
-        &__main {
-            grid-column: 1;
-            grid-row: 2;
-        }
-
-        &__properties {
-            grid-column: 1;
-            grid-row: 3;
-            @apply h-auto max-h-96 border-t border-gray-200;
-        }
-
-        &__console {
-            @apply h-48;
-        }
+    &__sidebar {
+      grid-column: 1;
+      grid-row: 1;
+      @apply h-auto max-h-64 border-b border-gray-200;
     }
+
+    &__main {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    &__properties {
+      grid-column: 1;
+      grid-row: 3;
+      @apply h-auto max-h-96 border-t border-gray-200;
+    }
+
+    &__console {
+      @apply h-48;
+    }
+  }
 }

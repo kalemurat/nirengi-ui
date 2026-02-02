@@ -1,59 +1,207 @@
 .nui-textbox {
-    @apply flex flex-col gap-1.5 w-full;
+  @apply flex w-full flex-col gap-1.5;
 
-    &__label {
-        @apply text-sm font-medium text-gray-700;
+  &--xs {
+    .nui-textbox__label {
+      @apply text-xs;
+    }
+    .nui-textbox__hint {
+      @apply text-[10px];
+    }
+  }
+
+  &--sm {
+    .nui-textbox__label {
+      @apply text-sm;
+    }
+    .nui-textbox__hint {
+      @apply text-xs;
+    }
+  }
+
+  &--md {
+    .nui-textbox__label {
+      @apply text-sm;
+    }
+    .nui-textbox__hint {
+      @apply text-xs;
+    }
+  }
+
+  &--lg {
+    .nui-textbox__label {
+      @apply text-base;
+    }
+    .nui-textbox__hint {
+      @apply text-sm;
+    }
+  }
+
+  &--xl {
+    .nui-textbox__label {
+      @apply text-lg;
+    }
+    .nui-textbox__hint {
+      @apply text-base;
+    }
+  }
+  &__label {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  &__wrapper {
+    @apply relative flex w-full items-center;
+  }
+
+  &__input {
+    @apply w-full rounded-lg border border-gray-300 text-gray-900 transition-all duration-200 placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500;
+
+    // Sizes
+    &--xs {
+      @apply h-8 px-2.5 text-xs;
     }
 
-    &__wrapper {
-        @apply relative flex items-center w-full;
+    &--sm {
+      @apply h-9 px-3 text-sm;
     }
 
-    &__input {
-        @apply w-full border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed placeholder:text-gray-400 transition-all duration-200;
-
-        // Sizes
-        &--xs {
-            @apply h-8 text-xs px-2.5;
-        }
-
-        &--sm {
-            @apply h-9 text-sm px-3;
-        }
-
-        &--md {
-            @apply h-10 text-sm px-3.5;
-        }
-
-        &--lg {
-            @apply h-11 text-base px-4;
-        }
-
-        &--xl {
-            @apply h-12 text-lg px-5;
-        }
-
-        // States
-        &--error {
-            @apply border-red-500 focus:ring-red-500;
-        }
-
-        &--with-icon {
-            @apply pl-10;
-        }
+    &--md {
+      @apply h-10 px-3.5 text-sm;
     }
 
-    &__icon {
-        @apply absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400;
-
-        // Adjust size based on container if needed, or keep fixed
+    &--lg {
+      @apply h-11 px-4 text-base;
     }
 
-    &__hint {
-        @apply text-xs text-gray-500 mt-1;
+    &--xl {
+      @apply h-12 px-5 text-lg;
     }
 
-    &__error {
-        @apply text-xs text-red-600 mt-1 font-medium;
+    // States
+    &--with-icon {
+      @apply pl-10;
     }
+  }
+
+  &__icon {
+    @apply pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400;
+  }
+
+  &__hint {
+    @apply text-xs text-gray-500;
+  }
+
+  // ============================================================================
+  // VARIANTS
+  // ============================================================================
+
+  &--primary {
+    .nui-textbox__input {
+      @apply border-blue-500 text-blue-700 placeholder-blue-300 focus:ring-blue-500/30;
+    }
+
+    .nui-textbox__label {
+      @apply text-blue-700;
+    }
+
+    .nui-textbox__hint {
+      @apply text-blue-500;
+    }
+
+    .nui-textbox__icon {
+      @apply text-blue-500;
+    }
+  }
+
+  &--secondary {
+    .nui-textbox__input {
+      @apply border-gray-300 focus:border-purple-600 focus:ring-purple-500/30;
+    }
+
+    .nui-textbox__icon {
+      @apply text-gray-400;
+    }
+  }
+
+  &--success {
+    .nui-textbox__input {
+      @apply border-green-500 focus:border-green-600 focus:ring-green-500/30;
+    }
+
+    .nui-textbox__label {
+      @apply text-green-700;
+    }
+
+    .nui-textbox__hint {
+      @apply text-green-600;
+    }
+
+    .nui-textbox__icon {
+      @apply text-green-500;
+    }
+  }
+
+  &--danger {
+    .nui-textbox__input {
+      @apply border-red-500 focus:border-red-600 focus:ring-red-500/30;
+    }
+
+    .nui-textbox__label {
+      @apply text-red-700;
+    }
+
+    .nui-textbox__hint {
+      @apply text-red-600;
+    }
+
+    .nui-textbox__icon {
+      @apply text-red-500;
+    }
+  }
+
+  &--warning {
+    .nui-textbox__input {
+      @apply border-yellow-500 focus:border-yellow-600 focus:ring-yellow-400/30;
+    }
+
+    .nui-textbox__label {
+      @apply text-yellow-800;
+    }
+
+    .nui-textbox__hint {
+      @apply text-yellow-700;
+    }
+
+    .nui-textbox__icon {
+      @apply text-yellow-600;
+    }
+  }
+
+  &--info {
+    .nui-textbox__input {
+      @apply border-cyan-500 focus:border-cyan-600 focus:ring-cyan-500/30;
+    }
+
+    .nui-textbox__label {
+      @apply text-cyan-700;
+    }
+
+    .nui-textbox__hint {
+      @apply text-cyan-600;
+    }
+
+    .nui-textbox__icon {
+      @apply text-cyan-500;
+    }
+  }
+
+  &--neutral {
+    .nui-textbox__input {
+      @apply border-gray-300 focus:border-gray-600 focus:ring-gray-500/30;
+    }
+
+    .nui-textbox__icon {
+      @apply text-gray-400;
+    }
+  }
 }

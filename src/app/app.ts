@@ -5,13 +5,13 @@ import { RouterOutlet } from '@angular/router';
 /**
  * Ana uygulama component'i.
  * UI Kit component'lerini showcase eden menü sistemi.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal tabanlı state yönetimi
  * - ✅ Routing ile sayfa geçişleri
  * - ✅ Responsive sidebar menü
  * - ✅ Kategorize edilmiş component listesi
- * 
+ *
  * @see https://v20.angular.dev/guide/routing
  */
 @Component({
@@ -21,6 +21,4 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
-  
-}
+export class App {}

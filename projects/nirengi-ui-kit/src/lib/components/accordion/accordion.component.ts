@@ -1,11 +1,10 @@
-
 import {
-    ChangeDetectionStrategy,
-    Component,
-    TemplateRef,
-    computed,
-    input,
-    model
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  computed,
+  input,
+  model,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
@@ -19,29 +18,29 @@ export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'd
 /**
  * Accordion Component.
  * Başlık ve içerik kısımları `TemplateRef` veya `string` olarak alınabilir.
- * 
+ *
  * ## Özellikler
  * - ✅ Standalone Component
  * - ✅ OnPush Change Detection
  * - ✅ Signal-based state management
  * - ✅ Template projection ve String content desteği
  * - ✅ Custom sizing & status
- * 
+ *
  * @example
  * <!-- String Usage -->
- * <nui-accordion 
+ * <nui-accordion
  *   title="Başlık"
  *   content="İçerik"
  *   size="md"
  *   status="primary">
  * </nui-accordion>
- * 
+ *
  * <!-- Template Usage -->
- * <nui-accordion 
+ * <nui-accordion
  *   [title]="titleTpl"
  *   [content]="contentTpl">
  * </nui-accordion>
- * 
+ *
  * <ng-template #titleTpl><strong>Custom Başlık</strong></ng-template>
  * <ng-template #contentTpl>Custom İçerik</ng-template>
  */
@@ -51,7 +50,7 @@ export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'd
   imports: [CommonModule, IconComponent],
   templateUrl: './accordion.component.html',
   styleUrl: './accordion.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccordionComponent {
   /**
@@ -93,12 +92,12 @@ export class AccordionComponent {
    * Unique ID üretimi için random string.
    */
   private readonly uniqueId = Math.random().toString(36).substring(2, 9);
-  
+
   /**
    * Header elementi ID'si.
    */
   protected readonly headerId = `accordion-header-${this.uniqueId}`;
-  
+
   /**
    * Content elementi ID'si.
    */
@@ -113,7 +112,7 @@ export class AccordionComponent {
       `nui-accordion--${this.size()}`,
       `nui-accordion--${this.status()}`,
       this.disabled() ? 'nui-accordion--disabled' : '',
-      this.expanded() ? 'nui-accordion--open' : ''
+      this.expanded() ? 'nui-accordion--open' : '',
     ].join(' ');
   });
 
@@ -122,7 +121,7 @@ export class AccordionComponent {
    */
   toggle() {
     if (!this.disabled()) {
-      this.expanded.update(v => !v);
+      this.expanded.update((v) => !v);
     }
   }
 

@@ -1,0 +1,80 @@
+.file-upload {
+  @apply relative flex flex-col gap-4 w-full;
+
+  &__drop-zone {
+    @apply relative flex flex-col items-center justify-center w-full min-h-[160px] p-6 border-2 border-dashed rounded-lg cursor-pointer transition-all duration-200 outline-none;
+    @apply border-gray-300 bg-gray-50 text-gray-500;
+    
+    &:hover:not(.file-upload--disabled) {
+      @apply border-blue-500 bg-blue-50 text-blue-600;
+    }
+
+    &--active {
+      @apply border-blue-500 bg-blue-100 ring-2 ring-blue-500 ring-opacity-20;
+    }
+
+    &--disabled {
+      @apply opacity-50 cursor-not-allowed bg-gray-100 border-gray-200 text-gray-400;
+    }
+  }
+
+  &__input {
+    @apply absolute inset-0 w-full h-full opacity-0 cursor-pointer;
+    
+    &:disabled {
+      @apply cursor-not-allowed;
+    }
+  }
+
+  &__icon {
+    @apply w-12 h-12 mb-3 text-current transition-colors duration-200;
+  }
+
+  &__text {
+    @apply text-sm font-medium text-center;
+    
+    &-highlight {
+      @apply text-blue-600 underline decoration-blue-600/30 underline-offset-2;
+    }
+  }
+
+  &__subtext {
+    @apply text-xs text-gray-400 mt-1;
+  }
+
+  &__list {
+    @apply flex flex-col gap-2 w-full mt-2;
+  }
+
+  &__item {
+    @apply flex items-center justify-between p-3 bg-white border border-gray-200 rounded-md shadow-sm transition-all duration-200;
+
+    &:hover {
+      @apply border-gray-300 shadow-md;
+    }
+  }
+
+  &__file-info {
+    @apply flex items-center gap-3 overflow-hidden;
+  }
+
+  &__file-icon {
+    @apply w-8 h-8 p-1.5 text-blue-500 bg-blue-50 rounded;
+  }
+
+  &__file-details {
+    @apply flex flex-col min-w-0;
+  }
+
+  &__file-name {
+    @apply text-sm font-medium text-gray-700 truncate block;
+  }
+
+  &__file-size {
+    @apply text-xs text-gray-400;
+  }
+
+  &__remove-btn {
+    @apply p-1.5 text-gray-400 rounded-full transition-colors hover:bg-red-50 hover:text-red-500 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none;
+  }
+}

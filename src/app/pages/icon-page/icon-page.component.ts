@@ -11,7 +11,7 @@ import { IconComponent, IconNames, IconName } from 'nirengi-ui-kit';
   standalone: true,
   imports: [CommonModule, IconComponent],
   templateUrl: './icon-page.html',
-  styleUrl: './icon-page.scss'
+  styleUrl: './icon-page.scss',
 })
 export class IconPageComponent {
   /**
@@ -28,7 +28,7 @@ export class IconPageComponent {
    * Tüm ikonların listesi.
    */
   allIcons = signal<IconName[]>(IconNames);
-  
+
   /**
    * Filtrelenmiş ikon listesi.
    */
@@ -36,7 +36,7 @@ export class IconPageComponent {
     const query = this.searchQuery().toLowerCase();
     // Performans için limit koymuyoruz ama çok fazla ikon varsa virtual scroll gerekebilir.
     // Şimdilik sorunsuz çalışacaktır.
-    return this.allIcons().filter(name => name.toLowerCase().includes(query));
+    return this.allIcons().filter((name) => name.toLowerCase().includes(query));
   });
 
   /**

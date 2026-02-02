@@ -1,5 +1,5 @@
 .nui-radio {
-  @apply flex items-start cursor-pointer relative;
+  @apply relative flex cursor-pointer items-start;
 
   &--disabled {
     @apply cursor-not-allowed opacity-60;
@@ -10,11 +10,11 @@
   }
 
   &__input-wrapper {
-    @apply relative flex items-center justify-center shrink-0;
+    @apply relative flex shrink-0 items-center justify-center;
   }
 
   &__native-input {
-    @apply absolute opacity-0 w-full h-full cursor-pointer z-10;
+    @apply absolute z-10 h-full w-full cursor-pointer opacity-0;
 
     &:disabled {
       @apply cursor-not-allowed;
@@ -22,45 +22,125 @@
   }
 
   &__control {
-    @apply rounded-full border-2 border-gray-300 bg-white transition-all duration-200 flex items-center justify-center;
+    @apply flex items-center justify-center rounded-full border-2 border-gray-300 bg-white transition-all duration-200;
 
     // Sizes
-    &--xs { @apply w-4 h-4; }
-    &--sm { @apply w-5 h-5; }
-    &--md { @apply w-6 h-6; }
-    &--lg { @apply w-7 h-7; }
-    &--xl { @apply w-8 h-8; }
+    &--xs {
+      @apply h-4 w-4;
+    }
+    &--sm {
+      @apply h-5 w-5;
+    }
+    &--md {
+      @apply h-6 w-6;
+    }
+    &--lg {
+      @apply h-7 w-7;
+    }
+    &--xl {
+      @apply h-8 w-8;
+    }
 
     // Variants (Checked state colors)
     .nui-radio--checked & {
-      &--primary { @apply border-blue-600; .nui-radio__indicator { @apply bg-blue-600; } }
-      &--secondary { @apply border-gray-600; .nui-radio__indicator { @apply bg-gray-600; } }
-      &--success { @apply border-green-600; .nui-radio__indicator { @apply bg-green-600; } }
-      &--warning { @apply border-yellow-500; .nui-radio__indicator { @apply bg-yellow-500; } }
-      &--danger { @apply border-red-600; .nui-radio__indicator { @apply bg-red-600; } }
-      &--info { @apply border-cyan-500; .nui-radio__indicator { @apply bg-cyan-500; } }
-      &--neutral { @apply border-gray-500; .nui-radio__indicator { @apply bg-gray-500; } }
+      &--primary {
+        @apply border-blue-600;
+        .nui-radio__indicator {
+          @apply bg-blue-600;
+        }
+      }
+      &--secondary {
+        @apply border-gray-600;
+        .nui-radio__indicator {
+          @apply bg-gray-600;
+        }
+      }
+      &--success {
+        @apply border-green-600;
+        .nui-radio__indicator {
+          @apply bg-green-600;
+        }
+      }
+      &--warning {
+        @apply border-yellow-500;
+        .nui-radio__indicator {
+          @apply bg-yellow-500;
+        }
+      }
+      &--danger {
+        @apply border-red-600;
+        .nui-radio__indicator {
+          @apply bg-red-600;
+        }
+      }
+      &--info {
+        @apply border-cyan-500;
+        .nui-radio__indicator {
+          @apply bg-cyan-500;
+        }
+      }
+      &--neutral {
+        @apply border-gray-500;
+        .nui-radio__indicator {
+          @apply bg-gray-500;
+        }
+      }
     }
 
     // Hover state (only if not disabled/readonly)
     .nui-radio:not(.nui-radio--disabled):not(.nui-radio--readonly):hover & {
       @apply border-gray-400;
     }
-    
+
     // Checked Hover
     .nui-radio--checked:not(.nui-radio--disabled):not(.nui-radio--readonly):hover & {
-      &--primary { @apply border-blue-700; .nui-radio__indicator { @apply bg-blue-700; } }
-      &--secondary { @apply border-gray-700; .nui-radio__indicator { @apply bg-gray-700; } }
-      &--success { @apply border-green-700; .nui-radio__indicator { @apply bg-green-700; } }
-      &--warning { @apply border-yellow-600; .nui-radio__indicator { @apply bg-yellow-600; } }
-      &--danger { @apply border-red-700; .nui-radio__indicator { @apply bg-red-700; } }
-      &--info { @apply border-cyan-600; .nui-radio__indicator { @apply bg-cyan-600; } }
-      &--neutral { @apply border-gray-600; .nui-radio__indicator { @apply bg-gray-600; } }
+      &--primary {
+        @apply border-blue-700;
+        .nui-radio__indicator {
+          @apply bg-blue-700;
+        }
+      }
+      &--secondary {
+        @apply border-gray-700;
+        .nui-radio__indicator {
+          @apply bg-gray-700;
+        }
+      }
+      &--success {
+        @apply border-green-700;
+        .nui-radio__indicator {
+          @apply bg-green-700;
+        }
+      }
+      &--warning {
+        @apply border-yellow-600;
+        .nui-radio__indicator {
+          @apply bg-yellow-600;
+        }
+      }
+      &--danger {
+        @apply border-red-700;
+        .nui-radio__indicator {
+          @apply bg-red-700;
+        }
+      }
+      &--info {
+        @apply border-cyan-600;
+        .nui-radio__indicator {
+          @apply bg-cyan-600;
+        }
+      }
+      &--neutral {
+        @apply border-gray-600;
+        .nui-radio__indicator {
+          @apply bg-gray-600;
+        }
+      }
     }
   }
 
   &__indicator {
-    @apply rounded-full transition-transform duration-200 scale-0;
+    @apply scale-0 rounded-full transition-transform duration-200;
     width: 60%;
     height: 60%;
 
@@ -70,17 +150,27 @@
   }
 
   &__content {
-    @apply ml-2 flex flex-col;
+    @apply ml-2 flex flex-col gap-1.5;
   }
 
   &__label-text {
-    @apply font-medium text-gray-900 select-none;
+    @apply select-none font-medium text-gray-900;
 
-    &--xs { @apply text-xs; }
-    &--sm { @apply text-sm; }
-    &--md { @apply text-base; }
-    &--lg { @apply text-lg; }
-    &--xl { @apply text-xl; }
+    &--xs {
+      @apply text-xs;
+    }
+    &--sm {
+      @apply text-sm;
+    }
+    &--md {
+      @apply text-sm;
+    }
+    &--lg {
+      @apply text-base;
+    }
+    &--xl {
+      @apply text-lg;
+    }
 
     &--disabled {
       @apply text-gray-400;
@@ -88,13 +178,23 @@
   }
 
   &__description {
-    @apply text-gray-500 mt-0.5 select-none;
+    @apply select-none text-gray-500;
 
-    &--xs { @apply text-[10px]; }
-    &--sm { @apply text-xs; }
-    &--md { @apply text-sm; }
-    &--lg { @apply text-base; }
-    &--xl { @apply text-lg; }
+    &--xs {
+      @apply text-[10px];
+    }
+    &--sm {
+      @apply text-xs;
+    }
+    &--md {
+      @apply text-xs;
+    }
+    &--lg {
+      @apply text-sm;
+    }
+    &--xl {
+      @apply text-base;
+    }
 
     &--disabled {
       @apply text-gray-300;

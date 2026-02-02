@@ -2,20 +2,13 @@
   <!-- Header -->
   <div class="properties-panel__header">
     <h3 class="properties-panel__title">Properties</h3>
-    <button 
-      class="properties-panel__reset"
-      (click)="resetProperties()"
-      type="button">
-      Reset
-    </button>
+    <button class="properties-panel__reset" (click)="resetProperties()" type="button">Reset</button>
   </div>
 
   <!-- Properties List -->
   <div class="properties-panel__list">
     @if (visibleProperties().length === 0) {
-      <div class="properties-panel__empty">
-        No properties available
-      </div>
+      <div class="properties-panel__empty">No properties available</div>
     } @else {
       @for (prop of visibleProperties(); track prop.name) {
         <div class="properties-panel__property">
@@ -31,43 +24,47 @@
 
           @switch (prop.type) {
             @case ('string') {
-              <input 
+              <input
                 type="text"
                 class="properties-panel__input"
                 [value]="getPropertyValue(prop.name)"
                 [readonly]="prop.readOnly"
-                (input)="updateProperty(prop.name, $any($event.target).value)" />
+                (input)="updateProperty(prop.name, $any($event.target).value)"
+              />
             }
-            
+
             @case ('number') {
-              <input 
+              <input
                 type="number"
                 class="properties-panel__input"
                 [value]="getPropertyValue(prop.name)"
                 [readonly]="prop.readOnly"
-                (input)="updateProperty(prop.name, +$any($event.target).value)" />
+                (input)="updateProperty(prop.name, +$any($event.target).value)"
+              />
             }
-            
+
             @case ('boolean') {
               <label class="properties-panel__checkbox-wrapper">
-                <input 
+                <input
                   type="checkbox"
                   class="properties-panel__checkbox"
                   [checked]="getPropertyValue(prop.name)"
                   [disabled]="prop.readOnly"
-                  (change)="updateProperty(prop.name, $any($event.target).checked)" />
+                  (change)="updateProperty(prop.name, $any($event.target).checked)"
+                />
                 <span class="properties-panel__checkbox-label">
                   {{ getPropertyValue(prop.name) ? 'Enabled' : 'Disabled' }}
                 </span>
               </label>
             }
-            
+
             @case ('enum') {
-              <select 
+              <select
                 class="properties-panel__select"
                 [value]="getPropertyValue(prop.name)"
                 [disabled]="prop.readOnly"
-                (change)="updateProperty(prop.name, $any($event.target).value)">
+                (change)="updateProperty(prop.name, $any($event.target).value)"
+              >
                 @for (option of prop.options; track option.value) {
                   <option [value]="option.value">{{ option.label }}</option>
                 }
@@ -77,12 +74,10 @@
             @case ('array') {
               <div class="properties-panel__array-info">
                 <span class="properties-panel__icon">📋</span>
-                <span class="properties-panel__array-text">
-                  {{ getPropertyValue(prop.name)?.length || 0 }} items
-                </span>
+                <span class="properties-panel__array-text"> {{ getPropertyValue(prop.name)?.length || 0 }} items </span>
               </div>
             }
-            
+
             @case ('contentProjection') {
               <div class="properties-panel__content-projection">
                 <span class="properties-panel__icon">ℹ️</span>

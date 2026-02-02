@@ -9,9 +9,8 @@ describe('HeadingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeadingComponent]
-    })
-    .compileComponents();
+      imports: [HeadingComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HeadingComponent);
     component = fixture.componentInstance;
@@ -27,7 +26,7 @@ describe('HeadingComponent', () => {
       // Default level is H2. Size is undefined (auto).
       // Logic: H2 -> Size.Large
       // Computed classes should contain 'nui-heading--lg'
-      
+
       const compiled = fixture.nativeElement as HTMLElement;
       const heading = compiled.querySelector('.nui-heading');
       expect(heading).toBeTruthy();
@@ -66,7 +65,7 @@ describe('HeadingComponent', () => {
 
       const compiled = fixture.nativeElement as HTMLElement;
       const heading = compiled.querySelector('.nui-heading');
-      
+
       // Should be H6 tag but XL class
       expect(heading?.tagName.toLowerCase()).toBe('h6');
       expect(heading?.classList).toContain('nui-heading--xl');

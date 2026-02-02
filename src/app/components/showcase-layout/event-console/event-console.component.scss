@@ -2,96 +2,96 @@
 // Terminal-style event logger
 
 .event-console {
-    @apply h-full flex flex-col bg-gray-900 text-green-400;
-    @apply font-mono text-sm;
+  @apply flex h-full flex-col bg-gray-900 text-green-400;
+  @apply font-mono text-sm;
 
-    &__header {
-        @apply flex items-center justify-between p-3 border-b border-gray-700;
-        @apply bg-gray-800;
-    }
+  &__header {
+    @apply flex items-center justify-between border-b border-gray-700 p-3;
+    @apply bg-gray-800;
+  }
 
-    &__title {
-        @apply text-sm font-semibold text-green-300 flex items-center gap-2;
-    }
+  &__title {
+    @apply flex items-center gap-2 text-sm font-semibold text-green-300;
+  }
 
-    &__icon {
-        @apply text-green-500;
-    }
+  &__icon {
+    @apply text-green-500;
+  }
 
-    &__count {
-        @apply text-xs text-gray-400 font-normal;
-    }
+  &__count {
+    @apply text-xs font-normal text-gray-400;
+  }
 
-    &__clear {
-        @apply px-3 py-1 rounded text-xs;
-        @apply bg-red-600 text-white;
-        @apply hover:bg-red-700 active:bg-red-800;
-        @apply transition-colors duration-200;
-    }
+  &__clear {
+    @apply rounded px-3 py-1 text-xs;
+    @apply bg-red-600 text-white;
+    @apply hover:bg-red-700 active:bg-red-800;
+    @apply transition-colors duration-200;
+  }
 
-    &__logs {
-        @apply flex-1 overflow-y-auto p-3 space-y-3;
-    }
+  &__logs {
+    @apply flex-1 space-y-3 overflow-y-auto p-3;
+  }
 
-    &__empty {
-        @apply flex items-start gap-2 text-gray-500;
-    }
+  &__empty {
+    @apply flex items-start gap-2 text-gray-500;
+  }
 
-    &__empty-text {
-        @apply italic;
-    }
+  &__empty-text {
+    @apply italic;
+  }
 
-    &__log {
-        @apply space-y-1;
-    }
+  &__log {
+    @apply space-y-1;
+  }
 
-    &__log-header {
-        @apply flex items-center gap-2 flex-wrap;
-    }
+  &__log-header {
+    @apply flex flex-wrap items-center gap-2;
+  }
 
-    &__prompt {
-        @apply text-green-500 font-bold;
-    }
+  &__prompt {
+    @apply font-bold text-green-500;
+  }
 
-    &__timestamp {
-        @apply text-blue-400;
-    }
+  &__timestamp {
+    @apply text-blue-400;
+  }
 
-    &__component {
-        @apply text-yellow-400 font-semibold;
-    }
+  &__component {
+    @apply font-semibold text-yellow-400;
+  }
 
-    &__separator {
-        @apply text-gray-600;
-    }
+  &__separator {
+    @apply text-gray-600;
+  }
 
-    &__event-name {
-        @apply text-purple-400 font-semibold;
-    }
+  &__event-name {
+    @apply font-semibold text-purple-400;
+  }
 
-    &__payload {
-        @apply ml-4 text-gray-300 text-xs;
-        @apply bg-gray-800 p-2 rounded;
-        @apply overflow-x-auto;
-        @apply border border-gray-700;
-    }
+  &__payload {
+    @apply ml-4 text-xs text-gray-300;
+    @apply rounded bg-gray-800 p-2;
+    @apply overflow-x-auto;
+    @apply border border-gray-700;
+  }
 }
 
 // Scrollbar styling
 .event-console__logs {
-    &::-webkit-scrollbar {
-        @apply w-2;
-    }
+  &::-webkit-scrollbar {
+    @apply w-2;
+  }
 
-    &::-webkit-scrollbar-track {
-        @apply bg-gray-800;
-    }
+  &::-webkit-scrollbar-track {
+    @apply bg-gray-800;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        @apply bg-gray-600 rounded;
+  &::-webkit-scrollbar-thumb {
+    @apply rounded bg-gray-600;
 
-        &:hover {
-            @apply bg-gray-500;
-        }
+    &:hover {
+      @apply bg-gray-500;
     }
+  }
 }

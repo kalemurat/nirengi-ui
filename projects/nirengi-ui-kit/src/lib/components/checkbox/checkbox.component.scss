@@ -1,248 +1,248 @@
 .nui-checkbox {
-    @apply inline-flex items-start gap-3 cursor-pointer select-none;
+  @apply inline-flex cursor-pointer select-none items-start gap-2;
 
-    &__wrapper {
-        @apply relative flex-shrink-0 mt-0.5;
+  &__wrapper {
+    @apply relative mt-0.5 flex-shrink-0;
+  }
+
+  &__input {
+    @apply absolute h-full w-full cursor-pointer opacity-0;
+
+    &:focus-visible + .nui-checkbox__box {
+      @apply ring-2 ring-blue-500 ring-offset-2;
+    }
+  }
+
+  &__box {
+    @apply flex items-center justify-center rounded border-2 transition-all duration-200;
+  }
+
+  &__icon {
+    @apply h-full w-full scale-90 transition-transform duration-200;
+  }
+
+  &__content {
+    @apply flex flex-col gap-1.5;
+  }
+
+  &__label {
+    @apply font-medium text-gray-900 transition-colors duration-200;
+  }
+
+  &__description {
+    @apply leading-snug text-gray-600;
+  }
+
+  &__required {
+    @apply ml-0.5 text-red-500;
+  }
+
+  // Size variations
+  &--xs {
+    .nui-checkbox__box {
+      @apply h-3.5 w-3.5;
     }
 
-    &__input {
-        @apply absolute w-full h-full opacity-0 cursor-pointer;
-
-        &:focus-visible+.nui-checkbox__box {
-            @apply ring-2 ring-offset-2 ring-blue-500;
-        }
+    .nui-checkbox__label {
+      @apply text-xs;
     }
 
-    &__box {
-        @apply flex items-center justify-center border-2 rounded transition-all duration-200;
+    .nui-checkbox__description {
+      @apply text-[10px];
+    }
+  }
+
+  &--sm {
+    .nui-checkbox__box {
+      @apply h-4 w-4;
     }
 
-    &__icon {
-        @apply w-full h-full transition-transform duration-200 scale-90;
+    .nui-checkbox__label {
+      @apply text-sm;
     }
 
-    &__content {
-        @apply flex flex-col gap-1;
+    .nui-checkbox__description {
+      @apply text-xs;
+    }
+  }
+
+  &--md {
+    .nui-checkbox__box {
+      @apply h-5 w-5;
     }
 
-    &__label {
-        @apply font-medium text-gray-900 transition-colors duration-200;
+    .nui-checkbox__label {
+      @apply text-sm;
     }
 
-    &__description {
-        @apply text-gray-600 leading-snug;
+    .nui-checkbox__description {
+      @apply text-xs;
+    }
+  }
+
+  &--lg {
+    .nui-checkbox__box {
+      @apply h-6 w-6;
     }
 
-    &__required {
-        @apply text-red-500 ml-0.5;
+    .nui-checkbox__label {
+      @apply text-base;
     }
 
-    // Size variations
-    &--xs {
-        .nui-checkbox__box {
-            @apply w-3.5 h-3.5;
-        }
+    .nui-checkbox__description {
+      @apply text-sm;
+    }
+  }
 
-        .nui-checkbox__label {
-            @apply text-xs;
-        }
-
-        .nui-checkbox__description {
-            @apply text-xs;
-        }
+  &--xl {
+    .nui-checkbox__box {
+      @apply h-7 w-7;
     }
 
-    &--sm {
-        .nui-checkbox__box {
-            @apply w-4 h-4;
-        }
-
-        .nui-checkbox__label {
-            @apply text-sm;
-        }
-
-        .nui-checkbox__description {
-            @apply text-xs;
-        }
+    .nui-checkbox__label {
+      @apply text-lg;
     }
 
-    &--md {
-        .nui-checkbox__box {
-            @apply w-5 h-5;
-        }
+    .nui-checkbox__description {
+      @apply text-base;
+    }
+  }
 
-        .nui-checkbox__label {
-            @apply text-base;
-        }
-
-        .nui-checkbox__description {
-            @apply text-sm;
-        }
+  // Variant: Primary
+  &--primary {
+    .nui-checkbox__box {
+      @apply border-gray-300;
     }
 
-    &--lg {
-        .nui-checkbox__box {
-            @apply w-6 h-6;
-        }
-
-        .nui-checkbox__label {
-            @apply text-lg;
-        }
-
-        .nui-checkbox__description {
-            @apply text-base;
-        }
+    &.nui-checkbox--checked .nui-checkbox__box,
+    &.nui-checkbox--indeterminate .nui-checkbox__box {
+      @apply border-blue-600 bg-blue-600 text-white;
     }
 
-    &--xl {
-        .nui-checkbox__box {
-            @apply w-7 h-7;
-        }
+    .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
+      @apply border-blue-500;
+    }
+  }
 
-        .nui-checkbox__label {
-            @apply text-xl;
-        }
-
-        .nui-checkbox__description {
-            @apply text-lg;
-        }
+  // Variant: Secondary
+  &--secondary {
+    .nui-checkbox__box {
+      @apply border-gray-300;
     }
 
-    // Variant: Primary
-    &--primary {
-        .nui-checkbox__box {
-            @apply border-gray-300;
-        }
-
-        &.nui-checkbox--checked .nui-checkbox__box,
-        &.nui-checkbox--indeterminate .nui-checkbox__box {
-            @apply bg-blue-600 border-blue-600 text-white;
-        }
-
-        .nui-checkbox__input:hover:not(:disabled)+.nui-checkbox__box {
-            @apply border-blue-500;
-        }
+    &.nui-checkbox--checked .nui-checkbox__box,
+    &.nui-checkbox--indeterminate .nui-checkbox__box {
+      @apply border-purple-600 bg-purple-600 text-white;
     }
 
-    // Variant: Secondary
-    &--secondary {
-        .nui-checkbox__box {
-            @apply border-gray-300;
-        }
+    .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
+      @apply border-purple-500;
+    }
+  }
 
-        &.nui-checkbox--checked .nui-checkbox__box,
-        &.nui-checkbox--indeterminate .nui-checkbox__box {
-            @apply bg-gray-600 border-gray-600 text-white;
-        }
-
-        .nui-checkbox__input:hover:not(:disabled)+.nui-checkbox__box {
-            @apply border-gray-500;
-        }
+  // Variant: Success
+  &--success {
+    .nui-checkbox__box {
+      @apply border-gray-300;
     }
 
-    // Variant: Success
-    &--success {
-        .nui-checkbox__box {
-            @apply border-gray-300;
-        }
-
-        &.nui-checkbox--checked .nui-checkbox__box,
-        &.nui-checkbox--indeterminate .nui-checkbox__box {
-            @apply bg-green-600 border-green-600 text-white;
-        }
-
-        .nui-checkbox__input:hover:not(:disabled)+.nui-checkbox__box {
-            @apply border-green-500;
-        }
+    &.nui-checkbox--checked .nui-checkbox__box,
+    &.nui-checkbox--indeterminate .nui-checkbox__box {
+      @apply border-green-600 bg-green-600 text-white;
     }
 
-    // Variant: Warning
-    &--warning {
-        .nui-checkbox__box {
-            @apply border-gray-300;
-        }
+    .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
+      @apply border-green-500;
+    }
+  }
 
-        &.nui-checkbox--checked .nui-checkbox__box,
-        &.nui-checkbox--indeterminate .nui-checkbox__box {
-            @apply bg-yellow-500 border-yellow-500 text-white;
-        }
-
-        .nui-checkbox__input:hover:not(:disabled)+.nui-checkbox__box {
-            @apply border-yellow-400;
-        }
+  // Variant: Warning
+  &--warning {
+    .nui-checkbox__box {
+      @apply border-gray-300;
     }
 
-    // Variant: Danger
-    &--danger {
-        .nui-checkbox__box {
-            @apply border-gray-300;
-        }
-
-        &.nui-checkbox--checked .nui-checkbox__box,
-        &.nui-checkbox--indeterminate .nui-checkbox__box {
-            @apply bg-red-600 border-red-600 text-white;
-        }
-
-        .nui-checkbox__input:hover:not(:disabled)+.nui-checkbox__box {
-            @apply border-red-500;
-        }
+    &.nui-checkbox--checked .nui-checkbox__box,
+    &.nui-checkbox--indeterminate .nui-checkbox__box {
+      @apply border-yellow-500 bg-yellow-500 text-white;
     }
 
-    // Variant: Info
-    &--info {
-        .nui-checkbox__box {
-            @apply border-gray-300;
-        }
+    .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
+      @apply border-yellow-400;
+    }
+  }
 
-        &.nui-checkbox--checked .nui-checkbox__box,
-        &.nui-checkbox--indeterminate .nui-checkbox__box {
-            @apply bg-cyan-600 border-cyan-600 text-white;
-        }
-
-        .nui-checkbox__input:hover:not(:disabled)+.nui-checkbox__box {
-            @apply border-cyan-500;
-        }
+  // Variant: Danger
+  &--danger {
+    .nui-checkbox__box {
+      @apply border-gray-300;
     }
 
-    // Variant: Neutral
-    &--neutral {
-        .nui-checkbox__box {
-            @apply border-gray-300;
-        }
-
-        &.nui-checkbox--checked .nui-checkbox__box,
-        &.nui-checkbox--indeterminate .nui-checkbox__box {
-            @apply bg-gray-500 border-gray-500 text-white;
-        }
-
-        .nui-checkbox__input:hover:not(:disabled)+.nui-checkbox__box {
-            @apply border-gray-400;
-        }
+    &.nui-checkbox--checked .nui-checkbox__box,
+    &.nui-checkbox--indeterminate .nui-checkbox__box {
+      @apply border-red-600 bg-red-600 text-white;
     }
 
-    // Disabled state
-    &--disabled {
-        @apply opacity-50 cursor-not-allowed;
+    .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
+      @apply border-red-500;
+    }
+  }
 
-        .nui-checkbox__input {
-            @apply cursor-not-allowed;
-        }
-
-        .nui-checkbox__label--disabled {
-            @apply text-gray-400;
-        }
-
-        .nui-checkbox__description--disabled {
-            @apply text-gray-300;
-        }
+  // Variant: Info
+  &--info {
+    .nui-checkbox__box {
+      @apply border-gray-300;
     }
 
-    // Readonly state
-    &--readonly {
-        @apply cursor-default;
-
-        .nui-checkbox__input {
-            @apply cursor-default;
-        }
+    &.nui-checkbox--checked .nui-checkbox__box,
+    &.nui-checkbox--indeterminate .nui-checkbox__box {
+      @apply border-cyan-600 bg-cyan-600 text-white;
     }
+
+    .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
+      @apply border-cyan-500;
+    }
+  }
+
+  // Variant: Neutral
+  &--neutral {
+    .nui-checkbox__box {
+      @apply border-gray-300;
+    }
+
+    &.nui-checkbox--checked .nui-checkbox__box,
+    &.nui-checkbox--indeterminate .nui-checkbox__box {
+      @apply border-gray-500 bg-gray-500 text-white;
+    }
+
+    .nui-checkbox__input:hover:not(:disabled) + .nui-checkbox__box {
+      @apply border-gray-400;
+    }
+  }
+
+  // Disabled state
+  &--disabled {
+    @apply cursor-not-allowed opacity-50;
+
+    .nui-checkbox__input {
+      @apply cursor-not-allowed;
+    }
+
+    .nui-checkbox__label--disabled {
+      @apply text-gray-400;
+    }
+
+    .nui-checkbox__description--disabled {
+      @apply text-gray-300;
+    }
+  }
+
+  // Readonly state
+  &--readonly {
+    @apply cursor-default;
+
+    .nui-checkbox__input {
+      @apply cursor-default;
+    }
+  }
 }

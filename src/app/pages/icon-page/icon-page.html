@@ -1,9 +1,8 @@
 <div class="icon-page">
-  
   <section class="icon-page__section">
     <h2 class="icon-page__title">Örnek Kullanımlar</h2>
-    
-    <div class="flex gap-8 items-end">
+
+    <div class="flex items-end gap-8">
       <div class="flex flex-col items-center gap-2">
         <nirengi-icon name="House" />
         <span class="text-sm">Default</span>
@@ -18,7 +17,7 @@
         <nirengi-icon name="Settings" size="48" [strokeWidth]="1" />
         <span class="text-sm">Size 48 / Thin</span>
       </div>
-      
+
       <div class="flex flex-col items-center gap-2">
         <nirengi-icon name="Loader" class="animate-spin" />
         <span class="text-sm">Animated (Tailwind)</span>
@@ -28,13 +27,13 @@
 
   <section class="icon-page__section">
     <h2 class="icon-page__title">Tüm İkonlar ({{ filteredIcons().length }})</h2>
-    
+
     <div class="icon-page__controls">
-      <input 
-        type="text" 
+      <input
+        type="text"
         [value]="searchQuery()"
         (input)="updateSearch($event)"
-        placeholder="İkon ara..." 
+        placeholder="İkon ara..."
         class="icon-page__input"
       />
     </div>
@@ -48,5 +47,4 @@
       }
     </div>
   </section>
-
 </div>

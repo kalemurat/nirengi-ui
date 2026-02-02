@@ -10,17 +10,12 @@
   <!-- 1. Basic Usage (String Array) -->
   <section class="space-y-4">
     <h2 class="text-xl font-semibold text-gray-800">1. Temel Kullanım (String Array)</h2>
-    <div class="p-6 border rounded-lg bg-white space-y-4">
+    <div class="space-y-4 rounded-lg border bg-white p-6">
       <div class="w-64">
-        <nui-select 
-          label="Şehir Seçin" 
-          [options]="cities"
-          [(ngModel)]="selectedCity"
-          placeholder="Şehir seçiniz..."
-        />
+        <nui-select label="Şehir Seçin" [options]="cities" [(ngModel)]="selectedCity" placeholder="Şehir seçiniz..." />
       </div>
       <div class="text-sm text-gray-500">
-        Seçilen Değer: <span class="font-mono bg-gray-100 px-1 rounded">{{ selectedCity() || 'Yok' }}</span>
+        Seçilen Değer: <span class="rounded bg-gray-100 px-1 font-mono">{{ selectedCity() || 'Yok' }}</span>
       </div>
     </div>
   </section>
@@ -28,10 +23,10 @@
   <!-- 2. Object Binding -->
   <section class="space-y-4">
     <h2 class="text-xl font-semibold text-gray-800">2. Object Binding (bindLabel & bindValue)</h2>
-    <div class="p-6 border rounded-lg bg-white space-y-4">
+    <div class="space-y-4 rounded-lg border bg-white p-6">
       <div class="w-64">
-        <nui-select 
-          label="Kullanıcı Seçin (ID Binding)" 
+        <nui-select
+          label="Kullanıcı Seçin (ID Binding)"
           [options]="users"
           bindLabel="name"
           bindValue="id"
@@ -39,7 +34,7 @@
         />
       </div>
       <div class="text-sm text-gray-500">
-        Seçilen ID: <span class="font-mono bg-gray-100 px-1 rounded">{{ selectedUser() || 'Yok' }}</span>
+        Seçilen ID: <span class="rounded bg-gray-100 px-1 font-mono">{{ selectedUser() || 'Yok' }}</span>
       </div>
     </div>
   </section>
@@ -47,17 +42,18 @@
   <!-- 3. Object Selection (No bindValue) -->
   <section class="space-y-4">
     <h2 class="text-xl font-semibold text-gray-800">3. Tüm Objeyi Seçme</h2>
-    <div class="p-6 border rounded-lg bg-white space-y-4">
+    <div class="space-y-4 rounded-lg border bg-white p-6">
       <div class="w-64">
-        <nui-select 
-          label="Kullanıcı Seçin (Full Object)" 
+        <nui-select
+          label="Kullanıcı Seçin (Full Object)"
           [options]="users"
           bindLabel="name"
           [(ngModel)]="selectedUserObj"
         />
       </div>
       <div class="text-sm text-gray-500">
-        Seçilen Obje: <pre class="text-xs bg-gray-100 p-2 rounded mt-1">{{ selectedUserObj() | json }}</pre>
+        Seçilen Obje:
+        <pre class="mt-1 rounded bg-gray-100 p-2 text-xs">{{ selectedUserObj() | json }}</pre>
       </div>
     </div>
   </section>
@@ -65,10 +61,10 @@
   <!-- 4. Multiple Selection & Searchable -->
   <section class="space-y-4">
     <h2 class="text-xl font-semibold text-gray-800">4. Çoklu Seçim ve Arama</h2>
-    <div class="p-6 border rounded-lg bg-white space-y-4">
+    <div class="space-y-4 rounded-lg border bg-white p-6">
       <div class="w-80">
-        <nui-select 
-          label="Takım Arkadaşları Seçin" 
+        <nui-select
+          label="Takım Arkadaşları Seçin"
           [options]="users"
           bindLabel="name"
           bindValue="id"
@@ -78,7 +74,7 @@
         />
       </div>
       <div class="text-sm text-gray-500">
-        Seçilen ID'ler: <span class="font-mono bg-gray-100 px-1 rounded">{{ selectedUsers() | json }}</span>
+        Seçilen ID'ler: <span class="rounded bg-gray-100 px-1 font-mono">{{ selectedUsers() | json }}</span>
       </div>
     </div>
   </section>
@@ -86,25 +82,24 @@
   <!-- 5. Custom Template -->
   <section class="space-y-4">
     <h2 class="text-xl font-semibold text-gray-800">5. Özel Template (Avatarlı)</h2>
-    <div class="p-6 border rounded-lg bg-white space-y-4">
+    <div class="space-y-4 rounded-lg border bg-white p-6">
       <div class="w-80">
-        <nui-select 
-          label="Kullanıcı Detaylı" 
+        <nui-select
+          label="Kullanıcı Detaylı"
           [options]="users"
           bindLabel="name"
           bindValue="id"
-          placeholder="Kişi seçiniz...">
-          
+          placeholder="Kişi seçiniz..."
+        >
           <ng-template #itemTemplate let-item>
             <div class="flex items-center gap-3">
-              <img [src]="item.avatar" class="w-8 h-8 rounded-full border border-gray-200" />
+              <img [src]="item.avatar" class="h-8 w-8 rounded-full border border-gray-200" />
               <div class="flex flex-col">
                 <span class="font-medium text-gray-900">{{ item.name }}</span>
                 <span class="text-xs text-gray-500">{{ item.role }}</span>
               </div>
             </div>
           </ng-template>
-
         </nui-select>
       </div>
     </div>
@@ -113,15 +108,25 @@
   <!-- 6. Sizes & States -->
   <section class="space-y-4">
     <h2 class="text-xl font-semibold text-gray-800">6. Boyutlar ve Durumlar</h2>
-    <div class="p-6 border rounded-lg bg-white grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 gap-6 rounded-lg border bg-white p-6 md:grid-cols-3">
       <nui-select [size]="Size.Small" label="Small Size" [options]="cities" placeholder="Small" />
       <nui-select [size]="Size.Medium" label="Medium Size" [options]="cities" placeholder="Medium" />
       <nui-select [size]="Size.Large" label="Large Size" [options]="cities" placeholder="Large" />
-      
+
       <nui-select label="Disabled" [options]="cities" [disabled]="true" placeholder="Devre Dışı" />
       <nui-select label="Error State" [options]="cities" error="Bu alan zorunludur" [(ngModel)]="initialCity" />
-      <nui-select label="Success State" [options]="cities" success="Seçim başarıyla doğrulandı" [(ngModel)]="initialCity" />
-      <nui-select label="Warning State" [options]="cities" warning="Bu seçenek için sınırlı kontenjan kaldı" [(ngModel)]="initialCity" />
+      <nui-select
+        label="Success State"
+        [options]="cities"
+        success="Seçim başarıyla doğrulandı"
+        [(ngModel)]="initialCity"
+      />
+      <nui-select
+        label="Warning State"
+        [options]="cities"
+        warning="Bu seçenek için sınırlı kontenjan kaldı"
+        [(ngModel)]="initialCity"
+      />
       <nui-select label="With Hint" [options]="cities" hint="Lütfen yaşadığınız şehri seçin" />
     </div>
   </section>

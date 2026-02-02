@@ -1,45 +1,246 @@
 /* Table SCSS */
+.nui-table-container {
+  @apply flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800; /* Increased container border visibility */
+}
+
+.nui-table-toolbar {
+  @apply flex justify-end border-b border-gray-200 p-4 dark:border-gray-700;
+
+  &__search-container {
+    @apply relative w-64;
+  }
+
+  &__search-input {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 transition-colors placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500 dark:disabled:bg-gray-800 dark:disabled:text-gray-500;
+  }
+}
+
+.nui-table-wrapper {
+  @apply relative min-h-0 w-full flex-1 overflow-auto bg-white dark:bg-gray-800;
+}
+
 .nui-table {
-    @apply w-full text-left text-sm text-gray-700;
+  @apply relative min-w-full border-collapse text-left text-sm text-gray-700 dark:text-gray-200;
 
-    &__head {
-        @apply bg-gray-50 uppercase text-xs font-semibold text-gray-600;
+  /* Universal Cell Styles (Default Medium) */
+  th,
+  td {
+    @apply border-0 px-4 py-3 text-left align-middle text-sm text-gray-700 dark:text-gray-200;
+  }
 
-        th {
-            @apply px-4 py-3 whitespace-nowrap;
-        }
+  &__head {
+    @apply sticky top-0 z-10 bg-gray-100 text-xs font-semibold uppercase text-gray-600 shadow-sm backdrop-blur-sm dark:bg-gray-700/50 dark:text-gray-300;
+
+    th {
+      @apply whitespace-nowrap font-medium;
+    }
+  }
+
+  &__header-content {
+    @apply flex flex-col gap-2;
+  }
+
+  &__header-title {
+    @apply block truncate;
+  }
+
+  &__filter-input {
+    @apply w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-xs font-normal text-gray-700 transition-colors focus:border-primary-500 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-gray-200;
+  }
+
+  &__body {
+    @apply bg-white dark:bg-gray-800;
+  }
+
+  &__row {
+    @apply transition-colors duration-150;
+
+    &:hover {
+      @apply bg-gray-50 dark:bg-gray-700/30;
     }
 
-    &__body {
-        @apply bg-white divide-y divide-gray-100;
+    &--head {
+      @apply h-auto py-2;
     }
+  }
 
-    &__row {
-        @apply transition-colors duration-150;
+  &__cell {
+    /* Legacy/Direct usage support */
+    @apply max-w-[200px] truncate whitespace-nowrap text-gray-900 dark:text-gray-100;
+  }
 
-        &:hover {
-            @apply bg-gray-50;
-        }
+  &__empty-cell {
+    @apply p-12 text-center text-gray-500 dark:text-gray-400;
+  }
 
-        &--head {
-            @apply bg-gray-50;
-        }
-    }
+  &__empty-content {
+    @apply flex flex-col items-center gap-3;
+  }
 
+  &__empty-title {
+    @apply text-lg font-medium text-gray-900 dark:text-white;
+  }
+
+  &__empty-text {
+    @apply text-sm;
+  }
+
+  /* Size Variants */
+  &--xs {
+    th,
     td {
-        @apply px-4 py-3 whitespace-nowrap;
+      @apply px-2 py-1 text-xs;
     }
+  }
+
+  &--sm {
+    th,
+    td {
+      @apply px-3 py-2 text-sm;
+    }
+  }
+
+  &--md {
+    th,
+    td {
+      @apply px-4 py-3 text-sm;
+    }
+  }
+
+  &--lg {
+    th,
+    td {
+      @apply px-5 py-4 text-base;
+    }
+  }
+
+  &--xl {
+    th,
+    td {
+      @apply px-6 py-5 text-lg;
+    }
+  }
+
+  /* Grid Variants - Stronger Borders & Generic Targeting */
+  /* Grid Variants - Explicit Targeting */
+  &--grid-none {
+    .nui-table__body {
+      @apply divide-none;
+    }
+    th,
+    td {
+      @apply border-none;
+    }
+    .nui-table__head th {
+      @apply border-b-0;
+    }
+  }
+
+  &--grid-horizontal {
+    .nui-table__body {
+      @apply divide-y divide-gray-300 dark:divide-gray-600;
+    }
+    /* Explicit Header Bottom Border - High Contrast */
+    .nui-table__head th {
+      @apply border-b border-gray-500 dark:border-gray-500;
+    }
+  }
+
+  &--grid-vertical {
+    /* Vertical Lines for Body (Standard) */
+    td {
+      @apply border-r border-gray-300 dark:border-gray-600;
+      &:last-child {
+        @apply border-r-0;
+      }
+    }
+    /* Header Vertical Lines & Bottom - High Contrast */
+    .nui-table__head th {
+      @apply border-b border-r border-gray-500 dark:border-gray-500;
+      &:last-child {
+        @apply border-r-0;
+      }
+    }
+  }
+
+  &--grid-both {
+    .nui-table__body {
+      @apply divide-y divide-gray-300 dark:divide-gray-600;
+    }
+    /* Vertical Lines Body */
+    td {
+      @apply border-r border-gray-300 dark:border-gray-600;
+      &:last-child {
+        @apply border-r-0;
+      }
+    }
+    /* Header Vertical Lines & Bottom - High Contrast */
+    .nui-table__head th {
+      @apply border-b border-r border-gray-500 dark:border-gray-500;
+      &:last-child {
+        @apply border-r-0;
+      }
+    }
+  }
+}
+
+/* Loading Overlay */
+.nui-table-loading {
+  @apply absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm transition-all duration-300;
+
+  &__spinner {
+    @apply h-8 w-8 animate-spin text-primary-600;
+  }
+}
+
+/* Pagination */
+.nui-table-pagination {
+  @apply z-20 flex shrink-0 flex-col items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:flex-row;
+
+  &__info {
+    @apply mb-4 flex w-full items-center justify-between text-sm text-gray-700 sm:mb-0 sm:w-auto;
+  }
+
+  &__controls {
+    @apply flex items-center gap-4;
+  }
+
+  &__size-select {
+    @apply block w-full cursor-pointer rounded-md border-0 py-1.5 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm sm:leading-6;
+  }
+
+  &__nav {
+    @apply isolate inline-flex items-center gap-1 rounded-md;
+  }
+
+  &__btn {
+    @apply relative inline-flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-50;
+
+    &--number {
+      @apply mx-0.5 font-semibold transition-colors;
+    }
+
+    &--active {
+      @apply bg-primary-600 text-white hover:bg-primary-500;
+    }
+
+    &--inactive {
+      @apply text-gray-900 hover:bg-gray-50;
+    }
+  }
+
+  &__ellipsis {
+    @apply relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 focus:outline-offset-0;
+  }
 }
 
 /* Virtual Scroll Specifics */
 cdk-virtual-scroll-viewport {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 
-    /* Ensure the table inside takes full width */
-    table {
-        width: 100%;
-        table-layout: fixed;
-        /* Important for performance and consistent column widths in virtual scroll */
-    }
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
 }

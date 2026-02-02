@@ -14,7 +14,7 @@ interface User {
   selector: 'app-select-page',
   standalone: true,
   imports: [CommonModule, FormsModule, SelectComponent],
-  templateUrl: './select-page.component.html'
+  templateUrl: './select-page.component.html',
 })
 export class SelectPageComponent {
   // Enums

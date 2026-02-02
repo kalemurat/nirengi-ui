@@ -31,9 +31,9 @@
       "description": "A simple list using the default item template.",
       "propertyValues": {
         "items": [
-            { "id": 101, "name": "Apple" },
-            { "id": 102, "name": "Banana" },
-            { "id": 103, "name": "Cherry" }
+          { "id": 101, "name": "Apple" },
+          { "id": 102, "name": "Banana" },
+          { "id": 103, "name": "Cherry" }
         ]
       }
     }

@@ -1,35 +1,35 @@
 .icon-page {
-    @apply p-6 space-y-8;
+  @apply space-y-8 p-6;
 
-    &__section {
-        @apply space-y-4;
+  &__section {
+    @apply space-y-4;
+  }
+
+  &__title {
+    @apply mb-4 border-b pb-2 text-2xl font-bold text-gray-800;
+  }
+
+  &__grid {
+    @apply grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8;
+  }
+
+  &__item {
+    @apply flex cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-4 transition-shadow hover:shadow-md;
+
+    &:hover {
+      @apply border-blue-500 text-blue-600;
     }
+  }
 
-    &__title {
-        @apply text-2xl font-bold text-gray-800 border-b pb-2 mb-4;
-    }
+  &__name {
+    @apply mt-2 w-full truncate text-center text-xs text-gray-500;
+  }
 
-    &__grid {
-        @apply grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4;
-    }
+  &__controls {
+    @apply mb-4 flex gap-4;
+  }
 
-    &__item {
-        @apply flex flex-col items-center justify-center p-4 bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow cursor-pointer;
-
-        &:hover {
-            @apply border-blue-500 text-blue-600;
-        }
-    }
-
-    &__name {
-        @apply mt-2 text-xs text-gray-500 text-center truncate w-full;
-    }
-
-    &__controls {
-        @apply flex gap-4 mb-4;
-    }
-
-    &__input {
-        @apply px-4 py-2 border rounded-md w-full max-w-md;
-    }
+  &__input {
+    @apply w-full max-w-md rounded-md border px-4 py-2;
+  }
 }

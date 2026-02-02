@@ -6,157 +6,157 @@
 // Responsive ve semantic başlıklar için tasarlanmıştır.
 
 .nui-heading {
-    // Base styles
-    @apply leading-tight;
-    @apply transition-colors duration-200;
+  // Base styles
+  @apply leading-tight;
+  @apply transition-colors duration-200;
 
-    // ============================================================================
-    // SIZE VARIANTS
-    // Font boyutları ve line-height değerleri
-    // ============================================================================
+  // ============================================================================
+  // SIZE VARIANTS
+  // Font boyutları ve line-height değerleri
+  // ============================================================================
 
-    &--xs {
-        @apply text-sm;
-        line-height: 1.4;
-    }
+  &--xs {
+    @apply text-sm;
+    line-height: 1.4;
+  }
 
-    &--sm {
-        @apply text-base;
-        line-height: 1.5;
-    }
+  &--sm {
+    @apply text-base;
+    line-height: 1.5;
+  }
 
-    &--md {
-        @apply text-xl;
-        line-height: 1.4;
-    }
+  &--md {
+    @apply text-xl;
+    line-height: 1.4;
+  }
 
-    &--lg {
-        @apply text-2xl;
-        line-height: 1.3;
-    }
+  &--lg {
+    @apply text-2xl;
+    line-height: 1.3;
+  }
 
-    &--xl {
-        @apply text-4xl;
-        line-height: 1.2;
-    }
+  &--xl {
+    @apply text-4xl;
+    line-height: 1.2;
+  }
 
-    // ============================================================================
-    // COLOR VARIANTS
-    // ============================================================================
+  // ============================================================================
+  // COLOR VARIANTS
+  // ============================================================================
 
-    &--primary {
-        @apply text-blue-700;
-    }
+  &--primary {
+    @apply text-blue-700;
+  }
 
-    &--secondary {
-        @apply text-purple-700;
-    }
+  &--secondary {
+    @apply text-purple-700;
+  }
 
-    &--success {
-        @apply text-green-700;
-    }
+  &--success {
+    @apply text-green-700;
+  }
 
-    &--warning {
-        @apply text-yellow-700;
-    }
+  &--warning {
+    @apply text-yellow-700;
+  }
 
-    &--danger {
-        @apply text-red-700;
-    }
+  &--danger {
+    @apply text-red-700;
+  }
 
-    &--info {
-        @apply text-cyan-700;
-    }
+  &--info {
+    @apply text-cyan-700;
+  }
 
-    &--neutral {
-        @apply text-gray-900;
-    }
+  &--neutral {
+    @apply text-gray-900;
+  }
 
-    // ============================================================================
-    // ALIGNMENT VARIANTS
-    // ============================================================================
+  // ============================================================================
+  // ALIGNMENT VARIANTS
+  // ============================================================================
 
-    &--left {
-        @apply text-left;
-    }
+  &--left {
+    @apply text-left;
+  }
 
-    &--center {
-        @apply text-center;
-    }
+  &--center {
+    @apply text-center;
+  }
 
-    &--right {
-        @apply text-right;
-    }
+  &--right {
+    @apply text-right;
+  }
 
-    // ============================================================================
-    // FONT WEIGHT VARIANTS
-    // ============================================================================
+  // ============================================================================
+  // FONT WEIGHT VARIANTS
+  // ============================================================================
 
-    &--normal {
-        @apply font-normal;
-    }
+  &--normal {
+    @apply font-normal;
+  }
 
-    &--medium {
-        @apply font-medium;
-    }
+  &--medium {
+    @apply font-medium;
+  }
 
-    &--semibold {
-        @apply font-semibold;
-    }
+  &--semibold {
+    @apply font-semibold;
+  }
 
-    &--bold {
-        @apply font-bold;
-    }
+  &--bold {
+    @apply font-bold;
+  }
 
-    &--extrabold {
-        @apply font-extrabold;
-    }
+  &--extrabold {
+    @apply font-extrabold;
+  }
 
-    // ============================================================================
-    // TEXT OVERFLOW & TRUNCATE
-    // ============================================================================
+  // ============================================================================
+  // TEXT OVERFLOW & TRUNCATE
+  // ============================================================================
 
-    &--truncate {
-        @apply truncate;
-    }
+  &--truncate {
+    @apply truncate;
+  }
 
-    &--line-clamp-1 {
-        @apply line-clamp-1;
-    }
+  &--line-clamp-1 {
+    @apply line-clamp-1;
+  }
 
-    &--line-clamp-2 {
-        @apply line-clamp-2;
-    }
+  &--line-clamp-2 {
+    @apply line-clamp-2;
+  }
 
-    &--line-clamp-3 {
-        @apply line-clamp-3;
-    }
+  &--line-clamp-3 {
+    @apply line-clamp-3;
+  }
 
-    &--line-clamp-4 {
-        @apply line-clamp-4;
-    }
+  &--line-clamp-4 {
+    @apply line-clamp-4;
+  }
 
-    &--line-clamp-5 {
-        @apply line-clamp-5;
-    }
+  &--line-clamp-5 {
+    @apply line-clamp-5;
+  }
 
-    &--line-clamp-6 {
-        @apply line-clamp-6;
-    }
+  &--line-clamp-6 {
+    @apply line-clamp-6;
+  }
 
-    // ============================================================================
-    // TEXT TRANSFORM
-    // ============================================================================
+  // ============================================================================
+  // TEXT TRANSFORM
+  // ============================================================================
 
-    &--uppercase {
-        @apply uppercase tracking-wider;
-    }
+  &--uppercase {
+    @apply uppercase tracking-wider;
+  }
 
-    // ============================================================================
-    // SPACING
-    // ============================================================================
+  // ============================================================================
+  // SPACING
+  // ============================================================================
 
-    &--margin-bottom {
-        @apply mb-4;
-    }
+  &--margin-bottom {
+    @apply mb-4;
+  }
 }

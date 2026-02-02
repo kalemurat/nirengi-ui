@@ -1,10 +1,14 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    contentChild, input,
-    model, output, signal, TemplateRef,
-    ViewEncapsulation
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  input,
+  model,
+  output,
+  signal,
+  TemplateRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -12,7 +16,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs/operators';
 import { Size } from '../../common/enums/size.enum';
 
-export type FilterMatchMode = 'contains' | 'equals' | 'startsWith' | 'endsWith';
+export type FilterMatchMode = 'contains' | 'equals' | 'startsWith' | 'endsWith' | 'in';
 export type FilterMetadata = {
   value: any;
   matchMode: FilterMatchMode;
@@ -57,7 +61,7 @@ export class TableComponent<T> {
   protected readonly Size = Size;
 
   // Inputs
-  
+
   /**
    * Tabloda gösterilecek veri listesi.
    */
@@ -81,7 +85,6 @@ export class TableComponent<T> {
    * @default 48
    */
   itemSize = input<number>(48);
-
 
   /**
    * Sanal kaydırma için viewport yüksekliği.
@@ -139,6 +142,43 @@ export class TableComponent<T> {
   pageChange = output<number | string>();
 
   /**
+   * Tablo grid (çizgi) görünümü.
+   * - 'none': Çizgi yok
+   * - 'horizontal': Sadece yatay çizgiler
+   * - 'vertical': Sadece dikey çizgiler
+   * - 'both': Hem yatay hem dikey çizgiler
+   * @default 'horizontal'
+   */
+  gridLines = input<'none' | 'horizontal' | 'vertical' | 'both'>('horizontal');
+
+  /**
+   * Satırları benzersiz şekilde tanımlamak için kullanılan özelliğin (field) adı.
+   * Angular'ın `trackBy` mantığına benzer şekilde çalışır, ancak fonksiyon yerine string path alır.
+   * İç içe veri yollarını destekler (örn: 'user.id').
+   * Verilmezse array index'i kullanılır.
+   *
+   * @example
+   * <nui-table trackBy="id" ... />
+   * <nui-table trackBy="category.code" ... />
+   */
+  readonly trackBy = input<string>();
+
+  /**
+   * Template döngüsü için izleme değeri hesaplar.
+   * trackBy verilmişse ilgili satırın property değerini, verilmemişse index döner.
+   *
+   * @param index Döngü index numarası
+   * @param item Satır verisi
+   */
+  getTrackByValue(index: number, item: any): any {
+    const key = this.trackBy();
+    if (!key) return index;
+
+    // Nested property resolution (e.g. 'user.details.id')
+    return key.split('.').reduce((obj: any, prop: string) => obj && obj[prop], item);
+  }
+
+  /**
    * Global filtreleme için eşleşme modu.
    * @default 'contains'
    */
@@ -185,10 +225,10 @@ export class TableComponent<T> {
 
   // Filter Logic
   // We use debounce for the filter state to avoid heavy computations on every keystroke
-  
+
   // Note: We need to combine global filter + column filters
   // And apply debounce.
-  
+
   private currentFilters = computed(() => ({
     global: this.globalFilterState(),
     columns: this.filtersState(),
@@ -198,9 +238,7 @@ export class TableComponent<T> {
   // We prefer using RxJS for debounce because signals are synchronous-glitch-free but don't have built-in time-based debounce easily without effects/timers.
   // Converting the computed signal to observable -> debounce -> back to signal.
   private filtersDebounced = toSignal(
-    toObservable(this.currentFilters).pipe(
-      debounceTime(this.filterDebounce())
-    ),
+    toObservable(this.currentFilters).pipe(debounceTime(this.filterDebounce())),
     { initialValue: { global: '' as string, columns: {} as Record<string, FilterMetadata> } }
   );
 
@@ -208,14 +246,14 @@ export class TableComponent<T> {
   filteredData = computed(() => {
     const rawData = this.data();
     const filters = this.filtersDebounced();
-    
+
     if (!filters) return rawData;
 
     let processed = [...rawData];
 
     // 1. Column Filters
     if (Object.keys(filters.columns).length > 0) {
-      processed = processed.filter(item => {
+      processed = processed.filter((item) => {
         return Object.entries(filters.columns).every(([field, meta]) => {
           // Explicit cast or check
           const m = meta as FilterMetadata;
@@ -229,17 +267,15 @@ export class TableComponent<T> {
     // 2. Global Filter
     if (filters.global) {
       const mode = this.globalFilterMatchMode();
-      processed = processed.filter(item => {
+      processed = processed.filter((item) => {
         // Naive global search: check all property values
-        return Object.values(item as any).some(val => 
-          this.matches(val, filters.global, mode)
-        );
+        return Object.values(item as any).some((val) => this.matches(val, filters.global, mode));
       });
     }
 
     // Reset pagination when filter changes
     // This is a side effect. Signal computed should be pure.
-    // Ideally we reset page *when* filters change. 
+    // Ideally we reset page *when* filters change.
     // We can do this in an effect or just reset current page if it exceeds bounds.
     return processed;
   });
@@ -260,11 +296,11 @@ export class TableComponent<T> {
       const size = this.pageSize();
       const start = (page - 1) * size;
       const end = start + size;
-      
+
       // Auto-correct page if out of bounds
       // We can't update signal here, so we just handle the slice gracefully
       if (start >= data.length) {
-         return []; 
+        return [];
       }
       return data.slice(start, end);
     }
@@ -276,7 +312,7 @@ export class TableComponent<T> {
   // If totalRecords input is provided, use it. Otherwise calculate from filtered data.
   // We use a different name for internal computation to avoid conflict with input signal name if we strictly mapped it (but here input is `totalRecords`, computed is `_totalRecords` or we override).
   // Actually, let's rename the internal computed to avoid confusion.
-  
+
   _totalRecords = computed(() => {
     const inputTotal = this.totalRecords();
     if (inputTotal !== undefined) {
@@ -301,12 +337,12 @@ export class TableComponent<T> {
   visibleRange = computed(() => {
     const total = this._totalRecords();
     if (total === 0) return { start: 0, end: 0 };
-    
+
     const page = this.currentPage();
     const size = this.pageSize() || 10;
     const start = (page - 1) * size + 1;
     const end = Math.min(page * size, total);
-    
+
     return { start, end };
   });
 
@@ -326,14 +362,14 @@ export class TableComponent<T> {
       pages.push(1);
 
       if (current > 3) {
-        pages.push('...'); 
+        pages.push('...');
       }
 
       // Logic for middle range
       // If current is near start: 1 2 3 4 5 ... 10
       // If current is near end: 1 ... 6 7 8 9 10
       // If current is in middle: 1 ... 4 5 6 ... 10
-      
+
       let start = Math.max(2, current - 1);
       let end = Math.min(total - 1, current + 1);
 
@@ -350,7 +386,7 @@ export class TableComponent<T> {
 
       for (let i = start; i <= end; i++) {
         if (i > 1 && i < total) {
-           pages.push(i);
+          pages.push(i);
         }
       }
 
@@ -362,7 +398,7 @@ export class TableComponent<T> {
         pages.push(total);
       }
     }
-    
+
     // Clean up duplicates if any edge cases messed up (simple check)
     return [...new Set(pages)];
   });
@@ -379,7 +415,7 @@ export class TableComponent<T> {
   filter(field: string, value: any, matchMode: FilterMatchMode = 'contains') {
     this.filtersState.update((s: Record<string, FilterMetadata>) => ({
       ...s,
-      [field]: { value, matchMode }
+      [field]: { value, matchMode },
     }));
     // Reset page to 1 on filter trigger
     this.currentPage.set(1);
@@ -429,12 +465,18 @@ export class TableComponent<T> {
    */
   readonly rowHeightClass = computed(() => {
     switch (this.size()) {
-      case Size.XSmall: return 'h-8 text-xs';
-      case Size.Small: return 'h-10 text-sm';
-      case Size.Medium: return 'h-12 text-base';
-      case Size.Large: return 'h-16 text-lg';
-      case Size.XLarge: return 'h-20 text-xl';
-      default: return 'h-12 text-base';
+      case Size.XSmall:
+        return 'h-8 text-xs';
+      case Size.Small:
+        return 'h-10 text-sm';
+      case Size.Medium:
+        return 'h-12 text-base';
+      case Size.Large:
+        return 'h-16 text-lg';
+      case Size.XLarge:
+        return 'h-20 text-xl';
+      default:
+        return 'h-12 text-base';
     }
   });
 
@@ -443,12 +485,18 @@ export class TableComponent<T> {
    */
   readonly paginationButtonClass = computed(() => {
     switch (this.size()) {
-      case Size.XSmall: return 'w-6 h-6 text-xs';
-      case Size.Small: return 'w-8 h-8 text-xs';
-      case Size.Medium: return 'w-10 h-10 text-sm';
-      case Size.Large: return 'w-12 h-12 text-base';
-      case Size.XLarge: return 'w-14 h-14 text-lg';
-      default: return 'w-10 h-10 text-sm';
+      case Size.XSmall:
+        return 'w-6 h-6 text-xs';
+      case Size.Small:
+        return 'w-8 h-8 text-xs';
+      case Size.Medium:
+        return 'w-10 h-10 text-sm';
+      case Size.Large:
+        return 'w-12 h-12 text-base';
+      case Size.XLarge:
+        return 'w-14 h-14 text-lg';
+      default:
+        return 'w-10 h-10 text-sm';
     }
   });
 
@@ -461,11 +509,23 @@ export class TableComponent<T> {
     const sFilter = String(filter).toLowerCase();
 
     switch (mode) {
-      case 'contains': return sValue.includes(sFilter);
-      case 'equals': return sValue === sFilter;
-      case 'startsWith': return sValue.startsWith(sFilter);
-      case 'endsWith': return sValue.endsWith(sFilter);
-      default: return sValue.includes(sFilter);
+      case 'contains':
+        return sValue.includes(sFilter);
+      case 'equals':
+        return sValue === sFilter;
+      case 'startsWith':
+        return sValue.startsWith(sFilter);
+      case 'endsWith':
+        return sValue.endsWith(sFilter);
+      case 'in':
+        // Check if filter is array and includes the value
+        if (Array.isArray(filter)) {
+            // We need raw comparison for booleans/numbers inside array, or stringified
+            return filter.some(f => String(f).toLowerCase() === sValue);
+        }
+        return false;
+      default:
+        return sValue.includes(sFilter);
     }
   }
 }

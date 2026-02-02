@@ -1,128 +1,128 @@
 .nui-accordion {
-    @apply w-full border rounded-lg overflow-hidden bg-white;
+  @apply w-full overflow-hidden rounded-lg border bg-white;
 
-    // Status Colors (Border & Header Background)
-    &--default {
-        @apply border-gray-200;
+  // Status Colors (Border & Header Background)
+  &--default {
+    @apply border-gray-200;
+  }
+
+  &--primary {
+    @apply border-blue-200;
+  }
+
+  &--success {
+    @apply border-green-200;
+  }
+
+  &--warning {
+    @apply border-yellow-200;
+  }
+
+  &--danger {
+    @apply border-red-200;
+  }
+
+  &--info {
+    @apply border-cyan-200;
+  }
+
+  &--disabled {
+    @apply pointer-events-none cursor-not-allowed bg-gray-50 opacity-60;
+  }
+
+  // Header
+  &__header {
+    @apply relative z-10 flex w-full cursor-pointer items-center justify-between bg-transparent px-4 py-3 text-left transition-colors hover:bg-gray-50;
+
+    // Size Adjustments
+    .nui-accordion--sm & {
+      @apply px-3 py-2 text-sm;
     }
 
-    &--primary {
-        @apply border-blue-200;
+    .nui-accordion--lg & {
+      @apply px-6 py-4 text-lg;
     }
 
-    &--success {
-        @apply border-green-200;
+    // Focus visible for accessibility
+    &:focus-visible {
+      @apply outline-none ring-2 ring-blue-500 ring-offset-1;
+    }
+  }
+
+  // Title Container
+  &__title {
+    @apply mr-4 flex-1 font-medium text-gray-800;
+
+    .nui-accordion--sm & {
+      @apply text-sm;
     }
 
-    &--warning {
-        @apply border-yellow-200;
+    .nui-accordion--lg & {
+      @apply text-lg;
+    }
+  }
+
+  // Icon
+  &__icon {
+    @apply text-gray-500 transition-transform duration-300;
+
+    &--rotated {
+      @apply rotate-180;
+    }
+  }
+
+  // Collapse Container (CSS Grid Animation)
+  &__collapse {
+    @apply grid transition-[grid-template-rows] duration-300 ease-in-out;
+    grid-template-rows: 0fr;
+
+    &--expanded {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  // Wrapper for overflow hidden
+  &__wrapper {
+    @apply overflow-hidden;
+  }
+
+  // Content
+  &__content {
+    @apply border-t bg-white px-4 py-4 leading-relaxed text-gray-700 transition-colors duration-300;
+
+    // Colors based on Status
+    // Note: Using alpha/opacity for backgrounds to blend nicely
+    .nui-accordion--default & {
+      @apply border-t-gray-200; // No background tint for default
     }
 
-    &--danger {
-        @apply border-red-200;
+    .nui-accordion--primary & {
+      @apply border-t-blue-100 bg-blue-50/30;
     }
 
-    &--info {
-        @apply border-cyan-200;
+    .nui-accordion--success & {
+      @apply border-t-green-100 bg-green-50/30;
     }
 
-    &--disabled {
-        @apply opacity-60 cursor-not-allowed pointer-events-none bg-gray-50;
+    .nui-accordion--warning & {
+      @apply border-t-yellow-100 bg-yellow-50/30;
     }
 
-    // Header 
-    &__header {
-        @apply w-full flex items-center justify-between px-4 py-3 bg-transparent cursor-pointer hover:bg-gray-50 transition-colors text-left relative z-10;
-
-        // Size Adjustments
-        .nui-accordion--sm & {
-            @apply px-3 py-2 text-sm;
-        }
-
-        .nui-accordion--lg & {
-            @apply px-6 py-4 text-lg;
-        }
-
-        // Focus visible for accessibility
-        &:focus-visible {
-            @apply outline-none ring-2 ring-blue-500 ring-offset-1;
-        }
+    .nui-accordion--danger & {
+      @apply border-t-red-100 bg-red-50/30;
     }
 
-    // Title Container
-    &__title {
-        @apply font-medium text-gray-800 flex-1 mr-4;
-
-        .nui-accordion--sm & {
-            @apply text-sm;
-        }
-
-        .nui-accordion--lg & {
-            @apply text-lg;
-        }
+    .nui-accordion--info & {
+      @apply border-t-cyan-100 bg-cyan-50/30;
     }
 
-    // Icon
-    &__icon {
-        @apply text-gray-500 transition-transform duration-300;
-
-        &--rotated {
-            @apply rotate-180;
-        }
+    // Size Adjustments
+    .nui-accordion--sm & {
+      @apply px-3 py-3 text-sm;
     }
 
-    // Collapse Container (CSS Grid Animation)
-    &__collapse {
-        @apply grid transition-[grid-template-rows] duration-300 ease-in-out;
-        grid-template-rows: 0fr;
-
-        &--expanded {
-            grid-template-rows: 1fr;
-        }
+    .nui-accordion--lg & {
+      @apply px-6 py-5 text-lg;
     }
-
-    // Wrapper for overflow hidden
-    &__wrapper {
-        @apply overflow-hidden;
-    }
-
-    // Content
-    &__content {
-        @apply px-4 py-4 bg-white text-gray-700 leading-relaxed border-t transition-colors duration-300;
-
-        // Colors based on Status
-        // Note: Using alpha/opacity for backgrounds to blend nicely
-        .nui-accordion--default & {
-            @apply border-t-gray-200; // No background tint for default
-        }
-
-        .nui-accordion--primary & {
-            @apply border-t-blue-100 bg-blue-50/30;
-        }
-
-        .nui-accordion--success & {
-            @apply border-t-green-100 bg-green-50/30;
-        }
-
-        .nui-accordion--warning & {
-            @apply border-t-yellow-100 bg-yellow-50/30;
-        }
-
-        .nui-accordion--danger & {
-            @apply border-t-red-100 bg-red-50/30;
-        }
-
-        .nui-accordion--info & {
-            @apply border-t-cyan-100 bg-cyan-50/30;
-        }
-
-        // Size Adjustments
-        .nui-accordion--sm & {
-            @apply px-3 py-3 text-sm;
-        }
-
-        .nui-accordion--lg & {
-            @apply px-6 py-5 text-lg;
-        }
-    }
+  }
 }

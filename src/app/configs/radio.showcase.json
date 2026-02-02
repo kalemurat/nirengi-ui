@@ -27,11 +27,11 @@
       "description": "Description text below label"
     },
     {
-        "name": "disabled",
-        "type": "boolean",
-        "label": "Disabled",
-        "defaultValue": false,
-        "description": "Disable interaction"
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable interaction"
     },
     {
       "name": "variant",
@@ -63,31 +63,31 @@
     }
   ],
   "examples": [
-      {
-          "title": "Basic Usage",
-          "description": "Standard radio button",
-          "propertyValues": {
-              "label": "Option 1",
-              "value": "opt1"
-          }
-      },
-      {
-          "title": "With Description",
-          "description": "Radio button with description",
-          "propertyValues": {
-              "label": "Premium Plan",
-              "description": "Includes all features",
-              "value": "premium"
-          }
-      },
-      {
-          "title": "Danger Variant",
-          "description": "Radio button with danger variant",
-          "propertyValues": {
-              "label": "Delete Account",
-              "variant": "danger",
-              "value": "delete"
-          }
+    {
+      "title": "Basic Usage",
+      "description": "Standard radio button",
+      "propertyValues": {
+        "label": "Option 1",
+        "value": "opt1"
       }
+    },
+    {
+      "title": "With Description",
+      "description": "Radio button with description",
+      "propertyValues": {
+        "label": "Premium Plan",
+        "description": "Includes all features",
+        "value": "premium"
+      }
+    },
+    {
+      "title": "Danger Variant",
+      "description": "Radio button with danger variant",
+      "propertyValues": {
+        "label": "Delete Account",
+        "variant": "danger",
+        "value": "delete"
+      }
+    }
   ]
 }

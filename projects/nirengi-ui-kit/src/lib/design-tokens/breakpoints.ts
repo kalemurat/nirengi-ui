@@ -1,7 +1,7 @@
 /**
  * UI Kit breakpoint (responsive) design token'ları.
  * Responsive tasarım için ekran boyutu eşik değerleri.
- * 
+ *
  * @see https://tailwindcss.com/docs/responsive-design
  */
 
@@ -30,15 +30,15 @@ export const designTokenBreakpoints: Breakpoints = {
   md: '768px',
   lg: '1024px',
   xl: '1280px',
-  '2xl': '1536px'
+  '2xl': '1536px',
 };
 
 /**
  * Breakpoint'leri media query formatında dönüştüren helper.
- * 
+ *
  * @param breakpoint - Breakpoint değeri
  * @returns Media query string'i
- * 
+ *
  * @example
  * const mediaQuery = getMediaQuery(designTokenBreakpoints.md);
  * // '@media (min-width: 768px)'

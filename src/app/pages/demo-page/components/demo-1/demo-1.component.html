@@ -1,0 +1,120 @@
+<div class="demo-1">
+  <div class="demo-1__header">
+    <h2 class="demo-1__title">Data Overview</h2>
+    <p class="demo-1__subtitle">Current Category: {{ categoryId() }}</p>
+  </div>
+
+  <div class="demo-1__content">
+    <nui-table
+      [data]="tableData()"
+      [columns]="columns"
+      [size]="Size.XSmall"
+      [pagination]="true"
+      [pageSize]="5"
+      [gridLines]="'none'"
+      trackBy="id"
+    >
+      <!-- Head Template for Custom Filters -->
+      <ng-template #headTemplate let-filter="filter">
+        @for (col of columns; track col.field) {
+          <th>
+            <div class="demo-1__th-container">
+              <span class="demo-1__th-title">{{ col.header }}</span>
+
+              <!-- Custom Filter for Status -->
+              @if (col.field === 'status') {
+                <nui-select
+                  [options]="statusOptions()"
+                  bindLabel="label"
+                  bindValue="value"
+                  [multiple]="true"
+                  [placeholder]="'Select Status'"
+                  [size]="Size.XSmall"
+                  (ngModelChange)="onStatusFilterChange($event, filter)"
+                  [ngModel]="[]"
+                ></nui-select>
+              }
+              <!-- Standard Text Filter -->
+              @else if (col.filterable) {
+                <nui-textbox
+                  [placeholder]="'Filter ' + col.header"
+                  [size]="Size.XSmall"
+                  (input)="filter(col.field, $any($event.target).value)"
+                ></nui-textbox>
+              }
+            </div>
+          </th>
+        }
+      </ng-template>
+
+      <!-- Row Template -->
+      <ng-template #rowTemplate let-item>
+        <td>{{ item.name }}</td>
+        <td>{{ item.role }}</td>
+        <td>
+          <nui-badge
+            [type]="BadgeType.Solid"
+            [variant]="item.status ? ColorVariant.Success : ColorVariant.Danger"
+            [size]="Size.XSmall"
+            [shape]="BadgeShape.Rounded"
+          >
+            {{ item.status ? 'Active' : 'Passive' }}
+          </nui-badge>
+        </td>
+        <td>{{ item.joinDate }}</td>
+        <td>
+          <div class="demo-1__actions">
+            <nui-button
+              (click)="openDetail(item)"
+              [size]="Size.XSmall"
+              [variant]="ColorVariant.Primary"
+              [type]="ButtonType.Soft"
+            >
+              Detail
+            </nui-button>
+            <nui-button
+              (click)="deleteItem(item)"
+              [size]="Size.XSmall"
+              [variant]="ColorVariant.Danger"
+              [type]="ButtonType.Soft"
+            >
+              Delete
+            </nui-button>
+          </div>
+        </td>
+      </ng-template>
+    </nui-table>
+  </div>
+
+  <!-- Detail Modal Template -->
+  <ng-template #detailTemplate let-item>
+    <div class="demo-1__modal-content">
+      @if (item) {
+        <div class="demo-1__modal-grid">
+          <div class="demo-1__detail-item">
+            <span class="demo-1__detail-label">Name</span>
+            <span class="demo-1__detail-value">{{ item.name }}</span>
+          </div>
+          <div class="demo-1__detail-item">
+            <span class="demo-1__detail-label">Role</span>
+            <span class="demo-1__detail-value">{{ item.role }}</span>
+          </div>
+          <div class="demo-1__detail-item">
+            <span class="demo-1__detail-label">Status</span>
+            <span class="demo-1__detail-value">{{ item.status ? 'Active' : 'Inactive' }}</span>
+          </div>
+          <div class="demo-1__detail-item">
+            <span class="demo-1__detail-label">Join Date</span>
+            <span class="demo-1__detail-value">{{ item.joinDate }}</span>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="demo-1__modal-footer">
+      <nui-button (click)="closeDialog()" [variant]="ColorVariant.Secondary" [type]="ButtonType.Ghost"
+        >Close</nui-button
+      >
+      <nui-button (click)="closeDialog()" [variant]="ColorVariant.Primary">Save Changes</nui-button>
+    </div>
+  </ng-template>
+</div>

@@ -1,4 +1,4 @@
-<div class="nui-textbox">
+<div class="nui-textbox" [ngClass]="containerClasses()">
   @if (label()) {
     <label class="nui-textbox__label" [for]="inputId">
       {{ label() }}
@@ -20,7 +20,6 @@
       [disabled]="isDisabled()"
       [readOnly]="readonly()"
       class="nui-textbox__input"
-      [class.nui-textbox__input--error]="error()"
       [class.nui-textbox__input--with-icon]="icon()"
       [ngClass]="inputClasses()"
       (input)="onInput($event)"
@@ -28,9 +27,7 @@
     />
   </div>
 
-  @if (error()) {
-    <span class="nui-textbox__error">{{ error() }}</span>
-  } @else if (hint()) {
+  @if (hint()) {
     <span class="nui-textbox__hint">{{ hint() }}</span>
   }
 </div>

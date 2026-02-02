@@ -1,10 +1,18 @@
-import { Component, input, forwardRef, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  forwardRef,
+  computed,
+  effect,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../icon/icon.types';
 import { Size } from '../../common/enums/size.enum';
+import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
  * Textbox input types definitions.
@@ -30,11 +38,12 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  * <nui-textbox label="Username" placeholder="Enter user" [formControl]="userCtrl" />
  *
  * @example
- * <nui-textbox 
- *   label="Password" 
- *   type="password" 
+ * <nui-textbox
+ *   label="Password"
+ *   type="password"
  *   icon="Lock"
- *   error="Invalid password"
+ *   variant="danger"
+ *   hint="Invalid password"
  * />
  */
 @Component({
@@ -48,9 +57,9 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TextboxComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TextboxComponent extends ValueAccessorBase<string> {
   /**
@@ -80,10 +89,10 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   readonly hint = input<string>();
 
   /**
-   * Error message.
-   * If present, changes input style to error state.
+   * Component color variant.
+   * @default ColorVariant.Neutral
    */
-  readonly error = input<string>();
+  readonly variant = input<ColorVariant>(ColorVariant.Neutral);
 
   /**
    * Icon name to display.
@@ -113,7 +122,7 @@ export class TextboxComponent extends ValueAccessorBase<string> {
 
   constructor() {
     super();
-    
+
     // Sync value input
     effect(() => {
       const val = this.valueInput();
@@ -133,20 +142,30 @@ export class TextboxComponent extends ValueAccessorBase<string> {
    */
   readonly iconSize = computed(() => {
     switch (this.size()) {
-      case Size.XSmall: return 14;
-      case Size.Small: return 16;
-      case Size.Medium: return 18;
-      case Size.Large: return 20;
-      case Size.XLarge: return 24;
-      default: return 18;
+      case Size.XSmall:
+        return 14;
+      case Size.Small:
+        return 16;
+      case Size.Medium:
+        return 18;
+      case Size.Large:
+        return 20;
+      case Size.XLarge:
+        return 24;
+      default:
+        return 18;
     }
   });
 
   /**
-   * Input için CSS class'larını hesaplayan computed signal.
-   * Reactive olarak güncellenir.
-   * 
-   * @returns Size-based CSS class string'i
+   * Container CSS classes (variant).
+   */
+  protected readonly containerClasses = computed(() => {
+    return `nui-textbox--${this.variant()} nui-textbox--${this.size()}`;
+  });
+
+  /**
+   * Input CSS classes (size).
    */
   protected readonly inputClasses = computed(() => {
     return `nui-textbox__input--${this.size()}`;

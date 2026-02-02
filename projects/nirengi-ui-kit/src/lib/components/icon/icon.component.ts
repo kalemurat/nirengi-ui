@@ -6,15 +6,15 @@ import { ALL_ICONS, IconName } from './icon.types';
 /**
  * İkon bileşeni.
  * Lucide ikonlarını kullanarak SVG ikonlar render eder.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal-based reactive state
  * - ✅ OnPush change detection stratejisi
  * - ✅ Lucide icon library integration
  * - ✅ Type-safe icon names
- * 
+ *
  * @see https://lucide.dev/icons/
- * 
+ *
  * @example
  * <nirengi-icon name="House" size="24" color="red" />
  */
@@ -22,12 +22,10 @@ import { ALL_ICONS, IconName } from './icon.types';
   selector: 'nirengi-icon',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
-  providers: [
-    { provide: LUCIDE_ICONS, useValue: new LucideIconProvider(ALL_ICONS) }
-  ],
+  providers: [{ provide: LUCIDE_ICONS, useValue: new LucideIconProvider(ALL_ICONS) }],
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconComponent {
   /**
@@ -59,7 +57,7 @@ export class IconComponent {
    * Varsayılan: false
    */
   absoluteStrokeWidth = input<boolean>(false);
-  
+
   /**
    * SVG elementine eklenecek class.
    */

@@ -1,27 +1,27 @@
 .textbox-page {
-    @apply p-8 max-w-4xl mx-auto space-y-12;
+  @apply mx-auto max-w-4xl space-y-12 p-8;
 
-    &__section {
-        @apply space-y-6;
+  &__section {
+    @apply space-y-6;
+  }
+
+  &__title {
+    @apply mb-6 border-b pb-2 text-2xl font-bold text-gray-900;
+  }
+
+  &__grid {
+    @apply grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  &__card {
+    @apply space-y-4 rounded-xl border bg-white p-6;
+
+    &-title {
+      @apply mb-2 text-sm font-medium uppercase tracking-wider text-gray-500;
     }
+  }
 
-    &__title {
-        @apply text-2xl font-bold text-gray-900 border-b pb-2 mb-6;
-    }
-
-    &__grid {
-        @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
-    }
-
-    &__card {
-        @apply p-6 border rounded-xl bg-white space-y-4;
-
-        &-title {
-            @apply text-sm font-medium text-gray-500 uppercase tracking-wider mb-2;
-        }
-    }
-
-    &__row {
-        @apply flex flex-col gap-4;
-    }
+  &__row {
+    @apply flex flex-col gap-4;
+  }
 }

@@ -1,0 +1,46 @@
+{
+  "id": "tabs",
+  "name": "Tabs",
+  "description": "Component for switching between different views.",
+  "category": "Navigation",
+  "selector": "nui-tabs-demo",
+  "properties": [
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" }
+      ],
+      "description": "Visual color variant of the tabs."
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ],
+      "description": "Size of the tabs."
+    },
+    {
+      "name": "fullWidth",
+      "type": "boolean",
+      "label": "Full Width",
+      "defaultValue": false,
+      "description": "Whether tabs should take up the full width of the container."
+    }
+  ],
+  "events": []
+}

@@ -67,6 +67,22 @@
       ]
     },
     {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "description": "Color variant for the select component (uses ColorVariant enum).",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "label": "Disabled",
@@ -94,13 +110,7 @@
       "defaultValue": false,
       "description": "Allow multiple selections"
     },
-    {
-      "name": "error",
-      "type": "string",
-      "label": "Error Message",
-      "defaultValue": "",
-      "description": "Error message to display"
-    },
+
     {
       "name": "hint",
       "type": "string",
@@ -134,6 +144,7 @@
         "label": "Select City",
         "placeholder": "Choose...",
         "size": "md",
+        "variant": "primary",
         "clearable": true,
         "searchable": true
       }
@@ -145,6 +156,7 @@
         "label": "Select Cities",
         "placeholder": "Choose multiple...",
         "multiple": true,
+        "variant": "primary",
         "clearable": true
       }
     }

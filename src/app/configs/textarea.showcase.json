@@ -41,6 +41,22 @@
       ]
     },
     {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "neutral",
+      "description": "Visual variant of the textarea",
+      "options": [
+        { "label": "Neutral", "value": "neutral" },
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Info", "value": "info" }
+      ]
+    },
+    {
       "name": "rows",
       "type": "number",
       "label": "Rows",
@@ -67,13 +83,6 @@
       "label": "Hint",
       "defaultValue": "",
       "description": "Helper text displayed below the textarea"
-    },
-    {
-      "name": "error",
-      "type": "string",
-      "label": "Error",
-      "defaultValue": "",
-      "description": "Error message displayed below the textarea"
     },
     {
       "name": "icon",

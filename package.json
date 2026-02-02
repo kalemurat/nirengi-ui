@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "kill -9 $(lsof -t -i :4200) 2>/dev/null || true && ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "eslint \"src/**/*.{ts,html}\"",
-    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\""
+    "format": "prettier --write \"{src,projects}/**/*.{ts,html,scss,css,json,md}\""
   },
   "private": true,
   "dependencies": {
@@ -19,6 +19,7 @@
     "@angular/forms": "^20.3.0",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
+    "date-fns": "^4.1.0",
     "lucide-angular": "^0.563.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -47,6 +48,7 @@
     "ng-packagr": "^20.3.0",
     "postcss": "^8.5.6",
     "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^3.4.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.20.0"

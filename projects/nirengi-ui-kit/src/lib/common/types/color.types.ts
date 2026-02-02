@@ -9,12 +9,23 @@ export type ColorVariantType = `${ColorVariant}`;
  * Renk yoğunluğu/tonu tipi.
  * Tailwind CSS'in renk skalasına uyumlu.
  */
-export type ColorShade = '50' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' | '950';
+export type ColorShade =
+  | '50'
+  | '100'
+  | '200'
+  | '300'
+  | '400'
+  | '500'
+  | '600'
+  | '700'
+  | '800'
+  | '900'
+  | '950';
 
 /**
  * Detaylı renk konfigürasyonu.
  * Variant ve ton bilgisini birlikte tutar.
- * 
+ *
  * @example
  * const color: ColorConfig = {
  *   variant: 'primary',

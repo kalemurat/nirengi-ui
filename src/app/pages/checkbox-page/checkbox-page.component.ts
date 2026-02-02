@@ -9,7 +9,7 @@ import { ColorVariant } from 'nirengi-ui-kit';
  * Checkbox component showcase sayfası.
  * Checkbox component'inin tüm varyasyonlarını ve kullanım örneklerini sergiler.
  * Reactive Forms (FormControl) kullanımını gösterir.
- * 
+ *
  * ## Showcase Kategorileri
  * - ✅ Temel kullanım
  * - ✅ Boyut varyasyonları (xs, sm, md, lg, xl)
@@ -18,7 +18,7 @@ import { ColorVariant } from 'nirengi-ui-kit';
  * - ✅ Disabled ve readonly durumları
  * - ✅ Indeterminate durum
  * - ✅ Required (zorunlu) alan
- * 
+ *
  * @see {@link CheckboxComponent}
  */
 @Component({
@@ -26,7 +26,7 @@ import { ColorVariant } from 'nirengi-ui-kit';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, CheckboxComponent],
   templateUrl: './checkbox-page.component.html',
-  styleUrl: './checkbox-page.component.scss'
+  styleUrl: './checkbox-page.component.scss',
 })
 export class CheckboxPageComponent {
   /**
@@ -47,7 +47,7 @@ export class CheckboxPageComponent {
     Size.Small,
     Size.Medium,
     Size.Large,
-    Size.XLarge
+    Size.XLarge,
   ]);
 
   /**
@@ -60,7 +60,7 @@ export class CheckboxPageComponent {
     ColorVariant.Warning,
     ColorVariant.Danger,
     ColorVariant.Info,
-    ColorVariant.Neutral
+    ColorVariant.Neutral,
   ]);
 
   // Form Controls
@@ -141,7 +141,7 @@ export class CheckboxPageComponent {
       [Size.Small]: 'Small (sm)',
       [Size.Medium]: 'Medium (md)',
       [Size.Large]: 'Large (lg)',
-      [Size.XLarge]: 'Extra Large (xl)'
+      [Size.XLarge]: 'Extra Large (xl)',
     };
     return labels[size];
   }

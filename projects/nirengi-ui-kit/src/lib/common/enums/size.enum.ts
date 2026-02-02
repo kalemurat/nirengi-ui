@@ -1,7 +1,7 @@
 /**
  * UI Kit bileşenleri için standart boyut değerleri.
  * Tüm componentlerde tutarlı boyutlandırma sağlamak için kullanılır.
- * 
+ *
  * @example
  * <nui-button [size]="Size.Medium">Kaydet</nui-button>
  * <nui-input [size]="Size.Large"></nui-input>
@@ -35,5 +35,5 @@ export enum Size {
    * Ekstra büyük boyut.
    * Kullanım: Landing page'ler, özel vurgular, hero button'lar.
    */
-  XLarge = 'xl'
+  XLarge = 'xl',
 }

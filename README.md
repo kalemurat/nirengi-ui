@@ -1,59 +1,155 @@
-# NirengiUi
+# Nirengi UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+Nirengi UI, e-ticaret yönetimi için ürün yönetimi, üretim, sipariş takip ve paketleme modüllerini içeren modern bir yönetim arayüzüdür. Bu depo proje seti, hem uygulama örnekleri hem de yeniden kullanılabilir bileşenler içerir.
 
-## Development server
+## Öne Çıkanlar
 
-To start a local development server, run:
+- Modüler ve genişletilebilir mimari
+- TypeScript ile yazılmış bileşenler
+- Tema ve stiller için merkezi yapı
+- Üretime hazır yönetim arayüzü
 
-```bash
-ng serve
-```
+## İçindekiler
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- [Projects](#projects)
+- [Kurulum](#kurulum)
+- [Kullanım](#kullanım)
+- [Katkıda Bulunma](#katkıda-bulunma)
+- [Lisans](#lisans)
 
-## Code scaffolding
+## Projects
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### nirengi-ui
+Ana yönetim arayüzü uygulaması. Yönetim panelleri, raporlar ve işlem akışları içerir.
 
-```bash
-ng generate component component-name
-```
+### nirengi-ui-kit
+Nirengi UI için bağımsız, yeniden kullanılabilir Angular/TypeScript bileşen kütüphanesi. Tema, düzen ve üretkenlik bileşenleri içerir; Nirengi UI projesine ve diğer uygulamalara kolay entegrasyon sağlar.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Özellikler:**
+- Hızlı kurulum ve entegrasyon
+- Temaya hazır, özelleştirilebilir bileşenler (Button, Card, Modal, Form bileşenleri vb.)
+- Tam TypeScript desteği ve tip güvenliği
+- Basit API ile kolay kullanım
+- Standalone Components ile modern Angular mimarisi
+- Tailwind CSS 3 entegrasyonu
+- Tree-shaking optimizasyonu
+- Dokümantasyon ve örnekler
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+**Kurulum:**
 
 ```bash
-ng test
+# npm
+npm install nirengi-ui-kit
+
+# yarn
+yarn add nirengi-ui-kit
 ```
 
-## Running end-to-end tests
+**Hızlı Başlangıç (Angular + TypeScript):**
 
-For end-to-end (e2e) testing, run:
+```typescript
+import { Component } from '@angular/core';
+import { ButtonComponent } from 'nirengi-ui-kit/components/button/button.component';
+import { Size } from 'nirengi-ui-kit/common/enums/size.enum';
+import { ColorVariant } from 'nirengi-ui-kit/common/enums/color-variant.enum';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [ButtonComponent],
+  template: `
+    <div class="p-4">
+      <h2>nirengi-ui-kit Örnek Kullanım</h2>
+      <button nui-button 
+              [size]="buttonSize" 
+              [variant]="buttonVariant"
+              (click)="handleClick()">
+        Tıkla
+      </button>
+    </div>
+  `
+})
+export class ExampleComponent {
+  buttonSize = Size.Medium;
+  buttonVariant = ColorVariant.Primary;
+  
+  handleClick() {
+    alert('Tıklandı!');
+  }
+}
+```
+
+**Dokümantasyon & Demo:**
+- GitHub: [https://github.com/kalemurat/nirengi-ui](https://github.com/kalemurat/nirengi-ui)
+- Library Dokümantasyon: [projects/nirengi-ui-kit/README.md](projects/nirengi-ui-kit/README.md)
+
+**Lisans:** Apache-2.0 (ana proje lisansını miras alır)
+
+## Kurulum
+
+Projeyi yerel olarak çalıştırmak için:
 
 ```bash
-ng e2e
+git clone https://github.com/kalemurat/nirengi-ui.git
+cd nirengi-ui
+# kurulum
+npm install
+# geliştirme sunucusu
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Ana uygulamayı başlattıktan sonra tarayıcınızda `http://localhost:4200/` adresine gidin.
 
-## Additional Resources
+## Kullanım
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Ana Uygulama (nirengi-ui)
+
+Geliştirme sunucusunu başlatmak için:
+
+```bash
+npm start
+```
+
+Projeyi build etmek için:
+
+```bash
+npm run build
+```
+
+Testleri çalıştırmak için:
+
+```bash
+npm test
+```
+
+### Library (nirengi-ui-kit)
+
+Library'yi build etmek için:
+
+```bash
+ng build nirengi-ui-kit
+```
+
+Library testlerini çalıştırmak için:
+
+```bash
+ng test nirengi-ui-kit
+```
+
+Daha fazla bilgi için [nirengi-ui-kit README](projects/nirengi-ui-kit/README.md) dosyasına bakın.
+
+## Katkıda Bulunma
+
+Katkılar memnuniyetle kabul edilir. Lütfen aşağıdaki adımları izleyin:
+
+1. Bu depoyu fork edin
+2. Yeni bir feature branch oluşturun (`git checkout -b feature/harika-ozellik`)
+3. Değişikliklerinizi commit edin (`git commit -m 'feat: harika özellik eklendi'`)
+4. Branch'inizi push edin (`git push origin feature/harika-ozellik`)
+5. Pull Request açın
+
+Kodlama standartlarına uyun ve mümkünse testler ekleyin. Büyük değişiklikler için önce bir issue açarak tartışmaya başlayın.
+
+## Lisans
+
+Bu proje Apache License 2.0 ile lisanslanmıştır. Daha fazla bilgi için [LICENSE](LICENSE) dosyasına bakın.

@@ -1,0 +1,85 @@
+{
+  "id": "switch",
+  "name": "Switch",
+  "description": "Toggle switch component for boolean values",
+  "category": "Forms",
+  "selector": "nui-switch",
+  "properties": [
+    {
+      "name": "label",
+      "type": "string",
+      "label": "Label",
+      "defaultValue": "Notifications",
+      "description": "Switch label text"
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "description": "Size of the switch",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ]
+    },
+    {
+      "name": "variant",
+      "type": "enum",
+      "label": "Variant",
+      "defaultValue": "primary",
+      "description": "Color variant",
+      "options": [
+        { "label": "Primary", "value": "primary" },
+        { "label": "Secondary", "value": "secondary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Danger", "value": "danger" },
+        { "label": "Info", "value": "info" },
+        { "label": "Neutral", "value": "neutral" }
+      ]
+    },
+    {
+      "name": "checked",
+      "type": "boolean",
+      "label": "Checked",
+      "defaultValue": false,
+      "description": "Initial checked state"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable switch interactions"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Default Switch",
+      "description": "Standard switch with label",
+      "propertyValues": {
+        "label": "Enable Notifications",
+        "size": "md"
+      }
+    },
+    {
+      "title": "Sizes",
+      "description": "Different sizes of switch",
+      "propertyValues": {
+        "label": "Large Switch",
+        "size": "lg"
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "ngModelChange",
+      "label": "Value Change",
+      "payloadDescription": "Boolean value (true/false)"
+    }
+  ]
+}

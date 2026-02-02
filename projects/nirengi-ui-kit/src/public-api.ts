@@ -1,50 +1,50 @@
 /**
  * Nirengi UI Kit - Public API
- * 
+ *
  * Modern ve profesyonel bir Angular UI Kit kütüphanesi.
  * Angular 18+ ve 20 versiyonları ile uyumludur.
  * Tailwind CSS 3 kullanan, tamamen standalone component'lerden oluşur.
- * 
+ *
  * @packageDocumentation
- * 
+ *
  * ## Tree-Shaking Optimized
  * Bu kütüphane explicit exports kullanır. Her dosya direkt path ile import edilir.
  * Böylece modern bundler'lar (esbuild) kullanılmayan kodu otomatik olarak atar.
- * 
+ *
  * ## Kullanım Örnekleri
- * 
+ *
  * ### Enums (Ortak Değerler)
  * ```typescript
  * // Boyut enum'ı
  * import { Size } from 'nirengi-ui-kit/common/enums/size.enum';
- * 
+ *
  * // Renk varyant enum'ı
  * import { ColorVariant } from 'nirengi-ui-kit/common/enums/color-variant.enum';
  * ```
- * 
+ *
  * ### Types (Tip Tanımları)
  * ```typescript
  * // Boyut tipleri
  * import { SizeType, SizeValue } from 'nirengi-ui-kit/common/types/size.types';
- * 
+ *
  * // Renk tipleri
  * import { ColorVariantType, ColorValue } from 'nirengi-ui-kit/common/types/color.types';
  * ```
- * 
+ *
  * ### Constants (Sabitler)
  * ```typescript
  * // Boyut mapping sabitleri
- * import { 
- *   SIZE_HEIGHT_MAP, 
+ * import {
+ *   SIZE_HEIGHT_MAP,
  *   SIZE_PADDING_MAP,
  *   SIZE_TEXT_MAP,
  *   SIZE_ICON_MAP,
  *   SIZE_RADIUS_MAP
  * } from 'nirengi-ui-kit/common/constants/size.constants';
- * 
+ *
  * // Renk mapping sabitleri
- * import { 
- *   COLOR_BG_MAP, 
+ * import {
+ *   COLOR_BG_MAP,
  *   COLOR_TEXT_MAP,
  *   COLOR_BORDER_MAP,
  *   COLOR_VARIANT_MAP,
@@ -52,38 +52,38 @@
  *   COLOR_HOVER_SHADE_MAP
  * } from 'nirengi-ui-kit/common/constants/color.constants';
  * ```
- * 
+ *
  * ### Design Tokens
  * ```typescript
  * // Renk token'ları
  * import { designTokenColors } from 'nirengi-ui-kit/design-tokens/colors';
- * 
+ *
  * // Spacing token'ları
  * import { designTokenSpacing } from 'nirengi-ui-kit/design-tokens/spacing';
- * 
+ *
  * // Typography token'ları
- * import { 
+ * import {
  *   designTokenFontFamily,
- *   designTokenFontSizes, 
- *   designTokenFontWeights 
+ *   designTokenFontSizes,
+ *   designTokenFontWeights
  * } from 'nirengi-ui-kit/design-tokens/typography';
- * 
+ *
  * // Shadow token'ları
  * import { designTokenShadows } from 'nirengi-ui-kit/design-tokens/shadows';
- * 
+ *
  * // Breakpoint token'ları
  * import { designTokenBreakpoints } from 'nirengi-ui-kit/design-tokens/breakpoints';
  * ```
- * 
+ *
  * ### Components (Gelecekte eklenecek)
  * ```typescript
  * // Button component
  * import { ButtonComponent } from 'nirengi-ui-kit/components/button/button.component';
- * 
+ *
  * // Input component
  * import { InputComponent } from 'nirengi-ui-kit/components/input/input.component';
  * ```
- * 
+ *
  * ## Path Alias Kullanımı (Kütüphane içinde)
  * Kütüphane geliştirirken TypeScript path alias'ları kullanabilirsiniz:
  * ```typescript
@@ -91,7 +91,7 @@
  * import { designTokenColors } from '@design-tokens/colors';
  * import { ButtonComponent } from '@components/button/button.component';
  * ```
- * 
+ *
  * ## Özellikler
  * - ✅ Angular 18+ ve 20 uyumlu
  * - ✅ Standalone component'ler
@@ -153,7 +153,7 @@ export {
   SIZE_TEXT_MAP,
   SIZE_ICON_MAP,
   SIZE_GAP_MAP,
-  SIZE_RADIUS_MAP
+  SIZE_RADIUS_MAP,
 } from './lib/common/constants/size.constants';
 
 /**
@@ -166,7 +166,7 @@ export {
   COLOR_BORDER_MAP,
   COLOR_VARIANT_MAP,
   COLOR_DEFAULT_SHADE_MAP,
-  COLOR_HOVER_SHADE_MAP
+  COLOR_HOVER_SHADE_MAP,
 } from './lib/common/constants/color.constants';
 
 // ============================================================================
@@ -192,7 +192,7 @@ export { designTokenSpacing } from './lib/design-tokens/spacing';
 export {
   designTokenFontFamily,
   designTokenFontSizes,
-  designTokenFontWeights
+  designTokenFontWeights,
 } from './lib/design-tokens/typography';
 
 /**
@@ -225,11 +225,11 @@ export { ButtonComponent, ButtonType } from './lib/components/button/button.comp
  * @see {@link HeadingAlign}
  * @see {@link HeadingWeight}
  */
-export { 
-  HeadingComponent, 
-  HeadingLevel, 
-  HeadingAlign, 
-  HeadingWeight 
+export {
+  HeadingComponent,
+  HeadingLevel,
+  HeadingAlign,
+  HeadingWeight,
 } from './lib/components/heading/heading.component';
 
 /**
@@ -275,10 +275,10 @@ export { CheckboxComponent } from './lib/components/checkbox/checkbox.component'
  * @see {@link ParagraphAlign}
  * @see {@link ParagraphWeight}
  */
-export { 
-  ParagraphComponent, 
-  ParagraphAlign, 
-  ParagraphWeight 
+export {
+  ParagraphComponent,
+  ParagraphAlign,
+  ParagraphWeight,
 } from './lib/components/paragraph/paragraph.component';
 
 // export { InputComponent } from './lib/components/input/input.component';
@@ -288,7 +288,15 @@ export {
 // DIRECTIVES (Gelecekte eklenecek)
 // ============================================================================
 
-// export { TooltipDirective } from './lib/directives/tooltip/tooltip.directive';
+/**
+ * Tooltip directive and component.
+ * @see {@link TooltipDirective}
+ * @see {@link TooltipComponent}
+ * @see {@link TooltipPosition}
+ */
+export * from './lib/components/tooltip';
+export * from './lib/components/tooltip-demo';
+
 // export { ClickOutsideDirective } from './lib/directives/click-outside/click-outside.directive';
 
 // ============================================================================
@@ -317,7 +325,6 @@ export { RadioComponent } from './lib/components/radio/radio.component';
 export { BreadcrumbComponent } from './lib/components/breadcrumb/breadcrumb.component';
 export type { BreadcrumbItem } from './lib/components/breadcrumb/breadcrumb.component';
 
-
 /**
  * List component and interface.
  * @see {@link ListComponent}
@@ -333,7 +340,7 @@ export type { ListItem } from './lib/components/list/list.component';
  * @see {@link FilterMetadata}
  */
 export { TableComponent } from './lib/components/table/table.component';
-export type { FilterMatchMode, FilterMetadata } from './lib/components/table/table.component';
+export type { FilterMatchMode, FilterMetadata, TableColumn } from './lib/components/table/table.component';
 
 /**
  * Accordion component and types.
@@ -343,3 +350,36 @@ export type { FilterMatchMode, FilterMetadata } from './lib/components/table/tab
 export { AccordionComponent } from './lib/components/accordion/accordion.component';
 export type { AccordionStatus } from './lib/components/accordion/accordion.component';
 
+/**
+ * Datepicker component.
+ * @see {@link DatepickerComponent}
+ */
+export { DatepickerComponent } from './lib/components/datepicker/datepicker.component';
+
+export * from './lib/components/toast';
+export * from './lib/components/toast-demo';
+export * from './lib/components/modal';
+export * from './lib/components/modal-demo';
+export * from './lib/components/tabs';
+export * from './lib/components/tabs-demo';
+
+/**
+ * Switch component.
+ * @see {@link SwitchComponent}
+ */
+export { SwitchComponent } from './lib/components/switch/switch.component';
+
+/**
+ * Popover directive and component.
+ * @see {@link PopoverDirective}
+ * @see {@link PopoverComponent}
+ * @see {@link PopoverPosition}
+ */
+export * from './lib/components/popover';
+export * from './lib/components/popover-demo';
+
+/**
+ * File Upload component.
+ * @see {@link FileUploadComponent}
+ */
+export * from './lib/components/file-upload';

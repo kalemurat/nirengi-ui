@@ -4,24 +4,24 @@ import { EventLog } from '../interfaces/showcase-config.interface';
 /**
  * Event Logger Servisi.
  * Component event'lerini yakalar ve terminal-style console'da gösterir.
- * 
+ *
  * ## Sorumluluklar
  * - Event'lerin timestamp ile loglanması
  * - Event geçmişinin tutulması
  * - Log temizleme işlemleri
- * 
+ *
  * ## Kullanım
  * ```typescript
  * // Component-level provide
  * providers: [EventLoggerService]
- * 
+ *
  * // Event logla
  * this.eventLogger.logEvent('button', 'onClick', { x: 100, y: 200 });
- * 
+ *
  * // Logları oku
  * const logs = this.eventLogger.eventLogs();
  * ```
- * 
+ *
  * @see {@link EventLog}
  */
 @Injectable()
@@ -35,7 +35,7 @@ export class EventLoggerService {
   /**
    * Event loglarının computed signal'i.
    * Dışarıya sadece okunabilir olarak expose edilir.
-   * 
+   *
    * @returns Event log array (en yeni en başta)
    */
   readonly eventLogs = computed(() => this.logs());
@@ -43,16 +43,16 @@ export class EventLoggerService {
   /**
    * Yeni bir event logu kaydeder.
    * Otomatik olarak timestamp ve unique ID üretilir.
-   * 
+   *
    * @param componentId - Component ID (örn: 'button')
    * @param eventName - Event adı (örn: 'onClick')
    * @param payload - Event payload (herhangi bir değer olabilir)
-   * 
+   *
    * @example
    * ```typescript
    * // Button click event
    * this.eventLogger.logEvent('button', 'onClick', mouseEvent);
-   * 
+   *
    * // Select change event
    * this.eventLogger.logEvent('select', 'onChange', { value: 'istanbul' });
    * ```
@@ -63,11 +63,11 @@ export class EventLoggerService {
       timestamp: new Date(),
       componentId,
       eventName,
-      payload: this.sanitizePayload(payload)
+      payload: this.sanitizePayload(payload),
     };
 
     // En yeni log başa ekle
-    this.logs.update(current => [log, ...current]);
+    this.logs.update((current) => [log, ...current]);
   }
 
   /**
@@ -81,7 +81,7 @@ export class EventLoggerService {
   /**
    * Son N adet logu getirir.
    * Performance için çok fazla log gösterilmesini önler.
-   * 
+   *
    * @param count - Gösterilecek log sayısı
    * @returns Son N adet log
    */
@@ -92,7 +92,7 @@ export class EventLoggerService {
   /**
    * Unique log ID üretir.
    * Timestamp + random number kombinasyonu.
-   * 
+   *
    * @returns Unique log ID
    */
   private generateLogId(): string {
@@ -102,7 +102,7 @@ export class EventLoggerService {
   /**
    * Event payload'ını sanitize eder.
    * Circular reference ve çok büyük objeler için güvenli hale getirir.
-   * 
+   *
    * @param payload - Ham payload
    * @returns Sanitize edilmiş payload
    */
@@ -113,7 +113,7 @@ export class EventLoggerService {
       return {
         type: payload.type,
         target: target?.tagName || 'unknown',
-        timestamp: payload.timeStamp
+        timestamp: payload.timeStamp,
       };
     }
 

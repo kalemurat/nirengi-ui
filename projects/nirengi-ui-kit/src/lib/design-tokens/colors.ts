@@ -1,7 +1,7 @@
 /**
  * UI Kit renk paleti design token'ları.
  * Tailwind CSS renk sistemiyle uyumlu, semantik renk tanımları içerir.
- * 
+ *
  * @see https://tailwindcss.com/docs/customizing-colors
  */
 
@@ -60,7 +60,7 @@ export const designTokenColors: DesignTokenColors = {
     700: '#1d4ed8',
     800: '#1e40af',
     900: '#1e3a8a',
-    950: '#172554'
+    950: '#172554',
   },
   secondary: {
     50: '#f9fafb',
@@ -73,7 +73,7 @@ export const designTokenColors: DesignTokenColors = {
     700: '#374151',
     800: '#1f2937',
     900: '#111827',
-    950: '#030712'
+    950: '#030712',
   },
   success: {
     50: '#f0fdf4',
@@ -86,7 +86,7 @@ export const designTokenColors: DesignTokenColors = {
     700: '#15803d',
     800: '#166534',
     900: '#14532d',
-    950: '#052e16'
+    950: '#052e16',
   },
   warning: {
     50: '#fffbeb',
@@ -99,7 +99,7 @@ export const designTokenColors: DesignTokenColors = {
     700: '#b45309',
     800: '#92400e',
     900: '#78350f',
-    950: '#451a03'
+    950: '#451a03',
   },
   danger: {
     50: '#fef2f2',
@@ -112,7 +112,7 @@ export const designTokenColors: DesignTokenColors = {
     700: '#b91c1c',
     800: '#991b1b',
     900: '#7f1d1d',
-    950: '#450a0a'
+    950: '#450a0a',
   },
   info: {
     50: '#ecfeff',
@@ -125,7 +125,7 @@ export const designTokenColors: DesignTokenColors = {
     700: '#0e7490',
     800: '#155e75',
     900: '#164e63',
-    950: '#083344'
+    950: '#083344',
   },
   neutral: {
     50: '#f8fafc',
@@ -138,6 +138,6 @@ export const designTokenColors: DesignTokenColors = {
     700: '#334155',
     800: '#1e293b',
     900: '#0f172a',
-    950: '#020617'
-  }
+    950: '#020617',
+  },
 };

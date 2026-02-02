@@ -1,0 +1,40 @@
+<div [ngClass]="containerClasses()">
+  <div class="nui-tabs__header" role="tablist">
+    @for (tab of tabs(); track $index) {
+      <button
+        type="button"
+        role="tab"
+        [attr.aria-selected]="activeIndex() === $index"
+        [attr.aria-disabled]="tab.disabled()"
+        [attr.aria-controls]="'tab-panel-' + $index"
+        [id]="'tab-' + $index"
+        class="nui-tabs__header-item"
+        [class.nui-tabs__header-item--active]="activeIndex() === $index"
+        [class.nui-tabs__header-item--disabled]="tab.disabled()"
+        (click)="selectTab($index)"
+        [disabled]="tab.disabled()"
+      >
+        @if (tab.labelTemplate()) {
+          <ng-container *ngTemplateOutlet="tab.labelTemplate()!.template" />
+        } @else {
+          {{ tab.label() }}
+        }
+      </button>
+    }
+  </div>
+
+  <div class="nui-tabs__content">
+    @for (tab of tabs(); track $index) {
+      @if (activeIndex() === $index) {
+        <div
+          role="tabpanel"
+          [id]="'tab-panel-' + $index"
+          [attr.aria-labelledby]="'tab-' + $index"
+          class="animate-fade-in"
+        >
+          <ng-container *ngTemplateOutlet="tab.contentTemplate()" />
+        </div>
+      }
+    }
+  </div>
+</div>

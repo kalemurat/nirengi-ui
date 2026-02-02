@@ -1,0 +1,27 @@
+<div [class]="containerClasses()">
+  <label [for]="id()" class="nui-switch__label">
+    <div class="nui-switch__control">
+      <input
+        type="checkbox"
+        class="nui-switch__input"
+        [id]="id()"
+        [checked]="value() === true"
+        [disabled]="isDisabled()"
+        (change)="toggle()"
+        (blur)="markAsTouched()"
+        (keydown)="onKeyDown($event)"
+      />
+      <div class="nui-switch__track">
+        <div class="nui-switch__thumb"></div>
+      </div>
+    </div>
+
+    @if (label()) {
+      <span class="nui-switch__text">{{ label() }}</span>
+    } @else {
+      <div class="nui-switch__content">
+        <ng-content></ng-content>
+      </div>
+    }
+  </label>
+</div>

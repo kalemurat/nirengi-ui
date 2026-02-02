@@ -1,4 +1,17 @@
-import { Component, ViewChild, ViewContainerRef, inject, computed, effect, ChangeDetectionStrategy, AfterViewInit, OnDestroy, DestroyRef, signal, ComponentRef } from '@angular/core';
+import {
+    Component,
+    ViewChild,
+    ViewContainerRef,
+    inject,
+    computed,
+    effect,
+    ChangeDetectionStrategy,
+    AfterViewInit,
+    OnDestroy,
+    DestroyRef,
+    signal,
+    ComponentRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -7,43 +20,50 @@ import { Subject } from 'rxjs';
 import { ComponentRegistryService } from '../../../core/services/component-registry.service';
 import { PropertyStateService } from '../../../core/services/property-state.service';
 import { EventLoggerService } from '../../../core/services/event-logger.service';
+import { ThemeService } from '../../../core/services/theme.service';
+import {
+    IconComponent
+} from 'nirengi-ui-kit';
 
 /**
  * Component Renderer.
  * Seçili component'i dinamik olarak render eder.
  * ViewContainerRef kullanarak runtime'da component instance oluşturur.
- * 
+ *
  * ## Sorumluluklar
  * - Dynamic component loading ve rendering
  * - Property binding (signal input API ile uyumlu)
  * - Event binding ve logging
  * - Component lifecycle yönetimi
- * 
+ * - Tema yönetimi (light/dark mode)
+ *
  * ## Özellikler
  * - ✅ ViewContainerRef ile dynamic render
  * - ✅ Angular 20 input() signal API desteği
  * - ✅ ComponentRef.setInput() ile reactive property binding
  * - ✅ Route params'a reactive subscription
  * - ✅ Event logger entegrasyonu
+ * - ✅ Tema seçici (sun/moon icon toggle)
  * - ✅ OnPush change detection
- * 
+ *
  * @see {@link ComponentRegistryService}
  * @see {@link PropertyStateService}
  * @see {@link EventLoggerService}
+ * @see {@link ThemeService}
  */
 @Component({
   selector: 'app-component-renderer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   templateUrl: './component-renderer.component.html',
   styleUrl: './component-renderer.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   /**
    * Dynamic component render için container referansı.
    */
-  @ViewChild('dynamicComponent', { read: ViewContainerRef }) 
+  @ViewChild('dynamicComponent', { read: ViewContainerRef })
   dynamicComponentContainer!: ViewContainerRef;
 
   /**
@@ -53,6 +73,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   private readonly registry = inject(ComponentRegistryService);
   private readonly propertyState = inject(PropertyStateService);
   private readonly eventLogger = inject(EventLoggerService);
+  protected readonly themeService = inject(ThemeService);
   private readonly destroyRef = inject(DestroyRef);
 
   /**
@@ -77,9 +98,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * Route parametresinden reactive olarak alınır (toSignal kullanarak).
    */
   protected readonly componentId = toSignal(
-    this.route.params.pipe(
-      map(params => params['id'] || 'button')
-    ),
+    this.route.params.pipe(map((params) => params['id'] || 'button')),
     { initialValue: 'button' }
   );
 
@@ -179,10 +198,9 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
       const projectableNodes = this.buildProjectableNodes(config);
 
       // Component instance oluştur (projectableNodes ile)
-      const componentRef = this.dynamicComponentContainer.createComponent(
-        component,
-        { projectableNodes }
-      );
+      const componentRef = this.dynamicComponentContainer.createComponent(component, {
+        projectableNodes,
+      });
       this.currentComponentRef.set(componentRef);
 
       // Property default değerlerini set et
@@ -217,7 +235,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   /**
    * Content projection için projectableNodes oluşturur.
    * Config'teki contentProjection tipindeki property'lerin default değerlerini text node'lara dönüştürür.
-   * 
+   *
    * @param config - Showcase config
    * @returns ProjectableNodes array (Angular'ın ng-content slot'larına enjekte edilecek)
    */
@@ -233,7 +251,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     // Her content projection property için text node oluştur
     // Not: Şimdilik sadece tek ng-content slot desteği var
     const nodes: Node[] = [];
-    
+
     contentProjectionProps.forEach((prop: any) => {
       if (prop.defaultValue) {
         const textNode = document.createTextNode(prop.defaultValue);
@@ -248,7 +266,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   /**
    * Component property'lerini bind eder.
    * Angular 20 input() signal API ile uyumlu olarak ComponentRef.setInput() kullanır.
-   * 
+   *
    * @param componentRef - Component ref
    * @param config - Showcase config
    */
@@ -279,7 +297,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   /**
    * Showcase property ismini component input ismine map eder.
    * Bazı showcase property isimleri component input isimleriyle farklı olabilir.
-   * 
+   *
    * @param propertyName - Showcase config'teki property ismi
    * @returns Component'in beklediği input ismi
    */
@@ -293,18 +311,18 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
 
     // Default mapping (globals if any)
     // return mapping[propertyName] || propertyName;
-    
+
     return propertyName;
   }
 
   /**
    * Component event'lerini bind eder.
    * Event'leri EventLoggerService'e yönlendirir.
-   * 
+   *
    * takeUntilDestroyed() operatörü ile memory leak önlenir:
    * - Component destroy edildiğinde subscription'lar otomatik temizlenir
    * - Her component değişiminde önceki subscription'lar unsubscribe olur
-   * 
+   *
    * @param instance - Component instance
    * @param config - Showcase config
    * @param componentId - Component ID
@@ -312,14 +330,15 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   private bindEvents(instance: any, config: any, componentId: string): void {
     config.events?.forEach((event: any) => {
       const eventEmitter = instance[event.name];
-      
+
       if (eventEmitter) {
-        if (typeof eventEmitter.pipe === 'function' && typeof eventEmitter.subscribe === 'function') {
-          eventEmitter
-            .pipe(takeUntil(this.componentDestroy$))
-            .subscribe((payload: any) => {
-              this.eventLogger.logEvent(componentId, event.name, payload);
-            });
+        if (
+          typeof eventEmitter.pipe === 'function' &&
+          typeof eventEmitter.subscribe === 'function'
+        ) {
+          eventEmitter.pipe(takeUntil(this.componentDestroy$)).subscribe((payload: any) => {
+            this.eventLogger.logEvent(componentId, event.name, payload);
+          });
         } else if (typeof eventEmitter.subscribe === 'function') {
           const sub = eventEmitter.subscribe((payload: any) => {
             this.eventLogger.logEvent(componentId, event.name, payload);
@@ -327,7 +346,6 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
           this.componentDestroy$.pipe(take(1)).subscribe(() => sub.unsubscribe());
         }
       }
-
     });
   }
 }

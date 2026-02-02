@@ -1,4 +1,3 @@
-
 import { Injectable, signal, computed, Type } from '@angular/core';
 import { ComponentShowcaseConfig } from '../interfaces/showcase-config.interface';
 
@@ -11,32 +10,32 @@ type ComponentLoader = () => Promise<Type<any>>;
 /**
  * Component Registry Servisi.
  * Tüm UI Kit component'lerini kaydeder ve dinamik olarak yükler.
- * 
+ *
  * ## Sorumluluklar
  * - Component'lerin lazy loading ile yüklenmesi
  * - Showcase config'lerinin merkezi yönetimi
  * - Type-safe component referanslarının sağlanması
- * 
+ *
  * ## Kullanım
  * ```typescript
  * // Component-level provide
  * providers: [ComponentRegistryService]
- * 
+ *
  * // Component registrar et
- * registry.registerComponent(buttonConfig, () => 
+ * registry.registerComponent(buttonConfig, () =>
  *   import('nirengi-ui-kit').then(m => m.ButtonComponent)
  * );
- * 
+ *
  * // Sadece Config kaydet (Lazy load getComponent içinde handled ise)
  * registry.registerConfig(accordionConfig);
- * 
+ *
  * // Component yükle
  * const ButtonComponent = await registry.getComponent('button');
- * 
+ *
  * // Config oku
  * const config = registry.getConfig('button');
  * ```
- * 
+ *
  * @see {@link ComponentShowcaseConfig}
  */
 @Injectable()
@@ -57,31 +56,27 @@ export class ComponentRegistryService {
    * Component config'lerinin signal'i.
    * Reaktif olarak güncellenir ve menü gibi yerlerde kullanılır.
    */
-  private readonly configs = signal<Map<string, ComponentShowcaseConfig>>(
-    new Map()
-  );
+  private readonly configs = signal<Map<string, ComponentShowcaseConfig>>(new Map());
 
   /**
    * Tüm config'lerin computed list'i.
    * Kategorilere göre gruplama gibi işlemler için kullanılır.
-   * 
+   *
    * @returns Component config array
    */
-  readonly allConfigs = computed(() => 
-    Array.from(this.configs().values())
-  );
+  readonly allConfigs = computed(() => Array.from(this.configs().values()));
 
   /**
    * Kategorilere göre gruplandırılmış config'ler.
    * Menü render'ı için kullanılır.
-   * 
+   *
    * @returns Kategori adı ve o kategorideki config'ler
    */
   readonly configsByCategory = computed(() => {
     const configs = this.allConfigs();
     const categories = new Map<string, ComponentShowcaseConfig[]>();
 
-    configs.forEach(config => {
+    configs.forEach((config) => {
       const category = config.category || 'Other';
       if (!categories.has(category)) {
         categories.set(category, []);
@@ -95,13 +90,13 @@ export class ComponentRegistryService {
   /**
    * Yeni bir component registrar eder.
    * Config ve loader fonksiyonunu kaydeder.
-   * 
+   *
    * @param config - Component showcase konfigürasyonu
    * @param loader - Component lazy loader fonksiyonu
    */
   registerComponent(config: ComponentShowcaseConfig, loader: ComponentLoader): void {
     // Config'i kaydet
-    this.configs.update(current => {
+    this.configs.update((current) => {
       const updated = new Map(current);
       updated.set(config.id, config);
       return updated;
@@ -114,11 +109,11 @@ export class ComponentRegistryService {
   /**
    * Sadece component config'ini kaydeder.
    * Loader verilmezse, getComponent içinde lazy import veya logic ile handle edilmelidir.
-   * 
+   *
    * @param config - Component showcase konfigürasyonu
    */
   registerConfig(config: ComponentShowcaseConfig): void {
-    this.configs.update(current => {
+    this.configs.update((current) => {
       const updated = new Map(current);
       updated.set(config.id, config);
       return updated;
@@ -128,7 +123,7 @@ export class ComponentRegistryService {
   /**
    * Component'i lazy load eder.
    * İlk yüklemede cache'e alınır, sonraki çağrılarda cache'den döner.
-   * 
+   *
    * @param id - Component ID
    * @returns Component class referansı
    * @throws Error - Component registrar edilmemişse

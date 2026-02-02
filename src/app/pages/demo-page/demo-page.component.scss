@@ -1,0 +1,72 @@
+.demo-page {
+  @apply flex h-screen w-full bg-gray-50 overflow-hidden;
+
+  // Sidebar Styles
+  &__sidebar {
+    @apply flex flex-col w-64 h-full bg-white border-r border-gray-100 p-6 shadow-lg z-10;
+  }
+
+  &__logo {
+    @apply flex flex-col mb-10 px-2;
+  }
+
+  &__nav {
+    @apply flex flex-col gap-2 flex-1;
+  }
+
+  &__footer {
+    @apply mt-auto pt-6 border-t border-gray-100;
+  }
+
+  // Navigation Item Styles
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 relative text-gray-500 font-medium text-sm text-left;
+
+    &:hover {
+      @apply bg-indigo-50 text-indigo-600;
+    }
+
+    &--active {
+      @apply bg-indigo-600 text-white shadow-md shadow-indigo-200;
+      
+      &:hover {
+        @apply bg-indigo-700 text-white;
+      }
+    }
+
+    &__icon {
+      @apply w-5 h-5 rounded-md bg-current opacity-20; 
+      // This is a placeholder visual for icon since we are using div
+    }
+  }
+
+  // Main Content Styles
+  &__content {
+    @apply flex-1 p-8 h-full overflow-hidden bg-gray-50/50 relative;
+
+    // Decorative background blobs
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -5%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0) 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+  }
+
+  .content-wrapper {
+    @apply w-full h-full relative z-10;
+  }
+
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl p-6 h-full overflow-auto;
+  }
+}
+
+.user-profile {
+  @apply flex items-center gap-3;
+}

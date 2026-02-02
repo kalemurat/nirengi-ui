@@ -128,10 +128,10 @@
       "title": "Disclaimer",
       "description": "Small italic disclaimer text",
       "propertyValues": {
-         "content": "Disclaimer: This information is for demonstration purposes only.",
-         "size": "sm",
-         "variant": "info",
-         "italic": true
+        "content": "Disclaimer: This information is for demonstration purposes only.",
+        "size": "sm",
+        "variant": "info",
+        "italic": true
       }
     }
   ]

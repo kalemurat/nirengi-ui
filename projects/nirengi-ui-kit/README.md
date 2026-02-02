@@ -65,20 +65,20 @@ const variant: ColorVariantType = 'primary';
 
 ```typescript
 // Boyut mapping sabitleri
-import { 
+import {
   SIZE_HEIGHT_MAP,
   SIZE_PADDING_MAP,
   SIZE_TEXT_MAP,
   SIZE_ICON_MAP,
-  SIZE_RADIUS_MAP
+  SIZE_RADIUS_MAP,
 } from 'nirengi-ui-kit/common/constants/size.constants';
 
 // Renk mapping sabitleri
-import { 
+import {
   COLOR_BG_MAP,
   COLOR_TEXT_MAP,
   COLOR_BORDER_MAP,
-  COLOR_VARIANT_MAP
+  COLOR_VARIANT_MAP,
 } from 'nirengi-ui-kit/common/constants/color.constants';
 
 // Kullanım
@@ -96,10 +96,10 @@ import { designTokenColors } from 'nirengi-ui-kit/design-tokens/colors';
 import { designTokenSpacing } from 'nirengi-ui-kit/design-tokens/spacing';
 
 // Typography
-import { 
+import {
   designTokenFontFamily,
   designTokenFontSizes,
-  designTokenFontWeights
+  designTokenFontWeights,
 } from 'nirengi-ui-kit/design-tokens/typography';
 
 // Shadows
@@ -192,24 +192,28 @@ module.exports = {
     extend: {
       // Component yükseklikleri
       height: {
-        'component-xs': '24px',  // h-component-xs
-        'component-sm': '32px',  // h-component-sm
-        'component-md': '36px',  // h-component-md
-        'component-lg': '40px',  // h-component-lg
-        'component-xl': '48px',  // h-component-xl
+        'component-xs': '24px', // h-component-xs
+        'component-sm': '32px', // h-component-sm
+        'component-md': '36px', // h-component-md
+        'component-lg': '40px', // h-component-lg
+        'component-xl': '48px', // h-component-xl
       },
-      
+
       // Özel spacing değerleri
       spacing: {
-        '3.5': '0.875rem',  // px-3.5 için
+        3.5: '0.875rem', // px-3.5 için
       },
-      
+
       // Renkler, font'lar vs.
-      colors: { /* ... */ },
-      fontFamily: { /* ... */ }
-    }
-  }
-}
+      colors: {
+        /* ... */
+      },
+      fontFamily: {
+        /* ... */
+      },
+    },
+  },
+};
 ```
 
 **Component SCSS Kullanımı:**
@@ -218,15 +222,15 @@ module.exports = {
 // ✅ DOĞRU: Tailwind custom class'larını kullan
 .nui-button {
   &--xs {
-    @apply h-component-xs px-2 text-xs gap-1;
+    @apply h-component-xs gap-1 px-2 text-xs;
   }
-  
+
   &--sm {
-    @apply h-component-sm px-3 text-sm gap-1.5;
+    @apply h-component-sm gap-1.5 px-3 text-sm;
   }
-  
+
   &--md {
-    @apply h-component-md px-3.5 text-sm gap-1.5;
+    @apply h-component-md gap-1.5 px-3.5 text-sm;
   }
 }
 ```
@@ -235,7 +239,7 @@ module.exports = {
 // ❌ YANLIŞ: Hard-coded değerler kullanma
 .nui-input {
   &--small {
-    height: 32px;  // Direkt pixel değeri
+    height: 32px; // Direkt pixel değeri
     padding: 12px;
   }
 }
@@ -243,19 +247,20 @@ module.exports = {
 
 #### Mevcut Size Mapping'leri
 
-| Size    | Height Class      | Pixel | Padding | Text      | Gap     |
-|---------|-------------------|-------|---------|-----------|---------|
-| XSmall  | h-component-xs    | 24px  | px-2    | text-xs   | gap-1   |
-| Small   | h-component-sm    | 32px  | px-3    | text-sm   | gap-1.5 |
-| Medium  | h-component-md    | 36px  | px-3.5  | text-sm   | gap-1.5 |
-| Large   | h-component-lg    | 40px  | px-5    | text-base | gap-2   |
-| XLarge  | h-component-xl    | 48px  | px-6    | text-lg   | gap-2.5 |
+| Size   | Height Class   | Pixel | Padding | Text      | Gap     |
+| ------ | -------------- | ----- | ------- | --------- | ------- |
+| XSmall | h-component-xs | 24px  | px-2    | text-xs   | gap-1   |
+| Small  | h-component-sm | 32px  | px-3    | text-sm   | gap-1.5 |
+| Medium | h-component-md | 36px  | px-3.5  | text-sm   | gap-1.5 |
+| Large  | h-component-lg | 40px  | px-5    | text-base | gap-2   |
+| XLarge | h-component-xl | 48px  | px-6    | text-lg   | gap-2.5 |
 
 #### size.constants.ts Dosyası
 
 `common/constants/size.constants.ts` dosyası artık **sadece REFERANS** amaçlı tutulmaktadır. Gerçek değerler `tailwind.config.js`'de. Bu dosya, hangi Tailwind class'ını kullanmanız gerektiğini hatırlatmak için mevcuttur.
 
 **💡 Neden Tailwind Config?**
+
 - ✅ Tailwind'in doğal ekosistemi içinde
 - ✅ Build time'da CSS'e compile edilir
 - ✅ Consumer projede configuration override gerekmez
@@ -282,19 +287,19 @@ Library build edildiğinde (`ng build nirengi-ui-kit`), Tailwind config'deki tü
 // SCSS: Nested BEM + Tailwind @apply
 .button {
   @apply inline-flex items-center gap-2 rounded-md font-medium transition-colors;
-  
+
   &--primary {
     @apply bg-blue-600 text-white hover:bg-blue-700;
   }
-  
+
   &--medium {
     @apply px-4 py-2 text-base;
   }
-  
+
   &__icon {
-    @apply w-5 h-5;
+    @apply h-5 w-5;
   }
-  
+
   &__text {
     @apply truncate;
   }

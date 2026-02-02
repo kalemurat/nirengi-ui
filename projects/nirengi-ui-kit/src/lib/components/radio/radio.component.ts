@@ -1,4 +1,11 @@
-import { Component, input, forwardRef, effect, computed, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  forwardRef,
+  effect,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
@@ -8,7 +15,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 /**
  * Modern radyo butonu bileşeni.
  * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
- * 
+ *
  * ## Özellikler
  * - ✅ Signal tabanlı ControlValueAccessor (NG_VALUE_ACCESSOR)
  * - ✅ Two-way data binding desteği (ngModel, formControl)
@@ -20,36 +27,36 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  * - ✅ Label ve description desteği
  * - ✅ WCAG 2.1 AA accessibility standartları
  * - ✅ Keyboard navigation desteği
- * 
+ *
  * @example
  * // Reactive Forms ile
  * <nui-radio [formControl]="genderControl" value="male" label="Erkek"></nui-radio>
  * <nui-radio [formControl]="genderControl" value="female" label="Kadın"></nui-radio>
- * 
+ *
  * @example
  * // Template-driven Forms ile
  * <nui-radio [(ngModel)]="selectedColor" value="red" label="Kırmızı"></nui-radio>
  * <nui-radio [(ngModel)]="selectedColor" value="blue" label="Mavi"></nui-radio>
- * 
+ *
  * @example
  * // Label ve description ile
- * <nui-radio 
+ * <nui-radio
  *   [(ngModel)]="plan"
  *   value="premium"
  *   label="Premium Plan"
  *   description="Tüm özelliklere sınırsız erişim">
  * </nui-radio>
- * 
+ *
  * @example
  * // Varyant ve boyut ile
- * <nui-radio 
+ * <nui-radio
  *   [(ngModel)]="status"
  *   value="active"
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
  *   label="Aktif">
  * </nui-radio>
- * 
+ *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
  * @see {@link Size} - Standart boyut değerleri
@@ -66,9 +73,9 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => RadioComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class RadioComponent extends ValueAccessorBase<any> {
   /**
@@ -91,7 +98,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   /**
    * Renk varyantı.
    * Semantik anlamı olan renk teması sağlar.
-   * 
+   *
    * @default ColorVariant.Primary
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
@@ -99,7 +106,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   /**
    * Boyut.
    * Radyo butonunun büyüklüğünü ve label font boyutunu belirler.
-   * 
+   *
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
@@ -107,7 +114,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   /**
    * Readonly durumu.
    * true olduğunda radyo butonu tıklanamaz ama görsel olarak aktif görünür.
-   * 
+   *
    * @default false
    */
   readonly readonly = input<boolean>(false);
@@ -127,7 +134,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   /**
    * Required (zorunlu) durumu.
    * Form validasyonu için kullanılır.
-   * 
+   *
    * @default false
    */
   readonly required = input<boolean>(false);
@@ -151,13 +158,13 @@ export class RadioComponent extends ValueAccessorBase<any> {
    */
   readonly radioContainerClasses = computed(() => {
     const classes = ['nui-radio'];
-    
+
     classes.push(`nui-radio--${this.size()}`);
-    
+
     if (this.isDisabled()) {
       classes.push('nui-radio--disabled');
     }
-    
+
     if (this.readonly()) {
       classes.push('nui-radio--readonly');
     }
@@ -165,7 +172,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
     if (this.isChecked()) {
       classes.push('nui-radio--checked');
     }
-    
+
     return classes.join(' ');
   });
 
@@ -174,14 +181,14 @@ export class RadioComponent extends ValueAccessorBase<any> {
    */
   readonly radioControlClasses = computed(() => {
     const classes = ['nui-radio__control'];
-    
+
     classes.push(`nui-radio__control--${this.variant()}`);
     classes.push(`nui-radio__control--${this.size()}`);
-    
+
     if (this.thisIsCheckedAndColorApply()) {
-         // Checked state style is handled mostly by CSS via parent checked class or direct state
-         // But let's add variant specific classes here if needed.
-         // Actually, variant usually applies to checked state color.
+      // Checked state style is handled mostly by CSS via parent checked class or direct state
+      // But let's add variant specific classes here if needed.
+      // Actually, variant usually applies to checked state color.
     }
 
     return classes.join(' ');
@@ -191,7 +198,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
    * Helper to determine if color should be applied
    */
   private readonly thisIsCheckedAndColorApply = computed(() => {
-      return this.isChecked() && !this.isDisabled();
+    return this.isChecked() && !this.isDisabled();
   });
 
   /**
@@ -199,13 +206,13 @@ export class RadioComponent extends ValueAccessorBase<any> {
    */
   readonly labelTextClasses = computed(() => {
     const classes = ['nui-radio__label-text'];
-    
+
     classes.push(`nui-radio__label-text--${this.size()}`);
-    
+
     if (this.isDisabled()) {
       classes.push('nui-radio__label-text--disabled');
     }
-    
+
     return classes.join(' ');
   });
 
@@ -214,13 +221,13 @@ export class RadioComponent extends ValueAccessorBase<any> {
    */
   readonly descriptionClasses = computed(() => {
     const classes = ['nui-radio__description'];
-    
+
     classes.push(`nui-radio__description--${this.size()}`);
-    
+
     if (this.isDisabled()) {
       classes.push('nui-radio__description--disabled');
     }
-    
+
     return classes.join(' ');
   });
 
@@ -236,7 +243,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   /**
    * Radyo butonu change handler'ı.
    * Seçildiğinde model değerini günceller.
-   * 
+   *
    * @returns void
    */
   handleChange(): void {

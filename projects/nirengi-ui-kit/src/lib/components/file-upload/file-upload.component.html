@@ -1,0 +1,96 @@
+<div class="file-upload" [class.file-upload--disabled]="disabled()">
+  
+  <!-- Drop Zone area -->
+  <div 
+    class="file-upload__drop-zone"
+    [class.file-upload__drop-zone--active]="isDragOver()"
+    [class.file-upload__drop-zone--disabled]="disabled()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()">
+
+    <input
+      #fileInput
+      type="file"
+      class="file-upload__input"
+      [accept]="accept()"
+      [multiple]="multiple()"
+      [disabled]="disabled()"
+      (change)="onFileSelected($event)"
+      (click)="$event.stopPropagation()" 
+    />
+
+    <!-- Icon -->
+    <svg class="file-upload__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+    </svg>
+
+    <!-- Text -->
+    <p class="file-upload__text">
+      <span class="file-upload__text-highlight">{{ clickLabel() }}</span> {{ dragDropLabel() }}
+    </p>
+    <p class="file-upload__subtext" *ngIf="accept()">
+      {{ accept() }}
+    </p>
+
+  </div>
+
+  <!-- File List -->
+  @if (files().length > 0) {
+    <div class="file-upload__list">
+      @for (file of files(); track file.name) {
+        <div class="file-upload__item group">
+          <div class="file-upload__file-info">
+            <!-- File Icon -->
+            <div class="file-upload__file-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            
+            <div class="file-upload__file-details">
+              <span class="file-upload__file-name" [title]="file.name">{{ file.name }}</span>
+              <span class="file-upload__file-size">{{ formatSize(file.size) }}</span>
+            </div>
+          </div>
+
+          <!-- Remove Button -->
+          @if (!disabled()) {
+            <button 
+              type="button" 
+              class="file-upload__remove-btn" 
+              (click)="removeFile(file, $event)"
+              title="Remove file">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          }
+        </div>
+      }
+    </div>
+  
+    <!-- Actions -->
+    @if (files().length > 0 && !disabled()) {
+      <div class="flex items-center justify-end gap-3 mt-4">
+        <!-- Remove All Button -->
+        <button 
+          type="button" 
+          class="text-sm text-red-500 hover:text-red-700 font-medium transition-colors"
+          (click)="clearFiles()">
+          {{ removeAllLabel() }}
+        </button>
+
+        <!-- Upload Button -->
+        <nui-button
+          [variant]="ColorVariant.Primary"
+          [type]="ButtonType.Soft"
+          [size]="Size.Small"
+          (clicked)="onUpload()">
+          {{ uploadLabel() }}
+        </nui-button>
+      </div>
+    }
+  }
+</div>
