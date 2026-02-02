@@ -21,11 +21,7 @@ import { ModalContainerComponent } from 'nirengi-ui-kit';
 @Component({
   selector: 'app-demo-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    Demo1Component,
-    ModalContainerComponent
-  ],
+  imports: [CommonModule, Demo1Component, ModalContainerComponent],
   templateUrl: './demo-page.component.html',
   styleUrl: './demo-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

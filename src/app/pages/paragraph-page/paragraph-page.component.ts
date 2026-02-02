@@ -84,7 +84,7 @@ export class ParagraphPageComponent {
    * Leading (satır yüksekliği) seçenekleri listesi.
    */
   protected readonly leadingOptions = signal<
-    Array<'none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose'>
+    ('none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose')[]
   >(['none', 'tight', 'snug', 'normal', 'relaxed', 'loose']);
 
   /**

@@ -8,7 +8,7 @@ import { Subject, Observable } from 'rxjs';
 export class PopoverRef<T = any, R = any> {
   private readonly _afterClosed = new Subject<R | undefined>();
   private readonly _events = new Subject<{ key: string; data: any }>();
-  
+
   constructor(
     private overlayRef: OverlayRef,
     public config: { data?: T } = {}

@@ -1,16 +1,16 @@
 import {
-    Component,
-    ViewChild,
-    ViewContainerRef,
-    inject,
-    computed,
-    effect,
-    ChangeDetectionStrategy,
-    AfterViewInit,
-    OnDestroy,
-    DestroyRef,
-    signal,
-    ComponentRef,
+  Component,
+  ViewChild,
+  ViewContainerRef,
+  inject,
+  computed,
+  effect,
+  ChangeDetectionStrategy,
+  AfterViewInit,
+  OnDestroy,
+  DestroyRef,
+  signal,
+  ComponentRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -21,9 +21,7 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
 import { PropertyStateService } from '../../../core/services/property-state.service';
 import { EventLoggerService } from '../../../core/services/event-logger.service';
 import { ThemeService } from '../../../core/services/theme.service';
-import {
-    IconComponent
-} from 'nirengi-ui-kit';
+import { IconComponent } from 'nirengi-ui-kit';
 
 /**
  * Component Renderer.

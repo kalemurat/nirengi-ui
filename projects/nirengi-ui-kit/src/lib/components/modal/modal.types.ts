@@ -5,7 +5,7 @@ export enum ModalSize {
   Small = 'sm',
   Medium = 'md',
   Large = 'lg',
-  Full = 'full'
+  Full = 'full',
 }
 
 export interface ModalOptions {

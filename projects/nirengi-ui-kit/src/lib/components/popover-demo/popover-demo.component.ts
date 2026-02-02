@@ -23,34 +23,36 @@ import { ButtonType } from '../button/button.component';
         {{ title() || 'Varsayılan Başlık' }}
       </nui-heading>
       <nui-paragraph class="mb-4 text-sm text-slate-600 dark:text-slate-300">
-        Bu component dinamik olarak render edildi. 
-        <br>
+        Bu component dinamik olarak render edildi.
+        <br />
         <strong>Gelen Input:</strong> {{ customData() }}
       </nui-paragraph>
       <div class="flex justify-end gap-2">
-        <nui-button 
-            [size]="Size.XSmall" 
-            [variant]="ColorVariant.Neutral" 
-            [type]="ButtonType.Ghost"
-            (clicked)="onAction('cancel')">
-            İptal
+        <nui-button
+          [size]="Size.XSmall"
+          [variant]="ColorVariant.Neutral"
+          [type]="ButtonType.Ghost"
+          (clicked)="onAction('cancel')"
+        >
+          İptal
         </nui-button>
-        <nui-button 
-            [size]="Size.XSmall" 
-            [variant]="ColorVariant.Primary"
-            (clicked)="onAction('cohk-guzel')">
-            Onayla
+        <nui-button
+          [size]="Size.XSmall"
+          [variant]="ColorVariant.Primary"
+          (clicked)="onAction('cohk-guzel')"
+        >
+          Onayla
         </nui-button>
       </div>
     </div>
-  `
+  `,
 })
 export class PopoverExampleContentComponent {
   /**
    * Parent'tan gelen input örneği
    */
   readonly title = input<string>();
-  
+
   /**
    * Parent'tan gelen diğer input örneği
    */
@@ -66,14 +68,14 @@ export class PopoverExampleContentComponent {
 
   onAction(action: 'cancel' | 'cohk-guzel'): void {
     if (this.popoverRef) {
-        if (action === 'cohk-guzel') {
-             this.popoverRef.emit('action', { type: 'success', message: 'Harika!' });
-             this.popoverRef.close();
-        } else {
-             this.popoverRef.close();
-        }
+      if (action === 'cohk-guzel') {
+        this.popoverRef.emit('action', { type: 'success', message: 'Harika!' });
+        this.popoverRef.close();
+      } else {
+        this.popoverRef.close();
+      }
     } else {
-        console.warn('PopoverRef bulunamadı');
+      console.warn('PopoverRef bulunamadı');
     }
   }
 }
@@ -86,23 +88,31 @@ export class PopoverExampleContentComponent {
   standalone: true,
   imports: [CommonModule, PopoverDirective, ButtonComponent],
   template: `
-    <div class="flex flex-col items-center justify-center p-12 bg-slate-50 dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 gap-4">
-      <nui-button 
+    <div
+      class="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-12 dark:border-slate-700 dark:bg-slate-900"
+    >
+      <nui-button
         [nirengiPopover]="contentComponent"
-        [nirengiPopoverPosition]="position()" 
+        [nirengiPopoverPosition]="position()"
         [nirengiPopoverCloseOnOutsideClick]="closeOnOutsideClick()"
         [nirengiPopoverInputs]="demoInputs"
         (nirengiPopoverOutput)="handleEvent($event)"
-        [variant]="ColorVariant.Primary">
+        [variant]="ColorVariant.Primary"
+      >
         Popover'ı Aç
       </nui-button>
 
-      <div *ngIf="lastEvent" class="text-sm p-2 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 shadow-sm animate-fade-in">
+      <div
+        *ngIf="lastEvent"
+        class="animate-fade-in rounded border border-slate-200 bg-white p-2 text-sm shadow-sm dark:border-slate-700 dark:bg-slate-800"
+      >
         <span class="font-bold text-slate-700 dark:text-slate-300">Son Event:</span>
-        <code class="ml-2 text-xs bg-slate-100 dark:bg-slate-900 p-1 rounded">{{ lastEvent | json }}</code>
+        <code class="ml-2 rounded bg-slate-100 p-1 text-xs dark:bg-slate-900">{{
+          lastEvent | json
+        }}</code>
       </div>
     </div>
-  `
+  `,
 })
 export class PopoverDemoComponent {
   /**
@@ -124,21 +134,21 @@ export class PopoverDemoComponent {
    * Componente geçilecek örnek inputlar
    */
   readonly demoInputs = {
-      title: 'Dinamik Başlık',
-      customData: 'Parent componentten gelen veri.'
+    title: 'Dinamik Başlık',
+    customData: 'Parent componentten gelen veri.',
   };
-  
+
   lastEvent: any = null;
 
   protected readonly ColorVariant = ColorVariant;
-  
+
   handleEvent(event: any): void {
-      console.log('Popover Event:', event);
-      this.lastEvent = event;
-      
-      // 3 saniye sonra mesajı temizle
-      setTimeout(() => {
-          this.lastEvent = null;
-      }, 3000);
+    console.log('Popover Event:', event);
+    this.lastEvent = event;
+
+    // 3 saniye sonra mesajı temizle
+    setTimeout(() => {
+      this.lastEvent = null;
+    }, 3000);
   }
 }

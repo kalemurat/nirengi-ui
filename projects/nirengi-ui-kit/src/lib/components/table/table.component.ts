@@ -17,17 +17,17 @@ import { debounceTime } from 'rxjs/operators';
 import { Size } from '../../common/enums/size.enum';
 
 export type FilterMatchMode = 'contains' | 'equals' | 'startsWith' | 'endsWith' | 'in';
-export type FilterMetadata = {
+export interface FilterMetadata {
   value: any;
   matchMode: FilterMatchMode;
   type?: 'string' | 'number' | 'boolean';
-};
+}
 
-export type TableColumn = {
+export interface TableColumn {
   field: string;
   header: string;
   filterable?: boolean;
-};
+}
 
 /**
  * Performans odaklı, esnek ve özelleştirilebilir veri tablosu bileşeni.
@@ -520,8 +520,8 @@ export class TableComponent<T> {
       case 'in':
         // Check if filter is array and includes the value
         if (Array.isArray(filter)) {
-            // We need raw comparison for booleans/numbers inside array, or stringified
-            return filter.some(f => String(f).toLowerCase() === sValue);
+          // We need raw comparison for booleans/numbers inside array, or stringified
+          return filter.some((f) => String(f).toLowerCase() === sValue);
         }
         return false;
       default:

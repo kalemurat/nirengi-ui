@@ -17,10 +17,10 @@ import { ModalComponent } from './modal.component';
       <nui-modal [data]="modal" />
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalContainerComponent {
   private service = inject(MODAL_SERVICE);
-  
+
   readonly modals = this.service.modals;
 }

@@ -24,57 +24,51 @@
 
           @switch (prop.type) {
             @case ('string') {
-              <input
-                type="text"
-                class="properties-panel__input"
-                [value]="getPropertyValue(prop.name)"
-                [readonly]="prop.readOnly"
-                (input)="updateProperty(prop.name, $any($event.target).value)"
+              <nui-textbox
+                [ngModel]="getPropertyValue(prop.name)"
+                [readonly]="!!prop.readOnly"
+                [size]="Size.XSmall"
+                (ngModelChange)="updateProperty(prop.name, $event)"
               />
             }
 
             @case ('number') {
-              <input
+              <nui-textbox
                 type="number"
-                class="properties-panel__input"
-                [value]="getPropertyValue(prop.name)"
-                [readonly]="prop.readOnly"
-                (input)="updateProperty(prop.name, +$any($event.target).value)"
+                [ngModel]="getPropertyValue(prop.name)"
+                [readonly]="!!prop.readOnly"
+                [size]="Size.XSmall"
+                (ngModelChange)="updateProperty(prop.name, +$event)"
               />
             }
 
             @case ('boolean') {
-              <label class="properties-panel__checkbox-wrapper">
-                <input
-                  type="checkbox"
-                  class="properties-panel__checkbox"
-                  [checked]="getPropertyValue(prop.name)"
-                  [disabled]="prop.readOnly"
-                  (change)="updateProperty(prop.name, $any($event.target).checked)"
-                />
-                <span class="properties-panel__checkbox-label">
-                  {{ getPropertyValue(prop.name) ? 'Enabled' : 'Disabled' }}
-                </span>
-              </label>
+              <nui-checkbox
+                [ngModel]="getPropertyValue(prop.name)"
+                [readonly]="!!prop.readOnly"
+                [size]="Size.XSmall"
+                [label]="getPropertyValue(prop.name) ? 'Enabled' : 'Disabled'"
+                (ngModelChange)="updateProperty(prop.name, $event)"
+              />
             }
 
             @case ('enum') {
-              <select
-                class="properties-panel__select"
-                [value]="getPropertyValue(prop.name)"
-                [disabled]="prop.readOnly"
-                (change)="updateProperty(prop.name, $any($event.target).value)"
-              >
-                @for (option of prop.options; track option.value) {
-                  <option [value]="option.value">{{ option.label }}</option>
-                }
-              </select>
+              <nui-select
+                [options]="prop.options || []"
+                bindLabel="label"
+                bindValue="value"
+                [ngModel]="getPropertyValue(prop.name)"
+                [disabled]="!!prop.readOnly"
+                [size]="Size.XSmall"
+                [clearable]="false"
+                (ngModelChange)="updateProperty(prop.name, $event)"
+              />
             }
 
             @case ('array') {
               <div class="properties-panel__array-info">
                 <span class="properties-panel__icon">📋</span>
-                <span class="properties-panel__array-text"> {{ getPropertyValue(prop.name)?.length || 0 }} items </span>
+                <span class="properties-panel__array-text"> {{ $any(getPropertyValue(prop.name))?.length || 0 }} items </span>
               </div>
             }
 

@@ -1,10 +1,4 @@
-import {
-    Component,
-    ChangeDetectionStrategy,
-    input,
-    Type,
-    computed
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, Type, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopoverPosition } from './popover.types';
 
@@ -24,7 +18,9 @@ import { Injector } from '@angular/core';
   template: `
     <div [class]="containerClasses()">
       <div class="popover__content">
-        <ng-container *ngComponentOutlet="content(); injector: injector(); inputs: componentInputs()"></ng-container>
+        <ng-container
+          *ngComponentOutlet="content(); injector: injector(); inputs: componentInputs()"
+        ></ng-container>
       </div>
     </div>
   `,
@@ -35,16 +31,16 @@ import { Injector } from '@angular/core';
       }
       .popover {
         /* Temel popover stili */
-        @apply z-50 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 p-4 min-w-[200px] transition-all duration-200 opacity-0 scale-95;
+        @apply z-50 min-w-[200px] scale-95 rounded-lg border border-slate-200 bg-white p-4 opacity-0 shadow-xl transition-all duration-200 dark:border-slate-700 dark:bg-slate-800;
 
         /* Görünürlük kontrolü */
         &--visible {
-          @apply opacity-100 scale-100;
+          @apply scale-100 opacity-100;
         }
 
         /* İçerik alanı */
         &__content {
-            @apply flex flex-col;
+          @apply flex flex-col;
         }
       }
     `,

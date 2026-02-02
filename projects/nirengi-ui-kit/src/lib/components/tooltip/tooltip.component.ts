@@ -1,9 +1,4 @@
-import {
-    Component,
-    ChangeDetectionStrategy,
-    input,
-    computed
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TooltipPosition } from './tooltip.types';
 
@@ -31,11 +26,11 @@ import { TooltipPosition } from './tooltip.types';
       }
       .tooltip {
         /* Temel tooltip stili */
-        @apply px-3 py-1.5 text-xs font-medium text-white bg-slate-800 rounded shadow-lg pointer-events-none whitespace-nowrap transition-all duration-200 opacity-0 scale-95;
+        @apply pointer-events-none scale-95 whitespace-nowrap rounded bg-slate-800 px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-200;
 
         /* Görünürlük kontrolü */
         &--visible {
-          @apply opacity-100 scale-100;
+          @apply scale-100 opacity-100;
         }
       }
     `,

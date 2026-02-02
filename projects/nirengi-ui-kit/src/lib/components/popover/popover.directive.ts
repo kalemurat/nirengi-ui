@@ -9,7 +9,7 @@ import {
   ComponentRef,
   Type,
   output,
-  Injector
+  Injector,
 } from '@angular/core';
 import {
   Overlay,
@@ -36,7 +36,7 @@ import { PopoverRef } from './popover.ref';
  *
  * ### 2. Pozisyon Belirleme
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
  *   [nirengiPopoverPosition]="PopoverPosition.Right">
  *   Sağda Aç
@@ -46,7 +46,7 @@ import { PopoverRef } from './popover.ref';
  * ### 3. Input Gönderme
  * Render edilen componente veri göndermek için `nirengiPopoverInputs` kullanın.
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
  *   [nirengiPopoverInputs]="{ user: currentUser, title: 'Profil' }">
  *   Profil Detayı
@@ -64,7 +64,7 @@ import { PopoverRef } from './popover.ref';
  * Render edilen componentten gelen eventleri dinlemek için `nirengiPopoverOutput` kullanın.
  * Component içinde `PopoverRef.emit()` metodunu kullanarak event gönderebilirsiniz.
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
  *   (nirengiPopoverOutput)="handlePopoverEvent($event)">
  *   İşlem Yap
@@ -77,11 +77,11 @@ import { PopoverRef } from './popover.ref';
  *     console.log('Kaydedildi:', event.data);
  *   }
  * }
- * 
+ *
  * // Content Component (Inside Popover)
  * export class MyContentComponent {
  *   private popoverRef = inject(PopoverRef);
- *   
+ *
  *   save() {
  *     this.popoverRef.emit('save', { id: 123 });
  *   }
@@ -93,7 +93,7 @@ import { PopoverRef } from './popover.ref';
  * ```typescript
  * export class MyContentComponent {
  *   private popoverRef = inject(PopoverRef);
- *   
+ *
  *   close() {
  *     this.popoverRef.close(); // İsteğe bağlı result dönebilir
  *   }
@@ -102,7 +102,7 @@ import { PopoverRef } from './popover.ref';
  *
  * ### 6. Dışarı Tıklama ile Kapanmayı Engelleme
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
  *   [nirengiPopoverCloseOnOutsideClick]="false">
  *   Kalıcı Popover
@@ -135,7 +135,7 @@ export class PopoverDirective implements OnDestroy {
    * Popover içerik component'ine geçilecek inputlar.
    */
   readonly nirengiPopoverInputs = input<Record<string, unknown>>({});
-  
+
   /**
    * Popover açıldığında tetiklenir
    */
@@ -168,11 +168,11 @@ export class PopoverDirective implements OnDestroy {
         this.popoverRef.setInput('content', this.nirengiPopover());
         this.popoverRef.setInput('position', this.nirengiPopoverPosition());
         this.popoverRef.setInput('componentInputs', this.nirengiPopoverInputs());
-        
+
         // Pozisyon değişirse stratejiyi güncellemek gerekebilir (updatePositionStrategy)
         // Ancak OverlayRef yok edilip tekrar oluşturulmadıkça position strategy statiktir.
         if (this.overlayRef) {
-             this.overlayRef.updatePosition();
+          this.overlayRef.updatePosition();
         }
       }
     });
@@ -209,31 +209,29 @@ export class PopoverDirective implements OnDestroy {
 
     // Backdrop click ile kapatma
     if (closeOnOutside) {
-        this.overlayRef.backdropClick().subscribe(() => {
-          this.close();
-        });
+      this.overlayRef.backdropClick().subscribe(() => {
+        this.close();
+      });
     }
 
     const popoverRef = new PopoverRef(this.overlayRef);
-    
+
     // PopoverRef'i inject etmek için özel injector oluştur
     const customInjector = Injector.create({
-        providers: [
-            { provide: PopoverRef, useValue: popoverRef }
-        ],
-        parent: this.injector
+      providers: [{ provide: PopoverRef, useValue: popoverRef }],
+      parent: this.injector,
     });
-    
+
     // PopoverRef üzerinden kapatma isteğini dinle
     // (Render edilen component popoverRef.close() çağırdığında)
     popoverRef.afterClosed().subscribe(() => {
-        // Overlay zaten dispose edildi, sadece local state temizliği yap
-        this.destroyPopover();
+      // Overlay zaten dispose edildi, sadece local state temizliği yap
+      this.destroyPopover();
     });
 
     // PopoverRef üzerinden gelen eventleri dinle ve dışarı aktar
-    popoverRef.events$.subscribe(event => {
-        this.nirengiPopoverOutput.emit(event);
+    popoverRef.events$.subscribe((event) => {
+      this.nirengiPopoverOutput.emit(event);
     });
 
     const popoverPortal = new ComponentPortal(PopoverComponent);
@@ -260,29 +258,29 @@ export class PopoverDirective implements OnDestroy {
 
     if (this.popoverRef) {
       this.popoverRef.setInput('visible', false);
-      
+
       setTimeout(() => {
-          this.destroyPopover();
+        this.destroyPopover();
       }, 200);
     }
   }
-  
+
   private destroyPopover(): void {
-      if (this.overlayRef) {
-          // Eğer dışarıdan close çağrıldıysa ve ref hala varsa
-          if (this.overlayRef.hasAttached()) {
-             this.overlayRef.detach();
-             this.overlayRef.dispose();
-          }
-          this.overlayRef = null;
+    if (this.overlayRef) {
+      // Eğer dışarıdan close çağrıldıysa ve ref hala varsa
+      if (this.overlayRef.hasAttached()) {
+        this.overlayRef.detach();
+        this.overlayRef.dispose();
       }
-      this.popoverRef = null;
-      
-      // Sadece görünür durumdaysa emit et (tekrarı önlemek için)
-      if (this.isVisible) {
-          this.isVisible = false;
-          this.popoverClosed.emit();
-      }
+      this.overlayRef = null;
+    }
+    this.popoverRef = null;
+
+    // Sadece görünür durumdaysa emit et (tekrarı önlemek için)
+    if (this.isVisible) {
+      this.isVisible = false;
+      this.popoverClosed.emit();
+    }
   }
 
   ngOnDestroy(): void {
@@ -304,38 +302,118 @@ export class PopoverDirective implements OnDestroy {
   private getPositions(position: PopoverPosition): ConnectionPositionPair[] {
     // Offset (gap) between trigger and popover
     const offset = 8;
-    
+
     switch (position) {
       case PopoverPosition.Top:
-        return [{ originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -offset }];
+        return [
+          {
+            originX: 'center',
+            originY: 'top',
+            overlayX: 'center',
+            overlayY: 'bottom',
+            offsetY: -offset,
+          },
+        ];
       case PopoverPosition.TopStart:
-        return [{ originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'top',
+            overlayX: 'start',
+            overlayY: 'bottom',
+            offsetY: -offset,
+          },
+        ];
       case PopoverPosition.TopEnd:
-        return [{ originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -offset }];
-        
+        return [
+          { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -offset },
+        ];
+
       case PopoverPosition.Bottom:
-        return [{ originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: offset }];
+        return [
+          {
+            originX: 'center',
+            originY: 'bottom',
+            overlayX: 'center',
+            overlayY: 'top',
+            offsetY: offset,
+          },
+        ];
       case PopoverPosition.BottomStart:
-        return [{ originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'bottom',
+            overlayX: 'start',
+            overlayY: 'top',
+            offsetY: offset,
+          },
+        ];
       case PopoverPosition.BottomEnd:
-        return [{ originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: offset }];
+        return [
+          { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: offset },
+        ];
 
       case PopoverPosition.Left:
-        return [{ originX: 'start', originY: 'center', overlayX: 'end', overlayY: 'center', offsetX: -offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'center',
+            overlayX: 'end',
+            overlayY: 'center',
+            offsetX: -offset,
+          },
+        ];
       case PopoverPosition.LeftStart:
-        return [{ originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top', offsetX: -offset }];
+        return [
+          { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top', offsetX: -offset },
+        ];
       case PopoverPosition.LeftEnd:
-        return [{ originX: 'start', originY: 'bottom', overlayX: 'end', overlayY: 'bottom', offsetX: -offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'bottom',
+            overlayX: 'end',
+            overlayY: 'bottom',
+            offsetX: -offset,
+          },
+        ];
 
       case PopoverPosition.Right:
-        return [{ originX: 'end', originY: 'center', overlayX: 'start', overlayY: 'center', offsetX: offset }];
+        return [
+          {
+            originX: 'end',
+            originY: 'center',
+            overlayX: 'start',
+            overlayY: 'center',
+            offsetX: offset,
+          },
+        ];
       case PopoverPosition.RightStart:
-        return [{ originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: offset }];
+        return [
+          { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: offset },
+        ];
       case PopoverPosition.RightEnd:
-        return [{ originX: 'end', originY: 'bottom', overlayX: 'start', overlayY: 'bottom', offsetX: offset }];
+        return [
+          {
+            originX: 'end',
+            originY: 'bottom',
+            overlayX: 'start',
+            overlayY: 'bottom',
+            offsetX: offset,
+          },
+        ];
 
       default:
-        return [{ originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: offset }];
+        return [
+          {
+            originX: 'center',
+            originY: 'bottom',
+            overlayX: 'center',
+            overlayY: 'top',
+            offsetY: offset,
+          },
+        ];
     }
   }
 }

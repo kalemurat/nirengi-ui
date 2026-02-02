@@ -1,4 +1,12 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, ElementRef, viewChild } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  output,
+  signal,
+  ElementRef,
+  viewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, ButtonType } from '../button/button.component';
 import { Size } from '../../common/enums/size.enum';
@@ -6,16 +14,16 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
  * File Upload Component
- * 
+ *
  * Supports drag & drop and click to upload.
  * Can handle single or multiple files.
  * Provides a remove button for each file and a 'clear all' option.
- * 
+ *
  * @example
- * <nui-file-upload 
- *   [multiple]="true" 
- *   accept=".png,.jpg" 
- *   (fileSelected)="onFilesSelected($event)" 
+ * <nui-file-upload
+ *   [multiple]="true"
+ *   accept=".png,.jpg"
+ *   (fileSelected)="onFilesSelected($event)"
  * />
  */
 @Component({
@@ -24,7 +32,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
   imports: [CommonModule, ButtonComponent],
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileUploadComponent {
   protected readonly Size = Size;
@@ -96,14 +104,14 @@ export class FileUploadComponent {
   readonly filesCleared = output<File[]>();
 
   /**
-   * Deprecated: Use fileDeleted or filesCleared instead if possible, 
+   * Deprecated: Use fileDeleted or filesCleared instead if possible,
    * but kept for compatibility or different use case (remaining files).
    * Emitted when a file is removed (returns remaining files).
    */
   readonly fileRemoved = output<File[]>();
 
-  /** 
-   * Internal reference to the file input element 
+  /**
+   * Internal reference to the file input element
    */
   readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
 
@@ -169,24 +177,24 @@ export class FileUploadComponent {
    * Processes selected files, updates signals and emits events
    */
   private handleFiles(fileList: FileList): void {
-    let newFiles = Array.from(fileList);
+    const newFiles = Array.from(fileList);
 
     if (!this.multiple()) {
       // If not multiple, replace existing file
       this.files.set([newFiles[0]]);
     } else {
       // If multiple, append or replace? Usually append in UI, but standard input replaces.
-      // Let's implement append logic for better UX in typical drag-drop scenarios, 
+      // Let's implement append logic for better UX in typical drag-drop scenarios,
       // but ensure we don't duplicate if needed. For now, let's append.
       // Actually, standard input behavior is new selection replaces old unless we implement a custom store.
       // Let's implement append for drag & drop and "add more" feel.
-      this.files.update(current => [...current, ...newFiles]);
+      this.files.update((current) => [...current, ...newFiles]);
     }
 
     this.fileSelected.emit(this.files());
-    
+
     // Reset input value to allow selecting the same file again if needed (and if we cleared it)
-    // But since we are showing the list, usually we keep it. 
+    // But since we are showing the list, usually we keep it.
     // However, if we remove a file, we can't easily remove it from the input.files FileList (it's read-only).
     // So usually we use the input just as a trigger and manage state in `files` signal.
     // To allow re-selecting the same file after removing it, we should clear value.
@@ -200,11 +208,11 @@ export class FileUploadComponent {
     event.stopPropagation();
     if (this.disabled()) return;
 
-    this.files.update(params => params.filter(f => f !== fileToRemove));
-    
+    this.files.update((params) => params.filter((f) => f !== fileToRemove));
+
     // Emit the removed file
     this.fileDeleted.emit(fileToRemove);
-    
+
     // Emit remaining files
     this.fileRemoved.emit(this.files());
     this.fileSelected.emit(this.files());
@@ -215,10 +223,10 @@ export class FileUploadComponent {
    */
   clearFiles(): void {
     if (this.disabled()) return;
-    
+
     const filesToClear = this.files();
     this.files.set([]);
-    
+
     this.filesCleared.emit(filesToClear);
     this.fileRemoved.emit([]);
     this.fileSelected.emit([]);

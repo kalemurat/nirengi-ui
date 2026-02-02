@@ -18,21 +18,22 @@ import { ParagraphComponent } from '../paragraph/paragraph.component';
   template: `
     <div class="flex flex-col gap-4">
       <nui-paragraph>
-        This content is rendered from a standalone component.
-        Received ID: {{ data?.id }}
+        This content is rendered from a standalone component. Received ID: {{ data?.id }}
       </nui-paragraph>
-      
-      <div class="flex justify-end gap-2 mt-4">
+
+      <div class="mt-4 flex justify-end gap-2">
         <nui-button [variant]="ColorVariant.Neutral" (clicked)="close()">Cancel</nui-button>
-        <nui-button [variant]="ColorVariant.Primary" (clicked)="close('confirmed')">Confirm</nui-button>
+        <nui-button [variant]="ColorVariant.Primary" (clicked)="close('confirmed')"
+          >Confirm</nui-button
+        >
       </div>
     </div>
-  `
+  `,
 })
 export class ModalTestContentComponent {
   modalRef = inject(MODAL_REF);
   data = inject(MODAL_DATA, { optional: true });
-  
+
   HeadingLevel = HeadingLevel;
   ColorVariant = ColorVariant;
 
@@ -55,17 +56,25 @@ export class ModalTestContentComponent {
       <nui-modal-container />
 
       <nui-heading [level]="HeadingLevel.H2">Modal Examples</nui-heading>
-      
+
       <div class="flex flex-wrap gap-4">
         <nui-button (clicked)="openComponent()">Open Component</nui-button>
         <nui-button (clicked)="openTemplate(tpl)">Open Template</nui-button>
-        <nui-button [variant]="ColorVariant.Info" (clicked)="openWithIcon()">Open With Icon</nui-button>
+        <nui-button [variant]="ColorVariant.Info" (clicked)="openWithIcon()"
+          >Open With Icon</nui-button
+        >
       </div>
 
       <div class="flex flex-wrap gap-4">
-        <nui-button [variant]="ColorVariant.Secondary" (clicked)="openSize(ModalSize.Small)">Small</nui-button>
-        <nui-button [variant]="ColorVariant.Secondary" (clicked)="openSize(ModalSize.Large)">Large</nui-button>
-        <nui-button [variant]="ColorVariant.Secondary" (clicked)="openSize(ModalSize.Full)">Full Screen</nui-button>
+        <nui-button [variant]="ColorVariant.Secondary" (clicked)="openSize(ModalSize.Small)"
+          >Small</nui-button
+        >
+        <nui-button [variant]="ColorVariant.Secondary" (clicked)="openSize(ModalSize.Large)"
+          >Large</nui-button
+        >
+        <nui-button [variant]="ColorVariant.Secondary" (clicked)="openSize(ModalSize.Full)"
+          >Full Screen</nui-button
+        >
       </div>
 
       <!-- Template for testing -->
@@ -73,16 +82,18 @@ export class ModalTestContentComponent {
         <div class="flex flex-col gap-4">
           <p>This is a template content. Data: {{ data | json }}</p>
           <div class="flex justify-end">
-             <nui-button [variant]="ColorVariant.Neutral" (clicked)="closeAll()">Close All</nui-button>
+            <nui-button [variant]="ColorVariant.Neutral" (clicked)="closeAll()"
+              >Close All</nui-button
+            >
           </div>
         </div>
       </ng-template>
     </div>
-  `
+  `,
 })
 export class ModalDemoComponent {
   private modalService = inject(MODAL_SERVICE);
-  
+
   HeadingLevel = HeadingLevel;
   ColorVariant = ColorVariant;
   ModalSize = ModalSize;
@@ -90,7 +101,7 @@ export class ModalDemoComponent {
   openComponent() {
     const ref = this.modalService.open(ModalTestContentComponent, {
       title: 'Component Modal',
-      data: { id: 123 }
+      data: { id: 123 },
     });
 
     ref.afterClosedPromise.then((result: any) => {
@@ -101,7 +112,7 @@ export class ModalDemoComponent {
   openTemplate(tpl: TemplateRef<any>) {
     this.modalService.open(tpl, {
       title: 'Template Modal',
-      data: { info: 'some info' }
+      data: { info: 'some info' },
     });
   }
 
@@ -109,14 +120,14 @@ export class ModalDemoComponent {
     this.modalService.open(ModalTestContentComponent, {
       title: 'System Alert',
       icon: 'BellRing',
-      data: { id: 'alert-01' }
+      data: { id: 'alert-01' },
     });
   }
 
   openSize(size: ModalSize) {
     this.modalService.open(ModalTestContentComponent, {
       size: size,
-      title: `${size} Modal`
+      title: `${size} Modal`,
     });
   }
 

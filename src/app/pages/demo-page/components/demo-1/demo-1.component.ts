@@ -1,19 +1,27 @@
-import { ChangeDetectionStrategy, Component, computed, input, viewChild, TemplateRef, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  viewChild,
+  TemplateRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-    TableComponent,
-    TableColumn,
-    BadgeComponent,
-    ButtonComponent,
-    Size,
-    ColorVariant,
-    ButtonType,
-    BadgeType,
-    BadgeShape,
-    MODAL_SERVICE,
-    ModalSize,
-    SelectComponent,
-    TextboxComponent
+  TableComponent,
+  TableColumn,
+  BadgeComponent,
+  ButtonComponent,
+  Size,
+  ColorVariant,
+  ButtonType,
+  BadgeType,
+  BadgeShape,
+  MODAL_SERVICE,
+  ModalSize,
+  SelectComponent,
+  TextboxComponent,
 } from 'nirengi-ui-kit';
 import { FormsModule } from '@angular/forms';
 
@@ -42,7 +50,7 @@ interface DemoData {
     ButtonComponent,
     SelectComponent,
     TextboxComponent,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './demo-1.component.html',
   styleUrl: './demo-1.component.scss',
@@ -91,14 +99,38 @@ export class Demo1Component {
       const roles = ['Admin', 'Editor', 'Viewer', 'Moderator', 'Guest'];
       const statuses = [true, false];
       const names = [
-        'Alice Johnson', 'Bob Smith', 'Charlie Brown', 'Diana Ross', 'Edward Norton',
-        'Frank Castle', 'Grace Hopper', 'Harry Potter', 'Iris West', 'Jack Ryan',
-        'Kevin Hart', 'Laura Croft', 'Mike Ross', 'Nancy Drew', 'Oscar Wilde',
-        'Peter Parker', 'Quinn Fabray', 'Rachel Green', 'Steve Rogers', 'Tony Stark',
-        'Ursula K. Le Guin', 'Victor Hugo', 'Wanda Maximoff', 'Xena Warrior', 'Yennefer Vengerberg',
-        'Zorro Mask', 'Arthur Curry', 'Barry Allen', 'Clark Kent', 'Bruce Wayne'
+        'Alice Johnson',
+        'Bob Smith',
+        'Charlie Brown',
+        'Diana Ross',
+        'Edward Norton',
+        'Frank Castle',
+        'Grace Hopper',
+        'Harry Potter',
+        'Iris West',
+        'Jack Ryan',
+        'Kevin Hart',
+        'Laura Croft',
+        'Mike Ross',
+        'Nancy Drew',
+        'Oscar Wilde',
+        'Peter Parker',
+        'Quinn Fabray',
+        'Rachel Green',
+        'Steve Rogers',
+        'Tony Stark',
+        'Ursula K. Le Guin',
+        'Victor Hugo',
+        'Wanda Maximoff',
+        'Xena Warrior',
+        'Yennefer Vengerberg',
+        'Zorro Mask',
+        'Arthur Curry',
+        'Barry Allen',
+        'Clark Kent',
+        'Bruce Wayne',
       ];
-      
+
       const randomName = names[i % names.length];
       const randomRole = roles[i % roles.length];
       const randomStatus = statuses[i % statuses.length];
@@ -109,14 +141,14 @@ export class Demo1Component {
         name: `${randomName} ${Math.floor(i / names.length) + 1}`, // Ensure uniqueness
         role: randomRole,
         status: randomStatus,
-        joinDate: date
+        joinDate: date,
       };
     });
 
     if (cat === 'users') return baseData;
     if (cat === 'settings') return baseData.slice(0, 5); // Show fewer for settings
     if (cat === 'reports') return [...baseData].reverse(); // Just reverse for variety
-    
+
     return baseData;
   });
 
@@ -126,12 +158,12 @@ export class Demo1Component {
   readonly statusOptions = computed(() => {
     // Get unique status values
     const data = this.tableData();
-    const statuses = Array.from(new Set(data.map(d => d.status)));
-    
+    const statuses = Array.from(new Set(data.map((d) => d.status)));
+
     // Map to objects for select component
-    return statuses.map(s => ({
+    return statuses.map((s) => ({
       label: s ? 'Active' : 'Passive',
-      value: s
+      value: s,
     }));
   });
 
@@ -140,13 +172,16 @@ export class Demo1Component {
    * @param selectedValues Array of selected status booleans
    * @param filterFn The filter function from the table template context
    */
-  onStatusFilterChange(selectedValues: boolean[], filterFn: (field: string, value: any, matchMode: string) => void): void {
+  onStatusFilterChange(
+    selectedValues: boolean[],
+    filterFn: (field: string, value: any, matchMode: string) => void
+  ): void {
     // If no selection or empty array, clear filter
     if (!selectedValues || selectedValues.length === 0) {
       filterFn('status', null, 'equals');
       return;
     }
-    
+
     // For single boolean it's 'equals', but for multi-select we need a custom logic.
     // However, the standard table filter simple implementation might only support single value check in 'equals' mode.
     // If the table 'matches' function supports arrays or if we need a custom match mode, we would need to check table component capability.
@@ -176,7 +211,7 @@ export class Demo1Component {
     //
     // Let's modify TableComponent (it's in the kit) to support 'in' matchMode or Array checking.
     // I will first implement the usage in Demo1Component assuming support, then update TableComponent.
-    
+
     // Usage: Pass array of values, use matchMode 'in' (which I will add).
     filterFn('status', selectedValues, 'in');
   }
@@ -186,9 +221,12 @@ export class Demo1Component {
    * @param event The input event
    * @param filterFn The filter function
    */
-  onNameFilterChange(event: Event, filterFn: (field: string, value: any, matchMode: string) => void): void {
-      const val = (event.target as HTMLInputElement).value;
-      filterFn('name', val, 'contains');
+  onNameFilterChange(
+    event: Event,
+    filterFn: (field: string, value: any, matchMode: string) => void
+  ): void {
+    const val = (event.target as HTMLInputElement).value;
+    filterFn('name', val, 'contains');
   }
 
   /**
@@ -201,7 +239,7 @@ export class Demo1Component {
       this.modalService.open(tpl, {
         title: 'User Details',
         data: item,
-        size: ModalSize.Medium
+        size: ModalSize.Medium,
       });
     }
   }
@@ -211,7 +249,7 @@ export class Demo1Component {
    * @param item - Item to delete
    */
   deleteItem(item: DemoData): void {
-     console.log('Delete item:', item);
+    console.log('Delete item:', item);
   }
 
   /**

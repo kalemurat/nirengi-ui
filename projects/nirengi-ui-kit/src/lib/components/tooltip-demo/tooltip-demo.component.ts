@@ -13,7 +13,9 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
   standalone: true,
   imports: [CommonModule, TooltipDirective, ButtonComponent],
   template: `
-    <div class="flex items-center justify-center p-20 bg-slate-50 rounded-lg border border-slate-200">
+    <div
+      class="flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 p-20"
+    >
       <nui-button
         [nirengiTooltip]="tooltipText()"
         [nirengiTooltipPosition]="tooltipPosition()"

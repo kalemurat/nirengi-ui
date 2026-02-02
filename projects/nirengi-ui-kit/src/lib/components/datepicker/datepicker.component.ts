@@ -321,7 +321,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
    */
   selectDate(date: Date) {
     const mode = this.selectionMode();
-    let currentVal = this.value();
+    const currentVal = this.value();
 
     // Preserve time if time selection is enabled
     if (this.withTime()) {
