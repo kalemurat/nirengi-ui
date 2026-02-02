@@ -50,9 +50,10 @@
           <tbody class="nui-table__body">
             <tr
               *cdkVirtualFor="let item of viewData(); templateCacheSize: 0"
-              class="nui-table__row"
-              [ngClass]="rowHeightClass()"
+              class="nui-table__row nui-table__row--body"
+              [ngClass]="[rowHeightClass(), 'cursor-pointer']"
               [style.height.px]="itemSize()"
+              (click)="rowClick.emit(item)"
             >
               @if (rowTemplate()) {
                 <ng-container *ngTemplateOutlet="rowTemplate(); context: { $implicit: item }"></ng-container>
@@ -100,7 +101,11 @@
         </thead>
         <tbody class="nui-table__body">
           @for (item of viewData(); track getTrackByValue($index, item)) {
-            <tr class="nui-table__row" [ngClass]="rowHeightClass()">
+            <tr
+              class="nui-table__row nui-table__row--body"
+              [ngClass]="[rowHeightClass(), 'cursor-pointer']"
+              (click)="rowClick.emit(item)"
+            >
               @if (rowTemplate()) {
                 <ng-container *ngTemplateOutlet="rowTemplate(); context: { $implicit: item }"></ng-container>
               } @else if (columns().length) {

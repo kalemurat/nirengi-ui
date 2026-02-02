@@ -183,10 +183,31 @@ export class TableComponent<T> {
   pageChange = output<number | string>();
 
   /**
+   * Sayfa başına kayıt sayısı (pageSize) değiştiğinde tetiklenir.
+   */
+  pageSizeChange = output<number>();
+
+  /**
    * Global filtreleme değeri değiştiğinde tetiklenir.
    * Backend tarafında filtreleme yapmak için kullanılabilir.
    */
   globalFilterChange = output<string>();
+
+  /**
+   * Filtreleme değerleri (global veya sütun bazlı) değiştiğinde tetiklenir.
+   * Tüm aktif filtreleri nesne olarak döner.
+   */
+  filterChange = output<{ global: string; columns: Record<string, FilterMetadata> }>();
+
+  /**
+   * Bir satıra tıklandığında tetiklenir.
+   */
+  rowClick = output<T>();
+
+  /**
+   * Sütun sıralaması değiştiğinde tetiklenir.
+   */
+  sortChange = output<{ field: string; order: 'asc' | 'desc' | null }>();
 
   // Content Children
 
@@ -451,6 +472,7 @@ export class TableComponent<T> {
     }));
     // Reset page to 1 on filter trigger
     this.currentPage.set(1);
+    this.filterChange.emit(this.currentFilters());
   }
 
   /**
@@ -461,6 +483,7 @@ export class TableComponent<T> {
     this.globalFilterState.set(value);
     this.currentPage.set(1);
     this.globalFilterChange.emit(value);
+    this.filterChange.emit(this.currentFilters());
   }
 
   /**
@@ -483,6 +506,7 @@ export class TableComponent<T> {
     this.pageSize.set(value);
     this.currentPage.set(1);
     this.pageChange.emit(1); // Reset to p1
+    this.pageSizeChange.emit(value);
   }
 
   private matches(value: any, filter: any, mode: FilterMatchMode): boolean {

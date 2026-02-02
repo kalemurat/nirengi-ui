@@ -128,9 +128,29 @@
       "payloadDescription": "Sayfa değiştiğinde tetiklenir (Page number)."
     },
     {
+      "name": "pageSizeChange",
+      "label": "Page Size Change",
+      "payloadDescription": "Sayfa boyutu değiştiğinde tetiklenir (Yeni sayfa boyutu)."
+    },
+    {
       "name": "globalFilterChange",
       "label": "Global Filter Change",
       "payloadDescription": "Global arama yapıldığında tetiklenir (Arama metni)."
+    },
+    {
+      "name": "filterChange",
+      "label": "Filter Change",
+      "payloadDescription": "Herhangi bir filtre değiştiğinde tetiklenir (Filtre durum nesnesi)."
+    },
+    {
+      "name": "rowClick",
+      "label": "Row Click",
+      "payloadDescription": "Satıra tıklandığında tetiklenir (Satır verisi)."
+    },
+    {
+      "name": "sortChange",
+      "label": "Sort Change",
+      "payloadDescription": "Sıralama değiştiğinde tetiklenir (Alan adı ve sıralama yönü)."
     }
   ],
   "examples": [
