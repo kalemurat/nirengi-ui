@@ -1,12 +1,12 @@
 // Button Component Styles
-// BEM + Tailwind metodolojisi ile tasarlanmıştır.
+// Designed with BEM + Tailwind methodology.
 //
-// BOYUT YÖNETİMİ:
-// Bu component'in boyutları (height, padding, text-size, gap)
-// merkezi olarak `tailwind.config.js` dosyasından yönetilir.
-// theme.extend.height içinde 'component-xs', 'component-sm', vb. custom değerler tanımlıdır.
-// Değişiklik yaparken tailwind.config.js > theme > extend > height değerlerini kullanın.
-// Bu sayede tüm UI Kit componentleri (Button, Input, Select, Badge) tutarlı kalır.
+// SIZE MANAGEMENT:
+// The sizes of this component (height, padding, text-size, gap)
+// are managed centrally from the `tailwind.config.js` file.
+// Custom values like 'component-xs', 'component-sm', etc. are defined in theme.extend.height.
+// Use tailwind.config.js > theme > extend > height values when making changes.
+// This ensures that all UI Kit components (Button, Input, Select, Badge) remain consistent.
 
 .nui-button {
   // Base styles
@@ -18,7 +18,7 @@
 
   // ============================================================================
   // SIZE VARIANTS
-  // Boyutlar tailwind.config.js'deki theme.extend.height'tan gelir
+  // Sizes come from theme.extend.height in tailwind.config.js
   // ============================================================================
 
   &--xs {

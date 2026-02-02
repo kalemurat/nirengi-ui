@@ -1,36 +1,36 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  TemplateRef,
-  computed,
-  input,
-  model,
+    ChangeDetectionStrategy,
+    Component,
+    TemplateRef,
+    computed,
+    input,
+    model,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { Size } from '../../common/enums/size.enum';
 
 /**
- * Accordion bileşeninin durum varyantları.
+ * Status variants of the Accordion component.
  */
 export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
 
 /**
  * Accordion Component.
- * Başlık ve içerik kısımları `TemplateRef` veya `string` olarak alınabilir.
+ * Title and content sections can be received as `TemplateRef` or `string`.
  *
- * ## Özellikler
+ * ## Features
  * - ✅ Standalone Component
  * - ✅ OnPush Change Detection
  * - ✅ Signal-based state management
- * - ✅ Template projection ve String content desteği
+ * - ✅ Template projection and String content support
  * - ✅ Custom sizing & status
  *
  * @example
  * <!-- String Usage -->
  * <nui-accordion
- *   title="Başlık"
- *   content="İçerik"
+ *   title="Title"
+ *   content="Content"
  *   size="md"
  *   status="primary">
  * </nui-accordion>
@@ -41,8 +41,8 @@ export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'd
  *   [content]="contentTpl">
  * </nui-accordion>
  *
- * <ng-template #titleTpl><strong>Custom Başlık</strong></ng-template>
- * <ng-template #contentTpl>Custom İçerik</ng-template>
+ * <ng-template #titleTpl><strong>Custom Title</strong></ng-template>
+ * <ng-template #contentTpl>Custom Content</ng-template>
  */
 @Component({
   selector: 'nui-accordion',
@@ -54,57 +54,57 @@ export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'd
 })
 export class AccordionComponent {
   /**
-   * Başlık.
-   * TemplateRef veya string olabilir.
+   * Title.
+   * Can be TemplateRef or string.
    */
   title = input.required<string | TemplateRef<any>>();
 
   /**
-   * İçerik.
-   * TemplateRef veya string olabilir.
+   * Content.
+   * Can be TemplateRef or string.
    */
   content = input.required<string | TemplateRef<any>>();
 
   /**
-   * Açık/Kapalı durumu.
-   * Model signal olduğu için iki yönlü binding destekler.
+   * Expanded/Collapsed state.
+   * Supports two-way binding as it is a model signal.
    */
   expanded = model<boolean>(false);
 
   /**
-   * Devre dışı bırakma durumu.
+   * Disabled state.
    */
   disabled = input<boolean>(false);
 
   /**
-   * Bileşen boyutu.
+   * Component size.
    * @default Size.Medium
    */
   size = input<Size | 'sm' | 'md' | 'lg'>(Size.Medium);
 
   /**
-   * Durum rengi/varyantı.
+   * Status color/variant.
    * @default 'default'
    */
   status = input<AccordionStatus>('default');
 
   /**
-   * Unique ID üretimi için random string.
+   * Random string for unique ID generation.
    */
   private readonly uniqueId = Math.random().toString(36).substring(2, 9);
 
   /**
-   * Header elementi ID'si.
+   * Header element ID.
    */
   protected readonly headerId = `accordion-header-${this.uniqueId}`;
 
   /**
-   * Content elementi ID'si.
+   * Content element ID.
    */
   protected readonly contentId = `accordion-content-${this.uniqueId}`;
 
   /**
-   * Container CSS sınıflarını hesaplar.
+   * Calculates container CSS classes.
    */
   protected containerClasses = computed(() => {
     return [
@@ -117,7 +117,7 @@ export class AccordionComponent {
   });
 
   /**
-   * Accordion durumunu değiştirir.
+   * Toggles the accordion state.
    */
   toggle() {
     if (!this.disabled()) {
@@ -126,9 +126,10 @@ export class AccordionComponent {
   }
 
   /**
-   * Değerin TemplateRef olup olmadığını kontrol eder.
+   * Checks if the value is a TemplateRef.
    */
   protected isTemplate(value: any): value is TemplateRef<any> {
     return value instanceof TemplateRef;
   }
 }
+

@@ -1,51 +1,52 @@
 /**
- * UI Kit bileşenleri için standart renk varyantları.
- * Semantik anlamları olan renk temaları sağlar.
+ * Standard color variants for UI Kit components.
+ * Provides color themes with semantic meanings.
  *
  * @example
- * <nui-button [variant]="ColorVariant.Primary">Kaydet</nui-button>
- * <nui-alert [variant]="ColorVariant.Danger">Hata mesajı</nui-alert>
+ * <nui-button [variant]="ColorVariant.Primary">Save</nui-button>
+ * <nui-alert [variant]="ColorVariant.Danger">Error message</nui-alert>
  */
 export enum ColorVariant {
   /**
-   * Birincil renk.
-   * Kullanım: Ana aksiyonlar, primary CTA button'lar, marka rengi.
+   * Primary color.
+   * Usage: Main actions, primary CTA buttons, brand color.
    */
   Primary = 'primary',
 
   /**
-   * İkincil renk.
-   * Kullanım: Secondary aksiyonlar, alternatif button'lar.
+   * Secondary color.
+   * Usage: Secondary actions, alternative buttons.
    */
   Secondary = 'secondary',
 
   /**
-   * Başarı rengi.
-   * Kullanım: Başarılı işlem mesajları, onay durumları, pozitif feedback.
+   * Success color.
+   * Usage: Success messages, confirmation states, positive feedback.
    */
   Success = 'success',
 
   /**
-   * Uyarı rengi.
-   * Kullanım: Dikkat gerektiren durumlar, uyarı mesajları.
+   * Warning color.
+   * Usage: Situations requiring attention, warning messages.
    */
   Warning = 'warning',
 
   /**
-   * Tehlike/Hata rengi.
-   * Kullanım: Hata mesajları, silme aksiyonları, kritik uyarılar.
+   * Danger/Error color.
+   * Usage: Error messages, delete actions, critical warnings.
    */
   Danger = 'danger',
 
   /**
-   * Bilgi rengi.
-   * Kullanım: Bilgilendirme mesajları, ipuçları, yardımcı içerik.
+   * Info color.
+   * Usage: Informational messages, hints, helpful content.
    */
   Info = 'info',
 
   /**
-   * Nötr/Gri renk.
-   * Kullanım: İptal button'ları, devre dışı durumlar, arka plan.
+   * Neutral/Gray color.
+   * Usage: Cancel buttons, disabled states, background.
    */
   Neutral = 'neutral',
 }
+

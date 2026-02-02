@@ -1,10 +1,10 @@
 import {
-  Component,
-  input,
-  forwardRef,
-  computed,
-  effect,
-  ChangeDetectionStrategy,
+    Component,
+    input,
+    forwardRef,
+    computed,
+    effect,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -25,8 +25,8 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  *
  * ## Features
  * - ✅ Signal based ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile class binding
+ * - ✅ OnPush change detection strategy
+ * - ✅ Reactive class binding with computed signals
  * - ✅ Various types (text, password, etc.)
  * - ✅ Label, Hint, and Error message support
  * - ✅ Icon support
@@ -46,6 +46,7 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  *   hint="Invalid password"
  * />
  */
+
 @Component({
   selector: 'nui-textbox',
   standalone: true,

@@ -1,18 +1,18 @@
 // Heading Component Styles
-// BEM + Tailwind metodolojisi ile tasarlanmıştır.
+// Designed with BEM + Tailwind methodology.
 //
 // TYPOGRAPHY:
-// Bu component'in font boyutları Tailwind default typography scale kullanır.
-// Responsive ve semantic başlıklar için tasarlanmıştır.
-
+// This component's font sizes use the Tailwind default typography scale.
+// Designed for responsive and semantic headings.
+ 
 .nui-heading {
   // Base styles
   @apply leading-tight;
   @apply transition-colors duration-200;
-
+ 
   // ============================================================================
   // SIZE VARIANTS
-  // Font boyutları ve line-height değerleri
+  // Font sizes and line-height values
   // ============================================================================
 
   &--xs {

@@ -1,30 +1,30 @@
 import {
-  Directive,
-  ElementRef,
-  HostListener,
-  inject,
-  input,
-  OnDestroy,
-  effect,
-  ComponentRef,
+    Directive,
+    ElementRef,
+    HostListener,
+    inject,
+    input,
+    OnDestroy,
+    effect,
+    ComponentRef,
 } from '@angular/core';
 import {
-  Overlay,
-  OverlayRef,
-  OverlayPositionBuilder,
-  ConnectionPositionPair,
-  PositionStrategy,
+    Overlay,
+    OverlayRef,
+    OverlayPositionBuilder,
+    ConnectionPositionPair,
+    PositionStrategy,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { TooltipComponent } from './tooltip.component';
 import { TooltipPosition } from './tooltip.types';
 
 /**
- * Element üzerine gelindiğinde tooltip gösteren direktif.
- * Angular CDK Overlay kullanarak pozisyonlama yapar.
+ * Directive that shows a tooltip when the element is hovered over.
+ * Uses Angular CDK Overlay for positioning.
  *
  * @example
- * <button [nirengiTooltip]="'İşlemi onayla'" [nirengiTooltipPosition]="TooltipPosition.Top">Onayla</button>
+ * <button [nirengiTooltip]="'Confirm action'" [nirengiTooltipPosition]="TooltipPosition.Top">Confirm</button>
  */
 @Directive({
   selector: '[nirengiTooltip]',
@@ -32,13 +32,13 @@ import { TooltipPosition } from './tooltip.types';
 })
 export class TooltipDirective implements OnDestroy {
   /**
-   * Tooltip metni.
+   * Tooltip text.
    */
   readonly nirengiTooltip = input.required<string>();
 
   /**
-   * Tooltip pozisyonu.
-   * Varsayılan: Top
+   * Tooltip position.
+   * Default: Top
    */
   readonly nirengiTooltipPosition = input<TooltipPosition>(TooltipPosition.Top);
 
@@ -50,39 +50,39 @@ export class TooltipDirective implements OnDestroy {
   private readonly elementRef = inject(ElementRef);
 
   constructor() {
-    // Input değişikliklerini dinle ve güncelle
+    // Listen to input changes and update
     effect(() => {
       if (this.tooltipRef) {
         this.tooltipRef.setInput('text', this.nirengiTooltip());
         this.tooltipRef.setInput('position', this.nirengiTooltipPosition());
-        // Pozisyon değişirse stratejiyi güncellemek gerekebilir ama şimdilik show/hide yeterli
+        // If position changes, position strategy might need updating but show/hide is enough for now
       }
     });
   }
 
   /**
-   * Mouse elementin üzerine geldiğinde çalışır.
+   * Executed when the mouse enters the element.
    */
   @HostListener('mouseenter')
   show(): void {
     if (this.overlayRef) {
-      // Zaten varsa gösterme (veya kapatıp aç)
+      // Don't show if already exists (or close and open)
       return;
     }
 
     const positionStrategy = this.getPositionStrategy();
     this.overlayRef = this.overlay.create({ positionStrategy });
 
-    // Component'i oluştur ve overlay'e ekle
+    // Create the component and attach to overlay
     const tooltipPortal = new ComponentPortal(TooltipComponent);
     this.tooltipRef = this.overlayRef.attach(tooltipPortal);
 
-    // Component inputlarını set et
+    // Set component inputs
     this.tooltipRef.setInput('text', this.nirengiTooltip());
     this.tooltipRef.setInput('position', this.nirengiTooltipPosition());
 
-    // Görünür yap (animasyon için)
-    // setTimeout ile bir sonraki tick'e bırakarak transition'ın çalışmasını sağla
+    // Make visible (for animation)
+    // Leave for the next tick with requestAnimationFrame to ensure the transition works
     requestAnimationFrame(() => {
       if (this.tooltipRef) {
         this.tooltipRef.setInput('visible', true);
@@ -91,13 +91,13 @@ export class TooltipDirective implements OnDestroy {
   }
 
   /**
-   * Mouse elementin üzerinden ayrıldığında çalışır.
+   * Executed when the mouse leaves the element.
    */
   @HostListener('mouseleave')
   hide(): void {
     if (this.tooltipRef) {
       this.tooltipRef.setInput('visible', false);
-      // Animasyonun bitmesini bekle ve sonra yok et
+      // Wait for animation to finish and then destroy
       setTimeout(() => {
         if (this.overlayRef) {
           this.overlayRef.detach();
@@ -105,7 +105,7 @@ export class TooltipDirective implements OnDestroy {
           this.overlayRef = null;
           this.tooltipRef = null;
         }
-      }, 200); // 200ms transition süresi CSS ile uyumlu olmalı
+      }, 200); // 200ms transition time should be consistent with CSS
     }
   }
 
@@ -116,14 +116,14 @@ export class TooltipDirective implements OnDestroy {
   }
 
   /**
-   * Pozisyon stratejisini oluşturur.
+   * Creates the position strategy.
    */
   private getPositionStrategy(): PositionStrategy {
     const position = this.nirengiTooltipPosition();
     const positions: ConnectionPositionPair[] = [];
 
-    // Overlay pozisyonlarını oluştur
-    // Basit bir yaklaşım, daha gelişmişi için ConnectedPosition kullanılabilir
+    // Create overlay positions
+    // Simple approach, for more advanced use ConnectedPosition
     switch (position) {
       case TooltipPosition.Top:
         positions.push({
@@ -131,7 +131,7 @@ export class TooltipDirective implements OnDestroy {
           originY: 'top',
           overlayX: 'center',
           overlayY: 'bottom',
-          offsetY: -8, // Aradaki boşluk
+          offsetY: -8, // Gap between
         });
         break;
       case TooltipPosition.Bottom:
@@ -163,10 +163,10 @@ export class TooltipDirective implements OnDestroy {
         break;
     }
 
-    // Pozisyon stratejisini oluştur
+    // Create position strategy
     return this.positionBuilder
       .flexibleConnectedTo(this.elementRef)
       .withPositions(positions)
-      .withPush(false); // Ekran dışına taşmayı engellemek için true yapılabilir
+      .withPush(false); // Can be set to true to prevent overflow off-screen
   }
 }

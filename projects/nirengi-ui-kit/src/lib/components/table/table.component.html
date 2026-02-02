@@ -8,7 +8,7 @@
           [value]="globalFilterState()"
           (input)="filterGlobal($any($event.target).value)"
           [disabled]="loading()"
-          placeholder="Ara..."
+          placeholder="Search..."
           class="nui-table-toolbar__search-input"
         />
       </div>
@@ -122,8 +122,8 @@
             <tr>
               <td colspan="100%" class="nui-table__empty-cell">
                 <div class="nui-table__empty-content">
-                  <span class="nui-table__empty-title">Kayıt Bulunamadı</span>
-                  <span class="nui-table__empty-text">Arama kriterlerinize uygun veri mevcut değil.</span>
+                  <span class="nui-table__empty-title">No Records Found</span>
+                  <span class="nui-table__empty-text">No data matches your search criteria.</span>
                 </div>
               </td>
             </tr>
@@ -153,10 +153,10 @@
       <!-- Info (Mobile & Desktop) -->
       <div class="nui-table-pagination__info">
         <div>
-          <span class="font-medium">{{ _totalRecords() }}</span> kayıttan
           <span class="font-medium">{{ visibleRange().start }}</span> -
-          <span class="font-medium">{{ visibleRange().end }}</span> arası
-          <span class="hidden sm:inline">gösteriliyor</span>
+          <span class="font-medium">{{ visibleRange().end }}</span> of
+          <span class="font-medium">{{ _totalRecords() }}</span>
+          <span class="hidden sm:inline">showing</span>
         </div>
       </div>
 
@@ -182,7 +182,7 @@
             [ngClass]="paginationButtonClass()"
             class="nui-table-pagination__btn"
           >
-            <span class="sr-only">Önceki</span>
+            <span class="sr-only">Previous</span>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path
                 fill-rule="evenodd"
@@ -217,7 +217,7 @@
             [ngClass]="paginationButtonClass()"
             class="nui-table-pagination__btn"
           >
-            <span class="sr-only">Sonraki</span>
+            <span class="sr-only">Next</span>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path
                 fill-rule="evenodd"

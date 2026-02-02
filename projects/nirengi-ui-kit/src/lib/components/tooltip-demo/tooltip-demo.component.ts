@@ -5,8 +5,8 @@ import { TooltipPosition } from '../tooltip/tooltip.types';
 import { ButtonComponent, ButtonType } from '../button/button.component';
 
 /**
- * Tooltip bileşenini showcase sisteminde göstermek için kullanılan demo bileşeni.
- * Bu bileşen, TooltipDirective'i kullanır ve dışarıdan gelen inputlarla kontrol edilir.
+ * Demo component used to showcase the Tooltip component in the showcase system.
+ * This component uses TooltipDirective and is controlled by external inputs.
  */
 @Component({
   selector: 'nirengi-tooltip-demo',
@@ -21,7 +21,7 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
         [nirengiTooltipPosition]="tooltipPosition()"
         [type]="ButtonType.Solid"
       >
-        Üzerime Gel
+        Hover Over Me
       </nui-button>
     </div>
   `,
@@ -29,15 +29,16 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
 })
 export class TooltipDemoComponent {
   /**
-   * Tooltip içinde gösterilecek metin.
+   * The text to be displayed inside the tooltip.
    */
-  readonly tooltipText = input<string>('Merhaba Dünya!');
+  readonly tooltipText = input<string>('Hello World!');
 
   /**
-   * Tooltip pozisyonu.
+   * Tooltip position.
    */
   readonly tooltipPosition = input<TooltipPosition>(TooltipPosition.Top);
 
-  // Template içinde kullanmak için enum referansı (Gerekirse)
+  // Enum reference for use in the template (if needed)
   readonly ButtonType = ButtonType;
 }
+

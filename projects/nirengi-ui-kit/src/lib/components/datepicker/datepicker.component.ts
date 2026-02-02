@@ -1,33 +1,33 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  forwardRef,
-  input,
-  output,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    effect,
+    forwardRef,
+    input,
+    output,
+    signal,
 } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
-  addMonths,
-  eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  isBefore,
-  isSameDay,
-  isSameMonth,
-  isToday,
-  isValid,
-  isWithinInterval,
-  setHours,
-  setMinutes,
-  startOfMonth,
-  startOfWeek,
-  subMonths,
+    addMonths,
+    eachDayOfInterval,
+    endOfMonth,
+    endOfWeek,
+    format,
+    isBefore,
+    isSameDay,
+    isSameMonth,
+    isToday,
+    isValid,
+    isWithinInterval,
+    setHours,
+    setMinutes,
+    startOfMonth,
+    startOfWeek,
+    subMonths,
 } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { Calendar, ChevronLeft, ChevronRight, Clock, LucideAngularModule } from 'lucide-angular';
@@ -47,49 +47,49 @@ export type DateValues = Date | { start: Date | null; end: Date | null };
 export type DatepickerSelectionMode = 'single' | 'range';
 
 /**
- * Modern datepicker component'i.
- * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
+ * Modern datepicker component.
+ * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ Two-way data binding desteği (ngModel, formControl)
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile reaktif class binding
+ * ## Features
+ * - ✅ Signal-based ControlValueAccessor (NG_VALUE_ACCESSOR)
+ * - ✅ Two-way data binding support (ngModel, formControl)
+ * - ✅ OnPush change detection strategy
+ * - ✅ Reactive class binding with computed signals
  * - ✅ Single & Range selection mode
  * - ✅ Time selection (Hour/Minute)
- * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
- * - ✅ Disabled ve readonly durumları
- * - ✅ WCAG 2.1 AA accessibility standartları
- * - ✅ Keyboard navigation desteği
+ * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
+ * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ Disabled and readonly states
+ * - ✅ WCAG 2.1 AA accessibility standards
+ * - ✅ Keyboard navigation support
  *
  * @example
- * // Reactive Forms ile
- * <n-datepicker [formControl]="dateControl" label="Doğum Tarihi"></n-datepicker>
+ * // With Reactive Forms
+ * <n-datepicker [formControl]="dateControl" label="Birth Date"></n-datepicker>
  *
  * @example
- * // Template-driven Forms ile
- * <n-datepicker [(ngModel)]="selectedDate" label="Tarih Seçiniz"></n-datepicker>
+ * // With Template-driven Forms
+ * <n-datepicker [(ngModel)]="selectedDate" label="Select Date"></n-datepicker>
  *
  * @example
- * // Range selection ile
+ * // With Range selection
  * <n-datepicker
  *   [formControl]="rangeControl"
  *   [selectionMode]="'range'"
- *   label="Tarih Aralığı"></n-datepicker>
+ *   label="Date Range"></n-datepicker>
  *
  * @example
- * // Varyant ve boyut ile
+ * // With variant and size
  * <n-datepicker
  *   [formControl]="dateControl"
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
- *   label="Başlangıç Tarihi"></n-datepicker>
+ *   label="Start Date"></n-datepicker>
  *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
- * @see {@link Size} - Standart boyut değerleri
- * @see {@link ColorVariant} - Renk varyantları
+ * @see {@link Size} - Standard size values
+ * @see {@link ColorVariant} - Color variants
  */
 @Component({
   selector: 'n-datepicker',
@@ -110,7 +110,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   // --- Inputs ---
 
   readonly label = input<string>('');
-  readonly placeholder = input<string>('Tarih seçiniz');
+  readonly placeholder = input<string>('Select date');
   readonly id = input<string>(`datepicker-${Math.random().toString(36).substr(2, 9)}`);
   readonly minDate = input<Date | null>(null);
   readonly maxDate = input<Date | null>(null);
@@ -118,8 +118,8 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly readonly = input<boolean>(false);
 
   /**
-   * Renk varyantı.
-   * Semantik anlamı olan renk teması sağlar.
+   * Color variant.
+   * Provides a color theme with semantic meaning.
    *
    * @default ColorVariant.Primary
    */
@@ -164,7 +164,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   // --- Internal State ---
 
   /**
-   * Current view date (month/year navigataion).
+   * Current view date (month/year navigation).
    */
   viewDate = signal<Date>(new Date());
 
@@ -214,8 +214,8 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   /**
    * Computed classes for the input element.
-   * BEM metodolojisi ile dynamic class binding yapar.
-   * Reactive olarak güncellenir.
+   * Performs dynamic class binding using BEM methodology.
+   * Updated reactively.
    */
   readonly inputClasses = computed(() => {
     const classes = ['datepicker__input'];
@@ -494,3 +494,4 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     }
   }
 }
+

@@ -1,35 +1,35 @@
 /**
- * UI Kit shadow (gölge) design token'ları.
- * Box-shadow değerleri için kullanılır.
+ * UI Kit shadow design tokens.
+ * Used for box-shadow values.
  *
  * @see https://tailwindcss.com/docs/box-shadow
  */
 
 /**
- * Shadow tanımları arayüzü.
+ * Shadow definitions interface.
  */
 export interface Shadows {
-  /** Gölge yok */
+  /** No shadow */
   none: string;
-  /** Ekstra küçük gölge */
+  /** Extra small shadow */
   xs: string;
-  /** Küçük gölge */
+  /** Small shadow */
   sm: string;
-  /** Orta (varsayılan) gölge */
+  /** Medium (default) shadow */
   md: string;
-  /** Büyük gölge */
+  /** Large shadow */
   lg: string;
-  /** Ekstra büyük gölge */
+  /** Extra large shadow */
   xl: string;
-  /** 2x büyük gölge */
+  /** 2x large shadow */
   '2xl': string;
-  /** İç gölge */
+  /** Inner shadow */
   inner: string;
 }
 
 /**
- * Varsayılan shadow değerleri.
- * Tailwind CSS shadow sistemini temel alır.
+ * Default shadow values.
+ * Based on Tailwind CSS shadow system.
  */
 export const designTokenShadows: Shadows = {
   none: 'none',

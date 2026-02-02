@@ -1,10 +1,10 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChildren,
-  input,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    contentChildren,
+    input,
+    signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabComponent } from './tab.component';
@@ -12,22 +12,22 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Tabs component'i.
- * Tab'ları dinamik olarak yönetir ve seçilen tab içeriğini gösterir.
+ * Tabs component.
+ * Dynamically manages tabs and displays the content of the selected tab.
  *
- * ## Özellikler
- * - ✅ Standalone ve OnPush
- * - ✅ Signal tabanlı
- * - ✅ BEM ve Tailwind stilleri
+ * ## Features
+ * - ✅ Standalone and OnPush
+ * - ✅ Signal-based
+ * - ✅ BEM and Tailwind styles
  * - ✅ Accessibility (ARIA)
  *
  * @example
  * <nui-tabs [variant]="ColorVariant.Primary">
- *   <nui-tab label="Genel">
- *     Genel ayarlar içeriği...
+ *   <nui-tab label="General">
+ *     General settings content...
  *   </nui-tab>
- *   <nui-tab label="Gelişmiş">
- *     Gelişmiş ayarlar içeriği...
+ *   <nui-tab label="Advanced">
+ *     Advanced settings content...
  *   </nui-tab>
  * </nui-tabs>
  */
@@ -41,46 +41,46 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 })
 export class TabsComponent {
   /**
-   * Tabs component rengi varyantı.
-   * Aktif tab'ın vurgu rengini belirler.
+   * Tabs component color variant.
+   * Determines the highlight color of the active tab.
    *
    * @default ColorVariant.Primary
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
   /**
-   * Tabs component boyutu.
-   * Header item'larının padding ve font boyutunu belirler.
+   * Tabs component size.
+   * Determines the padding and font size of the header items.
    *
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Tam genişlik modunu etkinleştirir.
-   * Header item'ları eşit genişlikte dağılır.
+   * Enables full width mode.
+   * Header items are distributed with equal width.
    *
    * @default false
    */
   readonly fullWidth = input<boolean>(false);
 
   /**
-   * Child tab component'leri.
-   * Content projection ile gelen n-tab öğelerini yakalar.
+   * Child tab components.
+   * Captures n-tab elements coming from content projection.
    */
   readonly tabs = contentChildren(TabComponent);
 
   /**
-   * Seçili tab index'i.
-   * Varsayılan olarak 0 (ilk tab).
+   * Selected tab index.
+   * Default is 0 (first tab).
    */
   readonly activeIndex = signal<number>(0);
 
   /**
-   * Tab seçimi yapar.
-   * Disabled tab ise işlem yapmaz.
+   * Selects a tab.
+   * No action is taken if the tab is disabled.
    *
-   * @param index Seçilecek tab index'i
+   * @param index Tab index to be selected
    */
   selectTab(index: number): void {
     const tab = this.tabs().at(index);
@@ -90,8 +90,8 @@ export class TabsComponent {
   }
 
   /**
-   * Container CSS class'larını hesaplar.
-   * Boyut, varyant ve fullWidth durumuna göre class listesi döner.
+   * Calculates container CSS classes.
+   * Returns a class list based on size, variant, and fullWidth state.
    */
   protected readonly containerClasses = computed(() => {
     const classes = ['nui-tabs'];
@@ -110,3 +110,4 @@ export class TabsComponent {
     return classes.join(' ');
   });
 }
+

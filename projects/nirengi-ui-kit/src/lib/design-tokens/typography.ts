@@ -1,34 +1,34 @@
 /**
- * UI Kit typography (tipografi) design token'ları.
- * Font aileleri, boyutları, ağırlıkları ve line-height değerleri.
+ * UI Kit typography design tokens.
+ * Font families, sizes, weights, and line-height values.
  *
  * @see https://tailwindcss.com/docs/font-size
  */
 
 /**
- * Font ailesi tanımları.
+ * Font family definitions.
  */
 export interface FontFamily {
-  /** Sans-serif font ailesi */
+  /** Sans-serif font family */
   sans: string[];
-  /** Serif font ailesi */
+  /** Serif font family */
   serif: string[];
-  /** Monospace font ailesi */
+  /** Monospace font family */
   mono: string[];
 }
 
 /**
- * Font boyutu ve line-height birleşimi.
+ * Font size and line-height combination.
  */
 export interface FontSizeConfig {
-  /** Font boyutu (rem veya px) */
+  /** Font size (rem or px) */
   fontSize: string;
   /** Line height */
   lineHeight: string;
 }
 
 /**
- * Font boyutu skalası.
+ * Font size scale.
  */
 export interface FontSizes {
   xs: FontSizeConfig;
@@ -47,7 +47,7 @@ export interface FontSizes {
 }
 
 /**
- * Font ağırlığı değerleri.
+ * Font weight values.
  */
 export interface FontWeights {
   thin: string;
@@ -62,7 +62,7 @@ export interface FontWeights {
 }
 
 /**
- * Varsayılan font aileleri.
+ * Default font families.
  */
 export const designTokenFontFamily: FontFamily = {
   sans: [
@@ -81,8 +81,8 @@ export const designTokenFontFamily: FontFamily = {
 };
 
 /**
- * Varsayılan font boyutları.
- * Tailwind CSS font size sistemini temel alır.
+ * Default font sizes.
+ * Based on the Tailwind CSS font size system.
  */
 export const designTokenFontSizes: FontSizes = {
   xs: { fontSize: '0.75rem', lineHeight: '1rem' },
@@ -101,7 +101,7 @@ export const designTokenFontSizes: FontSizes = {
 };
 
 /**
- * Varsayılan font ağırlıkları.
+ * Default font weights.
  */
 export const designTokenFontWeights: FontWeights = {
   thin: '100',
@@ -114,3 +114,4 @@ export const designTokenFontWeights: FontWeights = {
   extrabold: '800',
   black: '900',
 };
+

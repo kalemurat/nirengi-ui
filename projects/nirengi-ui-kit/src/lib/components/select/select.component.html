@@ -65,13 +65,13 @@
               #searchInput
               type="text"
               class="nui-select__search-input"
-              [placeholder]="'Ara...'"
+              [placeholder]="'Search...'"
               (input)="onSearch($event)"
               (click)="$event.stopPropagation()"
             />
           </div>
         }
-
+ 
         <!-- Options List -->
         <div class="nui-select__options">
           @for (option of filteredOptions(); track trackByFn($index, option)) {
@@ -88,7 +88,7 @@
                 "
               >
               </ng-container>
-
+ 
               <!-- Checkmark for multiple (or single) -->
               @if (isSelected(option)) {
                 <span class="nui-select__option-check">
@@ -97,8 +97,9 @@
               }
             </div>
           } @empty {
-            <div class="nui-select__empty">Sonuç bulunamadı.</div>
+            <div class="nui-select__empty">No results found.</div>
           }
+
         </div>
       </div>
     </ng-template>

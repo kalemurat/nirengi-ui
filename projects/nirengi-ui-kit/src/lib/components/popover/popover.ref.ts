@@ -2,8 +2,8 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { Subject, Observable } from 'rxjs';
 
 /**
- * Popover içinde açılan component'e inject edilen referans nesnesi.
- * Popover'ı kapatmak veya veri döndürmek için kullanılır.
+ * Reference object injected into the component opened within a popover.
+ * Used to close the popover or return data.
  */
 export class PopoverRef<T = any, R = any> {
   private readonly _afterClosed = new Subject<R | undefined>();
@@ -15,8 +15,8 @@ export class PopoverRef<T = any, R = any> {
   ) {}
 
   /**
-   * Popover'ı kapatır.
-   * @param result Opsiyonel olarak geriye döndürülecek sonuç
+   * Closes the popover.
+   * @param result Optional result to be returned
    */
   close(result?: R): void {
     this._afterClosed.next(result);
@@ -26,25 +26,26 @@ export class PopoverRef<T = any, R = any> {
   }
 
   /**
-   * Popover kapandığında tetiklenen observable.
+   * Observable triggered when the popover is closed.
    */
   afterClosed(): Observable<R | undefined> {
     return this._afterClosed.asObservable();
   }
 
   /**
-   * Component'ten parent'a event göndermek için kullanılır.
-   * @param key Event adı/anahtarı
-   * @param data Event verisi
+   * Used to send events from the component to the parent.
+   * @param key Event name/key
+   * @param data Event data
    */
   emit(key: string, data?: any): void {
     this._events.next({ key, data });
   }
 
   /**
-   * Component'ten gelen eventleri dinleyen observable.
+   * Observable listening to events from the component.
    */
   get events$(): Observable<{ key: string; data: any }> {
     return this._events.asObservable();
   }
 }
+

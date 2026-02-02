@@ -1,16 +1,17 @@
 import { icons } from 'lucide-angular';
 
 /**
- * Tüm mevcut ikonların listesi.
+ * List of all available icons.
  */
 export const ALL_ICONS = icons;
 
 /**
- * İkon isimlerinin tipi.
+ * Type of icon names.
  */
 export type IconName = keyof typeof ALL_ICONS;
 
 /**
- * İkon isimlerinin array hali.
+ * Array form of icon names.
  */
 export const IconNames: IconName[] = Object.keys(ALL_ICONS) as IconName[];
+

@@ -32,18 +32,18 @@ export interface TableColumn {
 }
 
 /**
- * Performans odaklı, esnek ve özelleştirilebilir veri tablosu bileşeni.
- * Filtreleme, sayfalama ve sanal kaydırma (virtual scrolling) özelliklerini destekler.
+ * Performance-oriented, flexible, and customizable data table component.
+ * Supports filtering, pagination, and virtual scrolling features.
  *
- * ## Özellikler
+ * ## Features
  * - ✅ Standalone Component
  * - ✅ OnPush Change Detection
  * - ✅ Signal-based state management
- * - ✅ Sanal Kaydırma (Virtual Scroll) desteği (@angular/cdk/scrolling)
- * - ✅ Özelleştirilebilir Heading ve Row template'leri
- * - ✅ Sütun tabanlı otomatik render desteği (Simple Mode)
- * - ✅ Global ve Sütun bazlı filtreleme
- * - ✅ Debounce destekli filtreleme performans optimizasyonu
+ * - ✅ Virtual Scrolling support (@angular/cdk/scrolling)
+ * - ✅ Customizable Heading and Row templates
+ * - ✅ Column-based automatic rendering support (Simple Mode)
+ * - ✅ Global and Column-based filtering
+ * - ✅ Debounce supported filtering performance optimization
  *
  * @example
  * <nui-table [data]="users" [columns]="[{field: 'name', header: 'Name'}]" [virtualScroll]="true">
@@ -62,93 +62,93 @@ export class TableComponent<T> {
   // Inputs
 
   /**
-   * Tabloda gösterilecek veri listesi.
+   * Data list to be displayed in the table.
    */
   data = input.required<T[]>();
 
   /**
-   * Filtreleme işlemi için bekleme süresi (ms).
-   * Performans için varsayılan olarak 300ms gecikme uygulanır.
+   * Waiting time for filtering process (ms).
+   * For performance, a default delay of 300ms is applied.
    */
   filterDebounce = input<number>(300);
 
   /**
-   * Sanal kaydırma özelliğini açar/kapatır.
-   * Büyük veri setleri için `true` olması önerilir.
+   * Enables/disables the virtual scrolling feature.
+   * Recommended to be `true` for large data sets.
    * @default false
    */
   virtualScroll = input<boolean>(false);
 
   /**
-   * Sanal kaydırma kullanıldığında her bir satırın yüksekliği (px).
+   * Height of each row when virtual scrolling is used (px).
    * @default 48
    */
   itemSize = input<number>(48);
 
   /**
-   * Sanal kaydırma için viewport yüksekliği.
-   * CSS değeri olarak (örn: '400px', '100%').
+   * Viewport height for virtual scrolling.
+   * As a CSS value (e.g., '400px', '100%').
    * @default '400px'
    */
   scrollHeight = input<string>('400px');
 
   /**
-   * Sayfalama özelliğini açar/kapatır.
-   * `virtualScroll` aktif ise bu özellik devre dışı kalır.
+   * Enables/disables the pagination feature.
+   * If `virtualScroll` is active, this feature is disabled.
    * @default true
    */
   pagination = input<boolean>(true);
 
   /**
-   * Sayfa başına gösterilecek kayıt sayısı.
-   * Two-way binding destekler.
+   * Number of records to be shown per page.
+   * Supports two-way binding.
    * @default 10
    */
   pageSize = model<number>(10);
 
   /**
-   * Tablo boyutu.
+   * Table size.
    * 'xs' | 'sm' | 'md' | 'lg' | 'xl'
    * @default Size.Medium
    */
   size = input<Size>(Size.Medium);
 
   /**
-   * Tablo yükleniyor durumunu gösterir.
-   * True olduğunda tablo içeriği blur olur ve loading spinner gösterilir.
-   * Pagination butonları disable olur.
+   * Shows the table loading state.
+   * When true, table content is blurred and a loading spinner is shown.
+   * Pagination buttons are disabled.
    * @default false
    */
   loading = input<boolean>(false);
 
   /**
-   * Sütun tanımları.
-   * Eğer headTemplate/rowTemplate verilmezse bu tanımlara göre otomatik tablo oluşturulur.
+   * Column definitions.
+   * If headTemplate/rowTemplate is not provided, the table is automatically created according to these definitions.
    */
   columns = input<TableColumn[]>([]);
 
   /**
-   * Toplam kayıt sayısı.
-   * Eğer backend tarafında sayfalama yapılıyorsa bu değer verilmelidir.
-   * Verilmezse `data.length` kullanılır.
+   * Total number of records.
+   * If pagination is done on the backend, this value must be provided.
+   * If not provided, `data.length` is used.
    */
   totalRecords = input<number | undefined>(undefined);
 
   /**
-   * Tablo grid (çizgi) görünümü.
-   * - 'none': Çizgi yok
-   * - 'horizontal': Sadece yatay çizgiler
-   * - 'vertical': Sadece dikey çizgiler
-   * - 'both': Hem yatay hem dikey çizgiler
+   * Table grid (line) appearance.
+   * - 'none': No lines
+   * - 'horizontal': Only horizontal lines
+   * - 'vertical': Only vertical lines
+   * - 'both': Both horizontal and vertical lines
    * @default 'horizontal'
    */
   gridLines = input<'none' | 'horizontal' | 'vertical' | 'both'>('horizontal');
 
   /**
-   * Satırları benzersiz şekilde tanımlamak için kullanılan özelliğin (field) adı.
-   * Angular'ın `trackBy` mantığına benzer şekilde çalışır, ancak fonksiyon yerine string path alır.
-   * İç içe veri yollarını destekler (örn: 'user.id').
-   * Verilmezse array index'i kullanılır.
+   * The name of the property (field) used to uniquely identify rows.
+   * Works similarly to Angular's `trackBy` logic, but takes a string path instead of a function.
+   * Supports nested data paths (e.g., 'user.id').
+   * If not provided, array index is used.
    *
    * @example
    * <nui-table trackBy="id" ... />
@@ -157,19 +157,19 @@ export class TableComponent<T> {
   readonly trackBy = input<string>();
 
   /**
-   * Global filtreleme için eşleşme modu.
+   * Matching mode for global filtering.
    * @default 'contains'
    */
   globalFilterMatchMode = input<FilterMatchMode>('contains');
 
   /**
-   * Global filtreleme input alanını gösterip/gizler.
+   * Shows/hides the global filtering input field.
    * @default false
    */
   showGlobalFilter = input<boolean>(false);
 
   /**
-   * Sayfalama için sayfa boyutu seçenekleri.
+   * Page size options for pagination.
    * @default [5, 10, 20, 50]
    */
   pageSizeOptions = input<number[]>([5, 10, 20, 50]);
@@ -177,50 +177,50 @@ export class TableComponent<T> {
   // Outputs
 
   /**
-   * Sayfa değişim eventi.
-   * Backend tabanlı sayfalama için kullanılır.
+   * Page change event.
+   * Used for backend-based pagination.
    */
   pageChange = output<number | string>();
 
   /**
-   * Sayfa başına kayıt sayısı (pageSize) değiştiğinde tetiklenir.
+   * Triggered when the number of records per page (pageSize) changes.
    */
   pageSizeChange = output<number>();
 
   /**
-   * Global filtreleme değeri değiştiğinde tetiklenir.
-   * Backend tarafında filtreleme yapmak için kullanılabilir.
+   * Triggered when the global filtering value changes.
+   * Can be used for filtering on the backend.
    */
   globalFilterChange = output<string>();
 
   /**
-   * Filtreleme değerleri (global veya sütun bazlı) değiştiğinde tetiklenir.
-   * Tüm aktif filtreleri nesne olarak döner.
+   * Triggered when filtering values (global or column-based) change.
+   * Returns all active filters as an object.
    */
   filterChange = output<{ global: string; columns: Record<string, FilterMetadata> }>();
 
   /**
-   * Bir satıra tıklandığında tetiklenir.
+   * Triggered when a row is clicked.
    */
   rowClick = output<T>();
 
   /**
-   * Sütun sıralaması değiştiğinde tetiklenir.
+   * Triggered when column sorting changes.
    */
   sortChange = output<{ field: string; order: 'asc' | 'desc' | null }>();
 
   // Content Children
 
   /**
-   * Tablo başlık şablonu.
-   * Kullanıcı bu template içine <th> elementleri ve filtre inputlarını eklemelidir.
+   * Table header template.
+   * The user should add <th> elements and filter inputs inside this template.
    * Template context: { filter: (field, value, matchMode) => void }
    */
   headTemplate = contentChild<TemplateRef<any>>('headTemplate');
 
   /**
-   * Tablo satır şablonu.
-   * Kullanıcı bu template içine <td> elementlerini ve veri gösterimini eklemelidir.
+   * Table row template.
+   * The user should add <td> elements and data display inside this template.
    * Template context: { $implicit: item }
    */
   rowTemplate = contentChild<TemplateRef<any>>('rowTemplate');
@@ -302,7 +302,7 @@ export class TableComponent<T> {
   });
 
   /**
-   * Toplam sayfa sayısı.
+   * Total number of pages.
    */
   totalPages = computed(() => {
     const total = this._totalRecords();
@@ -312,7 +312,7 @@ export class TableComponent<T> {
   });
 
   /**
-   * Gösterilen kayıt aralığı.
+   * Displayed record range.
    */
   visibleRange = computed(() => {
     const total = this._totalRecords();
@@ -327,8 +327,8 @@ export class TableComponent<T> {
   });
 
   /**
-   * Sayfalama butonları.
-   * Yuvarlak buton yapısı ve ... mantığı.
+   * Pagination buttons.
+   * Circular button structure and '...' logic.
    */
   pages = computed(() => {
     const total = this.totalPages();
@@ -379,7 +379,7 @@ export class TableComponent<T> {
   });
 
   /**
-   * Satır yüksekliği class'ı.
+   * Row height class.
    */
   readonly rowHeightClass = computed(() => {
     switch (this.size()) {
@@ -399,7 +399,7 @@ export class TableComponent<T> {
   });
 
   /**
-   * Sayfalama butonu class'ı.
+   * Pagination button class.
    */
   readonly paginationButtonClass = computed(() => {
     switch (this.size()) {
@@ -444,11 +444,11 @@ export class TableComponent<T> {
   // Methods
 
   /**
-   * Template döngüsü için izleme değeri hesaplar.
-   * trackBy verilmişse ilgili satırın property değerini, verilmemişse index döner.
+   * Calculates the tracking value for the template loop.
+   * If trackBy is provided, it returns the property value of the relevant row, otherwise it returns the index.
    *
-   * @param index Döngü index numarası
-   * @param item Satır verisi
+   * @param index Loop index number
+   * @param item Row data
    */
   getTrackByValue(index: number, item: any): any {
     const key = this.trackBy();
@@ -459,11 +459,11 @@ export class TableComponent<T> {
   }
 
   /**
-   * Sütun bazlı filtreleme uygular.
-   * Template içinde kullanılır.
-   * @param field Filtrelenecek alan adı
-   * @param value Filtre değeri
-   * @param matchMode Eşleşme modu (varsayılan: contains)
+   * Applies column-based filtering.
+   * Used within the template.
+   * @param field Field name to filter
+   * @param value Filter value
+   * @param matchMode Matching mode (default: contains)
    */
   filter(field: string, value: any, matchMode: FilterMatchMode = 'contains') {
     this.filtersState.update((s: Record<string, FilterMetadata>) => ({
@@ -476,8 +476,8 @@ export class TableComponent<T> {
   }
 
   /**
-   * Global filtreleme uygular.
-   * @param value Arama değeri
+   * Applies global filtering.
+   * @param value Search value
    */
   filterGlobal(value: string) {
     this.globalFilterState.set(value);
@@ -487,8 +487,8 @@ export class TableComponent<T> {
   }
 
   /**
-   * Sayfa değiştirir.
-   * @param page Yeni sayfa numarası
+   * Changes the page.
+   * @param page New page number
    */
   setPage(page: number | string) {
     if (typeof page === 'string') return; // Ellipsis handle
@@ -500,7 +500,7 @@ export class TableComponent<T> {
   }
 
   /**
-   * Sayfa boyutunu değiştirir.
+   * Changes the page size.
    */
   onPageSizeChange(value: number) {
     this.pageSize.set(value);
@@ -535,3 +535,4 @@ export class TableComponent<T> {
     }
   }
 }
+

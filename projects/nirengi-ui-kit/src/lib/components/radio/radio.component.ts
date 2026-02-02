@@ -1,10 +1,10 @@
 import {
-  Component,
-  input,
-  forwardRef,
-  effect,
-  computed,
-  ChangeDetectionStrategy,
+    Component,
+    input,
+    forwardRef,
+    effect,
+    computed,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -13,54 +13,54 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Modern radyo butonu bileşeni.
- * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
+ * Modern radio button component.
+ * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ Two-way data binding desteği (ngModel, formControl)
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile reaktif class binding
- * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
- * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ Disabled ve readonly durumları
- * - ✅ Label ve description desteği
- * - ✅ WCAG 2.1 AA accessibility standartları
- * - ✅ Keyboard navigation desteği
- *
- * @example
- * // Reactive Forms ile
- * <nui-radio [formControl]="genderControl" value="male" label="Erkek"></nui-radio>
- * <nui-radio [formControl]="genderControl" value="female" label="Kadın"></nui-radio>
+ * ## Features
+ * - ✅ Signal-based ControlValueAccessor (NG_VALUE_ACCESSOR)
+ * - ✅ Two-way data binding support (ngModel, formControl)
+ * - ✅ OnPush change detection strategy
+ * - ✅ Reactive class binding with computed signals
+ * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
+ * - ✅ Disabled and readonly states
+ * - ✅ Label and description support
+ * - ✅ WCAG 2.1 AA accessibility standards
+ * - ✅ Keyboard navigation support
  *
  * @example
- * // Template-driven Forms ile
- * <nui-radio [(ngModel)]="selectedColor" value="red" label="Kırmızı"></nui-radio>
- * <nui-radio [(ngModel)]="selectedColor" value="blue" label="Mavi"></nui-radio>
+ * // With Reactive Forms
+ * <nui-radio [formControl]="genderControl" value="male" label="Male"></nui-radio>
+ * <nui-radio [formControl]="genderControl" value="female" label="Female"></nui-radio>
  *
  * @example
- * // Label ve description ile
+ * // With Template-driven Forms
+ * <nui-radio [(ngModel)]="selectedColor" value="red" label="Red"></nui-radio>
+ * <nui-radio [(ngModel)]="selectedColor" value="blue" label="Blue"></nui-radio>
+ *
+ * @example
+ * // With label and description
  * <nui-radio
  *   [(ngModel)]="plan"
  *   value="premium"
  *   label="Premium Plan"
- *   description="Tüm özelliklere sınırsız erişim">
+ *   description="Unlimited access to all features">
  * </nui-radio>
  *
  * @example
- * // Varyant ve boyut ile
+ * // With variant and size
  * <nui-radio
  *   [(ngModel)]="status"
  *   value="active"
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
- *   label="Aktif">
+ *   label="Active">
  * </nui-radio>
  *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
- * @see {@link Size} - Standart boyut değerleri
- * @see {@link ColorVariant} - Renk varyantları
+ * @see {@link Size} - Standard size values
+ * @see {@link ColorVariant} - Color variants
  */
 @Component({
   selector: 'nui-radio',
@@ -84,56 +84,56 @@ export class RadioComponent extends ValueAccessorBase<any> {
   readonly inputId = `nui-radio-${Math.random().toString(36).substr(2, 9)}`;
 
   /**
-   * Radyo butonunun değeri.
-   * Model değeri bu değerle eşleştiğinde seçili (checked) olur.
+   * Value of the radio button.
+   * When the model value matches this value, it becomes checked.
    */
   readonly valueInput = input.required<any>({ alias: 'value' });
 
   /**
    * Input name attribute.
-   * Radyo grubu oluşturmak için kullanılır.
+   * Used to create a radio group.
    */
   readonly name = input<string>('');
 
   /**
-   * Renk varyantı.
-   * Semantik anlamı olan renk teması sağlar.
+   * Color variant.
+   * Provides a color theme with semantic meaning.
    *
    * @default ColorVariant.Primary
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
   /**
-   * Boyut.
-   * Radyo butonunun büyüklüğünü ve label font boyutunu belirler.
+   * Size.
+   * Determines the size of the radio button and label font size.
    *
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Readonly durumu.
-   * true olduğunda radyo butonu tıklanamaz ama görsel olarak aktif görünür.
+   * Readonly state.
+   * When true, the radio button is not clickable but appears visually active.
    *
    * @default false
    */
   readonly readonly = input<boolean>(false);
 
   /**
-   * Label metni.
-   * Radyo butonunun yanında gösterilecek ana etiket.
+   * Label text.
+   * Main label to be displayed next to the radio button.
    */
   readonly label = input<string>('');
 
   /**
-   * Description metni.
-   * Label'ın altında gösterilecek açıklayıcı metin.
+   * Description text.
+   * Explanatory text to be displayed below the label.
    */
   readonly description = input<string>('');
 
   /**
-   * Required (zorunlu) durumu.
-   * Form validasyonu için kullanılır.
+   * Required state.
+   * Used for form validation.
    *
    * @default false
    */
@@ -145,16 +145,16 @@ export class RadioComponent extends ValueAccessorBase<any> {
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
   /**
-   * Radyo butonunun seçili olup olmadığını kontrol eden computed signal.
-   * Model değeri (this.value()) ile input değeri (this.valueInput()) karşılaştırılır.
+   * Computed signal that checks if the radio button is selected.
+   * Compares model value (this.value()) with input value (this.valueInput()).
    */
   readonly isChecked = computed(() => {
     return this.value() === this.valueInput();
   });
 
   /**
-   * Ana container için CSS class'larını hesaplayan computed signal.
-   * BEM metodolojisi ile dynamic class binding yapar.
+   * Computed signal to calculate CSS classes for the main container.
+   * Performs dynamic class binding using BEM methodology.
    */
   readonly radioContainerClasses = computed(() => {
     const classes = ['nui-radio'];
@@ -177,7 +177,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   });
 
   /**
-   * Radyo kontrolü (daire) için CSS class'larını hesaplayan computed signal.
+   * Computed signal to calculate CSS classes for the radio control (circle).
    */
   readonly radioControlClasses = computed(() => {
     const classes = ['nui-radio__control'];
@@ -202,7 +202,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   });
 
   /**
-   * Label metni için CSS class'larını hesaplayan computed signal.
+   * Computed signal to calculate CSS classes for the label text.
    */
   readonly labelTextClasses = computed(() => {
     const classes = ['nui-radio__label-text'];
@@ -217,7 +217,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   });
 
   /**
-   * Description metni için CSS class'larını hesaplayan computed signal.
+   * Computed signal to calculate CSS classes for the description text.
    */
   readonly descriptionClasses = computed(() => {
     const classes = ['nui-radio__description'];
@@ -241,8 +241,8 @@ export class RadioComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Radyo butonu change handler'ı.
-   * Seçildiğinde model değerini günceller.
+   * Radio button change handler.
+   * Updates model value when selected.
    *
    * @returns void
    */
@@ -251,15 +251,16 @@ export class RadioComponent extends ValueAccessorBase<any> {
       return;
     }
 
-    // Radio button sadece seçildiğinde değer gönderir
+    // Radio button only sends value when selected
     this.updateValue(this.valueInput());
   }
 
   /**
-   * Blur handler'ı.
-   * Form touched state'ini güncellemek için.
+   * Blur handler.
+   * To update form touched state.
    */
   handleBlur(): void {
     this.markAsTouched();
   }
 }
+

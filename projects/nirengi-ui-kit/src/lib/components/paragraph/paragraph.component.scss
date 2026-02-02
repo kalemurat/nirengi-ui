@@ -1,17 +1,17 @@
 // Paragraph Component Styles
-// BEM + Tailwind metodolojisi ile tasarlanmıştır.
+// Designed with BEM + Tailwind methodology.
 //
 // TYPOGRAPHY:
-// Bu component'in font boyutları Tailwind default typography scale kullanır.
-// Okunabilirlik ve accessibility için tasarlanmıştır.
-
+// This component's font sizes use the Tailwind default typography scale.
+// Designed for readability and accessibility.
+ 
 .nui-paragraph {
   // Base styles
   @apply transition-colors duration-200;
-
+ 
   // ============================================================================
   // SIZE VARIANTS
-  // Font boyutları
+  // Font sizes
   // ============================================================================
 
   &--xs {

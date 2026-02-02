@@ -1,30 +1,30 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  contentChild,
-  input,
-  TemplateRef,
-  viewChild,
+    ChangeDetectionStrategy,
+    Component,
+    contentChild,
+    input,
+    TemplateRef,
+    viewChild,
 } from '@angular/core';
 import { TabLabelDirective } from './tab-label.directive';
 
 /**
- * Tab öğesi component'i.
- * `nui-tabs` component'i içinde kullanılır.
- * İçeriği `ng-content` ile alır ve path-template olarak parent'a sunar.
+ * Tab item component.
+ * Used inside the `nui-tabs` component.
+ * It takes content with `ng-content` and presents it to the parent as a path-template.
  *
  * @example
- * <nui-tab label="Profil">
+ * <nui-tab label="Profile">
  *   <app-profile-settings />
  * </nui-tab>
  *
  * @example
- * <!-- Custom Template ile -->
+ * <!-- With Custom Template -->
  * <nui-tab>
  *   <ng-template nuiTabLabel>
- *      <nui-icon name="user" /> Profil
+ *      <nui-icon name="user" /> Profile
  *   </ng-template>
- *   İçerik...
+ *   Content...
  * </nui-tab>
  */
 @Component({
@@ -35,29 +35,30 @@ import { TabLabelDirective } from './tab-label.directive';
 })
 export class TabComponent {
   /**
-   * Tab başlığı.
-   * Header kısmında görünecek metin.
-   * Eğer `nuiTabLabel` directive kullanılırsa bu değer yok sayılır.
+   * Tab label.
+   * Text to be displayed in the header part.
+   * If the `nuiTabLabel` directive is used, this value is ignored.
    */
   readonly label = input<string>();
 
   /**
-   * Disabled durumu.
-   * true ise tab seçilemez.
+   * Disabled state.
+   * If true, the tab cannot be selected.
    *
    * @default false
    */
   readonly disabled = input<boolean>(false);
 
   /**
-   * Custom label template'i.
-   * `nuiTabLabel` directive ile içeriği yakalar.
+   * Custom label template.
+   * Captures content with the `nuiTabLabel` directive.
    */
   readonly labelTemplate = contentChild(TabLabelDirective);
 
   /**
-   * Tab içeriğini tutan template referansı.
-   * Parent component (Tabs) tarafından içeriği render etmek için kullanılır.
+   * Template reference holding the tab content.
+   * Used by the parent component (Tabs) to render the content.
    */
   readonly contentTemplate = viewChild.required(TemplateRef);
 }
+

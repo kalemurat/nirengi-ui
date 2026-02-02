@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, TemplateRef } from '@angular/core';
 
 /**
- * Liste öğeleri için genel `id` arayüzü.
- * Öğelerin verimli bir şekilde izlenmesini (track) sağlar.
+ * Generic `id` interface for list items.
+ * Allows for efficient tracking of items.
  */
 export interface ListItem {
   id: string | number;
@@ -11,15 +11,15 @@ export interface ListItem {
 }
 
 /**
- * Özelleştirilebilir şablon kullanarak öğe koleksiyonunu render eden liste bileşeni.
- * TemplateRef aracılığıyla içerik projeksiyonunu destekleyerek öğe içeriğinin tamamen özelleştirilmesine olanak tanır.
+ * List component that renders a collection of items using a customizable template.
+ * Supports content projection via TemplateRef, allowing the item content to be fully customized.
  *
- * ## Özellikler
- * - ✅ OnPush change detection stratejisi
- * - ✅ Signal tabanlı input'lar
- * - ✅ Özel öğe şablonu desteği
- * - ✅ BEM stil desteği
- * - ✅ `id` kullanarak TrackBy optimizasyonu
+ * ## Features
+ * - ✅ OnPush change detection strategy
+ * - ✅ Signal-based inputs
+ * - ✅ Custom item template support
+ * - ✅ BEM style support
+ * - ✅ TrackBy optimization using `id`
  *
  * @example
  * <nui-list [items]="users" [itemTemplate]="userTemplate" />
@@ -41,29 +41,30 @@ export interface ListItem {
 })
 export class ListComponent<T extends ListItem> {
   /**
-   * Gösterilecek öğelerin koleksiyonu.
-   * Her öğe benzersiz bir `id` özelliğine sahip OLMALIDIR.
+   * Collection of items to be displayed.
+   * Each item MUST have a unique `id` property.
    */
   items = input.required<T[]>();
 
   /**
-   * Her bir öğeyi render etmek için kullanılacak şablon.
-   * Eğer sağlanmazsa, varsayılan bir şablon kullanılır.
-   * Şablon içeriği, `let-item` ile öğeye erişim sağlar.
+   * Template to be used for rendering each item.
+   * If not provided, a default template is used.
+   * The template content provides access to the item via `let-item`.
    */
   itemTemplate = input<TemplateRef<any>>();
 
   /**
-   * Liste konteynerı (ul) için isteğe bağlı özel CSS sınıfı.
-   * Düzen ayarlamaları için kullanışlıdır (örn. 'flex flex-col gap-2').
+   * Optional custom CSS class for the list container (ul).
+   * Useful for layout adjustments (e.g., 'flex flex-col gap-2').
    */
   listClass = input<string>('');
 
   /**
-   * Liste konteynerı için hesaplanmış sınıflar.
-   * Temel BEM sınıfı ile özel sınıfları birleştirir.
+   * Computed classes for the list container.
+   * Combines the base BEM class with custom classes.
    */
   protected readonly containerClasses = computed(() => {
     return `nui-list ${this.listClass()}`.trim();
   });
 }
+

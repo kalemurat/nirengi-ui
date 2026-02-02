@@ -4,93 +4,93 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Paragraph hizalama enum'ı.
- * Paragrafın yatay hizalamasını belirler.
+ * Paragraph alignment enum.
+ * Determines the horizontal alignment of the paragraph.
  */
 export enum ParagraphAlign {
-  /** Sola hizalı (varsayılan) */
+  /** Left aligned (default) */
   Left = 'left',
-  /** Ortaya hizalı */
+  /** Center aligned */
   Center = 'center',
-  /** Sağa hizalı */
+  /** Right aligned */
   Right = 'right',
-  /** İki yana yaslı */
+  /** Justified */
   Justify = 'justify',
 }
 
 /**
- * Paragraph font ağırlığı enum'ı.
- * Paragrafın tipografik kalınlığını belirler.
+ * Paragraph font weight enum.
+ * Determines the typographic thickness of the paragraph.
  */
 export enum ParagraphWeight {
-  /** İnce kalınlık (300) */
+  /** Thin thickness (300) */
   Light = 'light',
-  /** Normal kalınlık (400) */
+  /** Normal thickness (400) */
   Normal = 'normal',
-  /** Orta kalınlık (500) */
+  /** Medium thickness (500) */
   Medium = 'medium',
-  /** Yarı kalın (600) */
+  /** Semi-bold (600) */
   Semibold = 'semibold',
-  /** Kalın (700) */
+  /** Bold (700) */
   Bold = 'bold',
 }
 
 /**
- * Modern paragraph component'i.
- * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
+ * Modern paragraph component.
+ * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı reaktif state yönetimi
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile class binding
- * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
- * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ 4 farklı hizalama (left, center, right, justify)
- * - ✅ 5 farklı font ağırlığı (light, normal, medium, semibold, bold)
- * - ✅ Truncate ve line clamp desteği
- * - ✅ Leading (satır yüksekliği) kontrolü
- * - ✅ Margin bottom desteği
- * - ✅ WCAG 2.1 AA accessibility standartları
+ * ## Features
+ * - ✅ Signal-based reactive state management
+ * - ✅ OnPush change detection strategy
+ * - ✅ Computed signals for class binding
+ * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
+ * - ✅ 4 different alignments (left, center, right, justify)
+ * - ✅ 5 different font weights (light, normal, medium, semibold, bold)
+ * - ✅ Truncate and line clamp support
+ * - ✅ Leading (line height) control
+ * - ✅ Margin bottom support
+ * - ✅ WCAG 2.1 AA accessibility standards
  * - ✅ SEO optimized semantic HTML
  *
- * ## Design System Entegrasyonu
- * Component, design system'deki merkezi değerleri kullanır:
+ * ## Design System Integration
+ * The component uses central values from the design system:
  * - Font size: Tailwind default typography scale
- * - Colors: ColorVariant enum ile tutarlı renk paleti
- * - Spacing: Design token spacing değerleri
+ * - Colors: Consistent color palette with ColorVariant enum
+ * - Spacing: Design token spacing values
  *
  * @example
- * // Basit kullanım
- * <nui-paragraph>Bu bir paragraf metnidir.</nui-paragraph>
+ * // Basic usage
+ * <nui-paragraph>This is a paragraph text.</nui-paragraph>
  *
  * @example
- * // Boyut ve renk ile
+ * // With size and color
  * <nui-paragraph
  *   [size]="Size.Large"
  *   [variant]="ColorVariant.Primary">
- *   Büyük boyutta mavi paragraf
+ *   Blue paragraph in large size
  * </nui-paragraph>
  *
  * @example
- * // Hizalama ve ağırlık ile
+ * // With alignment and weight
  * <nui-paragraph
  *   [align]="ParagraphAlign.Center"
  *   [weight]="ParagraphWeight.Medium">
- *   Merkez hizalı, orta kalınlık
+ *   Center aligned, medium thickness
  * </nui-paragraph>
  *
  * @example
- * // Line clamp ile
+ * // With line clamp
  * <nui-paragraph [lineClamp]="3">
- *   Çok uzun bir paragraf metni. Bu metin 3 satırdan sonra kesilecek
- *   ve sonuna üç nokta eklenecektir...
+ *   A very long paragraph text. This text will be cut off after 3 lines
+ *   and an ellipsis will be added to the end...
  * </nui-paragraph>
  *
  * @see https://v20.angular.dev/guide/signals
- * @see {@link Size} - Standart boyut değerleri
- * @see {@link ColorVariant} - Renk varyantları
- * @see {@link ParagraphAlign} - Hizalama seçenekleri
- * @see {@link ParagraphWeight} - Font ağırlıkları
+ * @see {@link Size} - Standard size values
+ * @see {@link ColorVariant} - Color variants
+ * @see {@link ParagraphAlign} - Alignment options
+ * @see {@link ParagraphWeight} - Font weights
  */
 @Component({
   selector: 'nui-paragraph',
@@ -102,84 +102,84 @@ export enum ParagraphWeight {
 })
 export class ParagraphComponent {
   /**
-   * Paragraf boyutu.
-   * Görsel font size'ı belirler.
+   * Paragraph size.
+   * Determines the visual font size.
    *
    * @default Size.Medium
    */
   size = input<Size>(Size.Medium);
 
   /**
-   * Renk varyantı.
-   * Paragrafın metin rengini belirler.
+   * Color variant.
+   * Determines the text color of the paragraph.
    *
    * @default ColorVariant.Neutral
    */
   variant = input<ColorVariant>(ColorVariant.Neutral);
 
   /**
-   * Yatay hizalama.
-   * Paragrafın text-align değerini belirler.
+   * Horizontal alignment.
+   * Determines the text-align value of the paragraph.
    *
    * @default ParagraphAlign.Left
    */
   align = input<ParagraphAlign>(ParagraphAlign.Left);
 
   /**
-   * Font ağırlığı.
-   * Paragrafın tipografik kalınlığını belirler.
+   * Font weight.
+   * Determines the typographic thickness of the paragraph.
    *
    * @default ParagraphWeight.Normal
    */
   weight = input<ParagraphWeight>(ParagraphWeight.Normal);
 
   /**
-   * Truncate durumu.
-   * true olduğunda taşan metin üç nokta ile kesilir.
+   * Truncate state.
+   * When true, overflowing text is cut off with an ellipsis.
    *
    * @default false
    */
   truncate = input<boolean>(false);
 
   /**
-   * Line clamp değeri.
-   * Belirtilen satır sayısından sonra metin kesilir.
-   * Değer verilmezse truncate özelliği geçerli olur.
+   * Line clamp value.
+   * Text is cut off after the specified number of lines.
+   * If no value is provided, the truncate feature applies.
    *
    * @default undefined
    */
   lineClamp = input<number | undefined>(undefined);
 
   /**
-   * Leading (satır yüksekliği) değeri.
-   * Satırlar arası boşluğu belirler.
+   * Leading (line height) value.
+   * Determines the spacing between lines.
    *
    * @default 'normal'
    */
   leading = input<'none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose'>('normal');
 
   /**
-   * Margin bottom durumu.
-   * true olduğunda paragraf altına standart bir margin eklenir.
+   * Margin bottom state.
+   * When true, a standard margin is added below the paragraph.
    *
    * @default false
    */
   marginBottom = input<boolean>(false);
 
   /**
-   * Italic durumu.
-   * true olduğunda metin eğik (italic) olur.
+   * Italic state.
+   * When true, text becomes italic.
    *
    * @default false
    */
   italic = input<boolean>(false);
 
   /**
-   * Paragraph için CSS class'larını hesaplayan computed signal.
-   * BEM metodolojisi ile dynamic class binding yapar.
-   * Reactive olarak güncellenir.
+   * Computed signal to calculate CSS classes for the paragraph.
+   * Performs dynamic class binding using BEM methodology.
+   * Updated reactively.
    *
-   * @returns BEM formatında CSS class string'i
+   * @returns CSS class string in BEM format
    */
   protected readonly paragraphClasses = computed(() => {
     const classes = ['nui-paragraph'];
@@ -209,3 +209,4 @@ export class ParagraphComponent {
     return classes.join(' ');
   });
 }
+

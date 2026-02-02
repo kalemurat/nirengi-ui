@@ -1,11 +1,11 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  output,
-  signal,
-  ElementRef,
-  viewChild,
+    Component,
+    ChangeDetectionStrategy,
+    input,
+    output,
+    signal,
+    ElementRef,
+    viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, ButtonType } from '../button/button.component';
@@ -41,27 +41,28 @@ export class FileUploadComponent {
 
   /**
    * Label for the upload button.
-   * Default: 'Yükle'
+   * Default: 'Upload'
    */
-  readonly uploadLabel = input<string>('Yükle');
+  readonly uploadLabel = input<string>('Upload');
 
   /**
    * Label for the remove all button.
-   * Default: 'Tümünü kaldır'
+   * Default: 'Remove all'
    */
-  readonly removeAllLabel = input<string>('Tümünü kaldır');
+  readonly removeAllLabel = input<string>('Remove all');
 
   /**
    * Text for the clickable part of the drop zone.
-   * Default: 'Dosya yüklemek için tıklayın'
+   * Default: 'Click to upload file'
    */
-  readonly clickLabel = input<string>('Dosya yüklemek için tıklayın');
+  readonly clickLabel = input<string>('Click to upload file');
 
   /**
    * Text for the drag and drop part of the drop zone.
-   * Default: 'veya sürükleyip bırakın'
+   * Default: 'or drag and drop'
    */
-  readonly dragDropLabel = input<string>('veya sürükleyip bırakın');
+  readonly dragDropLabel = input<string>('or drag and drop');
+
 
   /**
    * Whether to allow multiple file selection.

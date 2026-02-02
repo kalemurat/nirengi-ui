@@ -4,110 +4,110 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Heading seviye enum'ı.
- * HTML semantik başlık seviyelerini (h1-h6) temsil eder.
+ * Heading level enum.
+ * Represents HTML semantic heading levels (h1-h6).
  */
 export enum HeadingLevel {
-  /** H1 - Sayfa başlığı, en yüksek seviye */
+  /** H1 - Page title, highest level */
   H1 = 'h1',
-  /** H2 - Ana bölüm başlığı */
+  /** H2 - Main section title */
   H2 = 'h2',
-  /** H3 - Alt bölüm başlığı */
+  /** H3 - Subsection title */
   H3 = 'h3',
-  /** H4 - İçerik grubu başlığı */
+  /** H4 - Content group title */
   H4 = 'h4',
-  /** H5 - Alt içerik başlığı */
+  /** H5 - Sub-content title */
   H5 = 'h5',
-  /** H6 - En alt seviye başlık */
+  /** H6 - Lowest level title */
   H6 = 'h6',
 }
 
 /**
- * Heading hizalama enum'ı.
- * Başlığın yatay hizalamasını belirler.
+ * Heading alignment enum.
+ * Determines the horizontal alignment of the heading.
  */
 export enum HeadingAlign {
-  /** Sola hizalı (varsayılan) */
+  /** Left aligned (default) */
   Left = 'left',
-  /** Ortaya hizalı */
+  /** Center aligned */
   Center = 'center',
-  /** Sağa hizalı */
+  /** Right aligned */
   Right = 'right',
 }
 
 /**
- * Heading font ağırlığı enum'ı.
- * Başlığın tipografik kalınlığını belirler.
+ * Heading font weight enum.
+ * Determines the typographic thickness of the heading.
  */
 export enum HeadingWeight {
-  /** Normal kalınlık (400) */
+  /** Normal thickness (400) */
   Normal = 'normal',
-  /** Orta kalınlık (500) */
+  /** Medium thickness (500) */
   Medium = 'medium',
-  /** Yarı kalın (600) */
+  /** Semi-bold (600) */
   Semibold = 'semibold',
-  /** Kalın (700) */
+  /** Bold (700) */
   Bold = 'bold',
-  /** Çok kalın (800) */
+  /** Extra bold (800) */
   Extrabold = 'extrabold',
 }
 
 /**
- * Modern heading component'i.
- * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
+ * Modern heading component.
+ * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı reaktif state yönetimi
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile class binding
- * - ✅ 6 farklı HTML semantik seviye (h1-h6)
- * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
- * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ 3 farklı hizalama (left, center, right)
- * - ✅ 5 farklı font ağırlığı (normal, medium, semibold, bold, extrabold)
- * - ✅ Truncate ve line clamp desteği
- * - ✅ WCAG 2.1 AA accessibility standartları
+ * ## Features
+ * - ✅ Signal-based reactive state management
+ * - ✅ OnPush change detection strategy
+ * - ✅ Computed signals for class binding
+ * - ✅ 6 different HTML semantic levels (h1-h6)
+ * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
+ * - ✅ 3 different alignments (left, center, right)
+ * - ✅ 5 different font weights (normal, medium, semibold, bold, extrabold)
+ * - ✅ Truncate and line clamp support
+ * - ✅ WCAG 2.1 AA accessibility standards
  * - ✅ SEO optimized semantic HTML
  *
- * ## Design System Entegrasyonu
- * Component, design system'deki merkezi değerleri kullanır:
+ * ## Design System Integration
+ * The component uses central values from the design system:
  * - Font size: Tailwind default typography scale
- * - Colors: ColorVariant enum ile tutarlı renk paleti
- * - Spacing: Design token spacing değerleri
+ * - Colors: Consistent color palette with ColorVariant enum
+ * - Spacing: Design token spacing values
  *
  * @example
- * // Basit kullanım
- * <nui-heading>Ana Başlık</nui-heading>
+ * // Basic usage
+ * <nui-heading>Main Title</nui-heading>
  *
  * @example
- * // Seviye ve boyut ile
+ * // With level and size
  * <nui-heading
  *   [level]="HeadingLevel.H1"
  *   [size]="Size.XLarge"
  *   [variant]="ColorVariant.Primary">
- *   Hoş Geldiniz
+ *   Welcome
  * </nui-heading>
  *
  * @example
- * // Hizalama ve ağırlık ile
+ * // With alignment and weight
  * <nui-heading
  *   [align]="HeadingAlign.Center"
  *   [weight]="HeadingWeight.Bold">
- *   Merkez Başlık
+ *   Centered Title
  * </nui-heading>
  *
  * @example
- * // Truncate ile
+ * // With truncate
  * <nui-heading [truncate]="true">
- *   Çok uzun bir başlık metni...
+ *   A very long heading text...
  * </nui-heading>
  *
  * @see https://v20.angular.dev/guide/signals
- * @see {@link HeadingLevel} - HTML semantik seviyeler
- * @see {@link Size} - Standart boyut değerleri
- * @see {@link ColorVariant} - Renk varyantları
- * @see {@link HeadingAlign} - Hizalama seçenekleri
- * @see {@link HeadingWeight} - Font ağırlıkları
+ * @see {@link HeadingLevel} - HTML semantic levels
+ * @see {@link Size} - Standard size values
+ * @see {@link ColorVariant} - Color variants
+ * @see {@link HeadingAlign} - Alignment options
+ * @see {@link HeadingWeight} - Font weights
  */
 @Component({
   selector: 'nui-heading',
@@ -119,98 +119,98 @@ export enum HeadingWeight {
 })
 export class HeadingComponent {
   /**
-   * HTML semantik seviyesi.
-   * Sayfa hiyerarşisinde doğru yapıyı sağlar.
+   * HTML semantic level.
+   * Ensures the correct structure in the page hierarchy.
    *
    * @default HeadingLevel.H2
    */
   level = input<HeadingLevel>(HeadingLevel.H2);
 
   /**
-   * Başlık boyutu.
-   * Görsel font size'ı belirler (semantik seviyeden bağımsız).
-   * Eğer belirtilmezse, başlık seviyesine (level) göre otomatik belirlenir.
+   * Heading size.
+   * Determines the visual font size (independent of semantic level).
+   * If not specified, it is automatically determined based on the heading level.
    *
    * @default undefined
    */
   size = input<Size | undefined>(undefined);
 
   /**
-   * Renk varyantı.
-   * Başlığın metin rengini belirler.
+   * Color variant.
+   * Determines the text color of the heading.
    *
    * @default ColorVariant.Neutral
    */
   variant = input<ColorVariant>(ColorVariant.Neutral);
 
   /**
-   * Yatay hizalama.
-   * Başlığın text-align değerini belirler.
+   * Horizontal alignment.
+   * Determines the text-align value of the heading.
    *
    * @default HeadingAlign.Left
    */
   align = input<HeadingAlign>(HeadingAlign.Left);
 
   /**
-   * Font ağırlığı.
-   * Başlığın tipografik kalınlığını belirler.
+   * Font weight.
+   * Determines the typographic thickness of the heading.
    *
    * @default HeadingWeight.Bold
    */
   weight = input<HeadingWeight>(HeadingWeight.Bold);
 
   /**
-   * Truncate durumu.
-   * true olduğunda taşan metin üç nokta ile kesilir.
+   * Truncate state.
+   * When true, overflowing text is cut off with an ellipsis.
    *
    * @default false
    */
   truncate = input<boolean>(false);
 
   /**
-   * Line clamp değeri.
-   * Belirtilen satır sayısından sonra metin kesilir.
-   * Değer verilmezse truncate özelliği geçerli olur.
+   * Line clamp value.
+   * Text is cut off after the specified number of lines.
+   * If no value is provided, the truncate feature applies.
    *
    * @default undefined
    */
   lineClamp = input<number | undefined>(undefined);
 
   /**
-   * Uppercase durumu.
-   * true olduğunda tüm karakterler büyük harf olur.
+   * Uppercase state.
+   * When true, all characters become uppercase.
    *
    * @default false
    */
   uppercase = input<boolean>(false);
 
   /**
-   * Margin bottom durumu.
-   * true olduğunda başlık altına standart bir margin eklenir.
+   * Margin bottom state.
+   * When true, a standard margin is added below the heading.
    *
    * @default false
    */
   marginBottom = input<boolean>(false);
 
   /**
-   * Başlık metni.
-   * Heading content text'i.
+   * Heading text.
+   * Content text of the heading.
    *
    * @default ''
    */
   text = input<string>('');
 
   /**
-   * Heading için CSS class'larını hesaplayan computed signal.
-   * BEM metodolojisi ile dynamic class binding yapar.
-   * Reactive olarak güncellenir.
+   * Computed signal to calculate CSS classes for the heading.
+   * Performs dynamic class binding using BEM methodology.
+   * Updated reactively.
    *
-   * @returns BEM formatında CSS class string'i
+   * @returns CSS class string in BEM format
    */
   protected readonly headingClasses = computed(() => {
     const classes = ['nui-heading'];
 
-    // Size belirtilmemişse level'a göre otomatik boyutlandır
+    // Automatically size based on level if size is not specified
     const currentSize = this.size() || this.getDefaultSizeByLevel(this.level());
     classes.push(`nui-heading--${currentSize}`);
 
@@ -238,9 +238,9 @@ export class HeadingComponent {
   });
 
   /**
-   * ARIA level attributu için heading seviyesini döndüren computed signal.
-   * Accessibility için gerekli.
-   * Reactive olarak güncellenir.
+   * Computed signal to return the heading level for the ARIA level attribute.
+   * Required for accessibility.
+   * Updated reactively.
    *
    * @returns ARIA level (1-6)
    */
@@ -257,10 +257,10 @@ export class HeadingComponent {
   });
 
   /**
-   * Heading seviyesine göre varsayılan boyutu döndürür.
+   * Returns the default size based on the heading level.
    *
-   * @param level - Mevcut heading seviyesi
-   * @returns Varsayılan boyut (Size enum)
+   * @param level - Current heading level
+   * @returns Default size (Size enum)
    */
   private getDefaultSizeByLevel(level: HeadingLevel): Size {
     switch (level) {
@@ -280,3 +280,4 @@ export class HeadingComponent {
     }
   }
 }
+
