@@ -106,6 +106,19 @@
       "label": "Loading",
       "defaultValue": false,
       "description": "Tablo yükleniyor durumunu gösterir."
+    },
+    {
+      "name": "gridLines",
+      "type": "enum",
+      "label": "Grid Lines",
+      "defaultValue": "horizontal",
+      "options": [
+        { "label": "None", "value": "none" },
+        { "label": "Horizontal", "value": "horizontal" },
+        { "label": "Vertical", "value": "vertical" },
+        { "label": "Both", "value": "both" }
+      ],
+      "description": "Tablo grid (çizgi) görünümü."
     }
   ],
   "events": [
