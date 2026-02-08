@@ -19,7 +19,7 @@ import { IconName } from '../icon/icon.types';
   template: `
     <div [class]="containerClasses()" role="alert">
       <div class="nui-toast__icon">
-        <nirengi-icon [name]="iconName()" size="20" />
+        <nui-icon [name]="iconName()" size="20" />
       </div>
       <div class="nui-toast__content">
         <h4 class="nui-toast__title">{{ data().title }}</h4>
@@ -28,7 +28,7 @@ import { IconName } from '../icon/icon.types';
         }
       </div>
       <button class="nui-toast__close" (click)="onClose.emit(data().id)" aria-label="Close">
-        <nirengi-icon name="X" size="16" />
+        <nui-icon name="X" size="16" />
       </button>
     </div>
   `,

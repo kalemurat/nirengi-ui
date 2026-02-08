@@ -51,7 +51,7 @@ import { Size } from '../../common/enums/size.enum';
           <div class="nui-modal__header">
             <div class="flex items-center gap-3">
               @if (data().options.icon) {
-                <nirengi-icon [name]="data().options.icon!" class="text-tertiary" />
+                <nui-icon [name]="data().options.icon!" class="text-tertiary" />
               }
               @if (data().options.title) {
                 <nui-heading
@@ -68,7 +68,7 @@ import { Size } from '../../common/enums/size.enum';
               [size]="Size.Small"
               (clicked)="close()"
             >
-              <nirengi-icon name="X" size="18" />
+              <nui-icon name="X" size="18" />
             </nui-button>
           </div>
         }

@@ -4,22 +4,22 @@
 
     <div class="flex items-end gap-8">
       <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="House" />
+        <nui-icon name="House" />
         <span class="text-sm">Default</span>
       </div>
 
       <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="Heart" color="red" />
+        <nui-icon name="Heart" color="red" />
         <span class="text-sm">Color Red</span>
       </div>
 
       <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="Settings" size="48" [strokeWidth]="1" />
+        <nui-icon name="Settings" [size]="Size.XLarge" [strokeWidth]="1" />
         <span class="text-sm">Size 48 / Thin</span>
       </div>
 
       <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="Loader" class="animate-spin" />
+        <nui-icon name="Loader" class="animate-spin" />
         <span class="text-sm">Animated (Tailwind)</span>
       </div>
     </div>
@@ -41,7 +41,7 @@
     <div class="icon-page__grid">
       @for (iconName of filteredIcons(); track iconName) {
         <div class="icon-page__item" [title]="iconName">
-          <nirengi-icon [name]="iconName" />
+          <nui-icon [name]="iconName" />
           <span class="icon-page__name">{{ iconName }}</span>
         </div>
       }

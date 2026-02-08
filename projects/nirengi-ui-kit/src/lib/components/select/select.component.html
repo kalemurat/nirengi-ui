@@ -30,7 +30,7 @@
               <span class="nui-select__chip">
                 {{ getLabel(item) }}
                 <span class="nui-select__chip-remove" (click)="removeItem(item, $event)">
-                  <nirengi-icon name="X" [size]="12" />
+                  <nui-icon name="X" [size]="12" />
                 </span>
               </span>
             }
@@ -45,13 +45,13 @@
       <!-- Clear Button (Single Select) -->
       @if (!multiple() && hasValue() && clearable() && !isDisabled()) {
         <div class="nui-select__clear" (click)="clearValue($event)">
-          <nirengi-icon name="X" [size]="iconSize()" />
+          <nui-icon name="X" [size]="iconSize()" />
         </div>
       }
 
       <!-- Arrow Icon -->
       <div class="nui-select__icon" [class.nui-select__icon--open]="isOpen()">
-        <nirengi-icon name="ChevronDown" [size]="iconSize()" />
+        <nui-icon name="ChevronDown" [size]="iconSize()" />
       </div>
     </div>
 
@@ -92,7 +92,7 @@
               <!-- Checkmark for multiple (or single) -->
               @if (isSelected(option)) {
                 <span class="nui-select__option-check">
-                  <nirengi-icon name="Check" [size]="16" />
+                  <nui-icon name="Check" [size]="16" />
                 </span>
               }
             </div>

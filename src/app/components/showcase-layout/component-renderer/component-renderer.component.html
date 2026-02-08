@@ -14,9 +14,9 @@
           [title]="themeService.theme() === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
         >
           @if (themeService.theme() === 'light') {
-            <nirengi-icon name="Moon" size="20" />
+            <nui-icon name="Moon" [size]="Size.Large" />
           } @else {
-            <nirengi-icon name="Sun" size="20" />
+            <nui-icon name="Sun" [size]="Size.Large" />
           }
         </button>
       </div>

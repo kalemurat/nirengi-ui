@@ -1,6 +1,6 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IconComponent, IconNames, IconName } from 'nirengi-ui-kit';
+import { IconComponent, IconNames, IconName, Size as SizeEnum } from 'nirengi-ui-kit';
 
 /**
  * İkon vitrin sayfası.
@@ -18,6 +18,11 @@ export class IconPageComponent {
    * Component içinde kullanmak için IconNames referansı (opsiyonel, signal zaten veriyi tutuyor)
    */
   readonly IconNames = IconNames;
+
+  /**
+   * Size enum for template usage.
+   */
+  readonly Size = SizeEnum;
 
   /**
    * Arama sorgusu.

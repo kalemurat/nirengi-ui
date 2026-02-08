@@ -16,10 +16,10 @@ import { ALL_ICONS, IconName } from './icon.types';
  * @see https://lucide.dev/icons/
  *
  * @example
- * <nirengi-icon name="House" size="24" color="red" />
+ * <nui-icon name="House" size="24" color="red" />
  */
 @Component({
-  selector: 'nirengi-icon',
+  selector: 'nui-icon',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   providers: [{ provide: LUCIDE_ICONS, useValue: new LucideIconProvider(ALL_ICONS) }],

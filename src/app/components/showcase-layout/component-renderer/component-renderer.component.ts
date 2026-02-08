@@ -21,7 +21,7 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
 import { PropertyStateService } from '../../../core/services/property-state.service';
 import { EventLoggerService } from '../../../core/services/event-logger.service';
 import { ThemeService } from '../../../core/services/theme.service';
-import { IconComponent } from 'nirengi-ui-kit';
+import { IconComponent, Size as SizeEnum } from 'nirengi-ui-kit';
 
 /**
  * Component Renderer.
@@ -73,6 +73,11 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   private readonly eventLogger = inject(EventLoggerService);
   protected readonly themeService = inject(ThemeService);
   private readonly destroyRef = inject(DestroyRef);
+
+  /**
+   * Size enum for template usage.
+   */
+  readonly Size = SizeEnum;
 
   /**
    * Aktif component referansı.
