@@ -44,4 +44,3 @@ export interface ColorConfig {
  * Accepts either a simple variant string or a detailed configuration.
  */
 export type ColorValue = ColorVariantType | ColorConfig;
-

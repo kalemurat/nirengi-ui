@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   contentChild,
+  effect,
   input,
   model,
   output,
@@ -19,13 +20,13 @@ import { SelectComponent } from '../select/select.component';
 import { Size } from '../../common/enums/size.enum';
 
 export type FilterMatchMode = 'contains' | 'equals' | 'startsWith' | 'endsWith' | 'in';
-export interface FilterMetadata {
-  value: any;
+export interface IFilterMetadata {
+  value: unknown;
   matchMode: FilterMatchMode;
   type?: 'string' | 'number' | 'boolean';
 }
 
-export interface TableColumn {
+export interface ITableColumn {
   field: string;
   header: string;
   filterable?: boolean;
@@ -68,9 +69,9 @@ export class TableComponent<T> {
 
   /**
    * Waiting time for filtering process (ms).
-   * For performance, a default delay of 300ms is applied.
+   * For performance, a default delay of 500ms is applied.
    */
-  filterDebounce = input<number>(300);
+  filterDebounce = input<number>(500);
 
   /**
    * Enables/disables the virtual scrolling feature.
@@ -125,7 +126,7 @@ export class TableComponent<T> {
    * Column definitions.
    * If headTemplate/rowTemplate is not provided, the table is automatically created according to these definitions.
    */
-  columns = input<TableColumn[]>([]);
+  columns = input<ITableColumn[]>([]);
 
   /**
    * Total number of records.
@@ -133,6 +134,13 @@ export class TableComponent<T> {
    * If not provided, `data.length` is used.
    */
   totalRecords = input<number | undefined>(undefined);
+
+  /**
+   * Enables/disables manual (lazy) mode.
+   * When true, internal filtering, sorting and pagination are disabled.
+   * @default false
+   */
+  lazy = input<boolean>(false);
 
   /**
    * Table grid (line) appearance.
@@ -197,7 +205,7 @@ export class TableComponent<T> {
    * Triggered when filtering values (global or column-based) change.
    * Returns all active filters as an object.
    */
-  filterChange = output<{ global: string; columns: Record<string, FilterMetadata> }>();
+  filterChange = output<{ global: string; columns: Record<string, IFilterMetadata> }>();
 
   /**
    * Triggered when a row is clicked.
@@ -216,14 +224,14 @@ export class TableComponent<T> {
    * The user should add <th> elements and filter inputs inside this template.
    * Template context: { filter: (field, value, matchMode) => void }
    */
-  headTemplate = contentChild<TemplateRef<any>>('headTemplate');
+  headTemplate = contentChild<TemplateRef<unknown>>('headTemplate');
 
   /**
    * Table row template.
    * The user should add <td> elements and data display inside this template.
    * Template context: { $implicit: item }
    */
-  rowTemplate = contentChild<TemplateRef<any>>('rowTemplate');
+  rowTemplate = contentChild<TemplateRef<unknown>>('rowTemplate');
 
   // Public Properties
 
@@ -237,6 +245,11 @@ export class TableComponent<T> {
     const rawData = this.data();
     const filters = this.filtersDebounced();
 
+    // If lazy mode or server-side paging is active, don't filter locally
+    if (this.lazy() || this.totalRecords() !== undefined) {
+      return rawData;
+    }
+
     if (!filters) return rawData;
 
     let processed = [...rawData];
@@ -246,9 +259,9 @@ export class TableComponent<T> {
       processed = processed.filter((item) => {
         return Object.entries(filters.columns).every(([field, meta]) => {
           // Explicit cast or check
-          const m = meta as FilterMetadata;
+          const m = meta as IFilterMetadata;
           if (m.value === null || m.value === undefined || m.value === '') return true;
-          const itemValue = (item as any)[field];
+          const itemValue = (item as Record<string, unknown>)[field];
           return this.matches(itemValue, m.value, m.matchMode);
         });
       });
@@ -259,7 +272,9 @@ export class TableComponent<T> {
       const mode = this.globalFilterMatchMode();
       processed = processed.filter((item) => {
         // Naive global search: check all property values
-        return Object.values(item as any).some((val) => this.matches(val, filters.global, mode));
+        return Object.values(item as Record<string, unknown>).some((val) =>
+          this.matches(val, filters.global, mode)
+        );
       });
     }
 
@@ -271,6 +286,11 @@ export class TableComponent<T> {
     const data = this.filteredData();
     // Safety check for empty or null
     if (!data) return [];
+
+    // If lazy mode or server-side paging is active, the data is already paginated by the server
+    if (this.lazy() || this.totalRecords() !== undefined) {
+      return data;
+    }
 
     if (this.virtualScroll()) {
       // If virtual scroll, we return all data (CDK handles the viewport)
@@ -424,7 +444,7 @@ export class TableComponent<T> {
   protected readonly Size = Size;
 
   // State
-  protected filtersState = signal<Record<string, FilterMetadata>>({}); // Protected for template if needed
+  protected filtersState = signal<Record<string, IFilterMetadata>>({}); // Protected for template if needed
   protected globalFilterState = signal<string>('');
 
   // Private Properties
@@ -438,8 +458,18 @@ export class TableComponent<T> {
   // Debounced Filter Signal
   private filtersDebounced = toSignal(
     toObservable(this.currentFilters).pipe(debounceTime(this.filterDebounce())),
-    { initialValue: { global: '' as string, columns: {} as Record<string, FilterMetadata> } }
+    { initialValue: { global: '' as string, columns: {} as Record<string, IFilterMetadata> } }
   );
+
+  constructor() {
+    // Emit filterChange event after debounce
+    effect(() => {
+      const debouncedFilters = this.filtersDebounced();
+      if (debouncedFilters) {
+        this.filterChange.emit(debouncedFilters);
+      }
+    });
+  }
 
   // Methods
 
@@ -450,29 +480,32 @@ export class TableComponent<T> {
    * @param index Loop index number
    * @param item Row data
    */
-  getTrackByValue(index: number, item: any): any {
+  getTrackByValue(index: number, item: T): unknown {
     const key = this.trackBy();
     if (!key) return index;
 
     // Nested property resolution (e.g. 'user.details.id')
-    return key.split('.').reduce((obj: any, prop: string) => obj && obj[prop], item);
+    return key
+      .split('.')
+      .reduce((acc: unknown, prop: string) => (acc as Record<string, unknown>)?.[prop], item);
   }
 
   /**
    * Applies column-based filtering.
    * Used within the template.
+   * Note: filterChange event is emitted automatically after debounce via effect.
    * @param field Field name to filter
    * @param value Filter value
    * @param matchMode Matching mode (default: contains)
    */
-  filter(field: string, value: any, matchMode: FilterMatchMode = 'contains') {
-    this.filtersState.update((s: Record<string, FilterMetadata>) => ({
+  filter(field: string, value: unknown, matchMode: FilterMatchMode = 'contains'): void {
+    this.filtersState.update((s: Record<string, IFilterMetadata>) => ({
       ...s,
       [field]: { value, matchMode },
     }));
     // Reset page to 1 on filter trigger
     this.currentPage.set(1);
-    this.filterChange.emit(this.currentFilters());
+    // Note: filterChange.emit() is handled by effect after debounce
   }
 
   /**
@@ -509,7 +542,7 @@ export class TableComponent<T> {
     this.pageSizeChange.emit(value);
   }
 
-  private matches(value: any, filter: any, mode: FilterMatchMode): boolean {
+  private matches(value: unknown, filter: unknown, mode: FilterMatchMode): boolean {
     if (value === undefined || value === null) return false;
     const sValue = String(value).toLowerCase();
     const sFilter = String(filter).toLowerCase();
@@ -535,4 +568,3 @@ export class TableComponent<T> {
     }
   }
 }
-

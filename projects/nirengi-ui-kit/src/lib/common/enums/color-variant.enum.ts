@@ -49,4 +49,3 @@ export enum ColorVariant {
    */
   Neutral = 'neutral',
 }
-

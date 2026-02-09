@@ -1,33 +1,34 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    forwardRef,
-    input,
-    output,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
-    addMonths,
-    eachDayOfInterval,
-    endOfMonth,
-    endOfWeek,
-    format,
-    isBefore,
-    isSameDay,
-    isSameMonth,
-    isToday,
-    isValid,
-    isWithinInterval,
-    setHours,
-    setMinutes,
-    startOfMonth,
-    startOfWeek,
-    subMonths,
+  addMonths,
+  eachDayOfInterval,
+  endOfMonth,
+  endOfWeek,
+  format,
+  isBefore,
+  isSameDay,
+  isSameMonth,
+  isToday,
+  isValid,
+  isWithinInterval,
+  parseISO,
+  setHours,
+  setMinutes,
+  startOfMonth,
+  startOfWeek,
+  subMonths,
 } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { Calendar, ChevronLeft, ChevronRight, Clock, LucideAngularModule } from 'lucide-angular';
@@ -65,26 +66,26 @@ export type DatepickerSelectionMode = 'single' | 'range';
  *
  * @example
  * // With Reactive Forms
- * <n-datepicker [formControl]="dateControl" label="Birth Date"></n-datepicker>
+ * <nui-datepicker [formControl]="dateControl" label="Birth Date"></nui-datepicker>
  *
  * @example
  * // With Template-driven Forms
- * <n-datepicker [(ngModel)]="selectedDate" label="Select Date"></n-datepicker>
+ * <nui-datepicker [(ngModel)]="selectedDate" label="Select Date"></nui-datepicker>
  *
  * @example
  * // With Range selection
- * <n-datepicker
+ * <nui-datepicker
  *   [formControl]="rangeControl"
  *   [selectionMode]="'range'"
- *   label="Date Range"></n-datepicker>
+ *   label="Date Range"></nui-datepicker>
  *
  * @example
  * // With variant and size
- * <n-datepicker
+ * <nui-datepicker
  *   [formControl]="dateControl"
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
- *   label="Start Date"></n-datepicker>
+ *   label="Start Date"></nui-datepicker>
  *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
@@ -92,7 +93,7 @@ export type DatepickerSelectionMode = 'single' | 'range';
  * @see {@link ColorVariant} - Color variants
  */
 @Component({
-  selector: 'n-datepicker',
+  selector: 'nui-datepicker',
   standalone: true,
   imports: [CommonModule, OverlayModule, LucideAngularModule, FormsModule],
   templateUrl: './datepicker.component.html',
@@ -114,7 +115,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly id = input<string>(`datepicker-${Math.random().toString(36).substr(2, 9)}`);
   readonly minDate = input<Date | null>(null);
   readonly maxDate = input<Date | null>(null);
-  readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
+  readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
 
   /**
@@ -141,11 +142,6 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly error = input<string>('');
 
   /**
-   * Event emitted when date value selection is complete/changed by user.
-   */
-  readonly dateChange = output<DateValues>();
-
-  /**
    * Date format string.
    * If not provided, defaults based on `withTime`.
    */
@@ -161,42 +157,24 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
    */
   readonly withTime = input<boolean>(false);
 
-  // --- Internal State ---
+  // --- Outputs ---
 
   /**
-   * Current view date (month/year navigation).
+   * Event emitted when date value selection is complete/changed by user.
    */
-  viewDate = signal<Date>(new Date());
+  readonly dateChange = output<DateValues>();
 
-  /**
-   * Popup open state.
-   */
-  isOpen = signal<boolean>(false);
-
-  // Time state (for internal UI binding)
-  selectedHour = signal<number>(0);
-  selectedMinute = signal<number>(0);
-
-  // Custom Time Picker Visibility
-  showHourPicker = signal<boolean>(false);
-  showMinutePicker = signal<boolean>(false);
-
-  protected readonly icons = {
-    calendar: Calendar,
-    clock: Clock,
-    prev: ChevronLeft,
-    next: ChevronRight,
-  };
+  // --- Public Computed ---
 
   /**
    * Resolved format string.
    */
-  resolvedFormat = computed(() => {
+  readonly resolvedFormat = computed(() => {
     if (this.formatStr()) return this.formatStr();
     return this.withTime() ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy';
   });
 
-  formattedValue = computed(() => {
+  readonly formattedValue = computed(() => {
     const val = this.value();
     if (!val) return '';
 
@@ -235,18 +213,18 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return classes.join(' ');
   });
 
-  currentMonthYear = computed(() => {
+  readonly currentMonthYear = computed(() => {
     return format(this.viewDate(), 'MMMM yyyy', { locale: tr });
   });
 
-  calendarDays = computed(() => {
+  readonly calendarDays = computed(() => {
     const view = this.viewDate();
     const start = startOfWeek(startOfMonth(view), { locale: tr });
     const end = endOfWeek(endOfMonth(view), { locale: tr });
     return eachDayOfInterval({ start, end });
   });
 
-  weekDays = computed(() => {
+  readonly weekDays = computed(() => {
     const start = startOfWeek(new Date(), { locale: tr });
     const days = [];
     for (let i = 0; i < 7; i++) {
@@ -257,15 +235,53 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return days;
   });
 
-  hoursList = Array.from({ length: 24 }, (_, i) => i);
-  minutesList = Array.from({ length: 60 }, (_, i) => i);
+  /**
+   * Helper to safely access range values in template
+   */
+  readonly rangeValue = computed(() => {
+    const v = this.value();
+    if (this.isRange(v)) {
+      return v;
+    }
+    return null;
+  });
+
+  // --- Internal State ---
+
+  /**
+   * Current view date (month/year navigation).
+   */
+  readonly viewDate = signal<Date>(new Date());
+
+  /**
+   * Popup open state.
+   */
+  readonly isOpen = signal<boolean>(false);
+
+  // Time state (for internal UI binding)
+  readonly selectedHour = signal<number>(0);
+  readonly selectedMinute = signal<number>(0);
+
+  // Custom Time Picker Visibility
+  readonly showHourPicker = signal<boolean>(false);
+  readonly showMinutePicker = signal<boolean>(false);
+
+  readonly hoursList = Array.from({ length: 24 }, (_, i) => i);
+  readonly minutesList = Array.from({ length: 60 }, (_, i) => i);
+
+  protected readonly icons = {
+    calendar: Calendar,
+    clock: Clock,
+    prev: ChevronLeft,
+    next: ChevronRight,
+  };
 
   constructor() {
     super();
 
     // Disabled state sync
     effect(() => {
-      this.setDisabledState(this.disabledInput());
+      this.setDisabledState(this.disabled());
     });
 
     // Reset time when opening
@@ -287,7 +303,11 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   // --- Actions ---
 
-  toggleOpen() {
+  /**
+   * Toggles the datepicker popup open/close state.
+   * Syncs the view date to the current value when opening.
+   */
+  toggleOpen(): void {
     if (this.isDisabled() || this.readonly()) return;
     this.isOpen.update((v) => !v);
     if (this.isOpen()) {
@@ -303,23 +323,35 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     }
   }
 
-  close() {
+  /**
+   * Closes the datepicker popup and marks the control as touched.
+   */
+  close(): void {
     this.isOpen.set(false);
     this.markAsTouched();
   }
 
-  prevMonth() {
+  /**
+   * Navigates to the previous month in the calendar view.
+   */
+  prevMonth(): void {
     this.viewDate.update((d) => subMonths(d, 1));
   }
 
-  nextMonth() {
+  /**
+   * Navigates to the next month in the calendar view.
+   */
+  nextMonth(): void {
     this.viewDate.update((d) => addMonths(d, 1));
   }
 
   /**
    * Handles date click event.
+   * Applies time selection if enabled and manages single/range selection modes.
+   *
+   * @param {Date} date - The selected date.
    */
-  selectDate(date: Date) {
+  selectDate(date: Date): void {
     const mode = this.selectionMode();
     const currentVal = this.value();
 
@@ -327,6 +359,11 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     if (this.withTime()) {
       date = setHours(date, this.selectedHour());
       date = setMinutes(date, this.selectedMinute());
+    } else {
+      date = setHours(date, 0);
+      date = setMinutes(date, 0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
     }
 
     if (mode === 'single') {
@@ -364,29 +401,164 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     }
   }
 
-  toggleHourPicker() {
+  /**
+   * Toggles the hour picker dropdown.
+   */
+  toggleHourPicker(): void {
     this.showHourPicker.update((v) => !v);
     this.showMinutePicker.set(false);
   }
 
-  toggleMinutePicker() {
+  /**
+   * Toggles the minute picker dropdown.
+   */
+  toggleMinutePicker(): void {
     this.showMinutePicker.update((v) => !v);
     this.showHourPicker.set(false);
   }
 
-  selectHour(h: number) {
+  /**
+   * Selects a specific hour value and updates the time.
+   *
+   * @param {number} h - The hour value (0-23).
+   */
+  selectHour(h: number): void {
     this.selectedHour.set(h);
     this.updateTime();
     this.showHourPicker.set(false);
   }
 
-  selectMinute(m: number) {
+  /**
+   * Selects a specific minute value and updates the time.
+   *
+   * @param {number} m - The minute value (0-59).
+   */
+  selectMinute(m: number): void {
     this.selectedMinute.set(m);
     this.updateTime();
     this.showMinutePicker.set(false);
   }
 
-  private updateTime() {
+  /**
+   * Writes a value to the component from outside (ControlValueAccessor).
+   * Handles both Date objects and ISO date strings.
+   * Validates and converts input to the appropriate format based on selection mode.
+   *
+   * @override
+   * @param {DateValues | null} obj - The value to write.
+   */
+  override writeValue(obj: DateValues | null): void {
+    // Basic type checking and safe setting
+    if (!obj) {
+      super.writeValue(null);
+      return;
+    }
+
+    if (this.selectionMode() === 'single') {
+      if (obj instanceof Date) {
+        super.writeValue(isValid(obj) ? obj : null);
+        if (isValid(obj)) this.viewDate.set(obj);
+      } else if (typeof obj === 'string') {
+        const parsed = parseISO(obj);
+        super.writeValue(isValid(parsed) ? parsed : null);
+        if (isValid(parsed)) this.viewDate.set(parsed);
+      }
+    } else {
+      const range = obj as { start: Date | null; end: Date | null };
+      if (typeof range === 'object' && (range.start || range.end)) {
+        super.writeValue(range);
+        if (range.start) this.viewDate.set(range.start);
+      } else {
+        super.writeValue(null);
+      }
+    }
+  }
+
+  // --- Helper Predicates ---
+
+  /**
+   * Type guard to check if a value is a range object.
+   *
+   * @param {unknown} val - The value to check.
+   * @returns {boolean} True if the value is a range object.
+   */
+  isRange(val: unknown): val is { start: Date | null; end: Date | null } {
+    return !!val && typeof val === 'object' && 'start' in val;
+  }
+
+  /**
+   * Checks if a given date is currently selected.
+   * Works for both single and range selection modes.
+   *
+   * @param {Date} date - The date to check.
+   * @returns {boolean} True if the date is selected.
+   */
+  isSelected(date: Date): boolean {
+    const val = this.value();
+    if (this.selectionMode() === 'single') {
+      return val instanceof Date && isSameDay(date, val);
+    } else if (this.isRange(val)) {
+      return (!!val.start && isSameDay(date, val.start)) || (!!val.end && isSameDay(date, val.end));
+    }
+    return false;
+  }
+
+  /**
+   * Checks if a given date is within the selected range.
+   * Only applicable in range selection mode.
+   *
+   * @param {Date} date - The date to check.
+   * @returns {boolean} True if the date is within the range.
+   */
+  isInRange(date: Date): boolean {
+    const val = this.value();
+    if (this.selectionMode() === 'range' && this.isRange(val) && val.start && val.end) {
+      return isWithinInterval(date, { start: val.start, end: val.end });
+    }
+    return false;
+  }
+
+  /**
+   * Checks if a given date belongs to the currently viewed month.
+   *
+   * @param {Date} date - The date to check.
+   * @returns {boolean} True if the date is in the current month.
+   */
+  isCurrentMonth(date: Date): boolean {
+    return isSameMonth(date, this.viewDate());
+  }
+
+  /**
+   * Checks if a given date is today.
+   *
+   * @param {Date} date - The date to check.
+   * @returns {boolean} True if the date is today.
+   */
+  isDateToday(date: Date): boolean {
+    return isToday(date);
+  }
+
+  /**
+   * Checks if two dates are the same day.
+   *
+   * @param {Date} d1 - The first date.
+   * @param {Date} d2 - The second date.
+   * @returns {boolean} True if dates are the same day.
+   */
+  isSameDay(d1: Date, d2: Date): boolean {
+    return isSameDay(d1, d2);
+  }
+
+  // --- Private Methods ---
+
+  /**
+   * Updates the time component of the current value.
+   * Applies the selected hour and minute to the date.
+   * For range mode, applies time to the end date if complete, otherwise to the start date.
+   *
+   * @private
+   */
+  private updateTime(): void {
     const h = this.selectedHour();
     const m = this.selectedMinute();
     const mode = this.selectionMode();
@@ -418,80 +590,4 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
       }
     }
   }
-
-  // --- Helper Predicates ---
-
-  isRange(val: any): val is { start: Date | null; end: Date | null } {
-    return val && typeof val === 'object' && 'start' in val;
-  }
-
-  isSelected(date: Date): boolean {
-    const val = this.value();
-    if (this.selectionMode() === 'single') {
-      return val instanceof Date && isSameDay(date, val);
-    } else if (this.isRange(val)) {
-      return (!!val.start && isSameDay(date, val.start)) || (!!val.end && isSameDay(date, val.end));
-    }
-    return false;
-  }
-
-  isInRange(date: Date): boolean {
-    const val = this.value();
-    if (this.selectionMode() === 'range' && this.isRange(val) && val.start && val.end) {
-      return isWithinInterval(date, { start: val.start, end: val.end });
-    }
-    return false;
-  }
-
-  isCurrentMonth(date: Date): boolean {
-    return isSameMonth(date, this.viewDate());
-  }
-
-  isDateToday(date: Date): boolean {
-    return isToday(date);
-  }
-
-  // --- Helpers for Template ---
-
-  /**
-   * Helper to safely access range values in template
-   */
-  readonly rangeValue = computed(() => {
-    const v = this.value();
-    if (this.isRange(v)) {
-      return v;
-    }
-    return null;
-  });
-
-  isSameDay(d1: Date, d2: Date): boolean {
-    return isSameDay(d1, d2);
-  }
-
-  // --- ControlValueAccessor Overrides ---
-
-  override writeValue(obj: any): void {
-    // Basic type checking and safe setting
-    if (!obj) {
-      super.writeValue(null);
-      return;
-    }
-
-    if (this.selectionMode() === 'single') {
-      if (obj instanceof Date || typeof obj === 'string') {
-        // handle string if needed, date-fns parse
-        const d = new Date(obj);
-        super.writeValue(isValid(d) ? d : null);
-        if (isValid(d)) this.viewDate.set(d);
-      }
-    } else {
-      if (typeof obj === 'object' && (obj.start || obj.end)) {
-        super.writeValue(obj);
-        if (obj.start) this.viewDate.set(obj.start);
-      } else {
-        super.writeValue(null);
-      }
-    }
-  }
 }
-

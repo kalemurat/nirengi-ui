@@ -114,4 +114,3 @@ export const designTokenFontWeights: FontWeights = {
   extrabold: '800',
   black: '900',
 };
-

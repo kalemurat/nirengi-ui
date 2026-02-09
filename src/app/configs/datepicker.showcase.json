@@ -3,7 +3,7 @@
   "name": "Datepicker",
   "description": "Date selection input with calendar popup",
   "category": "Form",
-  "selector": "n-datepicker",
+  "selector": "nui-datepicker",
   "properties": [
     {
       "name": "label",

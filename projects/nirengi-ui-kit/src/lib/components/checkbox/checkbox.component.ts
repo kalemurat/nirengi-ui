@@ -1,10 +1,10 @@
 import {
-    Component,
-    input,
-    forwardRef,
-    effect,
-    computed,
-    ChangeDetectionStrategy,
+  Component,
+  input,
+  forwardRef,
+  effect,
+  computed,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -253,4 +253,3 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     this.markAsTouched();
   }
 }
-

@@ -11,4 +11,3 @@ export enum TooltipPosition {
   /** Show on right */
   Right = 'right',
 }
-

@@ -1,10 +1,10 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    forwardRef,
-    input,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  forwardRef,
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -131,4 +131,3 @@ export class SwitchComponent extends ValueAccessorBase<boolean> {
     }
   }
 }
-

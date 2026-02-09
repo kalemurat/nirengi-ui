@@ -46,4 +46,3 @@ export const designTokenBreakpoints: Breakpoints = {
 export function getMediaQuery(breakpoint: string): string {
   return `@media (min-width: ${breakpoint})`;
 }
-

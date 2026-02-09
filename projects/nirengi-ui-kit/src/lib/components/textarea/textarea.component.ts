@@ -1,10 +1,10 @@
 import {
-    Component,
-    input,
-    forwardRef,
-    computed,
-    effect,
-    ChangeDetectionStrategy,
+  Component,
+  input,
+  forwardRef,
+  computed,
+  effect,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';

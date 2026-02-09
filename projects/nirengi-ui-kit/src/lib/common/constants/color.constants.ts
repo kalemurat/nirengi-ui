@@ -99,4 +99,3 @@ export const COLOR_BORDER_MAP: Record<ColorVariant, string> = {
   [ColorVariant.Info]: 'border-cyan-600',
   [ColorVariant.Neutral]: 'border-slate-500',
 } as const;
-

@@ -148,4 +148,3 @@ export const SIZE_GAP_MAP = SIZE_GAP_CLASS_MAP;
  * @deprecated Use Tailwind config. Switch to SIZE_RADIUS_CLASS_MAP.
  */
 export const SIZE_RADIUS_MAP = SIZE_RADIUS_CLASS_MAP;
-

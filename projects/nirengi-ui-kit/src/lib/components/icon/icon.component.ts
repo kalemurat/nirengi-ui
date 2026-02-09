@@ -63,4 +63,3 @@ export class IconComponent {
    */
   class = input<string>('');
 }
-

@@ -1,11 +1,11 @@
 import {
-    Component,
-    ChangeDetectionStrategy,
-    input,
-    output,
-    signal,
-    ElementRef,
-    viewChild,
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  output,
+  signal,
+  ElementRef,
+  viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, ButtonType } from '../button/button.component';
@@ -62,7 +62,6 @@ export class FileUploadComponent {
    * Default: 'or drag and drop'
    */
   readonly dragDropLabel = input<string>('or drag and drop');
-
 
   /**
    * Whether to allow multiple file selection.

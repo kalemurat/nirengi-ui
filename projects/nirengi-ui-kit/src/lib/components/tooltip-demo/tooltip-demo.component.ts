@@ -41,4 +41,3 @@ export class TooltipDemoComponent {
   // Enum reference for use in the template (if needed)
   readonly ButtonType = ButtonType;
 }
-

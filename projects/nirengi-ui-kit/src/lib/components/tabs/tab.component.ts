@@ -1,10 +1,10 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    contentChild,
-    input,
-    TemplateRef,
-    viewChild,
+  ChangeDetectionStrategy,
+  Component,
+  contentChild,
+  input,
+  TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { TabLabelDirective } from './tab-label.directive';
 
@@ -61,4 +61,3 @@ export class TabComponent {
    */
   readonly contentTemplate = viewChild.required(TemplateRef);
 }
-

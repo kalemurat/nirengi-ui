@@ -209,4 +209,3 @@ export class ParagraphComponent {
     return classes.join(' ');
   });
 }
-

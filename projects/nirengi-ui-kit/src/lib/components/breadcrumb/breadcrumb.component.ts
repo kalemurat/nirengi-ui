@@ -136,4 +136,3 @@ export class BreadcrumbComponent {
     return value instanceof TemplateRef;
   }
 }
-

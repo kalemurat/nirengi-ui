@@ -102,4 +102,3 @@ export class BadgeComponent {
     return classes.join(' ');
   });
 }
-

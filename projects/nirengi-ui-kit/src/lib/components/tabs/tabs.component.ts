@@ -1,10 +1,10 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    contentChildren,
-    input,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChildren,
+  input,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabComponent } from './tab.component';
@@ -110,4 +110,3 @@ export class TabsComponent {
     return classes.join(' ');
   });
 }
-

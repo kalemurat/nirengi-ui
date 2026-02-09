@@ -37,4 +37,3 @@ export enum Size {
    */
   XLarge = 'xl',
 }
-

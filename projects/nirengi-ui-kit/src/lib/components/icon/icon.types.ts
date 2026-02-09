@@ -14,4 +14,3 @@ export type IconName = keyof typeof ALL_ICONS;
  * Array form of icon names.
  */
 export const IconNames: IconName[] = Object.keys(ALL_ICONS) as IconName[];
-

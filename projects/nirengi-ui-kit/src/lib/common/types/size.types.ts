@@ -33,4 +33,3 @@ export interface ResponsiveSizeConfig {
  * Accepts either a single size value or a responsive configuration.
  */
 export type SizeValue = SizeType | ResponsiveSizeConfig;
-

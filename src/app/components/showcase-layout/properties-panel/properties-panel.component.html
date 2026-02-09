@@ -68,7 +68,9 @@
             @case ('array') {
               <div class="properties-panel__array-info">
                 <span class="properties-panel__icon">📋</span>
-                <span class="properties-panel__array-text"> {{ $any(getPropertyValue(prop.name))?.length || 0 }} items </span>
+                <span class="properties-panel__array-text">
+                  {{ $any(getPropertyValue(prop.name))?.length || 0 }} items
+                </span>
               </div>
             }
 

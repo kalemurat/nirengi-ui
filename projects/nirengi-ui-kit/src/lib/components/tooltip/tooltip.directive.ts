@@ -1,19 +1,19 @@
 import {
-    Directive,
-    ElementRef,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    effect,
-    ComponentRef,
+  Directive,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  effect,
+  ComponentRef,
 } from '@angular/core';
 import {
-    Overlay,
-    OverlayRef,
-    OverlayPositionBuilder,
-    ConnectionPositionPair,
-    PositionStrategy,
+  Overlay,
+  OverlayRef,
+  OverlayPositionBuilder,
+  ConnectionPositionPair,
+  PositionStrategy,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { TooltipComponent } from './tooltip.component';

@@ -512,4 +512,3 @@ export class SelectComponent extends ValueAccessorBase<any> {
     return this.getValue(item) || index;
   }
 }
-

@@ -66,4 +66,3 @@ export class TooltipComponent {
     return `${baseClass} ${positionClass} ${visibleClass}`;
   });
 }
-

@@ -48,4 +48,3 @@ export class PopoverRef<T = any, R = any> {
     return this._events.asObservable();
   }
 }
-

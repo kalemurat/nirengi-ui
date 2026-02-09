@@ -67,4 +67,3 @@ export class ListComponent<T extends ListItem> {
     return `nui-list ${this.listClass()}`.trim();
   });
 }
-

@@ -152,4 +152,3 @@ export class PopoverDemoComponent {
     }, 3000);
   }
 }
-

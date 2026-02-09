@@ -23,4 +23,3 @@ export class TabLabelDirective {
    */
   readonly template = inject(TemplateRef);
 }
-

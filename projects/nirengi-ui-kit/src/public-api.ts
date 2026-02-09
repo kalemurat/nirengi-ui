@@ -336,14 +336,15 @@ export type { ListItem } from './lib/components/list/list.component';
 /**
  * Table component and types.
  * @see {@link TableComponent}
+ * @see {@link IFilterMetadata}
+ * @see {@link ITableColumn}
  * @see {@link FilterMatchMode}
- * @see {@link FilterMetadata}
  */
 export { TableComponent } from './lib/components/table/table.component';
 export type {
+  IFilterMetadata,
+  ITableColumn,
   FilterMatchMode,
-  FilterMetadata,
-  TableColumn,
 } from './lib/components/table/table.component';
 
 /**
@@ -387,4 +388,3 @@ export * from './lib/components/popover-demo';
  * @see {@link FileUploadComponent}
  */
 export * from './lib/components/file-upload';
-

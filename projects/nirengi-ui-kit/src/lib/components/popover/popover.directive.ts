@@ -1,23 +1,23 @@
 import {
-    Directive,
-    ElementRef,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    effect,
-    ComponentRef,
-    Type,
-    output,
-    Injector,
+  Directive,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  effect,
+  ComponentRef,
+  Type,
+  output,
+  Injector,
 } from '@angular/core';
 import {
-    Overlay,
-    OverlayRef,
-    OverlayPositionBuilder,
-    ConnectionPositionPair,
-    PositionStrategy,
-    OverlayConfig,
+  Overlay,
+  OverlayRef,
+  OverlayPositionBuilder,
+  ConnectionPositionPair,
+  PositionStrategy,
+  OverlayConfig,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { PopoverComponent } from './popover.component';
@@ -417,4 +417,3 @@ export class PopoverDirective implements OnDestroy {
     }
   }
 }
-

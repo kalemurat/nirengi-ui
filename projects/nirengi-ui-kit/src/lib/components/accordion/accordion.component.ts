@@ -1,10 +1,10 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    TemplateRef,
-    computed,
-    input,
-    model,
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  computed,
+  input,
+  model,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
@@ -132,4 +132,3 @@ export class AccordionComponent {
     return value instanceof TemplateRef;
   }
 }
-
