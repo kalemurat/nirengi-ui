@@ -502,7 +502,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
   clearValue(event: Event): void {
     event.stopPropagation();
     if (this.isDisabled()) return;
-    this.updateValue(null);
+    this.updateValue(this.multiple() ? [] : null);
   }
 
   /**

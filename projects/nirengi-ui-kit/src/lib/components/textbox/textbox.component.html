@@ -21,10 +21,17 @@
       [readOnly]="readonly()"
       class="nui-textbox__input"
       [class.nui-textbox__input--with-icon]="icon()"
+      [class.nui-textbox__input--clearable]="clearable() && value()"
       [ngClass]="inputClasses()"
       (input)="onInput($event)"
       (blur)="markAsTouched()"
     />
+
+    @if (clearable() && value() && !isDisabled() && !readonly()) {
+      <button type="button" class="nui-textbox__clear" (click)="clearValue()" aria-label="Clear input">
+        <nui-icon name="X" [size]="iconSize()" />
+      </button>
+    }
   </div>
 
   @if (hint()) {

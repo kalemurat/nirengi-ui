@@ -27,6 +27,16 @@
     &--focused {
       @apply border-primary-500 ring-1 ring-primary-500;
     }
+
+    &--clearable {
+      @apply pr-14;
+    }
+  }
+
+  &__clear {
+    @apply absolute flex cursor-pointer items-center justify-center text-tertiary transition-colors duration-200 hover:text-danger-500;
+    @apply right-8 top-1/2 -translate-y-1/2;
+    @apply h-5 w-5;
   }
 
   &__icon {

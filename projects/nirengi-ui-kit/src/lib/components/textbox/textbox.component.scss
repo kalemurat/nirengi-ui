@@ -81,6 +81,14 @@
     &--with-icon {
       @apply pl-10;
     }
+
+    &--clearable {
+      @apply pr-10;
+    }
+  }
+
+  &__clear {
+    @apply absolute inset-y-0 right-3 flex cursor-pointer items-center text-tertiary transition-colors duration-200 hover:text-danger-500;
   }
 
   &__icon {

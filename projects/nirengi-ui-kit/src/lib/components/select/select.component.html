@@ -42,8 +42,8 @@
         }
       </div>
 
-      <!-- Clear Button (Single Select) -->
-      @if (!multiple() && hasValue() && clearable() && !isDisabled()) {
+      <!-- Clear Button -->
+      @if (hasValue() && clearable() && !isDisabled()) {
         <div class="nui-select__clear" (click)="clearValue($event)">
           <nui-icon name="X" [size]="iconSize()" />
         </div>

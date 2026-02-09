@@ -30,14 +30,17 @@
       [value]="formattedValue()"
       [placeholder]="placeholder()"
       [class]="inputClasses()"
+      [class.datepicker__input--clearable]="clearable() && value()"
       (blur)="markAsTouched()"
     />
 
-    <lucide-icon
-      [name]="icons.calendar"
-      class="datepicker__icon"
-      [class.datepicker__icon--active]="isOpen()"
-    ></lucide-icon>
+    @if (clearable() && value() && !isDisabled() && !readonly()) {
+      <div class="datepicker__clear" (click)="clearValue($event)">
+        <nui-icon [name]="icons.clear" [size]="iconSize()"></nui-icon>
+      </div>
+    }
+
+    <nui-icon [name]="icons.calendar" class="datepicker__icon" [class.datepicker__icon--active]="isOpen()"></nui-icon>
   </div>
 
   @if (hint() && !error()) {
@@ -62,17 +65,13 @@
     <div class="datepicker__calendar">
       <!-- Header: Month/Year & Nav -->
       <div class="datepicker__header">
-        <button type="button" class="datepicker__nav-btn" (click)="prevMonth()">
-          <lucide-icon [name]="icons.prev" class="datepicker__nav-icon"></lucide-icon>
-        </button>
+        <nui-icon [name]="icons.prev" class="datepicker__nav-icon" size="16"></nui-icon>
 
         <span class="datepicker__title">
           {{ currentMonthYear() }}
         </span>
 
-        <button type="button" class="datepicker__nav-btn" (click)="nextMonth()">
-          <lucide-icon [name]="icons.next" class="datepicker__nav-icon"></lucide-icon>
-        </button>
+        <nui-icon [name]="icons.next" class="datepicker__nav-icon" size="16"></nui-icon>
       </div>
 
       <!-- Weekday Headers -->
@@ -109,7 +108,7 @@
       <!-- Time Picker Footer -->
       @if (withTime()) {
         <div class="datepicker__footer">
-          <lucide-icon [name]="icons.clock" class="datepicker__time-icon"></lucide-icon>
+          <nui-icon [name]="icons.clock" class="datepicker__time-icon" size="16"></nui-icon>
 
           <!-- Scrolls handled by native select for simplicity, or custom scroller -->
           <div class="datepicker__time-group">

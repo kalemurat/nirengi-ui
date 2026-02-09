@@ -31,7 +31,9 @@ import {
   subMonths,
 } from 'date-fns';
 import { tr } from 'date-fns/locale';
-import { Calendar, ChevronLeft, ChevronRight, Clock, LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
+import { IconComponent } from '../icon/icon.component';
+import { IconName } from '../icon/icon.types';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
@@ -95,7 +97,7 @@ export type DatepickerSelectionMode = 'single' | 'range';
 @Component({
   selector: 'nui-datepicker',
   standalone: true,
-  imports: [CommonModule, OverlayModule, LucideAngularModule, FormsModule],
+  imports: [CommonModule, OverlayModule, LucideAngularModule, FormsModule, IconComponent],
   templateUrl: './datepicker.component.html',
   styleUrl: './datepicker.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -119,6 +121,13 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly readonly = input<boolean>(false);
 
   /**
+   * Whether the datepicker is clearable.
+   * If true, shows a clear button when a value is selected.
+   * @default false
+   */
+  readonly clearable = input<boolean>(false);
+
+  /**
    * Color variant.
    * Provides a color theme with semantic meaning.
    *
@@ -130,6 +139,26 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
    * Component size.
    */
   readonly size = input<Size>(Size.Medium);
+
+  /**
+   * Computed icon size based on component size.
+   */
+  readonly iconSize = computed(() => {
+    switch (this.size()) {
+      case Size.XSmall:
+        return 14;
+      case Size.Small:
+        return 16;
+      case Size.Medium:
+        return 18;
+      case Size.Large:
+        return 20;
+      case Size.XLarge:
+        return 24;
+      default:
+        return 18;
+    }
+  });
 
   /**
    * Validation hint text.
@@ -269,11 +298,18 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly hoursList = Array.from({ length: 24 }, (_, i) => i);
   readonly minutesList = Array.from({ length: 60 }, (_, i) => i);
 
-  protected readonly icons = {
-    calendar: Calendar,
-    clock: Clock,
-    prev: ChevronLeft,
-    next: ChevronRight,
+  protected readonly icons: {
+    calendar: IconName;
+    clock: IconName;
+    prev: IconName;
+    next: IconName;
+    clear: IconName;
+  } = {
+    calendar: 'Calendar',
+    clock: 'Clock',
+    prev: 'ChevronLeft',
+    next: 'ChevronRight',
+    clear: 'X',
   };
 
   constructor() {
@@ -399,6 +435,17 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
         }
       }
     }
+  }
+
+  /**
+   * Clears the selected date value.
+   * @param event - Mouse click event.
+   */
+  clearValue(event: Event): void {
+    event.stopPropagation();
+    if (this.isDisabled() || this.readonly()) return;
+    this.updateValue(null);
+    this.dateChange.emit(null!);
   }
 
   /**
