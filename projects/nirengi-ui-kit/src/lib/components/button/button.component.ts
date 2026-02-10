@@ -53,7 +53,7 @@ export enum ButtonType {
  * <nui-button
  *   [variant]="ColorVariant.Primary"
  *   [size]="Size.Large"
- *   [type]="ButtonType.Solid">
+ *   [kind]="ButtonType.Solid">
  *   Submit
  * </nui-button>
  *
@@ -85,12 +85,12 @@ export enum ButtonType {
 })
 export class ButtonComponent {
   /**
-   * Button type.
+   * Button kind (visual style).
    * Determines the visual style and behavior.
    *
    * @default ButtonType.Solid
    */
-  type = input<ButtonType>(ButtonType.Solid);
+  kind = input<ButtonType>(ButtonType.Solid);
 
   /**
    * Color variant.
@@ -142,6 +142,14 @@ export class ButtonComponent {
   clicked = output<void>();
 
   /**
+   * Native button type.
+   * Determines the browser behavior of the button (submit form, reset form, etc.).
+   *
+   * @default 'button'
+   */
+  type = input<'button' | 'submit' | 'reset'>('button');
+
+  /**
    * Computed signal to calculate CSS classes for the button.
    * Performs dynamic class binding using BEM methodology.
    * Updated reactively.
@@ -151,7 +159,7 @@ export class ButtonComponent {
   protected readonly buttonClasses = computed(() => {
     const classes = ['nui-button'];
 
-    classes.push(`nui-button--${this.type()}`);
+    classes.push(`nui-button--${this.kind()}`);
     classes.push(`nui-button--${this.variant()}`);
     classes.push(`nui-button--${this.size()}`);
 

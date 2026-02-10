@@ -31,7 +31,7 @@ import { ButtonType } from '../button/button.component';
         <nui-button
           [size]="Size.XSmall"
           [variant]="ColorVariant.Neutral"
-          [type]="ButtonType.Ghost"
+          [kind]="ButtonType.Ghost"
           (clicked)="onAction('cancel')"
         >
           Cancel

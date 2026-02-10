@@ -19,7 +19,7 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
       <nui-button
         [nirengiTooltip]="tooltipText()"
         [nirengiTooltipPosition]="tooltipPosition()"
-        [type]="ButtonType.Solid"
+        [kind]="ButtonType.Solid"
       >
         Hover Over Me
       </nui-button>

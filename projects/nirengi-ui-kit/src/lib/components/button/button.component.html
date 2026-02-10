@@ -3,7 +3,7 @@
   [disabled]="disabled() || loading()"
   [attr.aria-disabled]="disabled() || loading()"
   [attr.aria-busy]="loading()"
-  type="button"
+  [type]="type()"
   (click)="handleClick()"
 >
   @if (loading()) {

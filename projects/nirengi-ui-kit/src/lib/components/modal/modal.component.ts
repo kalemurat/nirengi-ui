@@ -63,7 +63,7 @@ import { Size } from '../../common/enums/size.enum';
             </div>
 
             <nui-button
-              [type]="ButtonType.Ghost"
+              [kind]="ButtonType.Ghost"
               [variant]="ColorVariant.Neutral"
               [size]="Size.Small"
               (clicked)="close()"
