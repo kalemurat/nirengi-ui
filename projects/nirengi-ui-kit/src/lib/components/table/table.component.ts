@@ -182,6 +182,48 @@ export class TableComponent<T> {
    */
   pageSizeOptions = input<number[]>([5, 10, 20, 50]);
 
+  /**
+   * Label for 'of' in pagination (e.g., '1-10 / 100').
+   * @default '/'
+   */
+  ofLabel = input<string>('/');
+
+  /**
+   * Label for 'showing' in pagination.
+   * @default 'gösteriliyor'
+   */
+  showingLabel = input<string>('gösteriliyor');
+
+  /**
+   * Label for screen readers on 'Previous' button.
+   * @default 'Geri'
+   */
+  previousLabel = input<string>('Geri');
+
+  /**
+   * Label for screen readers on 'Next' button.
+   * @default 'İleri'
+   */
+  nextLabel = input<string>('İleri');
+
+  /**
+   * Placeholder for the global search input.
+   * @default 'Ara...'
+   */
+  searchPlaceholder = input<string>('Ara...');
+
+  /**
+   * Title displayed when no records are found.
+   * @default 'Kayıt Bulunamadı'
+   */
+  emptyTitle = input<string>('Kayıt Bulunamadı');
+
+  /**
+   * Message displayed when no records are found.
+   * @default 'Arama kriterlerinize uygun kayıt bulunamadı.'
+   */
+  emptyMessage = input<string>('Arama kriterlerinize uygun kayıt bulunamadı.');
+
   // Outputs
 
   /**
@@ -189,11 +231,6 @@ export class TableComponent<T> {
    * Used for backend-based pagination.
    */
   pageChange = output<number | string>();
-
-  /**
-   * Triggered when the number of records per page (pageSize) changes.
-   */
-  pageSizeChange = output<number>();
 
   /**
    * Triggered when the global filtering value changes.
@@ -534,12 +571,14 @@ export class TableComponent<T> {
 
   /**
    * Changes the page size.
+   * Resets the current page to 1 and emits pageChange.
+   *
+   * @param {number} value - The new page size.
    */
   onPageSizeChange(value: number) {
     this.pageSize.set(value);
     this.currentPage.set(1);
     this.pageChange.emit(1); // Reset to p1
-    this.pageSizeChange.emit(value);
   }
 
   private matches(value: unknown, filter: unknown, mode: FilterMatchMode): boolean {
