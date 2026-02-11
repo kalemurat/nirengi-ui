@@ -10,7 +10,7 @@
 
         <button
           (click)="themeService.toggleTheme()"
-          class="flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-200 bg-white text-neutral-600 transition-all hover:bg-neutral-50 active:scale-95 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800"
+          class="component-renderer__theme-toggle"
           [title]="themeService.theme() === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
         >
           @if (themeService.theme() === 'light') {

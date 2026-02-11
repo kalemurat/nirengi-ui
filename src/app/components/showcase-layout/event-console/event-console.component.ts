@@ -25,21 +25,21 @@ import { EventLoggerService } from '../../../core/services/event-logger.service'
 })
 export class EventConsoleComponent {
   /**
-   * Event logger servisini inject eder.
-   */
-  private readonly eventLogger = inject(EventLoggerService);
-
-  /**
    * Event loglarının computed signal'i.
    * Service'den otomatik olarak güncellenir.
    */
-  protected readonly eventLogs = this.eventLogger.eventLogs;
+  protected readonly eventLogs = inject(EventLoggerService).eventLogs;
 
   /**
    * Gösterilecek maksimum log sayısı.
    * Performance için sınırlandırılır.
    */
-  protected readonly maxLogs = computed(() => this.eventLogger.getRecentLogs(50));
+  protected readonly maxLogs = computed(() => inject(EventLoggerService).getRecentLogs(50));
+
+  /**
+   * Event logger servisini inject eder.
+   */
+  private readonly eventLogger = inject(EventLoggerService);
 
   /**
    * Tüm logları temizler.

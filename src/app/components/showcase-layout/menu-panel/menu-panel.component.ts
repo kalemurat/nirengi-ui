@@ -26,20 +26,22 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
 })
 export class MenuPanelComponent {
   /**
-   * Component registry servisini inject eder.
-   * Menü yapısı registry'den okunur.
-   */
-  private readonly registry = inject(ComponentRegistryService);
-
-  /**
    * Kategorilere göre gruplandırılmış component'ler.
    * Computed signal olarak registry'den otomatik güncellenir.
    */
-  protected readonly menuCategories = this.registry.configsByCategory;
+  protected readonly menuCategories = inject(ComponentRegistryService).configsByCategory;
 
   /**
    * Toplam component sayısı.
    * Header'da gösterilmek için.
    */
-  protected readonly totalComponents = computed(() => this.registry.allConfigs().length);
+  protected readonly totalComponents = computed(
+    () => inject(ComponentRegistryService).allConfigs().length
+  );
+
+  /**
+   * Component registry servisini inject eder.
+   * Menü yapısı registry'den okunur.
+   */
+  private readonly registry = inject(ComponentRegistryService);
 }

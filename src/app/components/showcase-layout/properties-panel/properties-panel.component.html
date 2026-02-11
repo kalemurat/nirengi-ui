@@ -12,7 +12,7 @@
     } @else {
       @for (prop of visibleProperties(); track prop.name) {
         <div class="properties-panel__property">
-          <label class="properties-panel__label">
+          <label [for]="prop.name" class="properties-panel__label">
             {{ prop.label }}
             @if (prop.readOnly) {
               <span class="properties-panel__badge">(Read-only)</span>
@@ -25,6 +25,7 @@
           @switch (prop.type) {
             @case ('string') {
               <nui-textbox
+                [id]="prop.name"
                 [ngModel]="getPropertyValue(prop.name)"
                 [readonly]="!!prop.readOnly"
                 [size]="Size.XSmall"
@@ -34,6 +35,7 @@
 
             @case ('number') {
               <nui-textbox
+                [id]="prop.name"
                 type="number"
                 [ngModel]="getPropertyValue(prop.name)"
                 [readonly]="!!prop.readOnly"
@@ -44,6 +46,7 @@
 
             @case ('boolean') {
               <nui-checkbox
+                [id]="prop.name"
                 [ngModel]="getPropertyValue(prop.name)"
                 [readonly]="!!prop.readOnly"
                 [size]="Size.XSmall"
@@ -54,6 +57,7 @@
 
             @case ('enum') {
               <nui-select
+                [id]="prop.name"
                 [options]="prop.options || []"
                 bindLabel="label"
                 bindValue="value"

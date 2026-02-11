@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IComponentShowcaseConfig } from '../../core/interfaces/showcase-config.interface';
 import { MenuPanelComponent } from './menu-panel/menu-panel.component';
 import { ComponentRendererComponent } from './component-renderer/component-renderer.component';
 import { PropertiesPanelComponent } from './properties-panel/properties-panel.component';
@@ -60,21 +61,21 @@ import {
 
 /**
  * Showcase Layout Component.
- * Component showcase için 3-panel layout yapısı.
+ * 3-panel layout structure for component showcase.
  *
- * ## Layout Yapısı
- * - Sol: Menu Panel (280px)
- * - Orta: Component Renderer + Event Console (flex-grow)
- * - Sağ: Properties Panel (380px)
+ * ## Layout Structure
+ * - Left: Menu Panel (280px)
+ * - Center: Component Renderer + Event Console (flex-grow)
+ * - Right: Properties Panel (380px)
  *
- * ## Sorumluluklar
- * - Component-level servis provide etme
- * - Component registry'yi initialize etme
- * - JSON config'leri load etme
+ * ## Responsibilities
+ * - Providing component-level services
+ * - Initializing the component registry
+ * - Loading JSON configs
  * - Layout orchestration
  *
- * ## Özellikler
- * - ✅ CSS Grid ile 3-panel layout
+ * ## Features
+ * - ✅ 3-panel layout with CSS Grid
  * - ✅ Component-level DI (memory cleanup)
  * - ✅ Responsive design
  * - ✅ OnPush change detection
@@ -96,7 +97,7 @@ import {
   templateUrl: './showcase-layout.component.html',
   styleUrl: './showcase-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // Component-level servisler - sayfa terk edildiğinde hafızadan temizlenir
+  // Component-level services - cleaned up from memory when page is left
   providers: [PropertyStateService, EventLoggerService, ComponentRegistryService],
 })
 export class ShowcaseLayoutComponent {
@@ -104,91 +105,117 @@ export class ShowcaseLayoutComponent {
 
   constructor() {
     this.initializeRegistry();
-    this.registry.registerConfig(accordionConfig as any);
+    this.registry.registerConfig(accordionConfig as IComponentShowcaseConfig);
   }
 
   private initializeRegistry(): void {
     // Button Component
-    this.registry.registerComponent(buttonConfig as any, () => Promise.resolve(ButtonComponent));
+    this.registry.registerComponent(buttonConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(ButtonComponent)
+    );
 
     // Select Component
-    this.registry.registerComponent(selectConfig as any, () => Promise.resolve(SelectComponent));
+    this.registry.registerComponent(selectConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(SelectComponent)
+    );
 
     // Heading Component
-    this.registry.registerComponent(headingConfig as any, () => Promise.resolve(HeadingComponent));
+    this.registry.registerComponent(headingConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(HeadingComponent)
+    );
 
     // Paragraph Component
-    this.registry.registerComponent(paragraphConfig as any, () =>
+    this.registry.registerComponent(paragraphConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(ParagraphComponent)
     );
 
     // Icon Component
-    this.registry.registerComponent(iconConfig as any, () => Promise.resolve(IconComponent));
+    this.registry.registerComponent(iconConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(IconComponent)
+    );
 
     // Badge Component
-    this.registry.registerComponent(badgeConfig as any, () => Promise.resolve(BadgeComponent));
+    this.registry.registerComponent(badgeConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(BadgeComponent)
+    );
 
     // Textbox Component
-    this.registry.registerComponent(textboxConfig as any, () => Promise.resolve(TextboxComponent));
+    this.registry.registerComponent(textboxConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(TextboxComponent)
+    );
 
     // Textarea Component
-    this.registry.registerComponent(textareaConfig as any, () =>
+    this.registry.registerComponent(textareaConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(TextareaComponent)
     );
 
     // Checkbox Component
-    this.registry.registerComponent(checkboxConfig as any, () =>
+    this.registry.registerComponent(checkboxConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(CheckboxComponent)
     );
 
     // Radio Component
-    this.registry.registerComponent(radioConfig as any, () => Promise.resolve(RadioComponent));
+    this.registry.registerComponent(radioConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(RadioComponent)
+    );
 
     // Breadcrumb Component
-    this.registry.registerComponent(breadcrumbConfig as any, () =>
+    this.registry.registerComponent(breadcrumbConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(BreadcrumbComponent)
     );
 
     // List Component
-    this.registry.registerComponent(listConfig as any, () => Promise.resolve(ListComponent));
+    this.registry.registerComponent(listConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(ListComponent)
+    );
 
     // Table Component
-    this.registry.registerComponent(tableConfig as any, () => Promise.resolve(TableComponent));
+    this.registry.registerComponent(tableConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(TableComponent)
+    );
 
     // Accordion Component
-    this.registry.registerComponent(accordionConfig as any, () =>
+    this.registry.registerComponent(accordionConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(AccordionComponent)
     );
 
     // Datepicker Component
-    this.registry.registerComponent(datepickerConfig as any, () =>
+    this.registry.registerComponent(datepickerConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(DatepickerComponent)
     );
 
     // Toast Component
-    this.registry.registerComponent(toastConfig as any, () => Promise.resolve(ToastDemoComponent));
+    this.registry.registerComponent(toastConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(ToastDemoComponent)
+    );
 
     // Modal Component
-    this.registry.registerComponent(modalConfig as any, () => Promise.resolve(ModalDemoComponent));
+    this.registry.registerComponent(modalConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(ModalDemoComponent)
+    );
 
     // Tabs Component
-    this.registry.registerComponent(tabsConfig as any, () => Promise.resolve(TabsDemoComponent));
+    this.registry.registerComponent(tabsConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(TabsDemoComponent)
+    );
 
     // Tooltip Component
-    this.registry.registerComponent(tooltipConfig as any, () =>
+    this.registry.registerComponent(tooltipConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(TooltipDemoComponent)
     );
 
     // Switch Component
-    this.registry.registerComponent(switchConfig as any, () => Promise.resolve(SwitchComponent));
+    this.registry.registerComponent(switchConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(SwitchComponent)
+    );
 
     // Popover Component
-    this.registry.registerComponent(popoverConfig as any, () =>
+    this.registry.registerComponent(popoverConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(PopoverDemoComponent)
     );
 
     // File Upload Component
-    this.registry.registerComponent(fileUploadConfig as any, () =>
+    this.registry.registerComponent(fileUploadConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(FileUploadComponent)
     );
   }
