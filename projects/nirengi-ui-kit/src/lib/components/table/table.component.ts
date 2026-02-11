@@ -458,20 +458,43 @@ export class TableComponent<T> {
   /**
    * Pagination button class.
    */
-  readonly paginationButtonClass = computed(() => {
+  /**
+   * Pagination button class for number buttons (Square/Circle).
+   */
+  readonly paginationNumberClass = computed(() => {
     switch (this.size()) {
       case Size.XSmall:
         return 'w-6 h-6 text-xs';
       case Size.Small:
-        return 'w-8 h-8 text-xs';
+        return 'w-7 h-7 text-xs';
       case Size.Medium:
-        return 'w-10 h-10 text-sm';
+        return 'w-8 h-8 text-sm';
       case Size.Large:
-        return 'w-12 h-12 text-base';
+        return 'w-9 h-9 text-base';
       case Size.XLarge:
-        return 'w-14 h-14 text-lg';
+        return 'w-10 h-10 text-lg';
       default:
-        return 'w-10 h-10 text-sm';
+        return 'w-8 h-8 text-sm';
+    }
+  });
+
+  /**
+   * Pagination button class for navigation (Prev/Next) buttons.
+   */
+  readonly paginationNavClass = computed(() => {
+    switch (this.size()) {
+      case Size.XSmall:
+        return 'h-8 px-2 text-xs';
+      case Size.Small:
+        return 'h-9 px-3 text-xs';
+      case Size.Medium:
+        return 'h-10 px-4 text-sm';
+      case Size.Large:
+        return 'h-12 px-5 text-base';
+      case Size.XLarge:
+        return 'h-14 px-6 text-lg';
+      default:
+        return 'h-10 px-4 text-sm';
     }
   });
 

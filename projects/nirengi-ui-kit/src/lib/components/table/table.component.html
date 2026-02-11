@@ -1,4 +1,4 @@
-<div class="nui-table-container">
+<div class="nui-table-container" [ngClass]="'nui-table-container--' + size()">
   <!-- Toolbar / Global Filter -->
   @if (showGlobalFilter()) {
     <div class="nui-table-toolbar">
@@ -19,8 +19,11 @@
   <div class="nui-table-wrapper">
     <!-- Virtual Scroll Mode -->
     @if (virtualScroll()) {
-      <cdk-virtual-scroll-viewport [itemSize]="itemSize()" class="h-full w-full">
-        <table class="nui-table table-fixed" [ngClass]="['nui-table--grid-' + gridLines(), 'nui-table--' + size()]">
+      <cdk-virtual-scroll-viewport [itemSize]="itemSize()" class="nui-table__viewport">
+        <table
+          class="nui-table nui-table--fixed"
+          [ngClass]="['nui-table--grid-' + gridLines(), 'nui-table--' + size()]"
+        >
           <thead class="nui-table__head">
             <tr class="nui-table__row nui-table__row--head">
               @if (headTemplate()) {
@@ -136,9 +139,16 @@
     @if (loading()) {
       <div class="nui-table-loading">
         <svg class="nui-table-loading__spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <circle
+            class="nui-table-loading__spinner-circle"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
           <path
-            class="opacity-75"
+            class="nui-table-loading__spinner-path"
             fill="currentColor"
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           ></path>
@@ -152,11 +162,11 @@
     <div class="nui-table-pagination">
       <!-- Info (Mobile & Desktop) -->
       <div class="nui-table-pagination__info">
-        <div>
-          <span class="font-medium">{{ visibleRange().start }}</span> -
-          <span class="font-medium">{{ visibleRange().end }}</span> {{ ofLabel() }}
-          <span class="font-medium">{{ _totalRecords() }}</span>
-          <span class="hidden sm:inline">{{ showingLabel() }}</span>
+        <div class="nui-table-pagination__text">
+          <span class="nui-table-pagination__range-start">{{ visibleRange().start }}</span> -
+          <span class="nui-table-pagination__range-end">{{ visibleRange().end }}</span> {{ ofLabel() }}
+          <span class="nui-table-pagination__total">{{ _totalRecords() }}</span>
+          <span class="nui-table-pagination__label-showing">{{ showingLabel() }}</span>
         </div>
       </div>
 
@@ -179,17 +189,22 @@
           <button
             (click)="setPage(currentPage() - 1)"
             [disabled]="currentPage() === 1 || loading()"
-            [ngClass]="paginationButtonClass()"
-            class="nui-table-pagination__btn"
+            [ngClass]="paginationNavClass()"
+            class="nui-table-pagination__btn nui-table-pagination__btn--prev"
           >
-            <span class="sr-only">{{ previousLabel() }}</span>
-            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg
+              class="nui-table-pagination__icon nui-table-pagination__icon--prev"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path
                 fill-rule="evenodd"
                 d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                 clip-rule="evenodd"
               />
             </svg>
+            <span class="nui-table-pagination__btn-text">{{ previousLabel() }}</span>
           </button>
 
           <!-- Numbers -->
@@ -202,7 +217,7 @@
                 [disabled]="loading()"
                 [class.nui-table-pagination__btn--active]="p === currentPage()"
                 [class.nui-table-pagination__btn--inactive]="p !== currentPage() && !loading()"
-                [ngClass]="paginationButtonClass()"
+                [ngClass]="paginationNumberClass()"
                 class="nui-table-pagination__btn nui-table-pagination__btn--number"
               >
                 {{ p }}
@@ -214,11 +229,16 @@
           <button
             (click)="setPage(currentPage() + 1)"
             [disabled]="currentPage() === totalPages() || loading()"
-            [ngClass]="paginationButtonClass()"
-            class="nui-table-pagination__btn"
+            [ngClass]="paginationNavClass()"
+            class="nui-table-pagination__btn nui-table-pagination__btn--next"
           >
-            <span class="sr-only">{{ nextLabel() }}</span>
-            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <span class="nui-table-pagination__btn-text">{{ nextLabel() }}</span>
+            <svg
+              class="nui-table-pagination__icon nui-table-pagination__icon--next"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path
                 fill-rule="evenodd"
                 d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
@@ -234,9 +254,9 @@
 
 <!-- Default Templates (Fallbacks) -->
 <ng-template #defaultHead>
-  <th class="p-4 text-left font-medium text-gray-500">Header</th>
+  <th class="nui-table__cell nui-table__cell--default-head">Header</th>
 </ng-template>
 
 <ng-template #defaultRow let-item>
-  <td class="p-4 text-gray-900">{{ item | json }}</td>
+  <td class="nui-table__cell nui-table__cell--default-row">{{ item | json }}</td>
 </ng-template>
