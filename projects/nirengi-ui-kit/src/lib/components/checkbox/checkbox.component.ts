@@ -121,6 +121,15 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   readonly indeterminate = input<boolean>(false);
 
   /**
+   * Tristate mode.
+   * When true, the checkbox cycles through three states: null, true, and false.
+   * Useful for filters where "All", "Active", and "Passive" states are needed.
+   *
+   * @default false
+   */
+  readonly tristate = input<boolean>(false);
+
+  /**
    * Label text.
    * The main label to be displayed next to the checkbox.
    */
@@ -144,12 +153,12 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
    * Checked input (dumb mode).
    * Used for direct binding.
    */
-  readonly checkedInput = input<boolean | null>(null, { alias: 'checked' });
+  readonly checked = input<boolean | null>(null);
 
   /**
    * Disabled input (dumb mode).
    */
-  readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
+  readonly disabled = input<boolean>(false);
 
   /**
    * Computed signal to calculate CSS classes for the checkbox.
@@ -174,11 +183,22 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
       classes.push('nui-checkbox--checked');
     }
 
-    if (this.indeterminate()) {
+    if (this.isIndeterminate()) {
       classes.push('nui-checkbox--indeterminate');
     }
 
     return classes.join(' ');
+  });
+
+  /**
+   * Computed signal to track indeterminate state.
+   * Automatically returns true if tristate is enabled and value is null.
+   */
+  readonly isIndeterminate = computed(() => {
+    if (this.tristate() && this.value() === null) {
+      return true;
+    }
+    return this.indeterminate();
   });
 
   /**
@@ -218,7 +238,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
 
     // Sync checked input
     effect(() => {
-      const val = this.checkedInput();
+      const val = this.checked();
       if (val !== null) {
         this.writeValue(val);
       }
@@ -226,13 +246,14 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
 
     // Sync disabled input
     effect(() => {
-      this.setDisabledState(this.disabledInput());
+      this.setDisabledState(this.disabled());
     });
   }
 
   /**
    * Checkbox toggle handler.
    * Does not work in disabled or readonly states.
+   * Supports tristate cycling if enabled.
    *
    * @returns void
    */
@@ -241,7 +262,21 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
       return;
     }
 
-    const newValue = !this.value();
+    let newValue: boolean | null;
+
+    if (this.tristate()) {
+      const current = this.value();
+      if (current === null) {
+        newValue = true;
+      } else if (current === true) {
+        newValue = false;
+      } else {
+        newValue = null;
+      }
+    } else {
+      newValue = !this.value();
+    }
+
     this.updateValue(newValue);
   }
 
