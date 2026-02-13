@@ -207,7 +207,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * Appends the dropdown menu to the document body.
    * Required when used within containers that have `overflow: hidden`.
    */
-  readonly appendToBody = input<boolean>(false);
+  readonly appendToBody = input<boolean>(true);
 
   protected readonly Size = Size;
   protected readonly ColorVariant = ColorVariant;
