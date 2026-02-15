@@ -11,6 +11,7 @@ import {
   output,
   Injector,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {
   Overlay,
   OverlayRef,
@@ -72,9 +73,9 @@ import { PopoverRef } from './popover.ref';
  * ```
  * ```typescript
  * // Parent Component
- * handlePopoverEvent(event: { key: string, data: any }) {
- *   if (event.key === 'save') {
- *     console.log('Saved:', event.data);
+ * handlePopoverEvent(event: { key: string, data: unknown }) {
+ *   if (event.key === 'save' && typeof event.data === 'object') {
+ *     // Handle event
  *   }
  * }
  *
@@ -150,11 +151,16 @@ export class PopoverDirective implements OnDestroy {
    * Forwards events from the popover content to the outside.
    * Triggered when `PopoverRef.emit('key', data)` is used inside the component.
    */
-  readonly nirengiPopoverOutput = output<{ key: string; data: any }>();
+  /**
+   * Forwards events from the popover content to the outside.
+   * Triggered when `PopoverRef.emit('key', data)` is used inside the component.
+   */
+  readonly nirengiPopoverOutput = output<{ key: string; data: unknown }>();
 
   private overlayRef: OverlayRef | null = null;
   private popoverRef: ComponentRef<PopoverComponent> | null = null;
   private isVisible = false;
+  private backdropSubscription: Subscription | null = null;
 
   private readonly overlay = inject(Overlay);
   private readonly positionBuilder = inject(OverlayPositionBuilder);
@@ -169,11 +175,8 @@ export class PopoverDirective implements OnDestroy {
         this.popoverRef.setInput('position', this.nirengiPopoverPosition());
         this.popoverRef.setInput('componentInputs', this.nirengiPopoverInputs());
 
-        // If position changes, position strategy might need updating (updatePositionStrategy)
-        // However, position strategy is static unless OverlayRef is destroyed and recreated.
-        if (this.overlayRef) {
-          this.overlayRef.updatePosition();
-        }
+        // Force change detection on the popover wrapper
+        this.popoverRef.changeDetectorRef.detectChanges();
       }
     });
   }
@@ -209,7 +212,7 @@ export class PopoverDirective implements OnDestroy {
 
     // Close with backdrop click
     if (closeOnOutside) {
-      this.overlayRef.backdropClick().subscribe(() => {
+      this.backdropSubscription = this.overlayRef.backdropClick().subscribe(() => {
         this.close();
       });
     }
@@ -253,6 +256,10 @@ export class PopoverDirective implements OnDestroy {
     this.popoverOpened.emit();
   }
 
+  /**
+   * Closes the popover.
+   * Works only if the popover is currently visible.
+   */
   close(): void {
     if (!this.isVisible) return;
 
@@ -267,6 +274,12 @@ export class PopoverDirective implements OnDestroy {
 
   private destroyPopover(): void {
     if (this.overlayRef) {
+      // Clean up subscription first
+      if (this.backdropSubscription) {
+        this.backdropSubscription.unsubscribe();
+        this.backdropSubscription = null;
+      }
+
       // If close was called externally and ref still exists
       if (this.overlayRef.hasAttached()) {
         this.overlayRef.detach();

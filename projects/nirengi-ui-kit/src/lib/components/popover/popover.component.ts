@@ -1,15 +1,6 @@
-import { Component, ChangeDetectionStrategy, input, Type, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, Type, computed, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopoverPosition } from './popover.types';
-
-/**
- * Component that wraps the popover content.
- * Dynamically created by the directive and displays the content.
- *
- * @example
- * // This component is not used directly, it is managed via the nirengiPopover directive.
- */
-import { Injector } from '@angular/core';
 
 @Component({
   selector: 'nirengi-popover',
@@ -48,41 +39,27 @@ import { Injector } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopoverComponent {
-  /**
-   * Content component to be displayed.
-   */
+  /** Content component to be displayed. */
   readonly content = input.required<Type<any>>();
 
-  /**
-   * Inputs to be passed to the content component.
-   */
+  /** Inputs to be passed to the content component. */
   readonly componentInputs = input<Record<string, unknown>>({});
 
-  /**
-   * Injector for the content component.
-   * Used to provide dependencies such as PopoverRef.
-   */
+  /** Injector for the content component. */
   readonly injector = input<Injector>();
 
-  /**
-   * Popover position.
-   */
+  /** Popover position. */
   readonly position = input<PopoverPosition>(PopoverPosition.Bottom);
 
-  /**
-   * Visibility state.
-   */
+  /** Visibility state. */
   readonly visible = input<boolean>(false);
 
-  /**
-   * Computed signal for the container classes.
-   */
+  /** Computed signal for the container classes. */
   readonly containerClasses = computed(() => {
     const baseClass = 'popover';
     const positionClass = `popover--${this.position()}`;
     const visibleClass = this.visible() ? 'popover--visible' : '';
 
-    // Special margins can be added according to position
     return `${baseClass} ${positionClass} ${visibleClass}`;
   });
 }
