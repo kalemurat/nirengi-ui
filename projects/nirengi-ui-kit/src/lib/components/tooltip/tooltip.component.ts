@@ -26,7 +26,7 @@ import { TooltipPosition } from './tooltip.types';
       }
       .tooltip {
         /* Base tooltip style */
-        @apply pointer-events-none scale-95 whitespace-nowrap rounded bg-inverse px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-200;
+        @apply pointer-events-none scale-95 whitespace-nowrap rounded-md bg-inverse px-4 py-2 text-xs font-semibold text-inverse opacity-0 shadow-xl transition-all duration-200;
 
         /* Visibility control */
         &--visible {
