@@ -27,22 +27,22 @@ import { IconComponent } from '../icon/icon.component';
       }
       .popover {
         /* Base popover style */
-        @apply z-50 min-w-[200px] scale-95 rounded-lg border border-default bg-primary p-4 opacity-0 shadow-xl transition-all duration-200;
+        @apply relative z-50 min-w-[200px] scale-95 rounded-lg border border-default bg-primary p-4 opacity-0 shadow-xl transition-all duration-200;
+      }
 
-        /* Visibility control */
-        &--visible {
-          @apply scale-100 opacity-100;
-        }
+      /* Visibility control */
+      .popover--visible {
+        @apply scale-100 opacity-100;
+      }
 
-        /* Content area */
-        &__content {
-          @apply flex flex-col;
-        }
+      /* Content area */
+      .popover__content {
+        @apply flex flex-col mt-2;
+      }
 
-        /* Close button */
-        &__close {
-          @apply absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-md text-secondary transition-colors hover:bg-secondary-50 hover:text-primary;
-        }
+      /* Close button */
+      .popover__close {
+        @apply absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-md text-secondary transition-colors hover:bg-secondary-50 hover:text-primary;
       }
     `,
   ],
