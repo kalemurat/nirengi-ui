@@ -10,8 +10,9 @@ import {
   Type,
   output,
   Injector,
+  DestroyRef,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { skip, Subscription } from 'rxjs';
 import {
   Overlay,
   OverlayRef,
@@ -24,6 +25,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { PopoverComponent } from './popover.component';
 import { PopoverPosition } from './popover.types';
 import { PopoverRef } from './popover.ref';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * Directive that opens a popover next to the element when clicked.
@@ -166,6 +168,7 @@ export class PopoverDirective implements OnDestroy {
   private readonly positionBuilder = inject(OverlayPositionBuilder);
   private readonly elementRef = inject(ElementRef);
   private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
     // Listen to input changes
@@ -206,15 +209,18 @@ export class PopoverDirective implements OnDestroy {
 
     this.overlayRef = this.overlay.create(overlayConfig);
 
-    // Close when clicking outside of the overlay
+    // Close when clicking outside of the overlay.
+    // We use skip(1) to intentionally discard the first pointer event emitted by outsidePointerEvents().
+    // In production builds, Angular's optimized change detection causes the click event that
+    // triggered open() to also be dispatched through outsidePointerEvents(), which would
+    // immediately close the popover. skip(1) is the idiomatic CDK solution for this race condition.
     if (closeOnOutside) {
-      this.backdropSubscription = this.overlayRef.outsidePointerEvents().subscribe((event) => {
-        // If the click is on the trigger element, ignore it (toggle handles it)
-        const target = event.target as HTMLElement;
-        if (!this.elementRef.nativeElement.contains(target)) {
+      this.backdropSubscription = this.overlayRef
+        .outsidePointerEvents()
+        .pipe(skip(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
           this.close();
-        }
-      });
+        });
     }
 
     const popoverRef = new PopoverRef(this.overlayRef);
