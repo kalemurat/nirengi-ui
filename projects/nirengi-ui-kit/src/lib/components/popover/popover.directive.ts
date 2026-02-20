@@ -1,24 +1,24 @@
 import {
-    Directive,
-    ElementRef,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    effect,
-    ComponentRef,
-    Type,
-    output,
-    Injector,
+  Directive,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  effect,
+  ComponentRef,
+  Type,
+  output,
+  Injector,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
-    Overlay,
-    OverlayRef,
-    OverlayPositionBuilder,
-    ConnectionPositionPair,
-    PositionStrategy,
-    OverlayConfig,
+  Overlay,
+  OverlayRef,
+  OverlayPositionBuilder,
+  ConnectionPositionPair,
+  PositionStrategy,
+  OverlayConfig,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { PopoverComponent } from './popover.component';
@@ -201,20 +201,19 @@ export class PopoverDirective implements OnDestroy {
     const overlayConfig = new OverlayConfig({
       positionStrategy,
       scrollStrategy,
-      // If closing on outside click is desired, there should be a backdrop
-      // If not, we don't listen to backdrop click, but a transparent backdrop might still be useful for overlay interaction
-      // However, when the user sets 'false', they usually want to be able to "click elsewhere".
-      // Therefore, we only set hasBackdrop if closeOnOutside is true.
-      hasBackdrop: closeOnOutside,
-      backdropClass: 'cdk-overlay-transparent-backdrop',
+      hasBackdrop: false,
     });
 
     this.overlayRef = this.overlay.create(overlayConfig);
 
-    // Close with backdrop click
+    // Close when clicking outside of the overlay
     if (closeOnOutside) {
-      this.backdropSubscription = this.overlayRef.backdropClick().subscribe(() => {
-        this.close();
+      this.backdropSubscription = this.overlayRef.outsidePointerEvents().subscribe((event) => {
+        // If the click is on the trigger element, ignore it (toggle handles it)
+        const target = event.target as HTMLElement;
+        if (!this.elementRef.nativeElement.contains(target)) {
+          this.close();
+        }
       });
     }
 
