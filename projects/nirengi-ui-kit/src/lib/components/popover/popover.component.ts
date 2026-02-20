@@ -1,13 +1,18 @@
 import { Component, ChangeDetectionStrategy, input, Type, computed, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopoverPosition } from './popover.types';
+import { PopoverRef } from './popover.ref';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'nirengi-popover',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   template: `
     <div [class]="containerClasses()">
+      <button class="popover__close" (click)="closePopover()" title="Kapat">
+        <nui-icon name="X" [size]="16"></nui-icon>
+      </button>
       <div class="popover__content">
         <ng-container
           *ngComponentOutlet="content(); injector: injector(); inputs: componentInputs()"
@@ -32,6 +37,11 @@ import { PopoverPosition } from './popover.types';
         /* Content area */
         &__content {
           @apply flex flex-col;
+        }
+
+        /* Close button */
+        &__close {
+          @apply absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-md text-secondary transition-colors hover:bg-secondary-50 hover:text-primary;
         }
       }
     `,
@@ -62,4 +72,12 @@ export class PopoverComponent {
 
     return `${baseClass} ${positionClass} ${visibleClass}`;
   });
+
+  /** Closes the popover by getting PopoverRef from the injector. */
+  closePopover(): void {
+    const ref = this.injector()?.get(PopoverRef, null);
+    if (ref) {
+      ref.close();
+    }
+  }
 }

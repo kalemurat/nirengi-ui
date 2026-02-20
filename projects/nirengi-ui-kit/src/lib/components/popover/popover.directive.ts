@@ -130,9 +130,9 @@ export class PopoverDirective implements OnDestroy {
 
   /**
    * Determines whether the popover closes when clicked outside.
-   * Default: true
+   * Default: false
    */
-  readonly nirengiPopoverCloseOnOutsideClick = input<boolean>(true);
+  readonly nirengiPopoverCloseOnOutsideClick = input<boolean>(false);
 
   /**
    * Inputs to be passed to the popover content component.
