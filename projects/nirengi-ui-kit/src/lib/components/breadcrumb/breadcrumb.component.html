@@ -32,7 +32,7 @@
         @if (!last) {
           <span class="nui-breadcrumb__separator" aria-hidden="true">
             @if (isTemplate(separator())) {
-              <ng-container *ngTemplateOutlet="$any(separator())"></ng-container>
+              <ng-container [ngTemplateOutlet]="$any(separator())"></ng-container>
             } @else {
               {{ separator() }}
             }

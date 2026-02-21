@@ -10,7 +10,7 @@
 </ul>
 
 <ng-template #defaultTemplate let-item>
-  <div class="border-b border-gray-100 px-4 py-2 transition-colors last:border-0 hover:bg-gray-50">
-    <span class="text-gray-700">{{ item.label || item.name || item.text || item.id }}</span>
+  <div class="nui-list__default-item">
+    <span class="nui-list__default-text">{{ item.label || item.name || item.text || item.id }}</span>
   </div>
 </ng-template>

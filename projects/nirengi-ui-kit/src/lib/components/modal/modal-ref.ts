@@ -1,6 +1,10 @@
 import { Signal, signal } from '@angular/core';
 
-export class ModalRef<T = any> {
+/**
+ * Reference to an open modal instance.
+ * Provides APIs to close the modal and observe its result.
+ */
+export class ModalRef<T = unknown> {
   private readonly _afterClosed = signal<T | undefined>(undefined);
   private _resolve!: (value: T | undefined) => void;
 

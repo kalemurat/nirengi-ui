@@ -1,4 +1,4 @@
-<div class="nui-textbox" [ngClass]="containerClasses()">
+<div [class]="'nui-textbox ' + containerClasses()">
   @if (label()) {
     <label class="nui-textbox__label" [for]="inputId">
       {{ label() }}
@@ -19,10 +19,9 @@
       [placeholder]="placeholder()"
       [disabled]="isDisabled()"
       [readOnly]="readonly()"
-      class="nui-textbox__input"
+      [class]="'nui-textbox__input ' + inputClasses()"
       [class.nui-textbox__input--with-icon]="icon()"
       [class.nui-textbox__input--clearable]="clearable() && value()"
-      [ngClass]="inputClasses()"
       (input)="onInput($event)"
       (blur)="markAsTouched()"
     />

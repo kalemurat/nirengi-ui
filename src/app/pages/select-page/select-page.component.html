@@ -93,7 +93,7 @@
         >
           <ng-template #itemTemplate let-item>
             <div class="select-page__user-item">
-              <img [src]="item.avatar" [alt]="item.name" class="select-page__avatar" />
+              <img [src]="item.avatar" alt="{{ item.name }}" class="select-page__avatar" />
               <div class="select-page__user-info">
                 <span class="select-page__user-name">{{ item.name }}</span>
                 <span class="select-page__user-role">{{ item.role }}</span>

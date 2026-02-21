@@ -22,7 +22,7 @@
     </label>
   }
 
-  <div class="datepicker__input-wrapper" cdkOverlayOrigin #trigger="cdkOverlayOrigin" (click)="toggleOpen()">
+  <div class="datepicker__input-wrapper" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
     <input
       [id]="id()"
       type="text"
@@ -31,16 +31,26 @@
       [placeholder]="placeholder()"
       [class]="inputClasses()"
       [class.datepicker__input--clearable]="clearable() && value()"
+      (click)="toggleOpen()"
       (blur)="markAsTouched()"
     />
 
     @if (clearable() && value() && !isDisabled() && !readonly()) {
-      <div class="datepicker__clear" (click)="clearValue($event)">
+      <button type="button" class="datepicker__clear" (click)="clearValue($event)" aria-label="Clear date">
         <nui-icon [name]="icons.clear" [size]="iconSize()"></nui-icon>
-      </div>
+      </button>
     }
 
-    <nui-icon [name]="icons.calendar" class="datepicker__icon" [class.datepicker__icon--active]="isOpen()"></nui-icon>
+    <button
+      type="button"
+      class="datepicker__icon-wrapper"
+      [class.datepicker__icon--active]="isOpen()"
+      (click)="toggleOpen()"
+      [disabled]="isDisabled() || readonly()"
+      aria-label="Toggle calendar"
+    >
+      <nui-icon [name]="icons.calendar" class="datepicker__icon"></nui-icon>
+    </button>
   </div>
 
   @if (hint() && !error()) {

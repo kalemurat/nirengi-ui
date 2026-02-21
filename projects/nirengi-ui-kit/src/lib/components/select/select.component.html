@@ -1,4 +1,4 @@
-<div class="nui-select" [ngClass]="containerClasses()">
+<div [class]="'nui-select ' + containerClasses()">
   <!-- Label -->
   @if (label()) {
     <label [for]="inputId" class="nui-select__label">
@@ -9,10 +9,9 @@
   <div class="nui-select__container" #container>
     <!-- Trigger Button -->
     <div
-      class="nui-select__trigger"
+      [class]="'nui-select__trigger ' + triggerClasses()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
-      [ngClass]="triggerClasses()"
       [class.nui-select__trigger--disabled]="isDisabled()"
       [class.nui-select__trigger--success]="success()"
       [class.nui-select__trigger--warning]="warning()"
@@ -44,9 +43,9 @@
 
       <!-- Clear Button -->
       @if (hasValue() && clearable() && !isDisabled()) {
-        <div class="nui-select__clear" (click)="clearValue($event)">
+        <button type="button" class="nui-select__clear" (click)="clearValue($event)" aria-label="Clear selection">
           <nui-icon name="X" [size]="iconSize()" />
-        </div>
+        </button>
       }
 
       <!-- Arrow Icon -->
@@ -82,12 +81,9 @@
             >
               <!-- Content -->
               <ng-container
-                *ngTemplateOutlet="
-                  itemTemplate() || defaultItemTemplate;
-                  context: { $implicit: option, selected: isSelected(option) }
-                "
-              >
-              </ng-container>
+                [ngTemplateOutlet]="itemTemplate() || defaultItemTemplate"
+                [ngTemplateOutletContext]="{ $implicit: option, selected: isSelected(option) }"
+              ></ng-container>
 
               <!-- Checkmark for multiple (or single) -->
               @if (isSelected(option)) {
@@ -115,13 +111,13 @@
         [cdkConnectedOverlayHasBackdrop]="true"
         [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
       >
-        <ng-container *ngTemplateOutlet="dropdownContent"></ng-container>
+        <ng-container [ngTemplateOutlet]="dropdownContent"></ng-container>
       </ng-template>
     }
 
     <!-- Inline Mode -->
     @if (!appendToBody() && isOpen() && !isDisabled()) {
-      <ng-container *ngTemplateOutlet="dropdownContent"></ng-container>
+      <ng-container [ngTemplateOutlet]="dropdownContent"></ng-container>
     }
   </div>
 

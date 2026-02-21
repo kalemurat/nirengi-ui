@@ -10,7 +10,7 @@
   >
     <div class="nui-accordion__title">
       @if (isTemplate(title())) {
-        <ng-container *ngTemplateOutlet="$any(title())"></ng-container>
+        <ng-container [ngTemplateOutlet]="$any(title())"></ng-container>
       } @else {
         {{ title() }}
       }
@@ -31,7 +31,7 @@
     <div class="nui-accordion__wrapper">
       <div class="nui-accordion__content">
         @if (isTemplate(content())) {
-          <ng-container *ngTemplateOutlet="$any(content())"></ng-container>
+          <ng-container [ngTemplateOutlet]="$any(content())"></ng-container>
         } @else {
           {{ content() }}
         }

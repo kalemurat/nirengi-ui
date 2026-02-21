@@ -34,9 +34,11 @@
     <p class="file-upload__text">
       <span class="file-upload__text-highlight">{{ clickLabel() }}</span> {{ dragDropLabel() }}
     </p>
-    <p class="file-upload__subtext" *ngIf="accept()">
-      {{ accept() }}
-    </p>
+    @if (accept()) {
+      <p class="file-upload__subtext">
+        {{ accept() }}
+      </p>
+    }
   </div>
 
   <!-- File List -->
@@ -71,7 +73,7 @@
               (click)="removeFile(file, $event)"
               title="Remove file"
             >
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="file-upload__remove-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -82,13 +84,9 @@
 
     <!-- Actions -->
     @if (files().length > 0 && !disabled()) {
-      <div class="mt-4 flex items-center justify-end gap-3">
+      <div class="file-upload__actions">
         <!-- Remove All Button -->
-        <button
-          type="button"
-          class="text-sm font-medium text-danger-500 transition-colors hover:text-danger-700"
-          (click)="clearFiles()"
-        >
+        <button type="button" class="file-upload__remove-all" (click)="clearFiles()">
           {{ removeAllLabel() }}
         </button>
 

@@ -1,4 +1,4 @@
-import { Component, input, Type, inject } from '@angular/core';
+import { Component, input, Type, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopoverDirective } from '../popover/popover.directive';
 import { PopoverPosition } from '../popover/popover.types';
@@ -66,6 +66,12 @@ export class PopoverExampleContentComponent {
   // PopoverRef should be injected optionally because the component can also be used outside the popover (theoretically)
   private readonly popoverRef = inject(PopoverRef, { optional: true });
 
+  /**
+   * Handles action from the example content component.
+   * Emits an event through the popover reference and closes the popover if applicable.
+   *
+   * @param action The action type: 'cancel' or 'confirm'
+   */
   onAction(action: 'cancel' | 'confirm'): void {
     if (this.popoverRef) {
       if (action === 'confirm') {
@@ -87,6 +93,7 @@ export class PopoverExampleContentComponent {
   selector: 'nirengi-popover-demo',
   standalone: true,
   imports: [CommonModule, PopoverDirective, ButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
       class="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-12 dark:border-slate-700 dark:bg-slate-900"
@@ -102,15 +109,16 @@ export class PopoverExampleContentComponent {
         Open Popover
       </nui-button>
 
-      <div
-        *ngIf="lastEvent"
-        class="animate-fade-in rounded border border-slate-200 bg-white p-2 text-sm shadow-sm dark:border-slate-700 dark:bg-slate-800"
-      >
-        <span class="font-bold text-slate-700 dark:text-slate-300">Last Event:</span>
-        <code class="ml-2 rounded bg-slate-100 p-1 text-xs dark:bg-slate-900">{{
-          lastEvent | json
-        }}</code>
-      </div>
+      @if (lastEvent) {
+        <div
+          class="animate-fade-in rounded border border-slate-200 bg-white p-2 text-sm shadow-sm dark:border-slate-700 dark:bg-slate-800"
+        >
+          <span class="font-bold text-slate-700 dark:text-slate-300">Last Event:</span>
+          <code class="ml-2 rounded bg-slate-100 p-1 text-xs dark:bg-slate-900">{{
+            lastEvent | json
+          }}</code>
+        </div>
+      }
     </div>
   `,
 })
@@ -128,7 +136,7 @@ export class PopoverDemoComponent {
   /**
    * Content to be displayed
    */
-  readonly contentComponent: Type<any> = PopoverExampleContentComponent;
+  readonly contentComponent: Type<unknown> = PopoverExampleContentComponent;
 
   /**
    * Sample inputs to be passed to the component
@@ -138,12 +146,20 @@ export class PopoverDemoComponent {
     customData: 'Data coming from the parent component.',
   };
 
-  lastEvent: any = null;
+  /**
+   * The latest event emitted by the popover instance.
+   */
+  lastEvent: PopoverEventPayload | null = null;
 
   protected readonly ColorVariant = ColorVariant;
 
-  handleEvent(event: any): void {
-    console.log('Popover Event:', event);
+  /**
+   * Handles popover events and displays them to the user.
+   * Automatically clears the last event after 3 seconds.
+   *
+   * @param event The event object emitted by the popover component
+   */
+  handleEvent(event: PopoverEventPayload): void {
     this.lastEvent = event;
 
     // Clear the message after 3 seconds
@@ -151,4 +167,12 @@ export class PopoverDemoComponent {
       this.lastEvent = null;
     }, 3000);
   }
+}
+
+/**
+ * Payload shape used for popover event samples.
+ */
+interface PopoverEventPayload {
+  key: string;
+  data: unknown;
 }

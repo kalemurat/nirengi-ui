@@ -1,4 +1,4 @@
-<div class="nui-table-container" [ngClass]="'nui-table-container--' + size()">
+<div [class]="'nui-table-container nui-table-container--' + size()">
   <!-- Toolbar / Global Filter -->
   @if (showGlobalFilter()) {
     <div class="nui-table-toolbar">
@@ -20,14 +20,14 @@
     <!-- Virtual Scroll Mode -->
     @if (virtualScroll()) {
       <cdk-virtual-scroll-viewport [itemSize]="itemSize()" class="nui-table__viewport">
-        <table
-          class="nui-table nui-table--fixed"
-          [ngClass]="['nui-table--grid-' + gridLines(), 'nui-table--' + size()]"
-        >
+        <table [class]="'nui-table nui-table--fixed nui-table--grid-' + gridLines() + ' nui-table--' + size()">
           <thead class="nui-table__head">
             <tr class="nui-table__row nui-table__row--head">
               @if (headTemplate()) {
-                <ng-container *ngTemplateOutlet="headTemplate(); context: { filter: filter.bind(this) }"></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="headTemplate()"
+                  [ngTemplateOutletContext]="{ filter: filter.bind(this) }"
+                ></ng-container>
               } @else if (columns().length) {
                 @for (col of columns(); track col.field) {
                   <th>
@@ -46,20 +46,25 @@
                   </th>
                 }
               } @else {
-                <ng-container *ngTemplateOutlet="defaultHead; context: { filter: filter.bind(this) }"></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="defaultHead"
+                  [ngTemplateOutletContext]="{ filter: filter.bind(this) }"
+                ></ng-container>
               }
             </tr>
           </thead>
           <tbody class="nui-table__body">
             <tr
               *cdkVirtualFor="let item of viewData(); templateCacheSize: 0"
-              class="nui-table__row nui-table__row--body"
-              [ngClass]="[rowHeightClass(), 'cursor-pointer']"
+              [class]="'nui-table__row nui-table__row--body ' + rowHeightClass() + ' cursor-pointer'"
               [style.height.px]="itemSize()"
               (click)="rowClick.emit(item)"
             >
               @if (rowTemplate()) {
-                <ng-container *ngTemplateOutlet="rowTemplate(); context: { $implicit: item }"></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="rowTemplate()"
+                  [ngTemplateOutletContext]="{ $implicit: item }"
+                ></ng-container>
               } @else if (columns().length) {
                 @for (col of columns(); track col.field) {
                   <td class="nui-table__cell" [title]="$any(item)[col.field]">
@@ -67,7 +72,10 @@
                   </td>
                 }
               } @else {
-                <ng-container *ngTemplateOutlet="defaultRow; context: { $implicit: item }"></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="defaultRow"
+                  [ngTemplateOutletContext]="{ $implicit: item }"
+                ></ng-container>
               }
             </tr>
           </tbody>
@@ -75,11 +83,14 @@
       </cdk-virtual-scroll-viewport>
     } @else {
       <!-- Standard Mode -->
-      <table class="nui-table" [ngClass]="['nui-table--grid-' + gridLines(), 'nui-table--' + size()]">
+      <table [class]="'nui-table nui-table--grid-' + gridLines() + ' nui-table--' + size()">
         <thead class="nui-table__head">
           <tr class="nui-table__row nui-table__row--head">
             @if (headTemplate()) {
-              <ng-container *ngTemplateOutlet="headTemplate(); context: { filter: filter.bind(this) }"></ng-container>
+              <ng-container
+                [ngTemplateOutlet]="headTemplate()"
+                [ngTemplateOutletContext]="{ filter: filter.bind(this) }"
+              ></ng-container>
             } @else if (columns().length) {
               @for (col of columns(); track col.field) {
                 <th>
@@ -98,19 +109,24 @@
                 </th>
               }
             } @else {
-              <ng-container *ngTemplateOutlet="defaultHead; context: { filter: filter.bind(this) }"></ng-container>
+              <ng-container
+                [ngTemplateOutlet]="defaultHead"
+                [ngTemplateOutletContext]="{ filter: filter.bind(this) }"
+              ></ng-container>
             }
           </tr>
         </thead>
         <tbody class="nui-table__body">
           @for (item of viewData(); track getTrackByValue($index, item)) {
             <tr
-              class="nui-table__row nui-table__row--body"
-              [ngClass]="[rowHeightClass(), 'cursor-pointer']"
+              [class]="'nui-table__row nui-table__row--body ' + rowHeightClass() + ' cursor-pointer'"
               (click)="rowClick.emit(item)"
             >
               @if (rowTemplate()) {
-                <ng-container *ngTemplateOutlet="rowTemplate(); context: { $implicit: item }"></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="rowTemplate()"
+                  [ngTemplateOutletContext]="{ $implicit: item }"
+                ></ng-container>
               } @else if (columns().length) {
                 @for (col of columns(); track col.field) {
                   <td class="nui-table__cell" [title]="$any(item)[col.field]">
@@ -118,7 +134,10 @@
                   </td>
                 }
               } @else {
-                <ng-container *ngTemplateOutlet="defaultRow; context: { $implicit: item }"></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="defaultRow"
+                  [ngTemplateOutletContext]="{ $implicit: item }"
+                ></ng-container>
               }
             </tr>
           } @empty {
@@ -189,8 +208,7 @@
           <button
             (click)="setPage(currentPage() - 1)"
             [disabled]="currentPage() === 1 || loading()"
-            [ngClass]="paginationNavClass()"
-            class="nui-table-pagination__btn nui-table-pagination__btn--prev"
+            [class]="'nui-table-pagination__btn nui-table-pagination__btn--prev ' + paginationNavClass()"
           >
             <svg
               class="nui-table-pagination__icon nui-table-pagination__icon--prev"
@@ -217,8 +235,7 @@
                 [disabled]="loading()"
                 [class.nui-table-pagination__btn--active]="p === currentPage()"
                 [class.nui-table-pagination__btn--inactive]="p !== currentPage() && !loading()"
-                [ngClass]="paginationNumberClass()"
-                class="nui-table-pagination__btn nui-table-pagination__btn--number"
+                [class]="'nui-table-pagination__btn nui-table-pagination__btn--number ' + paginationNumberClass()"
               >
                 {{ p }}
               </button>
@@ -229,8 +246,7 @@
           <button
             (click)="setPage(currentPage() + 1)"
             [disabled]="currentPage() === totalPages() || loading()"
-            [ngClass]="paginationNavClass()"
-            class="nui-table-pagination__btn nui-table-pagination__btn--next"
+            [class]="'nui-table-pagination__btn nui-table-pagination__btn--next ' + paginationNavClass()"
           >
             <span class="nui-table-pagination__btn-text">{{ nextLabel() }}</span>
             <svg

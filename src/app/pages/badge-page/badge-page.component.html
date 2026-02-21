@@ -10,7 +10,7 @@
       @for (type of types; track type) {
         <div class="showcase__item">
           <h4 class="showcase__item-title">{{ type | titlecase }}</h4>
-          <div class="flex flex-wrap gap-2">
+          <div class="showcase__badge-row">
             <nui-badge [type]="type">Badge</nui-badge>
             <nui-badge [type]="type" [variant]="ColorVariant.Success">Success</nui-badge>
             <nui-badge [type]="type" [variant]="ColorVariant.Danger">Error</nui-badge>
@@ -26,7 +26,7 @@
       @for (shape of shapes; track shape) {
         <div class="showcase__item">
           <h4 class="showcase__item-title">{{ shape | titlecase }}</h4>
-          <div class="flex flex-wrap gap-2">
+          <div class="showcase__badge-row">
             <nui-badge [shape]="shape" [variant]="ColorVariant.Primary">Primary</nui-badge>
             <nui-badge [shape]="shape" [variant]="ColorVariant.Secondary">Secondary</nui-badge>
             <nui-badge [shape]="shape" [variant]="ColorVariant.Warning">Warning</nui-badge>
@@ -39,7 +39,7 @@
   <section class="showcase__section">
     <h3 class="showcase__section-title">Sizes</h3>
     <div class="showcase__item">
-      <div class="flex flex-wrap items-center gap-4">
+      <div class="showcase__size-row">
         @for (size of sizes; track size) {
           <nui-badge [size]="size" [variant]="ColorVariant.Info">
             {{ size | uppercase }}
@@ -51,7 +51,7 @@
 
   <section class="showcase__section">
     <h3 class="showcase__section-title">Color Variants (Solid)</h3>
-    <div class="flex flex-wrap gap-3">
+    <div class="showcase__color-row">
       @for (color of colors; track color) {
         <nui-badge [variant]="color" [type]="BadgeType.Solid">
           {{ color }}
@@ -62,7 +62,7 @@
 
   <section class="showcase__section">
     <h3 class="showcase__section-title">Color Variants (Outline)</h3>
-    <div class="flex flex-wrap gap-3">
+    <div class="showcase__color-row">
       @for (color of colors; track color) {
         <nui-badge [variant]="color" [type]="BadgeType.Outline">
           {{ color }}
@@ -73,7 +73,7 @@
 
   <section class="showcase__section">
     <h3 class="showcase__section-title">Color Variants (Soft)</h3>
-    <div class="flex flex-wrap gap-3">
+    <div class="showcase__color-row">
       @for (color of colors; track color) {
         <nui-badge [variant]="color" [type]="BadgeType.Soft">
           {{ color }}

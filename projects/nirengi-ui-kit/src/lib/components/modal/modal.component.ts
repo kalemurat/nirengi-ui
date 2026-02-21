@@ -1,15 +1,13 @@
 import {
   Component,
-  Input,
+  input,
   ChangeDetectionStrategy,
   computed,
-  signal,
   inject,
   HostListener,
   Type,
   TemplateRef,
-  OnInit,
-  OnDestroy,
+  effect,
 } from '@angular/core';
 import { CommonModule, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import { ModalData, ModalSize } from './modal.types';
@@ -45,7 +43,7 @@ import { Size } from '../../common/enums/size.enum';
       <div class="nui-modal__backdrop" (click)="onBackdropClick()"></div>
 
       <!-- Modal Panel -->
-      <div class="nui-modal__panel" [ngClass]="sizeClasses()">
+      <div [class]="'nui-modal__panel ' + sizeClasses()">
         <!-- Header if title or icon exists -->
         @if (data().options.title || data().options.icon) {
           <div class="nui-modal__header">
@@ -79,10 +77,8 @@ import { Size } from '../../common/enums/size.enum';
             *ngComponentOutlet="componentContent; injector: data().injector"
           ></ng-container>
           <ng-container
-            *ngTemplateOutlet="
-              templateContent;
-              context: { $implicit: data().options.data, modalRef: null }
-            "
+            [ngTemplateOutlet]="templateContent"
+            [ngTemplateOutletContext]="{ $implicit: data().options.data, modalRef: null }"
           ></ng-container>
         </div>
       </div>
@@ -126,15 +122,13 @@ import { Size } from '../../common/enums/size.enum';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent implements OnInit, OnDestroy {
+export class ModalComponent {
   /**
    * The modal configuration data.
    */
-  readonly data = signal<ModalData>({} as ModalData);
-  @Input({ required: true, alias: 'data' })
-  set _data(val: ModalData) {
-    this.data.set(val);
-  }
+  readonly data = input.required<ModalData>({
+    alias: 'data',
+  });
 
   private modalService = inject(MODAL_SERVICE);
   HeadingLevel = HeadingLevel;
@@ -143,14 +137,40 @@ export class ModalComponent implements OnInit, OnDestroy {
   ButtonType = ButtonType;
   Size = Size;
 
-  // Type Guards for template/component
-  protected get componentContent(): Type<any> | null {
-    const c = this.data().content;
-    // Check if it is a class/function (Component)
-    return typeof c === 'function' ? (c as Type<any>) : null;
+  constructor() {
+    // Manage body scroll lock based on modal stack count
+    effect(
+      () => {
+        const modalCount = this.modalService.modals().length;
+        if (modalCount > 0) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
-  protected get templateContent(): TemplateRef<any> | null {
+  /**
+   * Gets the component content from the modal data.
+   * Returns the content if it's a class/function (Component type).
+   *
+   * @returns Component type or null if content is a template
+   */
+  protected get componentContent(): Type<unknown> | null {
+    const c = this.data().content;
+    // Check if it is a class/function (Component)
+    return typeof c === 'function' ? (c as Type<unknown>) : null;
+  }
+
+  /**
+   * Gets the template content from the modal data.
+   * Returns the content if it's a TemplateRef.
+   *
+   * @returns TemplateRef or null if content is a component
+   */
+  protected get templateContent(): TemplateRef<unknown> | null {
     const c = this.data().content;
     // Check if it is a TemplateRef
     return c instanceof TemplateRef ? c : null;
@@ -158,47 +178,46 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   protected readonly sizeClasses = computed(() => {
     const size = this.data().options.size || ModalSize.Medium;
-    return {
-      'nui-modal__panel--sm': size === ModalSize.Small,
-      'nui-modal__panel--md': size === ModalSize.Medium,
-      'nui-modal__panel--lg': size === ModalSize.Large,
-      'nui-modal__panel--full': size === ModalSize.Full,
-    };
+    switch (size) {
+      case ModalSize.Small:
+        return 'nui-modal__panel--sm';
+      case ModalSize.Large:
+        return 'nui-modal__panel--lg';
+      case ModalSize.Full:
+        return 'nui-modal__panel--full';
+      case ModalSize.Medium:
+      default:
+        return 'nui-modal__panel--md';
+    }
   });
 
-  ngOnInit() {
-    // Optional: Focus trap logic could go here
-    document.body.style.overflow = 'hidden';
-  }
-
-  ngOnDestroy() {
-    document.body.style.overflow = '';
-  }
-
-  onBackdropClick() {
+  /**
+   * Handles backdrop click to close the modal.
+   * Respects the backdropClose option from modal configuration.
+   */
+  onBackdropClick(): void {
     if (this.data().options.backdropClose !== false) {
       this.close();
     }
   }
 
+  /**
+   * Handles ESC key press to close the modal.
+   * Only closes if the modal is the top-most modal in the stack.
+   * Respects the escClose option from modal configuration.
+   */
   @HostListener('document:keydown.escape')
-  onEscKey() {
+  onEscKey(): void {
     if (this.data().options.escClose !== false) {
-      // Check if this modal is the top-most one?
-      // For now assume yes, or relies on service to close correct one.
-      // But if multiple modals are open, ESC usually closes the top one.
-      // We'll just call close(), if we are rendered, we handle it.
-      // Ideally, the Service decides which one to close, or we check if we are the last one.
-      // For simplicity, we assume this component only exists if it's meant to be interactable.
-      // Note: If multiple modals, they all receive this event.
-      // The container iterates. We need a way to know if we are the active one.
-      // Let's rely on the user/Stack to handle z-index or handle closing via service strictly if complexities arise.
-      // But for basic usage, this works.
-      this.close();
+      // Only the top-most modal in the stack should respond to ESC
+      this.modalService.closeTopmost();
     }
   }
 
-  close() {
+  /**
+   * Closes the modal and resets body overflow when all modals are closed.
+   */
+  close(): void {
     this.modalService.close(this.data().id);
   }
 }

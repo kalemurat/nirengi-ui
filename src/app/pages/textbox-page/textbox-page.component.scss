@@ -23,5 +23,13 @@
 
   &__row {
     @apply flex flex-col gap-4;
+
+    &--boxed {
+      @apply rounded-xl border bg-white p-6;
+    }
+  }
+
+  &__preview {
+    @apply mt-4 rounded bg-gray-50 p-3 font-mono text-sm;
   }
 }

@@ -65,7 +65,7 @@
   <!-- Sizes -->
   <section class="textbox-page__section">
     <h2 class="textbox-page__title">Sizes</h2>
-    <div class="textbox-page__row rounded-xl border bg-white p-6">
+    <div class="textbox-page__row textbox-page__row--boxed">
       @for (size of sizes; track size) {
         <nui-textbox [label]="'Size: ' + size" [size]="size" [placeholder]="'This is ' + size + ' input'" icon="Type" />
       }
@@ -79,7 +79,7 @@
       <div class="textbox-page__card">
         <h3 class="textbox-page__card-title">Live Preview</h3>
         <nui-textbox [formControl]="demoControl" label="Type something" placeholder="Watch the signal update..." />
-        <div class="mt-4 rounded bg-gray-50 p-3 font-mono text-sm">Value: {{ demoControl.value }}</div>
+        <div class="textbox-page__preview">Value: {{ demoControl.value }}</div>
       </div>
     </div>
   </section>

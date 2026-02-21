@@ -77,4 +77,16 @@
   &__remove-btn {
     @apply rounded-full p-1.5 text-tertiary opacity-0 outline-none transition-colors hover:bg-danger-50 hover:text-danger-500 focus:opacity-100 group-hover:opacity-100;
   }
+
+  &__remove-icon {
+    @apply h-5 w-5;
+  }
+
+  &__actions {
+    @apply mt-4 flex items-center justify-end gap-3;
+  }
+
+  &__remove-all {
+    @apply text-sm font-medium text-danger-500 transition-colors hover:text-danger-700;
+  }
 }

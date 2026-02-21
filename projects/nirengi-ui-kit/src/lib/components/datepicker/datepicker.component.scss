@@ -39,8 +39,17 @@
     @apply h-5 w-5;
   }
 
+  &__icon-wrapper {
+    @apply absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center px-2 transition-colors duration-200;
+    @apply hover:text-primary-500 disabled:cursor-not-allowed disabled:opacity-50;
+
+    &:disabled {
+      @apply cursor-not-allowed opacity-50;
+    }
+  }
+
   &__icon {
-    @apply pointer-events-none absolute right-0 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center text-tertiary transition-colors duration-200;
+    @apply flex h-5 w-5 items-center justify-center text-tertiary transition-colors duration-200;
 
     &--active {
       @apply text-primary-500;
