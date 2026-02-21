@@ -81,23 +81,23 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   );
 
   /**
+   * Servisleri inject eder.
+   */
+  private readonly route = inject(ActivatedRoute);
+  private readonly registry = inject(ComponentRegistryService);
+
+  /**
    * Aktif component config.
    */
   protected readonly currentConfig = computed(() => {
     const id = this.componentId();
-    return inject(ComponentRegistryService).getConfig(id);
+    return this.registry.getConfig(id);
   });
 
   /**
    * Tema servisi (template'de kullanılmak üzere).
    */
   protected readonly themeService = inject(ThemeService);
-
-  /**
-   * Servisleri inject eder.
-   */
-  private readonly route = inject(ActivatedRoute);
-  private readonly registry = inject(ComponentRegistryService);
   private readonly propertyState = inject(PropertyStateService);
   private readonly eventLogger = inject(EventLoggerService);
   private readonly destroyRef = inject(DestroyRef);

@@ -5,14 +5,14 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
 
 /**
  * Menu Panel Component.
- * Storybook-style sol menü paneli.
- * Component'leri kategorilere göre gruplandırarak gösterir.
+ * Storybook-style left menu panel.
+ * Displays components grouped by categories.
  *
- * ## Özellikler
- * - ✅ JSON-driven menü yapısı
- * - ✅ Kategorilere göre gruplama
- * - ✅ Aktif item highlight
- * - ✅ RouterLink entegrasyonu
+ * ## Features
+ * - ✅ JSON-driven menu structure
+ * - ✅ Grouped by categories
+ * - ✅ Active item highlighting
+ * - ✅ RouterLink integration
  *
  * @see {@link ComponentRegistryService}
  */
@@ -26,22 +26,20 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
 })
 export class MenuPanelComponent {
   /**
-   * Kategorilere göre gruplandırılmış component'ler.
-   * Computed signal olarak registry'den otomatik güncellenir.
+   * Component registry service.
+   * Provides access to all registered UI components and their configurations.
    */
-  protected readonly menuCategories = inject(ComponentRegistryService).configsByCategory;
+  protected readonly registry = inject(ComponentRegistryService);
 
   /**
-   * Toplam component sayısı.
-   * Header'da gösterilmek için.
+   * Component configurations grouped by categories.
+   * Automatically updated from registry as a computed signal.
    */
-  protected readonly totalComponents = computed(
-    () => inject(ComponentRegistryService).allConfigs().length
-  );
+  protected readonly menuCategories = this.registry.configsByCategory;
 
   /**
-   * Component registry servisini inject eder.
-   * Menü yapısı registry'den okunur.
+   * Total count of registered components.
+   * Displayed in the header section.
    */
-  private readonly registry = inject(ComponentRegistryService);
+  protected readonly totalComponents = computed(() => this.registry.allConfigs().length);
 }
