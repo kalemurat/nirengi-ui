@@ -139,17 +139,14 @@ export class ModalComponent {
 
   constructor() {
     // Manage body scroll lock based on modal stack count
-    effect(
-      () => {
-        const modalCount = this.modalService.modals().length;
-        if (modalCount > 0) {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = '';
-        }
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      const modalCount = this.modalService.modals().length;
+      if (modalCount > 0) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
   }
 
   /**
