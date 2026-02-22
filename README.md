@@ -152,7 +152,9 @@ Kodlama standartlarına uyun ve mümkünse testler ekleyin. Büyük değişiklik
 
 ## Destek
 
-Proje, bağış sistemi ile desteklenmeye açıktır; sponsorluk veya bağış yoluyla destek olmak isteyenleri memnuniyetle karşılıyoruz. Sponsorluk için sponsor butonunu kullanabilirsiniz. Destek ve sponsorluk için lütfen proje sahibiyle iletişime geçin.
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github)](https://github.com/sponsors/kalemurat)
+
+Proje, bağış sistemi ile desteklenmeye açıktır; sponsorluk veya bağış yoluyla destek olmak isteyenleri memnuniyetle karşılıyoruz. Destek ve sponsorluk için yukarıdaki butonu kullanabilirsiniz.
 
 ## Lisans
 
