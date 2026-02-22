@@ -1,4 +1,4 @@
-<div [ngClass]="containerClasses()">
+<div [class]="containerClasses()">
   <div class="nui-tabs__header" role="tablist">
     @for (tab of tabs(); track $index) {
       <button
@@ -15,7 +15,7 @@
         [disabled]="tab.disabled()"
       >
         @if (tab.labelTemplate()) {
-          <ng-container *ngTemplateOutlet="tab.labelTemplate()!.template" />
+          <ng-container [ngTemplateOutlet]="tab.labelTemplate()!.template" />
         } @else {
           {{ tab.label() }}
         }
@@ -32,7 +32,7 @@
           [attr.aria-labelledby]="'tab-' + $index"
           class="animate-fade-in"
         >
-          <ng-container *ngTemplateOutlet="tab.contentTemplate()" />
+          <ng-container [ngTemplateOutlet]="tab.contentTemplate()" />
         </div>
       }
     }

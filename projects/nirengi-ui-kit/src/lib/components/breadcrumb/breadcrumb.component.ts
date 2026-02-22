@@ -4,19 +4,19 @@ import { RouterLink } from '@angular/router';
 import { Size } from '../../common/enums/size.enum';
 
 /**
- * Breadcrumb öğesi arayüzü.
- * Her bir breadcrumb linki veya metni için gerekli özellikleri tanımlar.
+ * Breadcrumb item interface.
+ * Defines the necessary properties for each breadcrumb link or text.
  */
 export interface BreadcrumbItem {
   /**
-   * Gösterilecek metin.
+   * Display text.
    */
   label: string;
 
   /**
-   * Yönlendirilecek route.
-   * RouterLink direktifinin kabul ettiği formatta olmalı (string veya array).
-   * Eğer tanımlanmazsa, öğe tıklanabilir olmaz (span olarak render edilir).
+   * Target route.
+   * Should be in the format accepted by the RouterLink directive (string or array).
+   * If not defined, the item will not be clickable (rendered as a span).
    */
   url?: string | any[];
 
@@ -26,46 +26,46 @@ export interface BreadcrumbItem {
   fragment?: string;
 
   /**
-   * URL query parametreleri.
+   * URL query parameters.
    */
   queryParams?: any;
 
   /**
-   * Öğenin aktif (disabled) olup olmadığını belirler.
-   * True ise tıklanamaz ve disabled stilini alır.
+   * Determines whether the item is active (disabled).
+   * If true, it is not clickable and takes a disabled style.
    */
   disabled?: boolean;
 
   /**
-   * Opsiyonel ikon sınıfı veya adı (ikon desteği eklenirse).
+   * Optional icon class or name (if icon support is added).
    */
   icon?: string;
 }
 
 /**
- * Modern breadcrumb (ekmek kırıntısı) bileşeni.
- * Kullanıcının uygulama içindeki konumunu gösterir ve hiyerarşik navigasyon sağlar.
- * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
+ * Modern breadcrumb component.
+ * Shows the user's location within the application and provides hierarchical navigation.
+ * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı input'lar
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile reaktif class binding
- * - ✅ Özelleştirilebilir ayırıcı (separator)
- * - ✅ RouterLink entegrasyonu
- * - ✅ Farklı boyut seçenekleri (sm, md, lg)
- * - ✅ Responsive tasarım uyumlu (overflow durumları için henüz logic yok ama CSS ile yönetilebilir)
+ * ## Features
+ * - ✅ Signal-based inputs
+ * - ✅ OnPush change detection strategy
+ * - ✅ Reactive class binding with computed signals
+ * - ✅ Customizable separator
+ * - ✅ RouterLink integration
+ * - ✅ Different size options (sm, md, lg)
+ * - ✅ Responsive design compatible
  *
  * @example
- * // Basit kullanım
+ * // Simple usage
  * <nui-breadcrumb [items]="items"></nui-breadcrumb>
  *
  * @example
- * // Custom separator ile
+ * // With custom separator
  * <nui-breadcrumb [items]="items" separator=">"></nui-breadcrumb>
  *
  * @example
- * // Template separator ile
+ * // With template separator
  * <ng-template #sepIcon><i class="icon-chevron-right"></i></ng-template>
  * <nui-breadcrumb [items]="items" [separator]="sepIcon"></nui-breadcrumb>
  *
@@ -82,29 +82,29 @@ export interface BreadcrumbItem {
 })
 export class BreadcrumbComponent {
   /**
-   * Breadcrumb öğeleri listesi.
-   * Navigasyon zincirini oluşturur.
+   * List of breadcrumb items.
+   * Forms the navigation chain.
    */
   readonly items = input.required<BreadcrumbItem[]>();
 
   /**
-   * Öğeler arasındaki ayırıcı karakter veya template.
-   * String (örn: '/', '>') veya TemplateRef olabilir.
+   * Separator character or template between items.
+   * Can be a string (e.g., '/', '>') or TemplateRef.
    *
    * @default '/'
    */
   readonly separator = input<string | TemplateRef<any>>('/');
 
   /**
-   * Bileşen boyutu.
-   * Metin ve ikon boyutlarını etkiler.
+   * Component size.
+   * Affects text and icon sizes.
    *
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Ana container için CSS class'larını hesaplayan computed signal.
+   * Computed signal to calculate CSS classes for the main container.
    */
   readonly containerClasses = computed(() => {
     const classes = ['nui-breadcrumb'];
@@ -113,14 +113,14 @@ export class BreadcrumbComponent {
   });
 
   /**
-   * Liste (ol) için CSS class'ları.
+   * CSS classes for the list (ol).
    */
   readonly listClasses = computed(() => {
     return 'nui-breadcrumb__list';
   });
 
   /**
-   * Liste öğesi (li) için base class.
+   * Base class for the list item (li).
    */
   readonly itemClasses = computed(() => {
     const classes = ['nui-breadcrumb__item'];
@@ -129,8 +129,8 @@ export class BreadcrumbComponent {
   });
 
   /**
-   * Separator olup olmadığını kontrol eder.
-   * TemplateRef olup olmadığını template içinde kontrol edeceğiz.
+   * Checks if it is a template.
+   * Checking if it is a TemplateRef will be done within the template.
    */
   protected isTemplate(value: string | TemplateRef<any>): boolean {
     return value instanceof TemplateRef;

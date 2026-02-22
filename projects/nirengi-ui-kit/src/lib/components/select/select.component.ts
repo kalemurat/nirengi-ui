@@ -1,53 +1,55 @@
 import {
-    Component,
-    input,
-    signal,
-    computed,
-    contentChild,
-    TemplateRef,
-    ElementRef,
-    HostListener,
-    inject,
-    ChangeDetectionStrategy,
-    forwardRef,
-    viewChild,
-    effect,
+  Component,
+  input,
+  signal,
+  computed,
+  contentChild,
+  TemplateRef,
+  ElementRef,
+  HostListener,
+  inject,
+  ChangeDetectionStrategy,
+  forwardRef,
+  viewChild,
+  effect,
+  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Modern Seçim/Dropdown bileşeni.
- * Tekli/çoklu seçim, arama ve özel öğe şablonlarını destekler.
+ * Modern Select/Dropdown component.
+ * Supports single/multiple selection, searching, and custom item templates.
  *
- * ## Özellikler
- * - ✅ ControlValueAccessor desteği (Form entegrasyonu)
- * - ✅ Tekli ve Çoklu seçim
- * - ✅ Aranabilir seçenekler
- * - ✅ Özel öğe şablonu (template) desteği
- * - ✅ OnPush change detection stratejisi
- * - ✅ Signal tabanlı reaktif durum yönetimi
- * - ✅ Boyutlandırma desteği (xs, sm, md, lg, xl)
+ * ## Features
+ * - ✅ ControlValueAccessor support (Form integration)
+ * - ✅ Single and Multiple selection
+ * - ✅ Searchable options
+ * - ✅ Custom item template support
+ * - ✅ OnPush change detection strategy
+ * - ✅ Signal-based reactive state management
+ * - ✅ Sizing support (xs, sm, md, lg, xl)
  *
- * @see {@link IconComponent} - Kullanılan ikon bileşeni
- * @see {@link ValueAccessorBase} - Form altyapısı
+ * @see {@link IconComponent} - Used icon component
+ * @see {@link ValueAccessorBase} - Form infrastructure
  *
  * @example
- * <!-- Temel Kullanım -->
+ * <!-- Basic Usage -->
  * <nui-select
  *   [options]="users"
  *   bindLabel="name"
  *   bindValue="id"
  *   [(ngModel)]="selectedUserId"
- *   placeholder="Kullanıcı Seçiniz"
+ *   placeholder="Select User"
  * />
  *
  * @example
- * <!-- Özelleştirilmiş Kullanım -->
+ * <!-- Customized Usage -->
  * <nui-select [options]="items" [searchable]="true" [multiple]="true" size="lg">
  *   <ng-template #itemTemplate let-item>
  *     <div class="flex items-center gap-2">
@@ -61,10 +63,11 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 @Component({
   selector: 'nui-select',
   standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent],
+  imports: [CommonModule, FormsModule, IconComponent, OverlayModule],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -77,131 +80,142 @@ export class SelectComponent extends ValueAccessorBase<any> {
   private elementRef = inject(ElementRef);
 
   /**
-   * Erişilebilirlik için benzersiz kimlik.
-   * Rastgele oluşturulur ancak SSR uyumluluğu için hydrasyon sırasında dikkat edilmelidir.
+   * Unique ID for accessibility.
+   * Randomly generated, but care must be taken during hydration for SSR compatibility.
    */
   readonly inputId = `nui-select-${Math.random().toString(36).substr(2, 9)}`;
 
   /**
-   * Gösterilecek seçeneklerin listesi.
-   * Herhangi bir tipte nesne veya ilkel değer dizisi olabilir.
+   * List of options to be displayed.
+   * Can be an array of objects of any type or primitive values.
    */
   readonly options = input.required<any[]>();
 
   /**
-   * Etiket (görünen metin) için kullanılacak nesne özelliği.
-   * Eğer sağlanmazsa, seçeneğin kendisi etiket olarak kullanılır.
+   * Object property to be used for the label (display text).
+   * If not provided, the option itself is used as the label.
    * @example 'name', 'title'
    */
   readonly bindLabel = input<string>();
 
   /**
-   * Değer (value) için kullanılacak nesne özelliği.
-   * Eğer sağlanmazsa, seçenek nesnesinin kendisi değer olarak kullanılır.
+   * Object property to be used for the value.
+   * If not provided, the option object itself is used as the value.
    * @example 'id', 'uuid'
    */
   readonly bindValue = input<string>();
 
   /**
-   * Çoklu seçime izin verilir mi?
-   * Varsayılan: false
+   * Whether multiple selection is allowed.
+   * Default: false
    */
   readonly multiple = input<boolean>(false);
 
   /**
-   * Dropdown içinde arama kutusu gösterilir mi?
-   * Varsayılan: false
+   * Whether a search box is shown within the dropdown.
+   * Default: false
    */
   readonly searchable = input<boolean>(false);
 
   /**
-   * Tekli seçimde temizleme butonunu aktif eder.
-   * Varsayılan: true
+   * Enables the clear button in single selection mode.
+   * Default: true
    */
   readonly clearable = input<boolean>(true);
 
   /**
-   * Bileşen etiketi.
-   * Input üzerinde görüntülenir.
+   * Component label.
+   * Displayed above the input.
    */
   readonly label = input<string>();
 
   /**
-   * Seçim yapılmadığında gösterilecek yer tutucu metin.
-   * Varsayılan: 'Seçiniz...'
+   * Placeholder text to be displayed when no selection is made.
+   * Default: 'Select...'
    */
-  readonly placeholder = input<string>('Seçiniz...');
+  readonly placeholder = input<string>('Select...');
 
   /**
-   * Yardımcı ipucu metni.
-   * Bileşenin altında küçük puntolarla gösterilir.
+   * Helper hint text.
+   * Displayed in small font below the component.
    */
   readonly hint = input<string>();
 
   /**
-   * Başarı mesajı metni.
-   * Bileşen başarı durumundayken (yeşil çerçeve) altında gösterilir.
+   * Success message text.
+   * Displayed below the component when in a success state (green border).
    */
   readonly success = input<string>();
 
   /**
-   * Uyarı mesajı metni.
-   * Bileşen uyarı durumundayken (sarı çerçeve) altında gösterilir.
+   * Warning message text.
+   * Displayed below the component when in a warning state (yellow border).
    */
   readonly warning = input<string>();
 
   /**
-   * Bileşen boyutu.
-   * Size enum değerlerini alır (xs, sm, md, lg, xl).
-   * Varsayılan: Size.Medium
+   * Component size.
+   * Accepts Size enum values (xs, sm, md, lg, xl).
+   * Default: Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Renk varyantı.
-   * Component stil ve BEM modifier sınıflarında kullanılmak üzere `ColorVariant` enum değerlerini alır.
-   * Varsayılan: `ColorVariant.Primary`
+   * Color variant.
+   * Accepts `ColorVariant` enum values to be used in component style and BEM modifier classes.
+   * Default: `ColorVariant.Primary`
    *
    * @see ColorVariant
    */
   readonly variant = input<ColorVariant>(ColorVariant.Secondary);
 
   /**
-   * Seçeneklerin render edilmesi için özel şablon.
-   * Input olarak geçilebilir veya içerikten (content projection) alınabilir.
+   * Custom template for rendering options.
+   * Can be passed as an input or received from content projection.
    */
   readonly itemTemplateInput = input<TemplateRef<any> | null>(null, { alias: 'itemTemplate' });
 
   /**
-   * İçerik çocuklarından (ContentChild) alınan şablon referansı.
-   * Kullanım: <nui-select> <ng-template ...> </nui-select>
+   * Template reference received from content children (ContentChild).
+   * Usage: <nui-select> <ng-template ...> </nui-select>
    */
   readonly contentItemTemplate = contentChild<TemplateRef<any>>('itemTemplate');
 
   /**
-   * İç durum: Dropdown açık mı?
+   * Internal state: Is the dropdown open?
    */
   readonly isOpen = signal<boolean>(false);
 
   /**
-   * İç durum: Mevcut arama terimi.
+   * Internal state: Current search term.
    */
   readonly searchTerm = signal<string>('');
 
   /**
-   * Arama input elementine erişim sağlar.
-   * Dropdown açıldığında otomatik odaklanmak için kullanılır.
+   * Provides access to the search input element.
+   * Used to automatically focus when the dropdown opens.
    */
   readonly searchInputElement = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
   /**
-   * Template binding için devre dışı bırakma girişi.
-   * Form kontrolünün disabled durumu ile senkronize çalışır.
+   * Disable input for template binding.
+   * Works in sync with the form control's disabled state.
    */
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
+  /**
+   * Appends the dropdown menu to the document body.
+   * Required when used within containers that have `overflow: hidden`.
+   */
+  readonly appendToBody = input<boolean>(true);
+
   protected readonly Size = Size;
   protected readonly ColorVariant = ColorVariant;
+
+  /**
+   * Holds the trigger width (for Overlay).
+   */
+  readonly triggerWidth = signal<number | null>(null);
 
   /**
    * Computed: Container classes including variant and size.
@@ -215,6 +229,19 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   readonly triggerClasses = computed(() => {
     return `nui-select__trigger--${this.size()}`;
+  });
+
+  /**
+   * Overlay panel classes.
+   * Necessary to maintain styles when appended to body.
+   */
+  readonly overlayPanelClasses = computed(() => {
+    return [
+      'nui-select', // Needed to match SCSS structure .nui-select .child
+      'nui-select-overlay', // Global styles support
+      `nui-select--${this.size()}`,
+      `nui-select--${this.variant()}`,
+    ];
   });
 
   constructor() {
@@ -243,15 +270,15 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Computed: Aktif öğe şablonu.
-   * Öncelik sırası: Input > Content Child > Varsayılan (HTML içinde).
+   * Computed: Active item template.
+   * Priority order: Input > Content Child > Default (defined in HTML).
    */
   readonly itemTemplate = computed(
     () => this.itemTemplateInput() || this.contentItemTemplate() || null
   );
 
   /**
-   * Computed: Arama terimine göre filtrelenmiş seçenekler.
+   * Computed: Options filtered by the search term.
    */
   readonly filteredOptions = computed(() => {
     const term = this.searchTerm().toLowerCase();
@@ -266,8 +293,8 @@ export class SelectComponent extends ValueAccessorBase<any> {
   });
 
   /**
-   * Computed: Seçili öğelerin tam nesne halleri.
-   * `value` sinyali (sadece ID tutuyor olabilir) ile seçenek nesneleri arasında köprü kurar.
+   * Computed: Full object forms of the selected items.
+   * Bridges between the `value` signal (which might only hold IDs) and option objects.
    */
   readonly selectedItems = computed(() => {
     const rawVal = this.value();
@@ -276,9 +303,9 @@ export class SelectComponent extends ValueAccessorBase<any> {
     const opts = this.options();
     const bindVal = this.bindValue();
 
-    // Değere göre seçeneği bulma yardımcısı
+    // Helper to find an option by its value
     const findOption = (val: any) => {
-      if (!bindVal) return val; // Değer nesnenin kendisidir
+      if (!bindVal) return val; // Value is the object itself
       return opts.find((o) => o[bindVal] === val);
     };
 
@@ -292,8 +319,8 @@ export class SelectComponent extends ValueAccessorBase<any> {
   });
 
   /**
-   * Computed: İkon boyutu.
-   * Bileşen boyutuna göre dinamik olarak hesaplanır.
+   * Computed: Icon size.
+   * Dynamically calculated based on component size.
    */
   readonly iconSize = computed(() => {
     switch (this.size()) {
@@ -313,8 +340,8 @@ export class SelectComponent extends ValueAccessorBase<any> {
   });
 
   /**
-   * Seçili bir değer olup olmadığını kontrol eder.
-   * @returns Değer varsa true, yoksa false döner.
+   * Checks if there is a selected value.
+   * @returns true if value exists, false otherwise.
    */
   hasValue(): boolean {
     const val = this.value();
@@ -323,11 +350,17 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Dropdown görünürlüğünü değiştirir (Aç/Kapa).
-   * Disabled durumundaysa işlem yapmaz.
+   * Toggles dropdown visibility (Open/Close).
+   * Does nothing if disabled.
    */
   toggleDropdown(): void {
     if (this.isDisabled()) return;
+
+    // Calculate width before opening
+    if (!this.isOpen() && this.appendToBody()) {
+      this.updateTriggerWidth();
+    }
+
     this.isOpen.update((v) => !v);
     if (!this.isOpen()) {
       this.onTouched();
@@ -336,8 +369,20 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Dışarı tıklama durumunda dropdown'ı kapatır.
-   * @param event Tıklama olayı
+   * Updates the trigger width.
+   */
+  private updateTriggerWidth() {
+    const rect = this.elementRef.nativeElement
+      .querySelector('.nui-select__trigger')
+      ?.getBoundingClientRect();
+    if (rect) {
+      this.triggerWidth.set(rect.width);
+    }
+  }
+
+  /**
+   * Closes the dropdown when clicking outside.
+   * @param event Click event
    */
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
@@ -347,7 +392,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Dropdown'ı kapatır ve durumu temizler.
+   * Closes the dropdown and clears the state.
    */
   close(): void {
     if (this.isOpen()) {
@@ -358,9 +403,9 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Bir seçenek için görüntüleme etiketini döndürür.
-   * @param option Seçenek nesnesi veya değeri
-   * @returns Görüntülenecek metin
+   * Returns the display label for an option.
+   * @param option Option object or value
+   * @returns Text to be displayed
    */
   getLabel(option: any): string {
     if (!option) return '';
@@ -372,9 +417,9 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Bir seçeneğin değerini döndürür (karşılaştırma için).
-   * @param option Seçenek nesnesi
-   * @returns Seçeneğin değeri (veya bindValue yoksa kendisi)
+   * Returns the value of an option (for comparison).
+   * @param option Option object
+   * @returns Option's value (or itself if no bindValue)
    */
   getValue(option: any): any {
     const valueProp = this.bindValue();
@@ -385,9 +430,9 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Seçeneğin seçili olup olmadığını kontrol eder.
-   * @param option Kontrol edilecek seçenek
-   * @returns Seçiliyse true
+   * Checks if an option is selected.
+   * @param option Option to check
+   * @returns true if selected
    */
   isSelected(option: any): boolean {
     const current = this.value();
@@ -400,9 +445,9 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Seçenek seçimini işler.
-   * Tekli seçimde dropdown'ı kapatır, çoklu seçimde değeri array'e ekler/çıkarır.
-   * @param option Seçilen seçenek
+   * Handles option selection.
+   * Closes the dropdown in single selection mode, adds/removes the value in multiple selection mode.
+   * @param option Selected option
    */
   selectOption(option: any): void {
     const optVal = this.getValue(option);
@@ -427,9 +472,9 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Öğe silme yardımcısı (Chip üzerinden silme).
-   * @param item Silinecek öğe
-   * @param event Olay nesnesi
+   * Item removal helper (removal via chip).
+   * @param item Item to be removed
+   * @param event Event object
    */
   removeItem(item: any, event: Event): void {
     event.stopPropagation();
@@ -442,8 +487,8 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Arama terimini günceller.
-   * @param event Input olayı
+   * Updates the search term.
+   * @param event Input event
    */
   onSearch(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
@@ -451,17 +496,17 @@ export class SelectComponent extends ValueAccessorBase<any> {
   }
 
   /**
-   * Değeri temizler (Tekli seçim için).
-   * @param event Olay nesnesi
+   * Clears the value (for single selection).
+   * @param event Event object
    */
   clearValue(event: Event): void {
     event.stopPropagation();
     if (this.isDisabled()) return;
-    this.updateValue(null);
+    this.updateValue(this.multiple() ? [] : null);
   }
 
   /**
-   * Liste performansı için TrackBy fonksiyonu.
+   * TrackBy function for list performance.
    */
   trackByFn(index: number, item: any): any {
     return this.getValue(item) || index;

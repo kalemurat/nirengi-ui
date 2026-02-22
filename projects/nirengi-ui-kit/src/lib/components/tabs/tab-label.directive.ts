@@ -1,16 +1,16 @@
 import { Directive, inject, TemplateRef } from '@angular/core';
 
 /**
- * Tab etiketi için directive.
- * Tab başlığında özel template (ikon, resim vb.) kullanmak için kullanılır.
+ * Directive for the tab label.
+ * Used to use a custom template (icon, image, etc.) in the tab header.
  *
  * @example
  * <nui-tab>
  *   <ng-template nuiTabLabel>
  *     <nui-icon name="user" />
- *     <span>Profil</span>
+ *     <span>Profile</span>
  *   </ng-template>
- *   İçerik...
+ *   Content...
  * </nui-tab>
  */
 @Directive({
@@ -19,7 +19,7 @@ import { Directive, inject, TemplateRef } from '@angular/core';
 })
 export class TabLabelDirective {
   /**
-   * Template referansı.
+   * Template reference.
    */
   readonly template = inject(TemplateRef);
 }

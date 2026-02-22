@@ -4,14 +4,13 @@ import { EventLoggerService } from '../../../core/services/event-logger.service'
 
 /**
  * Event Console Component.
- * Terminal-style event logger UI.
- * Component event'lerini timestamp ile gösterir.
+ * Displays component events in a terminal-style interface with timestamps.
  *
- * ## Özellikler
- * - ✅ Terminal görünüm (siyah background, yeşil text)
- * - ✅ Timestamp format
- * - ✅ JSON payload gösterimi
- * - ✅ Clear logs özelliği
+ * ## Features
+ * - ✅ Terminal appearance (dark background, green text)
+ * - ✅ Timestamp formatting
+ * - ✅ JSON payload visualization
+ * - ✅ Clear logs functionality
  *
  * @see {@link EventLoggerService}
  */
@@ -25,24 +24,27 @@ import { EventLoggerService } from '../../../core/services/event-logger.service'
 })
 export class EventConsoleComponent {
   /**
-   * Event logger servisini inject eder.
+   * Event logger service instance.
+   * Provides event logging functionality.
+   * Protected to allow derived fields to access it while maintaining encapsulation.
    */
-  private readonly eventLogger = inject(EventLoggerService);
+  protected readonly eventLogger = inject(EventLoggerService);
 
   /**
-   * Event loglarının computed signal'i.
-   * Service'den otomatik olarak güncellenir.
+   * Reactive signal for event logs.
+   * Automatically updates when new events are logged.
    */
   protected readonly eventLogs = this.eventLogger.eventLogs;
 
   /**
-   * Gösterilecek maksimum log sayısı.
-   * Performance için sınırlandırılır.
+   * Computed signal for recent logs with limit.
+   * Returns the most recent 50 logs for performance optimization.
    */
   protected readonly maxLogs = computed(() => this.eventLogger.getRecentLogs(50));
 
   /**
-   * Tüm logları temizler.
+   * Clears all logged events.
+   * Invokes the event logger service to remove all event entries.
    */
   clearLogs(): void {
     this.eventLogger.clearLogs();

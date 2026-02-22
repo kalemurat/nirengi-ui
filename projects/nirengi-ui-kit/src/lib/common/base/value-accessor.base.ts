@@ -2,35 +2,35 @@ import { Directive, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 /**
- * ControlValueAccessor implementasyonu için base class.
- * Angular form işlemleri için gerekli temel yapıyı sağlar.
- * Signal tabanlı state yönetimi sunar.
+ * Base class for ControlValueAccessor implementation.
+ * Provides the core structure required for Angular form operations.
+ * Offers signal-based state management.
  */
 @Directive()
 export abstract class ValueAccessorBase<T> implements ControlValueAccessor {
   /**
-   * Component'in disabled durumu.
+   * Component's disabled state.
    */
   readonly isDisabled = signal<boolean>(false);
 
   /**
-   * Component'in value durumu.
+   * Component's value state.
    */
   readonly value = signal<T | null>(null);
 
   /**
-   * Value değiştiğinde tetiklenecek callback.
+   * Callback to be triggered when the value changes.
    */
   protected onChange: (value: T | null) => void = () => {};
 
   /**
-   * Component touch olduğunda tetiklenecek callback.
+   * Callback to be triggered when the component is touched.
    */
   protected onTouched: () => void = () => {};
 
   /**
-   * View'dan model'e değer iletilmesi.
-   * Alt sınıflar bu metodu çağırarak değeri güncellemeli.
+   * Communication from view to model.
+   * Derived classes should call this method to update the value.
    */
   updateValue(value: T | null): void {
     if (this.isDisabled()) return;
@@ -39,7 +39,7 @@ export abstract class ValueAccessorBase<T> implements ControlValueAccessor {
   }
 
   /**
-   * Component blur olduğunda çağrılmalı.
+   * Should be called when the component is blurred.
    */
   markAsTouched(): void {
     if (this.isDisabled()) return;
@@ -47,21 +47,21 @@ export abstract class ValueAccessorBase<T> implements ControlValueAccessor {
   }
 
   /**
-   * Model'den view'a değer yazılması (ControlValueAccessor)
+   * Writes value from model to view (ControlValueAccessor)
    */
   writeValue(value: T | null): void {
     this.value.set(value);
   }
 
   /**
-   * Register onChange (ControlValueAccessor)
+   * Register onChange callback (ControlValueAccessor)
    */
   registerOnChange(fn: (value: T | null) => void): void {
     this.onChange = fn;
   }
 
   /**
-   * Register onTouched (ControlValueAccessor)
+   * Register onTouched callback (ControlValueAccessor)
    */
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;

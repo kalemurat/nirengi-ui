@@ -1,13 +1,13 @@
 import { ColorVariant } from '../enums/color-variant.enum';
 
 /**
- * UI Kit için standart renk variant değerlerinin tip tanımı.
+ * Type definition for standard color variant values in UI Kit.
  */
 export type ColorVariantType = `${ColorVariant}`;
 
 /**
- * Renk yoğunluğu/tonu tipi.
- * Tailwind CSS'in renk skalasına uyumlu.
+ * Color shade/intensity type.
+ * Compatible with Tailwind CSS color scale.
  */
 export type ColorShade =
   | '50'
@@ -23,8 +23,8 @@ export type ColorShade =
   | '950';
 
 /**
- * Detaylı renk konfigürasyonu.
- * Variant ve ton bilgisini birlikte tutar.
+ * Detailed color configuration.
+ * Holds both variant and shade information together.
  *
  * @example
  * const color: ColorConfig = {
@@ -33,14 +33,14 @@ export type ColorShade =
  * };
  */
 export interface ColorConfig {
-  /** Renk varyantı */
+  /** Color variant */
   variant: ColorVariantType;
-  /** Renk tonu (opsiyonel, varsayılan: '500') */
+  /** Color shade (optional, default: '500') */
   shade?: ColorShade;
 }
 
 /**
- * Component renklendirme için birleştirilmiş tip.
- * Basit variant string'i veya detaylı konfigürasyon kabul eder.
+ * Combined type for component coloring.
+ * Accepts either a simple variant string or a detailed configuration.
  */
 export type ColorValue = ColorVariantType | ColorConfig;

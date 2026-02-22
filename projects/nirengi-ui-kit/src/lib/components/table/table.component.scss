@@ -1,35 +1,43 @@
 /* Table SCSS */
 .nui-table-container {
-  @apply flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800; /* Increased container border visibility */
+  @apply flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-default bg-primary shadow-sm; /* Increased container border visibility */
 }
 
 .nui-table-toolbar {
-  @apply flex justify-end border-b border-gray-200 p-4 dark:border-gray-700;
+  @apply flex justify-end border-b border-subtle p-4;
 
   &__search-container {
     @apply relative w-64;
   }
 
   &__search-input {
-    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 transition-colors placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500 dark:disabled:bg-gray-800 dark:disabled:text-gray-500;
+    @apply w-full rounded-md border border-default bg-primary px-3 py-2 text-sm text-primary transition-colors placeholder:text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-tertiary disabled:text-disabled;
   }
 }
 
 .nui-table-wrapper {
-  @apply relative min-h-0 w-full flex-1 overflow-auto bg-white dark:bg-gray-800;
+  @apply relative min-h-0 w-full flex-1 overflow-auto bg-primary;
 }
 
 .nui-table {
-  @apply relative min-w-full border-collapse text-left text-sm text-gray-700 dark:text-gray-200;
+  @apply relative min-w-full border-collapse text-left text-sm text-primary transition-all duration-200;
 
   /* Universal Cell Styles (Default Medium) */
   th,
   td {
-    @apply border-0 px-4 py-3 text-left align-middle text-sm text-gray-700 dark:text-gray-200;
+    @apply border-0 px-4 py-3 text-left align-middle text-sm text-primary;
+  }
+
+  &--fixed {
+    @apply table-fixed;
+  }
+
+  &__viewport {
+    @apply h-full w-full;
   }
 
   &__head {
-    @apply sticky top-0 z-10 bg-gray-100 text-xs font-semibold uppercase text-gray-600 shadow-sm backdrop-blur-sm dark:bg-gray-700/50 dark:text-gray-300;
+    @apply sticky top-0 z-10 bg-tertiary text-xs font-semibold uppercase text-secondary shadow-sm backdrop-blur-sm;
 
     th {
       @apply whitespace-nowrap font-medium;
@@ -45,18 +53,18 @@
   }
 
   &__filter-input {
-    @apply w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-xs font-normal text-gray-700 transition-colors focus:border-primary-500 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-gray-200;
+    @apply w-full rounded border border-default bg-primary px-2 py-1.5 text-xs font-normal text-primary transition-colors focus:border-primary-500 focus:outline-none;
   }
 
   &__body {
-    @apply bg-white dark:bg-gray-800;
+    @apply bg-primary;
   }
 
   &__row {
     @apply transition-colors duration-150;
 
     &:hover {
-      @apply bg-gray-50 dark:bg-gray-700/30;
+      @apply bg-tertiary;
     }
 
     &--head {
@@ -66,11 +74,19 @@
 
   &__cell {
     /* Legacy/Direct usage support */
-    @apply max-w-[200px] truncate whitespace-nowrap text-gray-900 dark:text-gray-100;
+    @apply max-w-[200px] truncate whitespace-nowrap text-primary;
+
+    &--default-head {
+      @apply p-4 text-left font-medium text-secondary;
+    }
+
+    &--default-row {
+      @apply p-4 text-primary;
+    }
   }
 
   &__empty-cell {
-    @apply p-12 text-center text-gray-500 dark:text-gray-400;
+    @apply p-12 text-center text-secondary;
   }
 
   &__empty-content {
@@ -78,7 +94,7 @@
   }
 
   &__empty-title {
-    @apply text-lg font-medium text-gray-900 dark:text-white;
+    @apply text-lg font-medium text-primary;
   }
 
   &__empty-text {
@@ -138,25 +154,25 @@
 
   &--grid-horizontal {
     .nui-table__body {
-      @apply divide-y divide-gray-300 dark:divide-gray-600;
+      @apply divide-y divide-default;
     }
     /* Explicit Header Bottom Border - High Contrast */
     .nui-table__head th {
-      @apply border-b border-gray-500 dark:border-gray-500;
+      @apply border-b border-default;
     }
   }
 
   &--grid-vertical {
     /* Vertical Lines for Body (Standard) */
     td {
-      @apply border-r border-gray-300 dark:border-gray-600;
+      @apply border-r border-default;
       &:last-child {
         @apply border-r-0;
       }
     }
     /* Header Vertical Lines & Bottom - High Contrast */
     .nui-table__head th {
-      @apply border-b border-r border-gray-500 dark:border-gray-500;
+      @apply border-b border-r border-default;
       &:last-child {
         @apply border-r-0;
       }
@@ -165,40 +181,57 @@
 
   &--grid-both {
     .nui-table__body {
-      @apply divide-y divide-gray-300 dark:divide-gray-600;
+      @apply divide-y divide-default;
     }
     /* Vertical Lines Body */
     td {
-      @apply border-r border-gray-300 dark:border-gray-600;
-      &:last-child {
-        @apply border-r-0;
-      }
+      @apply border-r border-default;
     }
     /* Header Vertical Lines & Bottom - High Contrast */
     .nui-table__head th {
-      @apply border-b border-r border-gray-500 dark:border-gray-500;
-      &:last-child {
-        @apply border-r-0;
-      }
+      @apply border-b border-r border-default;
     }
   }
 }
 
 /* Loading Overlay */
 .nui-table-loading {
-  @apply absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm transition-all duration-300;
+  @apply absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm transition-all duration-300;
+  background-color: color-mix(in srgb, var(--bg-primary), transparent 50%);
 
   &__spinner {
     @apply h-8 w-8 animate-spin text-primary-600;
+  }
+
+  &__spinner-circle {
+    @apply opacity-25;
+  }
+
+  &__spinner-path {
+    @apply opacity-75;
   }
 }
 
 /* Pagination */
 .nui-table-pagination {
-  @apply z-20 flex shrink-0 flex-col items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:flex-row;
+  @apply z-20 flex shrink-0 flex-col items-center justify-between border-t border-subtle bg-primary px-4 py-2.5 sm:flex-row;
 
   &__info {
-    @apply mb-4 flex w-full items-center justify-between text-sm text-gray-700 sm:mb-0 sm:w-auto;
+    @apply mb-3 flex w-full items-center justify-between text-sm text-secondary sm:mb-0 sm:w-auto;
+  }
+
+  &__text {
+    @apply flex items-center gap-1.5;
+  }
+
+  &__range-start,
+  &__range-end,
+  &__total {
+    @apply font-semibold text-primary;
+  }
+
+  &__label-showing {
+    @apply hidden sm:inline;
   }
 
   &__controls {
@@ -206,41 +239,67 @@
   }
 
   &__size-select {
-    @apply block w-full cursor-pointer rounded-md border-0 py-1.5 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm sm:leading-6;
+    @apply w-16; /* Fixed width, let the component handle the styling */
   }
 
   &__nav {
-    @apply isolate inline-flex items-center gap-1 rounded-md;
+    @apply isolate inline-flex items-center gap-1.5 rounded-md;
   }
 
   &__btn {
-    @apply relative inline-flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply relative inline-flex shrink-0 items-center justify-center rounded-full text-secondary transition-all duration-200 focus:z-20 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:focus:ring-offset-secondary;
+
+    &--prev,
+    &--next {
+      @apply aspect-auto font-medium text-primary hover:bg-tertiary dark:text-secondary dark:hover:bg-secondary dark:hover:text-primary;
+    }
 
     &--number {
-      @apply mx-0.5 font-semibold transition-colors;
+      @apply flex aspect-square flex-none items-center justify-center overflow-hidden p-0 text-xs font-semibold leading-none sm:text-sm;
+      @apply bg-transparent hover:bg-tertiary hover:text-primary dark:hover:bg-secondary;
+
+      /* Standard circle sizes to match paginationNumberClass signal */
+      .nui-table-container--xs & {
+        @apply h-6 w-6;
+      }
+      .nui-table-container--sm & {
+        @apply h-7 w-7;
+      }
+      .nui-table-container--md & {
+        @apply h-8 w-8;
+      }
+      .nui-table-container--lg & {
+        @apply h-9 w-9;
+      }
+      .nui-table-container--xl & {
+        @apply h-10 w-10;
+      }
     }
 
     &--active {
-      @apply bg-primary-600 text-white hover:bg-primary-500;
+      @apply bg-primary-600 text-white shadow-sm ring-1 ring-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:ring-primary-500 dark:hover:bg-primary-400;
     }
 
     &--inactive {
-      @apply text-gray-900 hover:bg-gray-50;
+      @apply text-secondary hover:text-primary-600 dark:text-tertiary dark:hover:text-primary-400;
+    }
+  }
+
+  &__icon {
+    @apply h-4 w-4;
+
+    &--prev {
+      @apply mr-1;
+    }
+
+    &--next {
+      @apply ml-1;
     }
   }
 
   &__ellipsis {
-    @apply relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 focus:outline-offset-0;
+    @apply relative inline-flex items-center px-1 text-sm font-medium text-tertiary;
   }
 }
 
-/* Virtual Scroll Specifics */
-cdk-virtual-scroll-viewport {
-  height: 100%;
-  width: 100%;
-
-  table {
-    width: 100%;
-    table-layout: fixed;
-  }
-}
+/* Virtual Scroll Specifics (Removed raw element styling tags and replaced with BEM) */

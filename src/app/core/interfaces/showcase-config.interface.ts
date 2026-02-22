@@ -29,19 +29,19 @@ export type PropertyType = 'string' | 'number' | 'boolean' | 'enum' | 'array' | 
 /**
  * Enum property için seçenek tanımı.
  */
-export interface PropertyOption {
+export interface IPropertyOption {
   /** Kullanıcıya gösterilecek label */
   label: string;
 
   /** Gerçek değer (component input'una gönderilecek) */
-  value: any;
+  value: unknown;
 }
 
 /**
  * Component property konfigürasyonu.
  * Her property'nin UI'da nasıl gösterileceğini ve düzenleneceğini tanımlar.
  */
-export interface PropertyConfig {
+export interface IPropertyConfig {
   /** Property adı (component @Input() ile eşleşmeli) */
   name: string;
 
@@ -49,7 +49,7 @@ export interface PropertyConfig {
   type: PropertyType;
 
   /** Varsayılan değer */
-  defaultValue: any;
+  defaultValue: unknown;
 
   /** UI'da gösterilecek label */
   label: string;
@@ -58,7 +58,7 @@ export interface PropertyConfig {
   description?: string;
 
   /** Enum ise seçenekler (type='enum' için zorunlu) */
-  options?: PropertyOption[];
+  options?: IPropertyOption[];
 
   /** Content projection ise kullanım açıklaması */
   contentProjectionHint?: string;
@@ -73,7 +73,7 @@ export interface PropertyConfig {
 /**
  * Component event konfigürasyonu.
  */
-export interface EventConfig {
+export interface IEventConfig {
   /** Event adı (component @Output() ile eşleşmeli) */
   name: string;
 
@@ -88,7 +88,7 @@ export interface EventConfig {
  * Component showcase örneği.
  * Belirli property kombinasyonları ile örnek kullanımlar.
  */
-export interface ShowcaseExample {
+export interface IShowcaseExample {
   /** Örnek başlığı */
   title: string;
 
@@ -96,14 +96,14 @@ export interface ShowcaseExample {
   description: string;
 
   /** Property değerleri map */
-  propertyValues: Record<string, any>;
+  propertyValues: Record<string, unknown>;
 }
 
 /**
  * Showcase edilecek component'in tam konfigürasyonu.
  * Bir component'in tüm metadata, property ve event tanımlarını içerir.
  */
-export interface ComponentShowcaseConfig {
+export interface IComponentShowcaseConfig {
   /** Unique component ID (route ile eşleşir) */
   id: string;
 
@@ -120,30 +120,30 @@ export interface ComponentShowcaseConfig {
   selector: string;
 
   /** Property tanımları */
-  properties: PropertyConfig[];
+  properties: IPropertyConfig[];
 
   /** Event tanımları */
-  events: EventConfig[];
+  events?: IEventConfig[];
 
   /** Kullanım örnekleri (opsiyonel) */
-  examples?: ShowcaseExample[];
+  examples?: IShowcaseExample[];
 }
 
 /**
  * Menü kategorisi.
  */
-export interface MenuCategory {
+export interface IMenuCategory {
   /** Kategori adı */
   name: string;
 
   /** Kategorideki component'ler */
-  items: MenuItemConfig[];
+  items: IMenuItemConfig[];
 }
 
 /**
  * Menü item konfigürasyonu.
  */
-export interface MenuItemConfig {
+export interface IMenuItemConfig {
   /** Component ID */
   id: string;
 
@@ -157,16 +157,16 @@ export interface MenuItemConfig {
 /**
  * Ana menü konfigürasyonu.
  */
-export interface MenuConfig {
+export interface IMenuConfig {
   /** Kategoriler listesi */
-  categories: MenuCategory[];
+  categories: IMenuCategory[];
 }
 
 /**
  * Event log kaydı.
  * Event console'da gösterilecek log entry.
  */
-export interface EventLog {
+export interface IEventLog {
   /** Unique log ID */
   id: string;
 
@@ -180,5 +180,5 @@ export interface EventLog {
   eventName: string;
 
   /** Event payload */
-  payload: any;
+  payload: unknown;
 }

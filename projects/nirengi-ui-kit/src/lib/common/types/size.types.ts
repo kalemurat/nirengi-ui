@@ -1,14 +1,14 @@
 import { Size } from '../enums/size.enum';
 
 /**
- * UI Kit için standart boyut değerlerinin tip tanımı.
- * Size enum'ındaki tüm değerleri string olarak temsil eder.
+ * Type definition for standard size values in UI Kit.
+ * Represents all values in the Size enum as strings.
  */
 export type SizeType = `${Size}`;
 
 /**
- * Responsive boyut konfigürasyonu tipi.
- * Farklı ekran boyutları için farklı size değerleri tanımlanabilir.
+ * Responsive size configuration type.
+ * Allows defining different size values for different screen sizes.
  *
  * @example
  * const responsiveSize: ResponsiveSizeConfig = {
@@ -18,18 +18,18 @@ export type SizeType = `${Size}`;
  * };
  */
 export interface ResponsiveSizeConfig {
-  /** Mobil (varsayılan) boyut */
+  /** Mobile (default) size */
   base?: SizeType;
-  /** Tablet boyut (≥768px) */
+  /** Tablet size (≥768px) */
   md?: SizeType;
-  /** Desktop boyut (≥1024px) */
+  /** Desktop size (≥1024px) */
   lg?: SizeType;
-  /** Büyük ekran boyut (≥1280px) */
+  /** Large screen size (≥1280px) */
   xl?: SizeType;
 }
 
 /**
- * Component boyutlandırma için birleştirilmiş tip.
- * Tek bir boyut değeri veya responsive konfigürasyon kabul eder.
+ * Combined type for component sizing.
+ * Accepts either a single size value or a responsive configuration.
  */
 export type SizeValue = SizeType | ResponsiveSizeConfig;

@@ -1,18 +1,13 @@
-import {
-    Component,
-    ChangeDetectionStrategy,
-    input,
-    computed
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TooltipPosition } from './tooltip.types';
 
 /**
- * Tooltip içeriğini gösteren component.
- * Direktif tarafından dinamik olarak oluşturulur ve yönetilir.
+ * Component that displays the tooltip content.
+ * Dynamically created and managed by the directive.
  *
  * @example
- * // Bu component direkt olarak kullanılmaz, nirengiTooltip direktifi üzerinden yönetilir.
+ * // This component is not used directly, it is managed via the nirengiTooltip directive.
  */
 @Component({
   selector: 'nirengi-tooltip',
@@ -26,16 +21,16 @@ import { TooltipPosition } from './tooltip.types';
   styles: [
     `
       :host {
-        /* Component host stili */
+        /* Component host style */
         display: block;
       }
       .tooltip {
-        /* Temel tooltip stili */
-        @apply px-3 py-1.5 text-xs font-medium text-white bg-slate-800 rounded shadow-lg pointer-events-none whitespace-nowrap transition-all duration-200 opacity-0 scale-95;
+        /* Base tooltip style */
+        @apply pointer-events-none scale-95 whitespace-pre-line rounded-md bg-inverse px-4 py-2 text-xs font-semibold text-inverse opacity-0 shadow-xl transition-all duration-200;
 
-        /* Görünürlük kontrolü */
+        /* Visibility control */
         &--visible {
-          @apply opacity-100 scale-100;
+          @apply scale-100 opacity-100;
         }
       }
     `,
@@ -44,24 +39,24 @@ import { TooltipPosition } from './tooltip.types';
 })
 export class TooltipComponent {
   /**
-   * Gösterilecek metin.
+   * Text to be displayed.
    */
   readonly text = input.required<string>();
 
   /**
-   * Tooltip pozisyonu.
+   * Tooltip position.
    */
   readonly position = input<TooltipPosition>(TooltipPosition.Top);
 
   /**
-   * Görünürlük durumu.
-   * Animasyon için kullanılır.
+   * Visibility state.
+   * Used for animation.
    */
   readonly visible = input<boolean>(false);
 
   /**
-   * Container stili için computed signal.
-   * BEM metodolojisine uygun class'lar üretir.
+   * Computed signal for the container style.
+   * Produces classes in accordance with BEM methodology.
    */
   readonly containerClasses = computed(() => {
     const baseClass = 'tooltip';

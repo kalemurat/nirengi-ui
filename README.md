@@ -1,6 +1,6 @@
 # Nirengi UI
 
-Nirengi UI, e-ticaret yönetimi için ürün yönetimi, üretim, sipariş takip ve paketleme modüllerini içeren modern bir yönetim arayüzüdür. Bu depo proje seti, hem uygulama örnekleri hem de yeniden kullanılabilir bileşenler içerir.
+Nirengi UI, Angular tabanlı yeniden kullanılabilir kullanıcı arayüzü (UI) bileşenleri ve örnek uygulamalar içeren bir bileşen kütüphanesidir.
 
 ## Öne Çıkanlar
 
@@ -83,7 +83,7 @@ export class ExampleComponent {
 - GitHub: [https://github.com/kalemurat/nirengi-ui](https://github.com/kalemurat/nirengi-ui)
 - Library Dokümantasyon: [projects/nirengi-ui-kit/README.md](projects/nirengi-ui-kit/README.md)
 
-**Lisans:** Apache-2.0 (ana proje lisansını miras alır)
+**Lisans:** MIT (daha fazla bilgi için [LICENSE](LICENSE) dosyasına bakın)
 
 ## Kurulum
 
@@ -150,6 +150,12 @@ Katkılar memnuniyetle kabul edilir. Lütfen aşağıdaki adımları izleyin:
 
 Kodlama standartlarına uyun ve mümkünse testler ekleyin. Büyük değişiklikler için önce bir issue açarak tartışmaya başlayın.
 
+## Destek
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github)](https://github.com/sponsors/kalemurat)
+
+Proje, bağış sistemi ile desteklenmeye açıktır; sponsorluk veya bağış yoluyla destek olmak isteyenleri memnuniyetle karşılıyoruz. Destek ve sponsorluk için yukarıdaki butonu kullanabilirsiniz.
+
 ## Lisans
 
-Bu proje Apache License 2.0 ile lisanslanmıştır. Daha fazla bilgi için [LICENSE](LICENSE) dosyasına bakın.
+Bu proje MIT Lisansı ile lisanslanmıştır. Daha fazla bilgi için [LICENSE](LICENSE) dosyasına bakın.

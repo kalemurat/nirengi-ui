@@ -1,6 +1,6 @@
 {
   "name": "nirengi-ui",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "kill -9 $(lsof -t -i :4200) 2>/dev/null || true && ng serve",

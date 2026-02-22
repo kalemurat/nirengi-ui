@@ -1,7 +1,4 @@
-<div
-  class="nui-select"
-  [ngClass]="containerClasses()"
->
+<div [class]="'nui-select ' + containerClasses()">
   <!-- Label -->
   @if (label()) {
     <label [for]="inputId" class="nui-select__label">
@@ -12,8 +9,9 @@
   <div class="nui-select__container" #container>
     <!-- Trigger Button -->
     <div
-      class="nui-select__trigger"
-      [ngClass]="triggerClasses()"
+      [class]="'nui-select__trigger ' + triggerClasses()"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
       [class.nui-select__trigger--disabled]="isDisabled()"
       [class.nui-select__trigger--success]="success()"
       [class.nui-select__trigger--warning]="warning()"
@@ -31,7 +29,7 @@
               <span class="nui-select__chip">
                 {{ getLabel(item) }}
                 <span class="nui-select__chip-remove" (click)="removeItem(item, $event)">
-                  <nirengi-icon name="X" [size]="12" />
+                  <nui-icon name="X" [size]="12" />
                 </span>
               </span>
             }
@@ -43,22 +41,22 @@
         }
       </div>
 
-      <!-- Clear Button (Single Select) -->
-      @if (!multiple() && hasValue() && clearable() && !isDisabled()) {
-        <div class="nui-select__clear" (click)="clearValue($event)">
-          <nirengi-icon name="X" [size]="iconSize()" />
-        </div>
+      <!-- Clear Button -->
+      @if (hasValue() && clearable() && !isDisabled()) {
+        <button type="button" class="nui-select__clear" (click)="clearValue($event)" aria-label="Clear selection">
+          <nui-icon name="X" [size]="iconSize()" />
+        </button>
       }
 
       <!-- Arrow Icon -->
       <div class="nui-select__icon" [class.nui-select__icon--open]="isOpen()">
-        <nirengi-icon name="ChevronDown" [size]="iconSize()" />
+        <nui-icon name="ChevronDown" [size]="iconSize()" />
       </div>
     </div>
 
-    <!-- Dropdown Menu -->
-    @if (isOpen() && !isDisabled()) {
-      <div class="nui-select__dropdown">
+    <!-- Dropdown Template -->
+    <ng-template #dropdownContent>
+      <div class="nui-select__dropdown" [class.nui-select__dropdown--overlay]="appendToBody()">
         <!-- Search Input -->
         @if (searchable()) {
           <div class="nui-select__search">
@@ -66,7 +64,7 @@
               #searchInput
               type="text"
               class="nui-select__search-input"
-              [placeholder]="'Ara...'"
+              [placeholder]="'Search...'"
               (input)="onSearch($event)"
               (click)="$event.stopPropagation()"
             />
@@ -83,25 +81,43 @@
             >
               <!-- Content -->
               <ng-container
-                *ngTemplateOutlet="
-                  itemTemplate() || defaultItemTemplate;
-                  context: { $implicit: option, selected: isSelected(option) }
-                "
-              >
-              </ng-container>
+                [ngTemplateOutlet]="itemTemplate() || defaultItemTemplate"
+                [ngTemplateOutletContext]="{ $implicit: option, selected: isSelected(option) }"
+              ></ng-container>
 
               <!-- Checkmark for multiple (or single) -->
               @if (isSelected(option)) {
                 <span class="nui-select__option-check">
-                  <nirengi-icon name="Check" [size]="16" />
+                  <nui-icon name="Check" [size]="16" />
                 </span>
               }
             </div>
           } @empty {
-            <div class="nui-select__empty">Sonuç bulunamadı.</div>
+            <div class="nui-select__empty">No results found.</div>
           }
         </div>
       </div>
+    </ng-template>
+
+    <!-- Overlay Mode -->
+    @if (appendToBody() && isOpen() && !isDisabled()) {
+      <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        [cdkConnectedOverlayWidth]="triggerWidth() || '100%'"
+        [cdkConnectedOverlayPanelClass]="overlayPanelClasses()"
+        (backdropClick)="close()"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
+      >
+        <ng-container [ngTemplateOutlet]="dropdownContent"></ng-container>
+      </ng-template>
+    }
+
+    <!-- Inline Mode -->
+    @if (!appendToBody() && isOpen() && !isDisabled()) {
+      <ng-container [ngTemplateOutlet]="dropdownContent"></ng-container>
     }
   </div>
 

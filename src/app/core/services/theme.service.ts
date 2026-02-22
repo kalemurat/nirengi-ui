@@ -1,7 +1,7 @@
 import { Injectable, signal, effect } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   /**
@@ -27,7 +27,7 @@ export class ThemeService {
    * Toggles between light and dark theme.
    */
   toggleTheme(): void {
-    this.theme.update(current => current === 'light' ? 'dark' : 'light');
+    this.theme.update((current) => (current === 'light' ? 'dark' : 'light'));
   }
 
   /**

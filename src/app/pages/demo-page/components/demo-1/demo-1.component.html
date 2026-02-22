@@ -68,7 +68,7 @@
               (click)="openDetail(item)"
               [size]="Size.XSmall"
               [variant]="ColorVariant.Primary"
-              [type]="ButtonType.Soft"
+              [kind]="ButtonType.Soft"
             >
               Detail
             </nui-button>
@@ -76,7 +76,7 @@
               (click)="deleteItem(item)"
               [size]="Size.XSmall"
               [variant]="ColorVariant.Danger"
-              [type]="ButtonType.Soft"
+              [kind]="ButtonType.Soft"
             >
               Delete
             </nui-button>
@@ -111,7 +111,7 @@
       }
     </div>
     <div class="demo-1__modal-footer">
-      <nui-button (click)="closeDialog()" [variant]="ColorVariant.Secondary" [type]="ButtonType.Ghost"
+      <nui-button (click)="closeDialog()" [variant]="ColorVariant.Secondary" [kind]="ButtonType.Ghost"
         >Close</nui-button
       >
       <nui-button (click)="closeDialog()" [variant]="ColorVariant.Primary">Save Changes</nui-button>

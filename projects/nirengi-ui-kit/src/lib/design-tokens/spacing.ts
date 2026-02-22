@@ -1,13 +1,13 @@
 /**
- * UI Kit spacing (boşluk) design token'ları.
- * Tailwind CSS spacing sistemiyle uyumlu.
+ * UI Kit spacing design tokens.
+ * Compatible with Tailwind CSS spacing system.
  *
  * @see https://tailwindcss.com/docs/customizing-spacing
  */
 
 /**
- * Spacing değerleri arayüzü.
- * 0'dan 96'ya kadar spacing skalası.
+ * Spacing values interface.
+ * Spacing scale from 0 to 96.
  */
 export interface SpacingScale {
   /** 0px */
@@ -83,8 +83,8 @@ export interface SpacingScale {
 }
 
 /**
- * Varsayılan spacing skalası.
- * Tailwind CSS'in varsayılan spacing sistemini kullanır.
+ * Default spacing scale.
+ * Uses Tailwind CSS's default spacing system.
  */
 export const designTokenSpacing: SpacingScale = {
   0: '0px',

@@ -10,14 +10,14 @@
   >
     <div class="nui-accordion__title">
       @if (isTemplate(title())) {
-        <ng-container *ngTemplateOutlet="$any(title())"></ng-container>
+        <ng-container [ngTemplateOutlet]="$any(title())"></ng-container>
       } @else {
         {{ title() }}
       }
     </div>
 
-    <nirengi-icon name="ChevronDown" class="nui-accordion__icon" [class.nui-accordion__icon--rotated]="expanded()">
-    </nirengi-icon>
+    <nui-icon name="ChevronDown" class="nui-accordion__icon" [class.nui-accordion__icon--rotated]="expanded()">
+    </nui-icon>
   </button>
 
   <div
@@ -31,7 +31,7 @@
     <div class="nui-accordion__wrapper">
       <div class="nui-accordion__content">
         @if (isTemplate(content())) {
-          <ng-container *ngTemplateOutlet="$any(content())"></ng-container>
+          <ng-container [ngTemplateOutlet]="$any(content())"></ng-container>
         } @else {
           {{ content() }}
         }

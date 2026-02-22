@@ -1,13 +1,13 @@
 /**
- * UI Kit renk paleti design token'ları.
- * Tailwind CSS renk sistemiyle uyumlu, semantik renk tanımları içerir.
+ * UI Kit color palette design tokens.
+ * Contains semantic color definitions compatible with the Tailwind CSS color system.
  *
  * @see https://tailwindcss.com/docs/customizing-colors
  */
 
 /**
- * Renk paleti arayüzü.
- * Her renk için 11 farklı ton (50-950) tanımlanır.
+ * Color palette interface.
+ * 11 different shades (50-950) are defined for each color.
  */
 export interface ColorPalette {
   50: string;
@@ -24,29 +24,29 @@ export interface ColorPalette {
 }
 
 /**
- * Tüm design token renk tanımları.
+ * All design token color definitions.
  */
 export interface DesignTokenColors {
-  /** Ana marka rengi paleti */
+  /** Main brand color palette */
   primary: ColorPalette;
-  /** İkincil renk paleti */
+  /** Secondary color palette */
   secondary: ColorPalette;
-  /** Başarı durumu renk paleti */
+  /** Success status color palette */
   success: ColorPalette;
-  /** Uyarı durumu renk paleti */
+  /** Warning status color palette */
   warning: ColorPalette;
-  /** Hata/Tehlike durumu renk paleti */
+  /** Error/Danger status color palette */
   danger: ColorPalette;
-  /** Bilgilendirme renk paleti */
+  /** Information color palette */
   info: ColorPalette;
-  /** Nötr/Gri ton paleti */
+  /** Neutral/Gray shade palette */
   neutral: ColorPalette;
 }
 
 /**
- * Varsayılan renk paletleri.
- * Tailwind CSS'in varsayılan renk sistemini temel alır.
- * Ana projeden override edilebilir.
+ * Default color palettes.
+ * Based on Tailwind CSS's default color system.
+ * Can be overridden from the main project.
  */
 export const designTokenColors: DesignTokenColors = {
   primary: {

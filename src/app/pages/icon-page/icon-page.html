@@ -2,25 +2,25 @@
   <section class="icon-page__section">
     <h2 class="icon-page__title">Örnek Kullanımlar</h2>
 
-    <div class="flex items-end gap-8">
-      <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="House" />
-        <span class="text-sm">Default</span>
+    <div class="icon-page__examples">
+      <div class="icon-page__example">
+        <nui-icon name="House" />
+        <span class="icon-page__example-label">Default</span>
       </div>
 
-      <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="Heart" color="red" />
-        <span class="text-sm">Color Red</span>
+      <div class="icon-page__example">
+        <nui-icon name="Heart" color="red" />
+        <span class="icon-page__example-label">Color Red</span>
       </div>
 
-      <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="Settings" size="48" [strokeWidth]="1" />
-        <span class="text-sm">Size 48 / Thin</span>
+      <div class="icon-page__example">
+        <nui-icon name="Settings" [size]="Size.XLarge" [strokeWidth]="1" />
+        <span class="icon-page__example-label">Size 48 / Thin</span>
       </div>
 
-      <div class="flex flex-col items-center gap-2">
-        <nirengi-icon name="Loader" class="animate-spin" />
-        <span class="text-sm">Animated (Tailwind)</span>
+      <div class="icon-page__example">
+        <nui-icon name="Loader" class="animate-spin" />
+        <span class="icon-page__example-label">Animated (Tailwind)</span>
       </div>
     </div>
   </section>
@@ -41,7 +41,7 @@
     <div class="icon-page__grid">
       @for (iconName of filteredIcons(); track iconName) {
         <div class="icon-page__item" [title]="iconName">
-          <nirengi-icon [name]="iconName" />
+          <nui-icon [name]="iconName" />
           <span class="icon-page__name">{{ iconName }}</span>
         </div>
       }

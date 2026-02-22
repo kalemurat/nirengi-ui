@@ -9,8 +9,10 @@ import {
   ComponentRef,
   Type,
   output,
-  Injector
+  Injector,
+  DestroyRef,
 } from '@angular/core';
+import { skip, Subscription } from 'rxjs';
 import {
   Overlay,
   OverlayRef,
@@ -23,36 +25,37 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { PopoverComponent } from './popover.component';
 import { PopoverPosition } from './popover.types';
 import { PopoverRef } from './popover.ref';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
- * Tıklandığında elementin yanında bir popover açan direktif.
+ * Directive that opens a popover next to the element when clicked.
  *
- * ## Kullanım
+ * ## Usage
  *
- * ### 1. Temel Kullanım
+ * ### 1. Basic Usage
  * ```html
- * <button [nirengiPopover]="MyContentComponent">Aç</button>
+ * <button [nirengiPopover]="MyContentComponent">Open</button>
  * ```
  *
- * ### 2. Pozisyon Belirleme
+ * ### 2. Setting Position
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
  *   [nirengiPopoverPosition]="PopoverPosition.Right">
- *   Sağda Aç
+ *   Open on Right
  * </button>
  * ```
  *
- * ### 3. Input Gönderme
- * Render edilen componente veri göndermek için `nirengiPopoverInputs` kullanın.
+ * ### 3. Passing Inputs
+ * Use `nirengiPopoverInputs` to send data to the rendered component.
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
- *   [nirengiPopoverInputs]="{ user: currentUser, title: 'Profil' }">
- *   Profil Detayı
+ *   [nirengiPopoverInputs]="{ user: currentUser, title: 'Profile' }">
+ *   Profile Detail
  * </button>
  * ```
- * Component tarafında bu verileri `input()` signal ile karşılayabilirsiniz:
+ * You can receive this data with the `input()` signal in the component:
  * ```typescript
  * export class MyContentComponent {
  *   readonly user = input<User>();
@@ -60,52 +63,52 @@ import { PopoverRef } from './popover.ref';
  * }
  * ```
  *
- * ### 4. Output Dinleme (Event Handling)
- * Render edilen componentten gelen eventleri dinlemek için `nirengiPopoverOutput` kullanın.
- * Component içinde `PopoverRef.emit()` metodunu kullanarak event gönderebilirsiniz.
+ * ### 4. Listening to Outputs (Event Handling)
+ * Use `nirengiPopoverOutput` to listen to events from the rendered component.
+ * You can send events using the `PopoverRef.emit()` method inside the component.
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
  *   (nirengiPopoverOutput)="handlePopoverEvent($event)">
- *   İşlem Yap
+ *   Take Action
  * </button>
  * ```
  * ```typescript
  * // Parent Component
- * handlePopoverEvent(event: { key: string, data: any }) {
- *   if (event.key === 'save') {
- *     console.log('Kaydedildi:', event.data);
+ * handlePopoverEvent(event: { key: string, data: unknown }) {
+ *   if (event.key === 'save' && typeof event.data === 'object') {
+ *     // Handle event
  *   }
  * }
- * 
+ *
  * // Content Component (Inside Popover)
  * export class MyContentComponent {
  *   private popoverRef = inject(PopoverRef);
- *   
+ *
  *   save() {
  *     this.popoverRef.emit('save', { id: 123 });
  *   }
  * }
  * ```
  *
- * ### 5. Component İçinden Kapatma
- * `PopoverRef` servisini inject ederek popover'ı kapatabilirsiniz.
+ * ### 5. Closing from Inside the Component
+ * You can close the popover by injecting the `PopoverRef` service.
  * ```typescript
  * export class MyContentComponent {
  *   private popoverRef = inject(PopoverRef);
- *   
+ *
  *   close() {
- *     this.popoverRef.close(); // İsteğe bağlı result dönebilir
+ *     this.popoverRef.close(); // Can optionally return a result
  *   }
  * }
  * ```
  *
- * ### 6. Dışarı Tıklama ile Kapanmayı Engelleme
+ * ### 6. Preventing Closure on Outside Click
  * ```html
- * <button 
+ * <button
  *   [nirengiPopover]="MyContentComponent"
  *   [nirengiPopoverCloseOnOutsideClick]="false">
- *   Kalıcı Popover
+ *   Persistent Popover
  * </button>
  * ```
  */
@@ -115,71 +118,75 @@ import { PopoverRef } from './popover.ref';
 })
 export class PopoverDirective implements OnDestroy {
   /**
-   * Popover içinde gösterilecek component.
+   * Component to be displayed inside the popover.
    */
   readonly nirengiPopover = input.required<Type<any>>();
 
   /**
-   * Popover pozisyonu.
-   * Varsayılan: Bottom
+   * Popover position.
+   * Default: Bottom
    */
   readonly nirengiPopoverPosition = input<PopoverPosition>(PopoverPosition.Bottom);
 
   /**
-   * Dışarı tıklandığında popover'ın kapanıp kapanmayacağını belirler.
-   * Varsayılan: true
+   * Determines whether the popover closes when clicked outside.
+   * Default: false
    */
-  readonly nirengiPopoverCloseOnOutsideClick = input<boolean>(true);
+  readonly nirengiPopoverCloseOnOutsideClick = input<boolean>(false);
 
   /**
-   * Popover içerik component'ine geçilecek inputlar.
+   * Inputs to be passed to the popover content component.
    */
   readonly nirengiPopoverInputs = input<Record<string, unknown>>({});
-  
+
   /**
-   * Popover açıldığında tetiklenir
+   * Triggered when the popover is opened
    */
   readonly popoverOpened = output<void>();
 
   /**
-   * Popover kapandığında tetiklenir
+   * Triggered when the popover is closed
    */
   readonly popoverClosed = output<void>();
 
   /**
-   * Popover içeriğinden gelen eventleri dışarı iletir.
-   * Component içinde `PopoverRef.emit('key', data)` kullanıldığında tetiklenir.
+   * Forwards events from the popover content to the outside.
+   * Triggered when `PopoverRef.emit('key', data)` is used inside the component.
    */
-  readonly nirengiPopoverOutput = output<{ key: string; data: any }>();
+  /**
+   * Forwards events from the popover content to the outside.
+   * Triggered when `PopoverRef.emit('key', data)` is used inside the component.
+   */
+  readonly nirengiPopoverOutput = output<{ key: string; data: unknown }>();
 
   private overlayRef: OverlayRef | null = null;
   private popoverRef: ComponentRef<PopoverComponent> | null = null;
   private isVisible = false;
+  private backdropSubscription: Subscription | null = null;
 
   private readonly overlay = inject(Overlay);
   private readonly positionBuilder = inject(OverlayPositionBuilder);
   private readonly elementRef = inject(ElementRef);
   private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
-    // Input değişikliklerini dinle
+    // Listen to input changes
     effect(() => {
       if (this.popoverRef) {
         this.popoverRef.setInput('content', this.nirengiPopover());
         this.popoverRef.setInput('position', this.nirengiPopoverPosition());
         this.popoverRef.setInput('componentInputs', this.nirengiPopoverInputs());
-        
-        // Pozisyon değişirse stratejiyi güncellemek gerekebilir (updatePositionStrategy)
-        // Ancak OverlayRef yok edilip tekrar oluşturulmadıkça position strategy statiktir.
-        if (this.overlayRef) {
-             this.overlayRef.updatePosition();
-        }
+
+        // Force change detection on the popover wrapper
+        this.popoverRef.changeDetectorRef.detectChanges();
       }
     });
   }
 
-  @HostListener('click')
-  toggle(): void {
+  @HostListener('click', ['$event'])
+  toggle(event: MouseEvent): void {
+    event.stopPropagation();
     if (this.isVisible) {
       this.close();
     } else {
@@ -197,43 +204,43 @@ export class PopoverDirective implements OnDestroy {
     const overlayConfig = new OverlayConfig({
       positionStrategy,
       scrollStrategy,
-      // Eğer dışarı tıklamada kapatma isteniyorsa backdrop olmalı
-      // İstenmiyorsa backdrop click'i dinlemeyiz ama overlay etkileşimi için transparent backdrop yine de işe yarayabilir
-      // Ancak kullanıcı 'false' dediğinde genelde "başk a yere tıklayabileyim" ister.
-      // O yüzden hasBackdrop'u sadece closeOnOutside true ise koyuyoruz.
-      hasBackdrop: closeOnOutside,
-      backdropClass: 'cdk-overlay-transparent-backdrop',
+      hasBackdrop: false,
     });
 
     this.overlayRef = this.overlay.create(overlayConfig);
 
-    // Backdrop click ile kapatma
+    // Close when clicking outside of the overlay.
+    // We use skip(1) to intentionally discard the first pointer event emitted by outsidePointerEvents().
+    // In production builds, Angular's optimized change detection causes the click event that
+    // triggered open() to also be dispatched through outsidePointerEvents(), which would
+    // immediately close the popover. skip(1) is the idiomatic CDK solution for this race condition.
     if (closeOnOutside) {
-        this.overlayRef.backdropClick().subscribe(() => {
+      this.backdropSubscription = this.overlayRef
+        .outsidePointerEvents()
+        .pipe(skip(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
           this.close();
         });
     }
 
     const popoverRef = new PopoverRef(this.overlayRef);
-    
-    // PopoverRef'i inject etmek için özel injector oluştur
+
+    // Create a custom injector to inject PopoverRef
     const customInjector = Injector.create({
-        providers: [
-            { provide: PopoverRef, useValue: popoverRef }
-        ],
-        parent: this.injector
-    });
-    
-    // PopoverRef üzerinden kapatma isteğini dinle
-    // (Render edilen component popoverRef.close() çağırdığında)
-    popoverRef.afterClosed().subscribe(() => {
-        // Overlay zaten dispose edildi, sadece local state temizliği yap
-        this.destroyPopover();
+      providers: [{ provide: PopoverRef, useValue: popoverRef }],
+      parent: this.injector,
     });
 
-    // PopoverRef üzerinden gelen eventleri dinle ve dışarı aktar
-    popoverRef.events$.subscribe(event => {
-        this.nirengiPopoverOutput.emit(event);
+    // Listen to the close request via PopoverRef
+    // (When the rendered component calls popoverRef.close())
+    popoverRef.afterClosed().subscribe(() => {
+      // Overlay already disposed, just clean up local state
+      this.destroyPopover();
+    });
+
+    // Listen to events from PopoverRef and forward them
+    popoverRef.events$.subscribe((event) => {
+      this.nirengiPopoverOutput.emit(event);
     });
 
     const popoverPortal = new ComponentPortal(PopoverComponent);
@@ -244,7 +251,7 @@ export class PopoverDirective implements OnDestroy {
     this.popoverRef.setInput('componentInputs', this.nirengiPopoverInputs());
     this.popoverRef.setInput('injector', customInjector);
 
-    // Animasyon için
+    // For animation
     requestAnimationFrame(() => {
       if (this.popoverRef) {
         this.popoverRef.setInput('visible', true);
@@ -255,34 +262,44 @@ export class PopoverDirective implements OnDestroy {
     this.popoverOpened.emit();
   }
 
+  /**
+   * Closes the popover.
+   * Works only if the popover is currently visible.
+   */
   close(): void {
     if (!this.isVisible) return;
 
     if (this.popoverRef) {
       this.popoverRef.setInput('visible', false);
-      
+
       setTimeout(() => {
-          this.destroyPopover();
+        this.destroyPopover();
       }, 200);
     }
   }
-  
+
   private destroyPopover(): void {
-      if (this.overlayRef) {
-          // Eğer dışarıdan close çağrıldıysa ve ref hala varsa
-          if (this.overlayRef.hasAttached()) {
-             this.overlayRef.detach();
-             this.overlayRef.dispose();
-          }
-          this.overlayRef = null;
+    if (this.overlayRef) {
+      // Clean up subscription first
+      if (this.backdropSubscription) {
+        this.backdropSubscription.unsubscribe();
+        this.backdropSubscription = null;
       }
-      this.popoverRef = null;
-      
-      // Sadece görünür durumdaysa emit et (tekrarı önlemek için)
-      if (this.isVisible) {
-          this.isVisible = false;
-          this.popoverClosed.emit();
+
+      // If close was called externally and ref still exists
+      if (this.overlayRef.hasAttached()) {
+        this.overlayRef.detach();
+        this.overlayRef.dispose();
       }
+      this.overlayRef = null;
+    }
+    this.popoverRef = null;
+
+    // Only emit if currently visible (to prevent repetition)
+    if (this.isVisible) {
+      this.isVisible = false;
+      this.popoverClosed.emit();
+    }
   }
 
   ngOnDestroy(): void {
@@ -304,38 +321,118 @@ export class PopoverDirective implements OnDestroy {
   private getPositions(position: PopoverPosition): ConnectionPositionPair[] {
     // Offset (gap) between trigger and popover
     const offset = 8;
-    
+
     switch (position) {
       case PopoverPosition.Top:
-        return [{ originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -offset }];
+        return [
+          {
+            originX: 'center',
+            originY: 'top',
+            overlayX: 'center',
+            overlayY: 'bottom',
+            offsetY: -offset,
+          },
+        ];
       case PopoverPosition.TopStart:
-        return [{ originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'top',
+            overlayX: 'start',
+            overlayY: 'bottom',
+            offsetY: -offset,
+          },
+        ];
       case PopoverPosition.TopEnd:
-        return [{ originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -offset }];
-        
+        return [
+          { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -offset },
+        ];
+
       case PopoverPosition.Bottom:
-        return [{ originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: offset }];
+        return [
+          {
+            originX: 'center',
+            originY: 'bottom',
+            overlayX: 'center',
+            overlayY: 'top',
+            offsetY: offset,
+          },
+        ];
       case PopoverPosition.BottomStart:
-        return [{ originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'bottom',
+            overlayX: 'start',
+            overlayY: 'top',
+            offsetY: offset,
+          },
+        ];
       case PopoverPosition.BottomEnd:
-        return [{ originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: offset }];
+        return [
+          { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: offset },
+        ];
 
       case PopoverPosition.Left:
-        return [{ originX: 'start', originY: 'center', overlayX: 'end', overlayY: 'center', offsetX: -offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'center',
+            overlayX: 'end',
+            overlayY: 'center',
+            offsetX: -offset,
+          },
+        ];
       case PopoverPosition.LeftStart:
-        return [{ originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top', offsetX: -offset }];
+        return [
+          { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top', offsetX: -offset },
+        ];
       case PopoverPosition.LeftEnd:
-        return [{ originX: 'start', originY: 'bottom', overlayX: 'end', overlayY: 'bottom', offsetX: -offset }];
+        return [
+          {
+            originX: 'start',
+            originY: 'bottom',
+            overlayX: 'end',
+            overlayY: 'bottom',
+            offsetX: -offset,
+          },
+        ];
 
       case PopoverPosition.Right:
-        return [{ originX: 'end', originY: 'center', overlayX: 'start', overlayY: 'center', offsetX: offset }];
+        return [
+          {
+            originX: 'end',
+            originY: 'center',
+            overlayX: 'start',
+            overlayY: 'center',
+            offsetX: offset,
+          },
+        ];
       case PopoverPosition.RightStart:
-        return [{ originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: offset }];
+        return [
+          { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: offset },
+        ];
       case PopoverPosition.RightEnd:
-        return [{ originX: 'end', originY: 'bottom', overlayX: 'start', overlayY: 'bottom', offsetX: offset }];
+        return [
+          {
+            originX: 'end',
+            originY: 'bottom',
+            overlayX: 'start',
+            overlayY: 'bottom',
+            offsetX: offset,
+          },
+        ];
 
       default:
-        return [{ originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: offset }];
+        return [
+          {
+            originX: 'center',
+            originY: 'bottom',
+            overlayX: 'center',
+            overlayY: 'top',
+            offsetY: offset,
+          },
+        ];
     }
   }
 }

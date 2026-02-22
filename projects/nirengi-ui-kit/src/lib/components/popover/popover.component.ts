@@ -1,30 +1,22 @@
-import {
-    Component,
-    ChangeDetectionStrategy,
-    input,
-    Type,
-    computed
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, Type, computed, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopoverPosition } from './popover.types';
-
-/**
- * Popover içeriğini sarmalayan component.
- * Direktif tarafından dinamik olarak oluşturulur ve içeriği gösterir.
- *
- * @example
- * // Bu component direkt olarak kullanılmaz, nirengiPopover direktifi üzerinden yönetilir.
- */
-import { Injector } from '@angular/core';
+import { PopoverRef } from './popover.ref';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'nirengi-popover',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   template: `
     <div [class]="containerClasses()">
+      <button class="popover__close" (click)="closePopover()" title="Kapat">
+        <nui-icon name="X" [size]="16"></nui-icon>
+      </button>
       <div class="popover__content">
-        <ng-container *ngComponentOutlet="content(); injector: injector(); inputs: componentInputs()"></ng-container>
+        <ng-container
+          *ngComponentOutlet="content(); injector: injector(); inputs: componentInputs()"
+        ></ng-container>
       </div>
     </div>
   `,
@@ -34,59 +26,58 @@ import { Injector } from '@angular/core';
         display: block;
       }
       .popover {
-        /* Temel popover stili */
-        @apply z-50 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 p-4 min-w-[200px] transition-all duration-200 opacity-0 scale-95;
+        /* Base popover style */
+        @apply relative z-50 min-w-[200px] scale-95 rounded-lg border border-default bg-primary p-4 opacity-0 shadow-xl transition-all duration-200;
+      }
 
-        /* Görünürlük kontrolü */
-        &--visible {
-          @apply opacity-100 scale-100;
-        }
+      /* Visibility control */
+      .popover--visible {
+        @apply scale-100 opacity-100;
+      }
 
-        /* İçerik alanı */
-        &__content {
-            @apply flex flex-col;
-        }
+      /* Content area */
+      .popover__content {
+        @apply flex flex-col mt-2;
+      }
+
+      /* Close button */
+      .popover__close {
+        @apply absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-md text-secondary transition-colors hover:bg-secondary-50 hover:text-primary;
       }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopoverComponent {
-  /**
-   * Gösterilecek içerik component'i.
-   */
+  /** Content component to be displayed. */
   readonly content = input.required<Type<any>>();
 
-  /**
-   * İçerik component'ine geçilecek inputlar.
-   */
+  /** Inputs to be passed to the content component. */
   readonly componentInputs = input<Record<string, unknown>>({});
 
-  /**
-   * İçerik component'i için injector.
-   * PopoverRef gibi bağımlılıkları sağlamak için kullanılır.
-   */
+  /** Injector for the content component. */
   readonly injector = input<Injector>();
 
-  /**
-   * Popover pozisyonu.
-   */
+  /** Popover position. */
   readonly position = input<PopoverPosition>(PopoverPosition.Bottom);
 
-  /**
-   * Görünürlük durumu.
-   */
+  /** Visibility state. */
   readonly visible = input<boolean>(false);
 
-  /**
-   * Container stili için computed signal.
-   */
+  /** Computed signal for the container classes. */
   readonly containerClasses = computed(() => {
     const baseClass = 'popover';
     const positionClass = `popover--${this.position()}`;
     const visibleClass = this.visible() ? 'popover--visible' : '';
 
-    // Pozisyona göre özel marginler eklenebilir
     return `${baseClass} ${positionClass} ${visibleClass}`;
   });
+
+  /** Closes the popover by getting PopoverRef from the injector. */
+  closePopover(): void {
+    const ref = this.injector()?.get(PopoverRef, null);
+    if (ref) {
+      ref.close();
+    }
+  }
 }

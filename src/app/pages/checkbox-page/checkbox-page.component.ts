@@ -1,4 +1,5 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxComponent } from 'nirengi-ui-kit';
@@ -6,18 +7,18 @@ import { Size } from 'nirengi-ui-kit';
 import { ColorVariant } from 'nirengi-ui-kit';
 
 /**
- * Checkbox component showcase sayfası.
- * Checkbox component'inin tüm varyasyonlarını ve kullanım örneklerini sergiler.
- * Reactive Forms (FormControl) kullanımını gösterir.
+ * Checkbox component showcase page.
+ * Demonstrates all variations and usage examples of the Checkbox component.
+ * Shows Reactive Forms (FormControl) usage.
  *
- * ## Showcase Kategorileri
- * - ✅ Temel kullanım
- * - ✅ Boyut varyasyonları (xs, sm, md, lg, xl)
- * - ✅ Renk varyantları (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ Label ve description örnekleri
- * - ✅ Disabled ve readonly durumları
- * - ✅ Indeterminate durum
- * - ✅ Required (zorunlu) alan
+ * ## Showcase Categories
+ * - ✅ Basic usage
+ * - ✅ Size variations (xs, sm, md, lg, xl)
+ * - ✅ Color variants (primary, secondary, success, warning, danger, info, neutral)
+ * - ✅ Label and description examples
+ * - ✅ Disabled and read-only states
+ * - ✅ Indeterminate state
+ * - ✅ Required field
  *
  * @see {@link CheckboxComponent}
  */
@@ -30,17 +31,17 @@ import { ColorVariant } from 'nirengi-ui-kit';
 })
 export class CheckboxPageComponent {
   /**
-   * Size enum'ını template'de kullanmak için public property.
+   * Public property to use Size enum in template.
    */
   protected readonly Size = Size;
 
   /**
-   * ColorVariant enum'ını template'de kullanmak için public property.
+   * Public property to use ColorVariant enum in template.
    */
   protected readonly ColorVariant = ColorVariant;
 
   /**
-   * Tüm size değerlerinin listesi.
+   * List of all size values.
    */
   protected readonly sizes = signal<Size[]>([
     Size.XSmall,
@@ -51,7 +52,7 @@ export class CheckboxPageComponent {
   ]);
 
   /**
-   * Tüm renk varyantlarının listesi.
+   * List of all color variants.
    */
   protected readonly variants = signal<ColorVariant[]>([
     ColorVariant.Primary,
@@ -98,20 +99,58 @@ export class CheckboxPageComponent {
     return checkedCount > 0 && checkedCount < 3;
   });
 
+  /**
+   * Reference for destroying subscriptions.
+   */
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor() {
     // Subscribe to child checkbox changes
-    this.option1Control.valueChanges.subscribe(() => this.updateSelectAll());
-    this.option2Control.valueChanges.subscribe(() => this.updateSelectAll());
-    this.option3Control.valueChanges.subscribe(() => this.updateSelectAll());
+    this.option1Control.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.updateSelectAll());
+    this.option2Control.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.updateSelectAll());
+    this.option3Control.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.updateSelectAll());
 
     // Subscribe to select all changes
-    this.selectAllControl.valueChanges.subscribe((checked) => {
-      if (checked !== null) {
-        this.option1Control.setValue(checked);
-        this.option2Control.setValue(checked);
-        this.option3Control.setValue(checked);
-      }
-    });
+    this.selectAllControl.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((checked) => {
+        if (checked !== null) {
+          this.option1Control.setValue(checked);
+          this.option2Control.setValue(checked);
+          this.option3Control.setValue(checked);
+        }
+      });
+  }
+
+  /**
+   * Converts Size enum value to display text.
+   * @param size - The size value to convert
+   * @returns The display label
+   */
+  getSizeLabel(size: Size): string {
+    const labels: Record<Size, string> = {
+      [Size.XSmall]: 'Extra Small (xs)',
+      [Size.Small]: 'Small (sm)',
+      [Size.Medium]: 'Medium (md)',
+      [Size.Large]: 'Large (lg)',
+      [Size.XLarge]: 'Extra Large (xl)',
+    };
+    return labels[size];
+  }
+
+  /**
+   * Converts Variant enum value to display text.
+   * @param variant - The variant value to convert
+   * @returns The display label
+   */
+  getVariantLabel(variant: ColorVariant): string {
+    return variant.charAt(0).toUpperCase() + variant.slice(1);
   }
 
   /**
@@ -130,26 +169,5 @@ export class CheckboxPageComponent {
     } else {
       this.selectAllControl.setValue(false, { emitEvent: false });
     }
-  }
-
-  /**
-   * Size enum değerini görünen metne çevirir.
-   */
-  getSizeLabel(size: Size): string {
-    const labels: Record<Size, string> = {
-      [Size.XSmall]: 'Extra Small (xs)',
-      [Size.Small]: 'Small (sm)',
-      [Size.Medium]: 'Medium (md)',
-      [Size.Large]: 'Large (lg)',
-      [Size.XLarge]: 'Extra Large (xl)',
-    };
-    return labels[size];
-  }
-
-  /**
-   * Variant enum değerini görünen metne çevirir.
-   */
-  getVariantLabel(variant: ColorVariant): string {
-    return variant.charAt(0).toUpperCase() + variant.slice(1);
   }
 }

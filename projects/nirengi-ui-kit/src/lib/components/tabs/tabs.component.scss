@@ -1,8 +1,8 @@
 .nui-tabs {
-  @apply flex w-full flex-col;
+  @apply flex w-full flex-col text-primary;
 
   &__header {
-    @apply flex overflow-x-auto border-b border-gray-200 dark:border-gray-700;
+    @apply flex overflow-x-auto border-b border-default;
 
     /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {
@@ -15,10 +15,10 @@
 
   &__header-item {
     @apply relative -mb-[2px] cursor-pointer whitespace-nowrap border-b-2 border-transparent bg-transparent px-4 py-2 text-sm font-medium transition-colors duration-200;
-    @apply text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300;
+    @apply text-secondary hover:text-primary dark:text-secondary-300 dark:hover:text-white;
 
     &:focus-visible {
-      @apply rounded outline-none ring-2 ring-blue-500 ring-offset-2;
+      @apply rounded outline-none ring-2 ring-primary-500 ring-offset-2;
     }
 
     &--active {
@@ -61,27 +61,27 @@
 
   /* Variants - Using Tailswind colors mapping common semantic meanings */
   &--primary &__header-item--active {
-    @apply border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400;
+    @apply border-primary-600 text-primary-600 dark:border-primary-400 dark:text-primary-400;
   }
 
   &--secondary &__header-item--active {
-    @apply border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400;
+    @apply border-secondary-600 text-secondary-600 dark:border-secondary-400 dark:text-secondary-400;
   }
 
   &--success &__header-item--active {
-    @apply border-green-600 text-green-600 dark:border-green-400 dark:text-green-400;
+    @apply border-success-600 text-success-600 dark:border-success-400 dark:text-success-400;
   }
 
   &--danger &__header-item--active {
-    @apply border-red-600 text-red-600 dark:border-red-400 dark:text-red-400;
+    @apply border-danger-600 text-danger-600 dark:border-danger-400 dark:text-danger-400;
   }
 
   &--warning &__header-item--active {
-    @apply border-yellow-600 text-yellow-600 dark:border-yellow-400 dark:text-yellow-400;
+    @apply border-warning-600 text-warning-600 dark:border-warning-400 dark:text-warning-400;
   }
 
   &--info &__header-item--active {
-    @apply border-sky-600 text-sky-600 dark:border-sky-400 dark:text-sky-400;
+    @apply border-info-600 text-info-600 dark:border-info-400 dark:text-info-400;
 
     /* Animation */
     @keyframes fadeIn {

@@ -9,4 +9,12 @@
     // However, a basic list usually implies some structure.
     // Let's keep it strictly structural.
   }
+
+  &__default-item {
+    @apply border-b border-default px-4 py-2 transition-colors last:border-0 hover:bg-tertiary;
+  }
+
+  &__default-text {
+    @apply text-primary;
+  }
 }

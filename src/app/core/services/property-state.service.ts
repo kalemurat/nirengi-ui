@@ -1,53 +1,53 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { ComponentShowcaseConfig } from '../interfaces/showcase-config.interface';
+import { IComponentShowcaseConfig } from '../interfaces/showcase-config.interface';
 
 /**
- * Property State Servisi.
- * Aktif component'in property değerlerini signal tabanlı yönetir.
+ * Property State Service.
+ * Manages the property values of the active component based on signals.
  *
- * ## Sorumluluklar
- * - Property değerlerinin reaktif state olarak tutulması
- * - Default değerlere sıfırlama
- * - Property değişikliklerinin izlenmesi
+ * ## Responsibilities
+ * - Holding property values as reactive state
+ * - Resetting to default values
+ * - Monitoring property changes
  *
- * ## Kullanım
+ * ## Usage
  * ```typescript
  * // Component-level provide
  * providers: [PropertyStateService]
  *
- * // Servisi inject et
+ * // Inject service
  * private propertyState = inject(PropertyStateService);
  *
- * // Değer oku
+ * // Read value
  * const variant = this.propertyState.getProperty('variant');
  *
- * // Değer güncelle
+ * // Update value
  * this.propertyState.setProperty('variant', 'primary');
  * ```
  *
- * @see {@link ComponentShowcaseConfig}
+ * @see {@link IComponentShowcaseConfig}
  */
 @Injectable()
 export class PropertyStateService {
   /**
-   * Property değerleri signal'i.
-   * Key-value map olarak property adı ve değerini tutar.
-   */
-  private readonly propertyValues = signal<Record<string, any>>({});
-
-  /**
-   * Tüm property'lerin computed signal'i.
-   * Dışarıya sadece okunabilir olarak expose edilir.
+   * Computed signal of all properties.
+   * Exposed as read-only externally.
    *
-   * @returns Property değerleri map
+   * @returns Property values map
    */
   readonly allProperties = computed(() => this.propertyValues());
 
   /**
-   * Belirli bir property değerini okur.
+   * Signal for property values.
+   * Holds property name and value as a key-value map.
+   */
+  private readonly propertyValues = signal<Record<string, unknown>>({});
+
+  /**
+   * Reads a specific property value.
    *
-   * @param name - Property adı
-   * @returns Property değeri, yoksa undefined
+   * @param name - Property name
+   * @returns Property value, undefined if not exists
    *
    * @example
    * ```typescript
@@ -55,24 +55,24 @@ export class PropertyStateService {
    * // 'primary'
    * ```
    */
-  getProperty(name: string): any {
+  getProperty(name: string): unknown {
     return this.propertyValues()[name];
   }
 
   /**
-   * Belirli bir property değerini günceller.
-   * Signal reaktif olarak güncellendiği için bağlı tüm computed'lar otomatik tetiklenir.
+   * Updates a specific property value.
+   * Since signal is reactively updated, all connected computeds are automatically triggered.
    *
-   * @param name - Property adı
-   * @param value - Yeni değer
+   * @param name - Property name
+   * @param value - New value
    *
    * @example
    * ```typescript
    * this.propertyState.setProperty('variant', 'secondary');
-   * // Component otomatik re-render olur
+   * // Component automatically re-renders
    * ```
    */
-  setProperty(name: string, value: any): void {
+  setProperty(name: string, value: unknown): void {
     this.propertyValues.update((current) => ({
       ...current,
       [name]: value,
@@ -80,19 +80,19 @@ export class PropertyStateService {
   }
 
   /**
-   * Tüm property'leri verilen config'deki default değerlere sıfırlar.
-   * Component değiştiğinde veya reset butonu tıklandığında kullanılır.
+   * Resets all properties to default values in the given config.
+   * Used when component changes or reset button is clicked.
    *
-   * @param config - Component showcase konfigürasyonu
+   * @param config - Component showcase configuration
    *
    * @example
    * ```typescript
    * this.propertyState.resetToDefaults(buttonConfig);
-   * // Tüm property'ler default değerlerine döner
+   * // All properties return to their default values
    * ```
    */
-  resetToDefaults(config: ComponentShowcaseConfig): void {
-    const defaults: Record<string, any> = {};
+  resetToDefaults(config: IComponentShowcaseConfig): void {
+    const defaults: Record<string, unknown> = {};
 
     config.properties.forEach((prop) => {
       defaults[prop.name] = prop.defaultValue;
@@ -102,8 +102,8 @@ export class PropertyStateService {
   }
 
   /**
-   * Tüm property state'ini temizler.
-   * Component destroy olduğunda veya showcase'den çıkıldığında kullanılır.
+   * Clears all property state.
+   * Used when component is destroyed or showcase is exited.
    */
   clear(): void {
     this.propertyValues.set({});

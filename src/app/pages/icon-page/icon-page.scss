@@ -32,4 +32,16 @@
   &__input {
     @apply w-full max-w-md rounded-md border px-4 py-2;
   }
+
+  &__examples {
+    @apply flex items-end gap-8;
+  }
+
+  &__example {
+    @apply flex flex-col items-center gap-2;
+  }
+
+  &__example-label {
+    @apply text-sm;
+  }
 }

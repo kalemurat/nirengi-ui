@@ -4,76 +4,76 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Button tipi enum'ı.
- * Butonun görsel stilini ve davranışını belirler.
+ * Button type enum.
+ * Determines the visual style and behavior of the button.
  */
 export enum ButtonType {
-  /** Dolu arka plan, yüksek kontrast (varsayılan) */
+  /** Solid background, high contrast (default) */
   Solid = 'solid',
-  /** Sadece kenarlık, arka plan şeffaf */
+  /** Border only, transparent background */
   Outline = 'outline',
-  /** Sadece metin, arka plan ve kenarlık yok */
+  /** Text only, no background or border */
   Ghost = 'ghost',
-  /** Hafif arka plan, kenarlık yok */
+  /** Soft background, no border */
   Soft = 'soft',
 }
 
 /**
- * Modern button component'i.
- * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
+ * Modern button component.
+ * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı reaktif state yönetimi
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile class binding
- * - ✅ 4 farklı button tipi (solid, outline, ghost, soft)
- * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
- * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ Disabled ve loading durumları
- * - ✅ Full width seçeneği
- * - ✅ Icon desteği (prefix ve suffix)
- * - ✅ WCAG 2.1 AA accessibility standartları
- * - ✅ Keyboard navigation desteği
+ * ## Features
+ * - ✅ Signal-based reactive state management
+ * - ✅ OnPush change detection strategy
+ * - ✅ Computed signals for class binding
+ * - ✅ 4 different button types (solid, outline, ghost, soft)
+ * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
+ * - ✅ Disabled and loading states
+ * - ✅ Full width option
+ * - ✅ Icon support (prefix and suffix)
+ * - ✅ WCAG 2.1 AA accessibility standards
+ * - ✅ Keyboard navigation support
  *
- * ## Design System Entegrasyonu
- * Component, `size.constants.ts` dosyasındaki merkezi boyut değerlerini kullanır:
- * - SIZE_HEIGHT_MAP: Button yükseklikleri
- * - SIZE_PADDING_MAP: Horizontal padding değerleri
- * - SIZE_TEXT_MAP: Font size değerleri
- * - SIZE_GAP_MAP: Icon-text arası boşluk
+ * ## Design System Integration
+ * The component uses central size values from the `size.constants.ts` file:
+ * - SIZE_HEIGHT_MAP: Button heights
+ * - SIZE_PADDING_MAP: Horizontal padding values
+ * - SIZE_TEXT_MAP: Font size values
+ * - SIZE_GAP_MAP: Gap between icon and text
  *
- * Bu sayede Input, Select, Badge gibi diğer componentlerle boyut tutarlılığı garantilidir.
- *
- * @example
- * // Basit kullanım
- * <nui-button>Kaydet</nui-button>
+ * This ensures size consistency with other components like Input, Select, and Badge.
  *
  * @example
- * // Varyant ve boyut ile
+ * // Simple usage
+ * <nui-button>Save</nui-button>
+ *
+ * @example
+ * // With variant and size
  * <nui-button
  *   [variant]="ColorVariant.Primary"
  *   [size]="Size.Large"
- *   [type]="ButtonType.Solid">
- *   Gönder
+ *   [kind]="ButtonType.Solid">
+ *   Submit
  * </nui-button>
  *
  * @example
- * // Disabled ve loading durumu
+ * // Disabled and loading state
  * <nui-button
  *   [disabled]="isProcessing()"
  *   [loading]="isLoading()">
- *   İşlemi Tamamla
+ *   Complete Process
  * </nui-button>
  *
  * @example
- * // Click event ile
- * <nui-button (clicked)="handleSave()">Kaydet</nui-button>
+ * // With click event
+ * <nui-button (clicked)="handleSave()">Save</nui-button>
  *
  * @see https://v20.angular.dev/guide/signals
- * @see {@link ButtonType} - Button stil tipleri
- * @see {@link Size} - Standart boyut değerleri
- * @see {@link ColorVariant} - Renk varyantları
- * @see {@link SIZE_HEIGHT_MAP} - Merkezi boyut yükseklik mapping
+ * @see {@link ButtonType} - Button style types
+ * @see {@link Size} - Standard size values
+ * @see {@link ColorVariant} - Color variants
+ * @see {@link SIZE_HEIGHT_MAP} - Central size height mapping
  */
 @Component({
   selector: 'nui-button',
@@ -85,73 +85,81 @@ export enum ButtonType {
 })
 export class ButtonComponent {
   /**
-   * Button tipi.
-   * Görsel stil ve davranışı belirler.
+   * Button kind (visual style).
+   * Determines the visual style and behavior.
    *
    * @default ButtonType.Solid
    */
-  type = input<ButtonType>(ButtonType.Solid);
+  kind = input<ButtonType>(ButtonType.Solid);
 
   /**
-   * Renk varyantı.
-   * Semantik anlamı olan renk teması sağlar.
+   * Color variant.
+   * Provides a color theme with semantic meaning.
    *
    * @default ColorVariant.Primary
    */
   variant = input<ColorVariant>(ColorVariant.Primary);
 
   /**
-   * Boyut.
-   * Butonun yükseklik, padding ve font boyutunu belirler.
+   * Size.
+   * Determines the button's height, padding, and font size.
    *
    * @default Size.Medium
    */
   size = input<Size>(Size.Medium);
 
   /**
-   * Disabled durumu.
-   * true olduğunda buton tıklanamaz ve görsel olarak devre dışı görünür.
+   * Disabled state.
+   * When true, the button is not clickable and appears visually disabled.
    *
    * @default false
    */
   disabled = input<boolean>(false);
 
   /**
-   * Loading durumu.
-   * true olduğunda buton loading spinner gösterir ve tıklanamaz hale gelir.
+   * Loading state.
+   * When true, the button shows a loading spinner and becomes unclickable.
    *
    * @default false
    */
   loading = input<boolean>(false);
 
   /**
-   * Full width durumu.
-   * true olduğunda buton parent container'ın tüm genişliğini kaplar.
+   * Full width state.
+   * When true, the button covers the full width of its parent container.
    *
    * @default false
    */
   fullWidth = input<boolean>(false);
 
   /**
-   * Click event'i.
-   * Butona tıklandığında emit edilir.
-   * Loading veya disabled durumunda emit edilmez.
+   * Click event.
+   * Emitted when the button is clicked.
+   * Not emitted during loading or disabled states.
    *
    * @event clicked
    */
   clicked = output<void>();
 
   /**
-   * Button için CSS class'larını hesaplayan computed signal.
-   * BEM metodolojisi ile dynamic class binding yapar.
-   * Reactive olarak güncellenir.
+   * Native button type.
+   * Determines the browser behavior of the button (submit form, reset form, etc.).
    *
-   * @returns BEM formatında CSS class string'i
+   * @default 'button'
+   */
+  type = input<'button' | 'submit' | 'reset'>('button');
+
+  /**
+   * Computed signal to calculate CSS classes for the button.
+   * Performs dynamic class binding using BEM methodology.
+   * Updated reactively.
+   *
+   * @returns CSS class string in BEM format
    */
   protected readonly buttonClasses = computed(() => {
     const classes = ['nui-button'];
 
-    classes.push(`nui-button--${this.type()}`);
+    classes.push(`nui-button--${this.kind()}`);
     classes.push(`nui-button--${this.variant()}`);
     classes.push(`nui-button--${this.size()}`);
 
@@ -171,8 +179,8 @@ export class ButtonComponent {
   });
 
   /**
-   * Click handler metodu.
-   * Loading veya disabled durumunda event emit etmez.
+   * Click handler method.
+   * Does not emit event during loading or disabled states.
    *
    * @returns void
    */

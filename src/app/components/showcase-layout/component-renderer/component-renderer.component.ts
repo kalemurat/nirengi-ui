@@ -1,16 +1,15 @@
 import {
-    Component,
-    ViewChild,
-    ViewContainerRef,
-    inject,
-    computed,
-    effect,
-    ChangeDetectionStrategy,
-    AfterViewInit,
-    OnDestroy,
-    DestroyRef,
-    signal,
-    ComponentRef,
+  Component,
+  ViewChild,
+  ViewContainerRef,
+  inject,
+  computed,
+  effect,
+  AfterViewInit,
+  OnDestroy,
+  DestroyRef,
+  signal,
+  ComponentRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -21,9 +20,11 @@ import { ComponentRegistryService } from '../../../core/services/component-regis
 import { PropertyStateService } from '../../../core/services/property-state.service';
 import { EventLoggerService } from '../../../core/services/event-logger.service';
 import { ThemeService } from '../../../core/services/theme.service';
+import { IconComponent, Size as SizeEnum } from 'nirengi-ui-kit';
 import {
-    IconComponent
-} from 'nirengi-ui-kit';
+  IComponentShowcaseConfig,
+  IPropertyConfig,
+} from '../../../core/interfaces/showcase-config.interface';
 
 /**
  * Component Renderer.
@@ -57,9 +58,13 @@ import {
   imports: [CommonModule, IconComponent],
   templateUrl: './component-renderer.component.html',
   styleUrl: './component-renderer.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
+  /**
+   * Size enum for template usage.
+   */
+  readonly Size = SizeEnum;
+
   /**
    * Dynamic component render için container referansı.
    */
@@ -67,20 +72,61 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   dynamicComponentContainer!: ViewContainerRef;
 
   /**
-   * Servisleri inject eder.
+   * Active component ID.
+   * Reactively obtained from route parameters using toSignal.
+   */
+  protected readonly componentId = toSignal(
+    inject(ActivatedRoute).params.pipe(map((params) => params['id'] || 'button')),
+    { initialValue: 'button' }
+  );
+
+  /**
+   * Component registry service.
+   * Used to retrieve component configurations.
+   * Protected to allow currentConfig computed signal to access it.
+   */
+  protected readonly registry = inject(ComponentRegistryService);
+
+  /**
+   * Active component configuration.
+   * Computed based on current component ID.
+   */
+  protected readonly currentConfig = computed(() => {
+    const id = this.componentId();
+    return this.registry.getConfig(id);
+  });
+
+  /**
+   * Theme service instance.
+   * Exposed to template for theme toggling functionality.
+   */
+  protected readonly themeService = inject(ThemeService);
+
+  /**
+   * Route service instance.
    */
   private readonly route = inject(ActivatedRoute);
-  private readonly registry = inject(ComponentRegistryService);
+
+  /**
+   * Property state service instance.
+   */
   private readonly propertyState = inject(PropertyStateService);
+
+  /**
+   * Event logger service instance.
+   */
   private readonly eventLogger = inject(EventLoggerService);
-  protected readonly themeService = inject(ThemeService);
+
+  /**
+   * Destroy ref for cleanup management.
+   */
   private readonly destroyRef = inject(DestroyRef);
 
   /**
    * Aktif component referansı.
    * Signal olarak tanımlanır, böylece effect'ler değişikliği track edebilir.
    */
-  private readonly currentComponentRef = signal<ComponentRef<any> | null>(null);
+  private readonly currentComponentRef = signal<ComponentRef<unknown> | null>(null);
 
   /**
    * ViewChild hazır mı?
@@ -92,23 +138,6 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * Subscription'ları sonlandırmak için kullanılır.
    */
   private readonly componentDestroy$ = new Subject<void>();
-
-  /**
-   * Aktif component ID.
-   * Route parametresinden reactive olarak alınır (toSignal kullanarak).
-   */
-  protected readonly componentId = toSignal(
-    this.route.params.pipe(map((params) => params['id'] || 'button')),
-    { initialValue: 'button' }
-  );
-
-  /**
-   * Aktif component config.
-   */
-  protected readonly currentConfig = computed(() => {
-    const id = this.componentId();
-    return this.registry.getConfig(id);
-  });
 
   /**
    * Constructor.
@@ -149,7 +178,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
       }
 
       // Her property değişikliğinde ComponentRef.setInput() kullan
-      config.properties.forEach((prop: any) => {
+      config.properties.forEach((prop: IPropertyConfig) => {
         // contentProjection tipindeki property'leri skip et (runtime'da değiştirilemez)
         if (prop.type === 'contentProjection') {
           return;
@@ -186,7 +215,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   /**
    * Component'i render eder.
    */
-  private async renderComponent(id: string, config: any): Promise<void> {
+  private async renderComponent(id: string, config: IComponentShowcaseConfig): Promise<void> {
     // Önceki component'i temizle
     this.clearComponent();
 
@@ -239,9 +268,9 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * @param config - Showcase config
    * @returns ProjectableNodes array (Angular'ın ng-content slot'larına enjekte edilecek)
    */
-  private buildProjectableNodes(config: any): Node[][] {
+  private buildProjectableNodes(config: IComponentShowcaseConfig): Node[][] {
     const contentProjectionProps = config.properties.filter(
-      (prop: any) => prop.type === 'contentProjection'
+      (prop: IPropertyConfig) => prop.type === 'contentProjection'
     );
 
     if (contentProjectionProps.length === 0) {
@@ -252,9 +281,9 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     // Not: Şimdilik sadece tek ng-content slot desteği var
     const nodes: Node[] = [];
 
-    contentProjectionProps.forEach((prop: any) => {
+    contentProjectionProps.forEach((prop: IPropertyConfig) => {
       if (prop.defaultValue) {
-        const textNode = document.createTextNode(prop.defaultValue);
+        const textNode = document.createTextNode(String(prop.defaultValue));
         nodes.push(textNode);
       }
     });
@@ -270,9 +299,12 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * @param componentRef - Component ref
    * @param config - Showcase config
    */
-  private bindProperties(componentRef: ComponentRef<any>, config: any): void {
+  private bindProperties(
+    componentRef: ComponentRef<unknown>,
+    config: IComponentShowcaseConfig
+  ): void {
     // İlk set - ComponentRef.setInput() kullan (Angular 20 input() API için)
-    config.properties.forEach((prop: any) => {
+    config.properties.forEach((prop: IPropertyConfig) => {
       // contentProjection tipindeki property'leri skip et (artık projectableNodes ile handled)
       if (prop.type === 'contentProjection') {
         return;
@@ -302,8 +334,6 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * @returns Component'in beklediği input ismi
    */
   private mapPropertyName(propertyName: string, componentId: string): string {
-    const mapping: Record<string, string> = {};
-
     // Component-specific mappings
     if (componentId === 'select' && propertyName === 'items') {
       return 'options';
@@ -327,20 +357,27 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
    * @param config - Showcase config
    * @param componentId - Component ID
    */
-  private bindEvents(instance: any, config: any, componentId: string): void {
-    config.events?.forEach((event: any) => {
-      const eventEmitter = instance[event.name];
+  private bindEvents(
+    instance: unknown,
+    config: IComponentShowcaseConfig,
+    componentId: string
+  ): void {
+    config.events?.forEach((event) => {
+      const instanceObj = instance as Record<string, unknown>;
+      const eventEmitter = instanceObj[event.name];
 
-      if (eventEmitter) {
-        if (
-          typeof eventEmitter.pipe === 'function' &&
-          typeof eventEmitter.subscribe === 'function'
-        ) {
-          eventEmitter.pipe(takeUntil(this.componentDestroy$)).subscribe((payload: any) => {
+      if (eventEmitter && typeof eventEmitter === 'object') {
+        const subscribable = eventEmitter as {
+          pipe?: (arg: unknown) => { subscribe: (cb: (p: unknown) => void) => void };
+          subscribe?: (cb: (p: unknown) => void) => { unsubscribe: () => void };
+        };
+
+        if (subscribable.pipe && subscribable.subscribe) {
+          subscribable.pipe(takeUntil(this.componentDestroy$)).subscribe((payload: unknown) => {
             this.eventLogger.logEvent(componentId, event.name, payload);
           });
-        } else if (typeof eventEmitter.subscribe === 'function') {
-          const sub = eventEmitter.subscribe((payload: any) => {
+        } else if (subscribable.subscribe) {
+          const sub = subscribable.subscribe((payload: unknown) => {
             this.eventLogger.logEvent(componentId, event.name, payload);
           });
           this.componentDestroy$.pipe(take(1)).subscribe(() => sub.unsubscribe());

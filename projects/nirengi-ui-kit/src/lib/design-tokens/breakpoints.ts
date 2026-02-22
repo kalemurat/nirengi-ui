@@ -1,29 +1,29 @@
 /**
- * UI Kit breakpoint (responsive) design token'ları.
- * Responsive tasarım için ekran boyutu eşik değerleri.
+ * UI Kit breakpoint (responsive) design tokens.
+ * Screen size threshold values for responsive design.
  *
  * @see https://tailwindcss.com/docs/responsive-design
  */
 
 /**
- * Breakpoint tanımları arayüzü.
+ * Breakpoint definitions interface.
  */
 export interface Breakpoints {
-  /** Küçük ekranlar (mobil) - 640px */
+  /** Small screens (mobile) - 640px */
   sm: string;
-  /** Orta ekranlar (tablet) - 768px */
+  /** Medium screens (tablet) - 768px */
   md: string;
-  /** Büyük ekranlar (laptop) - 1024px */
+  /** Large screens (laptop) - 1024px */
   lg: string;
-  /** Ekstra büyük ekranlar (desktop) - 1280px */
+  /** Extra large screens (desktop) - 1280px */
   xl: string;
-  /** 2x büyük ekranlar (geniş desktop) - 1536px */
+  /** 2x large screens (wide desktop) - 1536px */
   '2xl': string;
 }
 
 /**
- * Varsayılan breakpoint değerleri.
- * Tailwind CSS breakpoint sistemini temel alır.
+ * Default breakpoint values.
+ * Based on Tailwind CSS breakpoint system.
  */
 export const designTokenBreakpoints: Breakpoints = {
   sm: '640px',
@@ -34,10 +34,10 @@ export const designTokenBreakpoints: Breakpoints = {
 };
 
 /**
- * Breakpoint'leri media query formatında dönüştüren helper.
+ * Helper that converts breakpoints to media query format.
  *
- * @param breakpoint - Breakpoint değeri
- * @returns Media query string'i
+ * @param breakpoint - Breakpoint value
+ * @returns Media query string
  *
  * @example
  * const mediaQuery = getMediaQuery(designTokenBreakpoints.md);

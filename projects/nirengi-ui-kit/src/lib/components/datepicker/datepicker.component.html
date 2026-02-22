@@ -22,7 +22,7 @@
     </label>
   }
 
-  <div class="datepicker__input-wrapper" cdkOverlayOrigin #trigger="cdkOverlayOrigin" (click)="toggleOpen()">
+  <div class="datepicker__input-wrapper" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
     <input
       [id]="id()"
       type="text"
@@ -30,14 +30,27 @@
       [value]="formattedValue()"
       [placeholder]="placeholder()"
       [class]="inputClasses()"
+      [class.datepicker__input--clearable]="clearable() && value()"
+      (click)="toggleOpen()"
       (blur)="markAsTouched()"
     />
 
-    <lucide-icon
-      [name]="icons.calendar"
-      class="datepicker__icon"
+    @if (clearable() && value() && !isDisabled() && !readonly()) {
+      <button type="button" class="datepicker__clear" (click)="clearValue($event)" aria-label="Clear date">
+        <nui-icon [name]="icons.clear" [size]="iconSize()"></nui-icon>
+      </button>
+    }
+
+    <button
+      type="button"
+      class="datepicker__icon-wrapper"
       [class.datepicker__icon--active]="isOpen()"
-    ></lucide-icon>
+      (click)="toggleOpen()"
+      [disabled]="isDisabled() || readonly()"
+      aria-label="Toggle calendar"
+    >
+      <nui-icon [name]="icons.calendar" class="datepicker__icon"></nui-icon>
+    </button>
   </div>
 
   @if (hint() && !error()) {
@@ -62,17 +75,13 @@
     <div class="datepicker__calendar">
       <!-- Header: Month/Year & Nav -->
       <div class="datepicker__header">
-        <button type="button" class="datepicker__nav-btn" (click)="prevMonth()">
-          <lucide-icon [name]="icons.prev" class="datepicker__nav-icon"></lucide-icon>
-        </button>
+        <nui-icon [name]="icons.prev" class="datepicker__nav-icon" size="16"></nui-icon>
 
         <span class="datepicker__title">
           {{ currentMonthYear() }}
         </span>
 
-        <button type="button" class="datepicker__nav-btn" (click)="nextMonth()">
-          <lucide-icon [name]="icons.next" class="datepicker__nav-icon"></lucide-icon>
-        </button>
+        <nui-icon [name]="icons.next" class="datepicker__nav-icon" size="16"></nui-icon>
       </div>
 
       <!-- Weekday Headers -->
@@ -109,7 +118,7 @@
       <!-- Time Picker Footer -->
       @if (withTime()) {
         <div class="datepicker__footer">
-          <lucide-icon [name]="icons.clock" class="datepicker__time-icon"></lucide-icon>
+          <nui-icon [name]="icons.clock" class="datepicker__time-icon" size="16"></nui-icon>
 
           <!-- Scrolls handled by native select for simplicity, or custom scroller -->
           <div class="datepicker__time-group">

@@ -1,39 +1,39 @@
 /**
  * Nirengi UI Kit - Public API
  *
- * Modern ve profesyonel bir Angular UI Kit kütüphanesi.
- * Angular 18+ ve 20 versiyonları ile uyumludur.
- * Tailwind CSS 3 kullanan, tamamen standalone component'lerden oluşur.
+ * Modern and professional Angular UI Kit library.
+ * Compatible with Angular 18+ and 20 versions.
+ * Consists of fully standalone components using Tailwind CSS 3.
  *
  * @packageDocumentation
  *
  * ## Tree-Shaking Optimized
- * Bu kütüphane explicit exports kullanır. Her dosya direkt path ile import edilir.
- * Böylece modern bundler'lar (esbuild) kullanılmayan kodu otomatik olarak atar.
+ * This library uses explicit exports. Each file is imported with a direct path.
+ * Thus, modern bundlers (esbuild) automatically discard unused code.
  *
- * ## Kullanım Örnekleri
+ * ## Usage Examples
  *
- * ### Enums (Ortak Değerler)
+ * ### Enums (Common Values)
  * ```typescript
- * // Boyut enum'ı
+ * // Size enum
  * import { Size } from 'nirengi-ui-kit/common/enums/size.enum';
  *
- * // Renk varyant enum'ı
+ * // Color variant enum
  * import { ColorVariant } from 'nirengi-ui-kit/common/enums/color-variant.enum';
  * ```
  *
- * ### Types (Tip Tanımları)
+ * ### Types (Type Definitions)
  * ```typescript
- * // Boyut tipleri
+ * // Size types
  * import { SizeType, SizeValue } from 'nirengi-ui-kit/common/types/size.types';
  *
- * // Renk tipleri
+ * // Color types
  * import { ColorVariantType, ColorValue } from 'nirengi-ui-kit/common/types/color.types';
  * ```
  *
- * ### Constants (Sabitler)
+ * ### Constants (Constants)
  * ```typescript
- * // Boyut mapping sabitleri
+ * // Size mapping constants
  * import {
  *   SIZE_HEIGHT_MAP,
  *   SIZE_PADDING_MAP,
@@ -42,7 +42,7 @@
  *   SIZE_RADIUS_MAP
  * } from 'nirengi-ui-kit/common/constants/size.constants';
  *
- * // Renk mapping sabitleri
+ * // Color mapping constants
  * import {
  *   COLOR_BG_MAP,
  *   COLOR_TEXT_MAP,
@@ -55,27 +55,27 @@
  *
  * ### Design Tokens
  * ```typescript
- * // Renk token'ları
+ * // Color tokens
  * import { designTokenColors } from 'nirengi-ui-kit/design-tokens/colors';
  *
- * // Spacing token'ları
+ * // Spacing tokens
  * import { designTokenSpacing } from 'nirengi-ui-kit/design-tokens/spacing';
  *
- * // Typography token'ları
+ * // Typography tokens
  * import {
  *   designTokenFontFamily,
  *   designTokenFontSizes,
  *   designTokenFontWeights
  * } from 'nirengi-ui-kit/design-tokens/typography';
  *
- * // Shadow token'ları
+ * // Shadow tokens
  * import { designTokenShadows } from 'nirengi-ui-kit/design-tokens/shadows';
  *
- * // Breakpoint token'ları
+ * // Breakpoint tokens
  * import { designTokenBreakpoints } from 'nirengi-ui-kit/design-tokens/breakpoints';
  * ```
  *
- * ### Components (Gelecekte eklenecek)
+ * ### Components (To be added in the future)
  * ```typescript
  * // Button component
  * import { ButtonComponent } from 'nirengi-ui-kit/components/button/button.component';
@@ -84,25 +84,25 @@
  * import { InputComponent } from 'nirengi-ui-kit/components/input/input.component';
  * ```
  *
- * ## Path Alias Kullanımı (Kütüphane içinde)
- * Kütüphane geliştirirken TypeScript path alias'ları kullanabilirsiniz:
+ * ## Path Alias Usage (Inside Library)
+ * You can use TypeScript path aliases while developing the library:
  * ```typescript
  * import { Size } from '@common/enums/size.enum';
  * import { designTokenColors } from '@design-tokens/colors';
  * import { ButtonComponent } from '@components/button/button.component';
  * ```
  *
- * ## Özellikler
- * - ✅ Angular 18+ ve 20 uyumlu
- * - ✅ Standalone component'ler
- * - ✅ Tailwind CSS 3 entegrasyonu
+ * ## Features
+ * - ✅ Angular 18+ and 20 compatible
+ * - ✅ Standalone components
+ * - ✅ Tailwind CSS 3 integration
  * - ✅ Explicit exports (optimized tree-shaking)
- * - ✅ Profesyonel design system
+ * - ✅ Professional design system
  * - ✅ TypeScript strict mode
- * - ✅ Kapsamlı tip tanımları
- * - ✅ BEM + Tailwind metodolojisi
- * - ✅ Responsive tasarım desteği
- * - ✅ Accessibility standartları
+ * - ✅ Comprehensive type definitions
+ * - ✅ BEM + Tailwind methodology
+ * - ✅ Responsive design support
+ * - ✅ Accessibility standards
  */
 
 // ============================================================================
@@ -110,13 +110,13 @@
 // ============================================================================
 
 /**
- * UI Kit standart boyut değerleri.
+ * UI Kit standard size values.
  * @see {@link Size}
  */
 export { Size } from './lib/common/enums/size.enum';
 
 /**
- * UI Kit standart renk varyantları.
+ * UI Kit standard color variants.
  * @see {@link ColorVariant}
  */
 export { ColorVariant } from './lib/common/enums/color-variant.enum';
@@ -126,14 +126,14 @@ export { ColorVariant } from './lib/common/enums/color-variant.enum';
 // ============================================================================
 
 /**
- * Boyut tipi ve değer tipleri.
+ * Size type and value types.
  * @see {@link SizeType}
  * @see {@link SizeValue}
  */
 export type { SizeType, SizeValue } from './lib/common/types/size.types';
 
 /**
- * Renk varyant tipi ve değer tipleri.
+ * Color variant type and value types.
  * @see {@link ColorVariantType}
  * @see {@link ColorValue}
  */
@@ -144,8 +144,8 @@ export type { ColorVariantType, ColorValue } from './lib/common/types/color.type
 // ============================================================================
 
 /**
- * Boyut bazlı CSS mapping sabitleri.
- * Height, padding, text size, icon size, gap, border radius değerlerinin Size enum'ına göre map'lenmesi.
+ * Size-based CSS mapping constants.
+ * Mapping of height, padding, text size, icon size, gap, and border radius values according to the Size enum.
  */
 export {
   SIZE_HEIGHT_MAP,
@@ -157,8 +157,8 @@ export {
 } from './lib/common/constants/size.constants';
 
 /**
- * Renk varyant bazlı CSS mapping sabitleri.
- * Background, text, border renk değerlerinin ColorVariant enum'ına göre map'lenmesi.
+ * Color variant-based CSS mapping constants.
+ * Mapping of background, text, and border color values according to the ColorVariant enum.
  */
 export {
   COLOR_BG_MAP,
@@ -174,20 +174,20 @@ export {
 // ============================================================================
 
 /**
- * Design system renk palette'i.
- * Primary, secondary, semantic color tanımları.
+ * Design system color palette.
+ * Primary, secondary, and semantic color definitions.
  */
 export { designTokenColors } from './lib/design-tokens/colors';
 
 /**
  * Design system spacing scale.
- * Margin, padding, gap gibi boşluk değerleri.
+ * Spacing values such as margin, padding, and gap.
  */
 export { designTokenSpacing } from './lib/design-tokens/spacing';
 
 /**
  * Design system typography scale.
- * Font family, font size, font weight değerleri.
+ * Font family, font size, and font weight values.
  */
 export {
   designTokenFontFamily,
@@ -197,13 +197,13 @@ export {
 
 /**
  * Design system shadow palette.
- * Box shadow değerleri (xs, sm, md, lg, xl, 2xl).
+ * Box shadow values (xs, sm, md, lg, xl, 2xl).
  */
 export { designTokenShadows } from './lib/design-tokens/shadows';
 
 /**
  * Design system responsive breakpoints.
- * Mobile, tablet, desktop ve geniş ekran breakpoint'leri.
+ * Mobile, tablet, desktop, and wide screen breakpoints.
  */
 export { designTokenBreakpoints } from './lib/design-tokens/breakpoints';
 
@@ -212,14 +212,14 @@ export { designTokenBreakpoints } from './lib/design-tokens/breakpoints';
 // ============================================================================
 
 /**
- * Button component ve button type enum'ı.
+ * Button component and button type enum.
  * @see {@link ButtonComponent}
  * @see {@link ButtonType}
  */
 export { ButtonComponent, ButtonType } from './lib/components/button/button.component';
 
 /**
- * Heading component ve heading enum'ları.
+ * Heading component and heading enums.
  * @see {@link HeadingComponent}
  * @see {@link HeadingLevel}
  * @see {@link HeadingAlign}
@@ -233,7 +233,7 @@ export {
 } from './lib/components/heading/heading.component';
 
 /**
- * Icon component ve type'ları.
+ * Icon component and types.
  * @see {@link IconComponent}
  * @see {@link IconName}
  */
@@ -242,7 +242,7 @@ export type { IconName } from './lib/components/icon/icon.types';
 export { ALL_ICONS, IconNames } from './lib/components/icon/icon.types';
 
 /**
- * Badge component ve enum'ları.
+ * Badge component and enums.
  * @see {@link BadgeComponent}
  * @see {@link BadgeType}
  * @see {@link BadgeShape}
@@ -250,7 +250,7 @@ export { ALL_ICONS, IconNames } from './lib/components/icon/icon.types';
 export { BadgeComponent, BadgeType, BadgeShape } from './lib/components/badge/badge.component';
 
 /**
- * Textbox component ve type'ları.
+ * Textbox component and types.
  * @see {@link TextboxComponent}
  * @see {@link TextboxType}
  */
@@ -270,7 +270,7 @@ export { TextareaComponent } from './lib/components/textarea/textarea.component'
 export { CheckboxComponent } from './lib/components/checkbox/checkbox.component';
 
 /**
- * Paragraph component ve enum'ları.
+ * Paragraph component and enums.
  * @see {@link ParagraphComponent}
  * @see {@link ParagraphAlign}
  * @see {@link ParagraphWeight}
@@ -285,7 +285,7 @@ export {
 // export { ModalComponent } from './lib/components/modal/modal.component';
 
 // ============================================================================
-// DIRECTIVES (Gelecekte eklenecek)
+// DIRECTIVES (To be added in the future)
 // ============================================================================
 
 /**
@@ -300,7 +300,7 @@ export * from './lib/components/tooltip-demo';
 // export { ClickOutsideDirective } from './lib/directives/click-outside/click-outside.directive';
 
 // ============================================================================
-// PIPES (Gelecekte eklenecek)
+// PIPES (To be added in the future)
 // ============================================================================
 
 // export { SafeHtmlPipe } from './lib/pipes/safe-html/safe-html.pipe';
@@ -336,11 +336,16 @@ export type { ListItem } from './lib/components/list/list.component';
 /**
  * Table component and types.
  * @see {@link TableComponent}
+ * @see {@link IFilterMetadata}
+ * @see {@link ITableColumn}
  * @see {@link FilterMatchMode}
- * @see {@link FilterMetadata}
  */
 export { TableComponent } from './lib/components/table/table.component';
-export type { FilterMatchMode, FilterMetadata, TableColumn } from './lib/components/table/table.component';
+export type {
+  IFilterMetadata,
+  ITableColumn,
+  FilterMatchMode,
+} from './lib/components/table/table.component';
 
 /**
  * Accordion component and types.

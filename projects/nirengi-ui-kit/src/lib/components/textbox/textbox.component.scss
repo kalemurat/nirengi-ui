@@ -46,7 +46,7 @@
     }
   }
   &__label {
-    @apply text-sm font-medium text-gray-700;
+    @apply text-sm font-medium text-primary;
   }
 
   &__wrapper {
@@ -54,7 +54,7 @@
   }
 
   &__input {
-    @apply w-full rounded-lg border border-gray-300 text-gray-900 transition-all duration-200 placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500;
+    @apply w-full rounded-lg border border-default bg-primary text-primary transition-all duration-200 placeholder:text-tertiary focus:border-transparent focus:outline-none focus:ring-4 focus:ring-primary-500/30 disabled:cursor-not-allowed disabled:bg-tertiary disabled:text-disabled;
 
     // Sizes
     &--xs {
@@ -81,14 +81,22 @@
     &--with-icon {
       @apply pl-10;
     }
+
+    &--clearable {
+      @apply pr-10;
+    }
+  }
+
+  &__clear {
+    @apply absolute inset-y-0 right-3 flex cursor-pointer items-center text-tertiary transition-colors duration-200 hover:text-danger-500;
   }
 
   &__icon {
-    @apply pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400;
+    @apply pointer-events-none absolute inset-y-0 left-3 flex items-center text-tertiary;
   }
 
   &__hint {
-    @apply text-xs text-gray-500;
+    @apply text-xs text-secondary;
   }
 
   // ============================================================================
@@ -97,111 +105,111 @@
 
   &--primary {
     .nui-textbox__input {
-      @apply border-blue-500 text-blue-700 placeholder-blue-300 focus:ring-blue-500/30;
+      @apply border-primary-500 text-primary-700 placeholder-primary-300 focus:ring-primary-500/30;
     }
 
     .nui-textbox__label {
-      @apply text-blue-700;
+      @apply text-primary-700;
     }
 
     .nui-textbox__hint {
-      @apply text-blue-500;
+      @apply text-primary-500;
     }
 
     .nui-textbox__icon {
-      @apply text-blue-500;
+      @apply text-primary-500;
     }
   }
 
   &--secondary {
     .nui-textbox__input {
-      @apply border-gray-300 focus:border-purple-600 focus:ring-purple-500/30;
+      @apply border-secondary-300 focus:border-secondary-600 focus:ring-secondary-500/30;
     }
 
     .nui-textbox__icon {
-      @apply text-gray-400;
+      @apply text-secondary-400;
     }
   }
 
   &--success {
     .nui-textbox__input {
-      @apply border-green-500 focus:border-green-600 focus:ring-green-500/30;
+      @apply border-success-500 focus:border-success-600 focus:ring-success-500/30;
     }
 
     .nui-textbox__label {
-      @apply text-green-700;
+      @apply text-success-700;
     }
 
     .nui-textbox__hint {
-      @apply text-green-600;
+      @apply text-success-600;
     }
 
     .nui-textbox__icon {
-      @apply text-green-500;
+      @apply text-success-500;
     }
   }
 
   &--danger {
     .nui-textbox__input {
-      @apply border-red-500 focus:border-red-600 focus:ring-red-500/30;
+      @apply border-danger-500 focus:border-danger-600 focus:ring-danger-500/30;
     }
 
     .nui-textbox__label {
-      @apply text-red-700;
+      @apply text-danger-700;
     }
 
     .nui-textbox__hint {
-      @apply text-red-600;
+      @apply text-danger-600;
     }
 
     .nui-textbox__icon {
-      @apply text-red-500;
+      @apply text-danger-500;
     }
   }
 
   &--warning {
     .nui-textbox__input {
-      @apply border-yellow-500 focus:border-yellow-600 focus:ring-yellow-400/30;
+      @apply border-warning-500 focus:border-warning-600 focus:ring-warning-400/30;
     }
 
     .nui-textbox__label {
-      @apply text-yellow-800;
+      @apply text-warning-800;
     }
 
     .nui-textbox__hint {
-      @apply text-yellow-700;
+      @apply text-warning-700;
     }
 
     .nui-textbox__icon {
-      @apply text-yellow-600;
+      @apply text-warning-600;
     }
   }
 
   &--info {
     .nui-textbox__input {
-      @apply border-cyan-500 focus:border-cyan-600 focus:ring-cyan-500/30;
+      @apply border-info-500 focus:border-info-600 focus:ring-info-500/30;
     }
 
     .nui-textbox__label {
-      @apply text-cyan-700;
+      @apply text-info-700;
     }
 
     .nui-textbox__hint {
-      @apply text-cyan-600;
+      @apply text-info-600;
     }
 
     .nui-textbox__icon {
-      @apply text-cyan-500;
+      @apply text-info-500;
     }
   }
 
   &--neutral {
     .nui-textbox__input {
-      @apply border-gray-300 focus:border-gray-600 focus:ring-gray-500/30;
+      @apply border-neutral-300 focus:border-neutral-600 focus:ring-neutral-500/30;
     }
 
     .nui-textbox__icon {
-      @apply text-gray-400;
+      @apply text-neutral-400;
     }
   }
 }

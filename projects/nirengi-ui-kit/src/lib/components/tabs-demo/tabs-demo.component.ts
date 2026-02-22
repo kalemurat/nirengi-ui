@@ -2,6 +2,8 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabsComponent } from '../tabs/tabs.component';
 import { TabComponent } from '../tabs/tab.component';
+import { HeadingComponent, HeadingLevel, HeadingWeight } from '../heading/heading.component';
+import { ParagraphComponent, ParagraphAlign } from '../paragraph/paragraph.component';
 
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
@@ -13,35 +15,39 @@ import { Size } from '../../common/enums/size.enum';
 @Component({
   selector: 'nui-tabs-demo',
   standalone: true,
-  imports: [CommonModule, TabsComponent, TabComponent],
+  imports: [CommonModule, TabsComponent, TabComponent, HeadingComponent, ParagraphComponent],
   template: `
     <div class="flex flex-col gap-8">
       <!-- Live Preview -->
       <section>
-        <h3 class="mb-4 text-lg font-bold">Interactive Demo</h3>
-        <p class="mb-4 text-sm text-gray-500">
+        <nui-heading [level]="HeadingLevel.H3" [weight]="HeadingWeight.Bold" [marginBottom]="true">
+          Interactive Demo
+        </nui-heading>
+        <nui-paragraph [size]="Size.Small" [marginBottom]="true">
           Control the properties of this tabs component using the panel on the right.
-        </p>
+        </nui-paragraph>
 
         <nui-tabs [variant]="variant()" [size]="size()" [fullWidth]="fullWidth()">
           <nui-tab label="Account">
             <div class="rounded bg-gray-50 p-4 dark:bg-gray-800">
-              <p>Account settings content goes here.</p>
-              <p class="mt-2 text-sm text-gray-500">
-                Current Variant: {{ variant() }}<br />
-                Current Size: {{ size() }}<br />
-                Full Width: {{ fullWidth() }}
-              </p>
+              <nui-paragraph>Account settings content goes here.</nui-paragraph>
+              <div class="mt-2">
+                <nui-paragraph [size]="Size.Small">
+                  Current Variant: {{ variant() }}<br />
+                  Current Size: {{ size() }}<br />
+                  Full Width: {{ fullWidth() }}
+                </nui-paragraph>
+              </div>
             </div>
           </nui-tab>
           <nui-tab label="Password">
             <div class="rounded bg-gray-50 p-4 dark:bg-gray-800">
-              <p>Password change form goes here.</p>
+              <nui-paragraph>Password change form goes here.</nui-paragraph>
             </div>
           </nui-tab>
           <nui-tab label="Notifications" [disabled]="true">
             <div class="rounded bg-gray-50 p-4 dark:bg-gray-800">
-              <p>Notification preferences content.</p>
+              <nui-paragraph>Notification preferences content.</nui-paragraph>
             </div>
           </nui-tab>
         </nui-tabs>
@@ -49,23 +55,33 @@ import { Size } from '../../common/enums/size.enum';
 
       <!-- Full Width Example -->
       <section>
-        <h3 class="mb-4 text-lg font-bold">Full Width</h3>
+        <nui-heading [level]="HeadingLevel.H3" [weight]="HeadingWeight.Bold" [marginBottom]="true">
+          Full Width
+        </nui-heading>
         <nui-tabs [fullWidth]="true">
           <nui-tab label="First Tab">
-            <div class="p-4 text-center">First Content</div>
+            <div class="p-4">
+              <nui-paragraph [align]="ParagraphAlign.Center">First Content</nui-paragraph>
+            </div>
           </nui-tab>
           <nui-tab label="Second Tab">
-            <div class="p-4 text-center">Second Content</div>
+            <div class="p-4">
+              <nui-paragraph [align]="ParagraphAlign.Center">Second Content</nui-paragraph>
+            </div>
           </nui-tab>
           <nui-tab label="Third Tab">
-            <div class="p-4 text-center">Third Content</div>
+            <div class="p-4">
+              <nui-paragraph [align]="ParagraphAlign.Center">Third Content</nui-paragraph>
+            </div>
           </nui-tab>
         </nui-tabs>
       </section>
 
       <!-- Custom Template Example -->
       <section>
-        <h3 class="mb-4 text-lg font-bold">Custom Template (Icons)</h3>
+        <nui-heading [level]="HeadingLevel.H3" [weight]="HeadingWeight.Bold" [marginBottom]="true">
+          Custom Template (Icons)
+        </nui-heading>
         <nui-tabs>
           <nui-tab>
             <ng-template nuiTabLabel>
@@ -88,7 +104,9 @@ import { Size } from '../../common/enums/size.enum';
                 <span>Profile</span>
               </div>
             </ng-template>
-            <div class="p-4">Profile Content with Icon</div>
+            <div class="p-4">
+              <nui-paragraph>Profile Content with Icon</nui-paragraph>
+            </div>
           </nui-tab>
           <nui-tab>
             <ng-template nuiTabLabel>
@@ -111,7 +129,9 @@ import { Size } from '../../common/enums/size.enum';
                 <span>Contact</span>
               </div>
             </ng-template>
-            <div class="p-4">Contact Content with Icon</div>
+            <div class="p-4">
+              <nui-paragraph>Contact Content with Icon</nui-paragraph>
+            </div>
           </nui-tab>
         </nui-tabs>
       </section>
@@ -126,4 +146,11 @@ export class TabsDemoComponent {
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
   readonly size = input<Size>(Size.Medium);
   readonly fullWidth = input<boolean>(false);
+
+  // Expose enums to template
+  readonly HeadingLevel = HeadingLevel;
+  readonly HeadingWeight = HeadingWeight;
+  readonly ParagraphAlign = ParagraphAlign;
+  readonly Size = Size;
+  readonly ColorVariant = ColorVariant;
 }

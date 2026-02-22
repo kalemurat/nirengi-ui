@@ -1,30 +1,29 @@
 import { Size } from '../enums/size.enum';
 
 /**
- * ⚠️ ÖNEMLİ: Bu dosya artık sadece REFERANS amaçlıdır.
+ * ⚠️ IMPORTANT: This file is now for REFERENCE purposes only.
  *
- * Gerçek boyut değerleri `projects/nirengi-ui-kit/tailwind.config.js` dosyasında
- * theme.extend.height, theme.extend.spacing içinde tanımlıdır.
+ * Real size values are defined in the `projects/nirengi-ui-kit/tailwind.config.js` file
+ * under theme.extend.height and theme.extend.spacing.
  *
- * Bu mapping'ler, TypeScript kodunda hangi Tailwind class'ını kullanacağınızı
- * hatırlatmak için tutulmaktadır. Değer değişikliği yapmak için
- * tailwind.config.js dosyasını düzenleyin.
+ * These mappings are kept to remind you which Tailwind class to use in TypeScript code.
+ * To change values, edit the tailwind.config.js file.
  */
 
 /**
- * Size enum değerlerine karşılık gelen Tailwind height class'ları.
- * Component'lerin yüksekliklerini belirler.
+ * Tailwind height classes corresponding to Size enum values.
+ * Determines the heights of components.
  *
- * ⚠️ Gerçek değerler: tailwind.config.js > theme.extend.height
+ * ⚠️ Real values: tailwind.config.js > theme.extend.height
  *
  * @example
- * // SCSS'de kullanım
+ * // Usage in SCSS
  * &--sm {
  *   @apply h-component-sm;  // 32px
  * }
  */
 export const SIZE_HEIGHT_CLASS_MAP: Record<Size, string> = {
-  [Size.XSmall]: 'h-component-xs', // 24px - tailwind.config.js'de tanımlı
+  [Size.XSmall]: 'h-component-xs', // 24px - defined in tailwind.config.js
   [Size.Small]: 'h-component-sm', // 32px
   [Size.Medium]: 'h-component-md', // 36px
   [Size.Large]: 'h-component-lg', // 40px
@@ -32,10 +31,10 @@ export const SIZE_HEIGHT_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Size enum değerlerine karşılık gelen Tailwind padding class'ları.
- * Horizontal padding için kullanılır.
+ * Tailwind padding classes corresponding to Size enum values.
+ * Used for horizontal padding.
  *
- * ⚠️ Gerçek değerler: Tailwind default + theme.extend.spacing
+ * ⚠️ Real values: Tailwind default + theme.extend.spacing
  *
  * @example
  * &--md {
@@ -51,9 +50,9 @@ export const SIZE_PADDING_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Size enum değerlerine karşılık gelen Tailwind text size class'ları.
+ * Tailwind text size classes corresponding to Size enum values.
  *
- * ⚠️ Gerçek değerler: Tailwind default fontSize
+ * ⚠️ Real values: Tailwind default fontSize
  *
  * @example
  * &--sm {
@@ -69,10 +68,10 @@ export const SIZE_TEXT_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Size enum değerlerine karşılık gelen Tailwind gap class'ları.
- * Flex/Grid gap değerleri.
+ * Tailwind gap classes corresponding to Size enum values.
+ * Flex/Grid gap values.
  *
- * ⚠️ Gerçek değerler: Tailwind default gap
+ * ⚠️ Real values: Tailwind default gap
  *
  * @example
  * &--md {
@@ -88,8 +87,8 @@ export const SIZE_GAP_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Size enum değerlerine karşılık gelen icon boyutları (piksel).
- * SVG icon'lar için width/height değerleri.
+ * Icon sizes (pixels) corresponding to Size enum values.
+ * Width/height values for SVG icons.
  *
  * @example
  * const iconSize = SIZE_ICON_MAP[Size.Medium]; // '16px'
@@ -103,9 +102,9 @@ export const SIZE_ICON_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Size enum değerlerine karşılık gelen border-radius Tailwind class'ları.
+ * Tailwind border-radius classes corresponding to Size enum values.
  *
- * ⚠️ Gerçek değerler: Tailwind default borderRadius
+ * ⚠️ Real values: Tailwind default borderRadius
  *
  * @example
  * &--md {
@@ -123,29 +122,29 @@ export const SIZE_RADIUS_CLASS_MAP: Record<Size, string> = {
 // ============================================================================
 // BACKWARD COMPATIBILITY - Deprecated
 // ============================================================================
-// Eski constant'ları export ediyoruz ama deprecated olarak işaretliyoruz
+// Exporting old constants but marking as deprecated
 
 /**
- * @deprecated Tailwind config kullanın. SIZE_HEIGHT_CLASS_MAP'e geçin.
+ * @deprecated Use Tailwind config. Switch to SIZE_HEIGHT_CLASS_MAP.
  */
 export const SIZE_HEIGHT_MAP = SIZE_HEIGHT_CLASS_MAP;
 
 /**
- * @deprecated Tailwind config kullanın. SIZE_PADDING_CLASS_MAP'e geçin.
+ * @deprecated Use Tailwind config. Switch to SIZE_PADDING_CLASS_MAP.
  */
 export const SIZE_PADDING_MAP = SIZE_PADDING_CLASS_MAP;
 
 /**
- * @deprecated Tailwind config kullanın. SIZE_TEXT_CLASS_MAP'e geçin.
+ * @deprecated Use Tailwind config. Switch to SIZE_TEXT_CLASS_MAP.
  */
 export const SIZE_TEXT_MAP = SIZE_TEXT_CLASS_MAP;
 
 /**
- * @deprecated Tailwind config kullanın. SIZE_GAP_CLASS_MAP'e geçin.
+ * @deprecated Use Tailwind config. Switch to SIZE_GAP_CLASS_MAP.
  */
 export const SIZE_GAP_MAP = SIZE_GAP_CLASS_MAP;
 
 /**
- * @deprecated Tailwind config kullanın. SIZE_RADIUS_CLASS_MAP'e geçin.
+ * @deprecated Use Tailwind config. Switch to SIZE_RADIUS_CLASS_MAP.
  */
 export const SIZE_RADIUS_MAP = SIZE_RADIUS_CLASS_MAP;

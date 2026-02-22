@@ -16,34 +16,34 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
  * Modern textarea component.
- * Çok satırlı metin girişi için kullanılan component.
+ * Component used for multi-line text input.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile class binding
- * - ✅ Label, Hint ve Error mesaj desteği
- * - ✅ Icon desteği
- * - ✅ Boyut varyasyonları (xs, sm, md, lg, xl)
- * - ✅ Disabled ve readonly state'leri
- * - ✅ Auto-resize özelliği
- * - ✅ Karakter sayım desteği (maxlength)
+ * ## Features
+ * - ✅ Signal-based ControlValueAccessor (NG_VALUE_ACCESSOR)
+ * - ✅ OnPush change detection strategy
+ * - ✅ Computed signals for class binding
+ * - ✅ Label, Hint, and Error message support
+ * - ✅ Icon support
+ * - ✅ Size variations (xs, sm, md, lg, xl)
+ * - ✅ Disabled and readonly states
+ * - ✅ Auto-resize feature
+ * - ✅ Character count support (maxlength)
  * - ✅ Tailwind + BEM styling
  *
  * @example
  * <nui-textarea
- *   label="Açıklama"
- *   placeholder="Detayları girin"
+ *   label="Description"
+ *   placeholder="Enter details"
  *   [formControl]="descCtrl"
  * />
  *
  * @example
  * <nui-textarea
- *   label="Yorum"
+ *   label="Comment"
  *   icon="MessageSquare"
  *   [rows]="5"
  *   [maxlength]="500"
- *   error="Yorum çok uzun"
+ *   error="Comment is too long"
  * />
  *
  * @see {@link ValueAccessorBase} - Base class for form controls
@@ -66,83 +66,83 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 })
 export class TextareaComponent extends ValueAccessorBase<string> {
   /**
-   * Accessibility için benzersiz ID.
-   * Her textarea instance'ı için otomatik oluşturulur.
+   * Unique ID for accessibility.
+   * Automatically generated for each textarea instance.
    */
   readonly textareaId = `nui-textarea-${Math.random().toString(36).substr(2, 9)}`;
 
   /**
-   * Label metni.
-   * Textarea üzerinde gösterilir.
+   * Label text.
+   * Displayed above the textarea.
    */
   readonly label = input<string>();
 
   /**
-   * Placeholder metni.
-   * Textarea boş olduğunda gösterilir.
+   * Placeholder text.
+   * Displayed when the textarea is empty.
    */
   readonly placeholder = input<string>('');
 
   /**
-   * Yardımcı ipucu metni.
-   * Textarea altında gösterilir (error yoksa).
+   * Helper hint text.
+   * Displayed below the textarea (if there is no error).
    */
   readonly hint = input<string>();
 
   /**
-   * Component renk varyasyonu.
+   * Component color variation.
    * @default ColorVariant.Neutral
    */
   readonly variant = input<ColorVariant>(ColorVariant.Neutral);
 
   /**
-   * Icon ismi.
-   * Textarea'nın sol üst köşesinde gösterilir.
+   * Icon name.
+   * Displayed in the top-left corner of the textarea.
    */
   readonly icon = input<IconName>();
 
   /**
-   * Readonly durumu.
-   * True ise textarea düzenlenemez ancak disabled değildir.
+   * Readonly state.
+   * If true, the textarea is not editable but is not disabled.
    */
   readonly readonly = input<boolean>(false);
 
   /**
-   * Component boyutu.
-   * Text size ve padding'i etkiler.
+   * Component size.
+   * Affects text size and padding.
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Textarea satır sayısı.
-   * Minimum yüksekliği belirler.
+   * Number of textarea rows.
+   * Determines the minimum height.
    * @default 3
    */
   readonly rows = input<number>(3);
 
   /**
-   * Maksimum karakter sayısı.
-   * Varsa karakter sayacı gösterilir.
+   * Maximum character count.
+   * If provided, a character counter is displayed.
    */
   readonly maxlength = input<number>();
 
   /**
-   * Auto-resize özelliği.
-   * True ise içeriğe göre otomatik yükseklik ayarı yapılır.
+   * Auto-resize feature.
+   * If true, the height is automatically adjusted based on the content.
    * @default false
    */
   readonly autoResize = input<boolean>(false);
 
   /**
    * Textarea value (dumb mode).
-   * Form control kullanılmadan da değer atanabilir.
+   * Can be assigned a value without using form control.
    */
   readonly valueInput = input<string | null>(null, { alias: 'value' });
 
   /**
    * Disabled state (dumb mode).
-   * Form control kullanılmadan da disabled yapılabilir.
+   * Can be disabled without using form control.
    */
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
@@ -164,10 +164,10 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   }
 
   /**
-   * Icon boyutunu component size'a göre hesaplayan computed signal.
-   * Size değiştiğinde otomatik güncellenir.
+   * Computed signal that calculates the icon size based on the component size.
+   * Automatically updated when size changes.
    *
-   * @returns Icon pixel boyutu
+   * @returns Icon pixel size
    */
   readonly iconSize = computed(() => {
     switch (this.size()) {
@@ -187,30 +187,28 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   });
 
   /**
-   * Textarea için CSS class'larını hesaplayan computed signal.
-   * Reaktif olarak size değişikliklerini takip eder.
-   *
-  /**
-   * Container element için CSS class'larını hesaplayan computed signal.
-   * Variant değişikliklerini takip eder.
+   * Computed signal to calculate CSS classes for the container element.
+   * Follows variant changes.
    */
-  readonly containerClasses = computed(() => `nui-textarea--${this.variant()} nui-textarea--${this.size()}`);
+  readonly containerClasses = computed(
+    () => `nui-textarea--${this.variant()} nui-textarea--${this.size()}`
+  );
 
   /**
-   * Textarea için CSS class'larını hesaplayan computed signal.
-   * Reaktif olarak size değişikliklerini takip eder.
+   * Computed signal to calculate CSS classes for the textarea.
+   * Reactively follows size changes.
    *
-   * @returns Size-based CSS class string'i
+   * @returns Size-based CSS class string
    */
   protected readonly textareaClasses = computed(() => {
     return `nui-textarea__input--${this.size()}`;
   });
 
   /**
-   * Karakter sayacı metnini hesaplayan computed signal.
-   * Maxlength varsa "mevcut/maksimum" formatında gösterilir.
+   * Computed signal to calculate the character counter text.
+   * If maxlength exists, it is displayed in the "current/maximum" format.
    *
-   * @returns Karakter sayacı metni veya undefined
+   * @returns Character counter text or undefined
    */
   protected readonly characterCount = computed(() => {
     const max = this.maxlength();
@@ -221,10 +219,10 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   });
 
   /**
-   * Karakter limitinin aşılıp aşılmadığını kontrol eden computed signal.
-   * True ise karakter sayacı kırmızı renkte gösterilir.
+   * Computed signal that checks if the character limit has been exceeded.
+   * If true, the character counter is displayed in red.
    *
-   * @returns Limit aşıldıysa true, değilse false
+   * @returns true if limit exceeded, false otherwise
    */
   protected readonly isOverLimit = computed(() => {
     const max = this.maxlength();
@@ -236,8 +234,8 @@ export class TextareaComponent extends ValueAccessorBase<string> {
 
   /**
    * Input event handler.
-   * Kullanıcı textarea'ya yazdığında tetiklenir.
-   * Auto-resize aktifse yüksekliği ayarlar.
+   * Triggered when the user types in the textarea.
+   * Adjusts the height if auto-resize is active.
    *
    * @param event - Input event
    */
@@ -255,10 +253,10 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   }
 
   /**
-   * Textarea yüksekliğini içeriğe göre ayarlar.
-   * Auto-resize özelliği için kullanılır.
+   * Adjusts the textarea height based on the content.
+   * Used for the auto-resize feature.
    *
-   * @param textarea - HTML textarea elementi
+   * @param textarea - HTML textarea element
    */
   private adjustHeight(textarea: HTMLTextAreaElement): void {
     // Reset height to auto to get scrollHeight

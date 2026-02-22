@@ -1,4 +1,4 @@
-<div class="nui-textarea" [ngClass]="containerClasses()">
+<div [class]="'nui-textarea ' + containerClasses()">
   @if (label()) {
     <label class="nui-textarea__label" [for]="textareaId">
       {{ label() }}
@@ -8,7 +8,7 @@
   <div class="nui-textarea__wrapper">
     @if (icon()) {
       <div class="nui-textarea__icon">
-        <nirengi-icon [name]="icon()!" [size]="iconSize()" />
+        <nui-icon [name]="icon()!" [size]="iconSize()" />
       </div>
     }
 
@@ -20,10 +20,9 @@
       [readOnly]="readonly()"
       [rows]="rows()"
       [attr.maxlength]="maxlength() || null"
-      class="nui-textarea__input"
+      [class]="'nui-textarea__input ' + textareaClasses()"
       [class.nui-textarea__input--with-icon]="icon()"
       [class.nui-textarea__input--auto-resize]="autoResize()"
-      [ngClass]="textareaClasses()"
       (input)="onInput($event)"
       (blur)="markAsTouched()"
     ></textarea>

@@ -1,80 +1,63 @@
 import { Injectable, signal, computed, Type } from '@angular/core';
-import { ComponentShowcaseConfig } from '../interfaces/showcase-config.interface';
+import { IComponentShowcaseConfig } from '../interfaces/showcase-config.interface';
 
 /**
- * Component loader fonksiyon tipi.
- * Lazy loading için dynamic import fonksiyonu.
+ * Component loader function type.
+ * Dynamic import function for lazy loading.
  */
-type ComponentLoader = () => Promise<Type<any>>;
+type ComponentLoader = () => Promise<Type<unknown>>;
 
 /**
- * Component Registry Servisi.
- * Tüm UI Kit component'lerini kaydeder ve dinamik olarak yükler.
+ * Component Registry Service.
+ * Registers and dynamically loads all UI Kit components.
  *
- * ## Sorumluluklar
- * - Component'lerin lazy loading ile yüklenmesi
- * - Showcase config'lerinin merkezi yönetimi
- * - Type-safe component referanslarının sağlanması
+ * ## Responsibilities
+ * - Lazy loading of components
+ * - Central management of showcase configurations
+ * - Providing type-safe component references
  *
- * ## Kullanım
+ * ## Usage
  * ```typescript
  * // Component-level provide
  * providers: [ComponentRegistryService]
  *
- * // Component registrar et
- * registry.registerComponent(buttonConfig, () =>
- *   import('nirengi-ui-kit').then(m => m.ButtonComponent)
- * );
+ * // Register component
+ * registry.registerComponent(buttonConfig, async () => {
+ *   const m = await import('nirengi-ui-kit');
+ *   return m.ButtonComponent;
+ * });
  *
- * // Sadece Config kaydet (Lazy load getComponent içinde handled ise)
+ * // Register Config only (Lazy load is handled inside getComponent)
  * registry.registerConfig(accordionConfig);
  *
- * // Component yükle
+ * // Load component
  * const ButtonComponent = await registry.getComponent('button');
  *
- * // Config oku
+ * // Read config
  * const config = registry.getConfig('button');
  * ```
  *
- * @see {@link ComponentShowcaseConfig}
+ * @see {@link IComponentShowcaseConfig}
  */
 @Injectable()
 export class ComponentRegistryService {
   /**
-   * Component loader'ların map'i.
-   * Key: component ID, Value: loader fonksiyonu
-   */
-  private readonly loaders = new Map<string, ComponentLoader>();
-
-  /**
-   * Yüklenmiş component cache'i.
-   * Aynı component'i tekrar yüklememek için cache'lenir.
-   */
-  private readonly componentCache = new Map<string, Type<any>>();
-
-  /**
-   * Component config'lerinin signal'i.
-   * Reaktif olarak güncellenir ve menü gibi yerlerde kullanılır.
-   */
-  private readonly configs = signal<Map<string, ComponentShowcaseConfig>>(new Map());
-
-  /**
-   * Tüm config'lerin computed list'i.
-   * Kategorilere göre gruplama gibi işlemler için kullanılır.
+   * Computed list of all configurations.
+   * Used for operations such as grouping by category.
    *
    * @returns Component config array
    */
   readonly allConfigs = computed(() => Array.from(this.configs().values()));
 
   /**
-   * Kategorilere göre gruplandırılmış config'ler.
-   * Menü render'ı için kullanılır.
+   * Configurations grouped by category.
+   * Used for menu rendering.
    *
-   * @returns Kategori adı ve o kategorideki config'ler
+   * @returns Category name and configs in that category
    */
   readonly configsByCategory = computed(() => {
     const configs = this.allConfigs();
-    const categories = new Map<string, ComponentShowcaseConfig[]>();
+    const categories = new Map<string, IComponentShowcaseConfig[]>();
 
     configs.forEach((config) => {
       const category = config.category || 'Other';
@@ -88,31 +71,49 @@ export class ComponentRegistryService {
   });
 
   /**
-   * Yeni bir component registrar eder.
-   * Config ve loader fonksiyonunu kaydeder.
-   *
-   * @param config - Component showcase konfigürasyonu
-   * @param loader - Component lazy loader fonksiyonu
+   * Map of component loaders.
+   * Key: component ID, Value: loader function
    */
-  registerComponent(config: ComponentShowcaseConfig, loader: ComponentLoader): void {
-    // Config'i kaydet
+  private readonly loaders = new Map<string, ComponentLoader>();
+
+  /**
+   * Cached loaded components.
+   * Cached to avoid reloading the same component.
+   */
+  private readonly componentCache = new Map<string, Type<unknown>>();
+
+  /**
+   * Signal for component configurations.
+   * Reactively updated and used in places like the menu.
+   */
+  private readonly configs = signal<Map<string, IComponentShowcaseConfig>>(new Map());
+
+  /**
+   * Registers a new component.
+   * Saves the configuration and loader function.
+   *
+   * @param config - Component showcase configuration
+   * @param loader - Component lazy loader function
+   */
+  registerComponent(config: IComponentShowcaseConfig, loader: ComponentLoader): void {
+    // Save Config
     this.configs.update((current) => {
       const updated = new Map(current);
       updated.set(config.id, config);
       return updated;
     });
 
-    // Loader'ı kaydet
+    // Save Loader
     this.loaders.set(config.id, loader);
   }
 
   /**
-   * Sadece component config'ini kaydeder.
-   * Loader verilmezse, getComponent içinde lazy import veya logic ile handle edilmelidir.
+   * Registers only the component configuration.
+   * If no loader is provided, it must be handled via lazy import or logic within getComponent.
    *
-   * @param config - Component showcase konfigürasyonu
+   * @param config - Component showcase configuration
    */
-  registerConfig(config: ComponentShowcaseConfig): void {
+  registerConfig(config: IComponentShowcaseConfig): void {
     this.configs.update((current) => {
       const updated = new Map(current);
       updated.set(config.id, config);
@@ -121,40 +122,42 @@ export class ComponentRegistryService {
   }
 
   /**
-   * Component'i lazy load eder.
-   * İlk yüklemede cache'e alınır, sonraki çağrılarda cache'den döner.
+   * Lazy loads the component.
+   * Cached on first load, returns from cache on subsequent calls.
    *
    * @param id - Component ID
-   * @returns Component class referansı
-   * @throws Error - Component registrar edilmemişse
+   * @returns Component class reference
+   * @throws Error - If component is not registered
    */
-  async getComponent(id: string): Promise<Type<any>> {
-    // Cache'de var mı kontrol et
+  async getComponent(id: string): Promise<Type<unknown>> {
+    // Check cache
     if (this.componentCache.has(id)) {
       return this.componentCache.get(id)!;
     }
 
-    // Loader var mı kontrol et
+    // Check loader
     const loader = this.loaders.get(id);
     if (!loader) {
       // Fallback for components registered via registerConfig (Lazy loaded here)
       switch (id) {
-        case 'list':
+        case 'list': {
           const { ListComponent } = await import('nirengi-ui-kit');
           this.componentCache.set(id, ListComponent);
           return ListComponent;
+        }
 
-        case 'accordion':
+        case 'accordion': {
           const { AccordionComponent } = await import('nirengi-ui-kit');
           this.componentCache.set(id, AccordionComponent);
           return AccordionComponent;
+        }
 
         default:
           throw new Error(`Component "${id}" is not registered in the registry or missing loader.`);
       }
     }
 
-    // Component'i yükle ve cache'e al
+    // Load component and cache it
     const component = await loader();
     this.componentCache.set(id, component);
 
@@ -162,21 +165,21 @@ export class ComponentRegistryService {
   }
 
   /**
-   * Component config'ini getirir.
+   * Retrieves the component configuration.
    */
-  getConfig(id: string): ComponentShowcaseConfig | undefined {
+  getConfig(id: string): IComponentShowcaseConfig | undefined {
     return this.configs().get(id);
   }
 
   /**
-   * Belirli bir component registrar edilmiş mi kontrol eder.
+   * Checks if a specific component is registered.
    */
   hasComponent(id: string): boolean {
     return this.configs().has(id);
   }
 
   /**
-   * Tüm registrar edilmiş component ID'lerini döndürür.
+   * Returns all registered component IDs.
    */
   getAllComponentIds(): string[] {
     return Array.from(this.configs().keys());

@@ -6,7 +6,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { PropertyStateService } from '../../../core/services/property-state.service';
 import { ComponentRegistryService } from '../../../core/services/component-registry.service';
-import { PropertyConfig } from '../../../core/interfaces/showcase-config.interface';
+
+import { TextboxComponent, CheckboxComponent, SelectComponent, Size } from 'nirengi-ui-kit';
 
 /**
  * Properties Panel Component.
@@ -24,27 +25,16 @@ import { PropertyConfig } from '../../../core/interfaces/showcase-config.interfa
 @Component({
   selector: 'app-properties-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TextboxComponent, CheckboxComponent, SelectComponent],
   templateUrl: './properties-panel.component.html',
   styleUrl: './properties-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertiesPanelComponent {
   /**
-   * Servisleri inject eder.
+   * Template tarafında kullanım için UI Kit Size enum'ı.
    */
-  private readonly route = inject(ActivatedRoute);
-  private readonly propertyState = inject(PropertyStateService);
-  private readonly registry = inject(ComponentRegistryService);
-
-  /**
-   * Aktif component ID.
-   * Route parametresinden reactive olarak alınır.
-   */
-  private readonly componentId = toSignal(
-    this.route.params.pipe(map((params) => params['id'] || 'button')),
-    { initialValue: 'button' }
-  );
+  protected readonly Size = Size;
 
   /**
    * Aktif component config.
@@ -70,12 +60,28 @@ export class PropertiesPanelComponent {
   );
 
   /**
+   * Servisleri inject eder.
+   */
+  private readonly route = inject(ActivatedRoute);
+  private readonly propertyState = inject(PropertyStateService);
+  private readonly registry = inject(ComponentRegistryService);
+
+  /**
+   * Aktif component ID.
+   * Route parametresinden reactive olarak alınır.
+   */
+  private readonly componentId = toSignal(
+    this.route.params.pipe(map((params) => params['id'] || 'button')),
+    { initialValue: 'button' }
+  );
+
+  /**
    * Property değerini okur.
    *
    * @param name - Property adı
    * @returns Property değeri
    */
-  getPropertyValue(name: string): any {
+  getPropertyValue(name: string): unknown {
     return this.propertyState.getProperty(name);
   }
 
@@ -86,7 +92,7 @@ export class PropertiesPanelComponent {
    * @param name - Property adı
    * @param value - Yeni değer
    */
-  updateProperty(name: string, value: any): void {
+  updateProperty(name: string, value: string | number | boolean | null): void {
     this.propertyState.setProperty(name, value);
   }
 

@@ -1,38 +1,38 @@
 .nui-accordion {
-  @apply w-full overflow-hidden rounded-lg border bg-white;
+  @apply w-full overflow-hidden rounded-lg border bg-primary;
 
   // Status Colors (Border & Header Background)
   &--default {
-    @apply border-gray-200;
+    @apply border-default;
   }
 
   &--primary {
-    @apply border-blue-200;
+    @apply border-primary-200 dark:border-primary-800;
   }
 
   &--success {
-    @apply border-green-200;
+    @apply border-success-200 dark:border-success-800;
   }
 
   &--warning {
-    @apply border-yellow-200;
+    @apply border-warning-200 dark:border-warning-800;
   }
 
   &--danger {
-    @apply border-red-200;
+    @apply border-danger-200 dark:border-danger-800;
   }
 
   &--info {
-    @apply border-cyan-200;
+    @apply border-info-200 dark:border-info-800;
   }
 
   &--disabled {
-    @apply pointer-events-none cursor-not-allowed bg-gray-50 opacity-60;
+    @apply pointer-events-none cursor-not-allowed bg-tertiary opacity-60;
   }
 
   // Header
   &__header {
-    @apply relative z-10 flex w-full cursor-pointer items-center justify-between bg-transparent px-4 py-3 text-left transition-colors hover:bg-gray-50;
+    @apply relative z-10 flex w-full cursor-pointer items-center justify-between bg-transparent px-4 py-3 text-left transition-colors hover:bg-tertiary;
 
     // Size Adjustments
     .nui-accordion--sm & {
@@ -45,13 +45,13 @@
 
     // Focus visible for accessibility
     &:focus-visible {
-      @apply outline-none ring-2 ring-blue-500 ring-offset-1;
+      @apply outline-none ring-2 ring-primary-500 ring-offset-1;
     }
   }
 
   // Title Container
   &__title {
-    @apply mr-4 flex-1 font-medium text-gray-800;
+    @apply mr-4 flex-1 font-medium text-primary;
 
     .nui-accordion--sm & {
       @apply text-sm;
@@ -64,7 +64,7 @@
 
   // Icon
   &__icon {
-    @apply text-gray-500 transition-transform duration-300;
+    @apply text-secondary transition-transform duration-300;
 
     &--rotated {
       @apply rotate-180;
@@ -88,32 +88,37 @@
 
   // Content
   &__content {
-    @apply border-t bg-white px-4 py-4 leading-relaxed text-gray-700 transition-colors duration-300;
+    @apply border-t bg-primary px-4 py-4 leading-relaxed text-secondary transition-colors duration-300;
 
     // Colors based on Status
     // Note: Using alpha/opacity for backgrounds to blend nicely
     .nui-accordion--default & {
-      @apply border-t-gray-200; // No background tint for default
+      @apply border-t-default;
     }
 
     .nui-accordion--primary & {
-      @apply border-t-blue-100 bg-blue-50/30;
+      @apply border-t-primary-100 bg-primary-50/30;
+      @apply dark:border-t-primary-800 dark:bg-primary-900/10;
     }
 
     .nui-accordion--success & {
-      @apply border-t-green-100 bg-green-50/30;
+      @apply border-t-success-100 bg-success-50/30;
+      @apply dark:border-t-success-800 dark:bg-success-900/10;
     }
 
     .nui-accordion--warning & {
-      @apply border-t-yellow-100 bg-yellow-50/30;
+      @apply border-t-warning-100 bg-warning-50/30;
+      @apply dark:border-t-warning-800 dark:bg-warning-900/10;
     }
 
     .nui-accordion--danger & {
-      @apply border-t-red-100 bg-red-50/30;
+      @apply border-t-danger-100 bg-danger-50/30;
+      @apply dark:border-t-danger-800 dark:bg-danger-900/10;
     }
 
     .nui-accordion--info & {
-      @apply border-t-cyan-100 bg-cyan-50/30;
+      @apply border-t-info-100 bg-info-50/30;
+      @apply dark:border-t-info-800 dark:bg-info-900/10;
     }
 
     // Size Adjustments

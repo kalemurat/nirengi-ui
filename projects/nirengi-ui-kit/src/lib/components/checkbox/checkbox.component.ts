@@ -13,59 +13,59 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Modern checkbox component'i.
- * Angular 20 signal-based API ve Tailwind + BEM metodolojisi kullanır.
+ * Modern checkbox component.
+ * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ Two-way data binding desteği (ngModel, formControl)
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile reaktif class binding
- * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
- * - ✅ 7 farklı renk varyantı (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ Disabled ve readonly durumları
- * - ✅ Indeterminate (belirsiz) durum desteği
- * - ✅ Label ve description desteği
- * - ✅ WCAG 2.1 AA accessibility standartları
- * - ✅ Keyboard navigation desteği
- *
- * @example
- * // Reactive Forms ile
- * <nui-checkbox [formControl]="termsControl" label="Kabul Ediyorum"></nui-checkbox>
+ * ## Features
+ * - ✅ Signal-based ControlValueAccessor (NG_VALUE_ACCESSOR)
+ * - ✅ Two-way data binding support (ngModel, formControl)
+ * - ✅ OnPush change detection strategy
+ * - ✅ Reactive class binding with computed signals
+ * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
+ * - ✅ Disabled and readonly states
+ * - ✅ Indeterminate state support
+ * - ✅ Label and description support
+ * - ✅ WCAG 2.1 AA accessibility standards
+ * - ✅ Keyboard navigation support
  *
  * @example
- * // Template-driven Forms ile
- * <nui-checkbox [(ngModel)]="isAccepted" label="Kabul Ediyorum"></nui-checkbox>
+ * // With Reactive Forms
+ * <nui-checkbox [formControl]="termsControl" label="I Accept"></nui-checkbox>
  *
  * @example
- * // Label ve description ile
+ * // With Template-driven Forms
+ * <nui-checkbox [(ngModel)]="isAccepted" label="I Accept"></nui-checkbox>
+ *
+ * @example
+ * // With label and description
  * <nui-checkbox
  *   [formControl]="newsletterControl"
- *   label="Haber Bülteni"
- *   description="Yeni güncellemelerden haberdar olmak için e-posta almak istiyorum">
+ *   label="Newsletter"
+ *   description="I want to receive emails to be notified of new updates">
  * </nui-checkbox>
  *
  * @example
- * // Varyant ve boyut ile
+ * // With variant and size
  * <nui-checkbox
  *   [formControl]="termsControl"
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
- *   label="Kullanım Şartlarını Okudum">
+ *   label="I have read the Terms of Use">
  * </nui-checkbox>
  *
  * @example
- * // Indeterminate durumu
+ * // Indeterminate state
  * <nui-checkbox
  *   [formControl]="selectAllControl"
  *   [indeterminate]="isIndeterminate()"
- *   label="Tümünü Seç">
+ *   label="Select All">
  * </nui-checkbox>
  *
  * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
- * @see {@link Size} - Standart boyut değerleri
- * @see {@link ColorVariant} - Renk varyantları
+ * @see {@link Size} - Standard size values
+ * @see {@link ColorVariant} - Color variants
  */
 @Component({
   selector: 'nui-checkbox',
@@ -89,52 +89,61 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   readonly inputId = `nui-checkbox-${Math.random().toString(36).substr(2, 9)}`;
 
   /**
-   * Renk varyantı.
-   * Semantik anlamı olan renk teması sağlar.
+   * Color variant.
+   * Provides a color theme with semantic meaning.
    *
    * @default ColorVariant.Primary
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
   /**
-   * Boyut.
-   * Checkbox'ın büyüklüğünü ve label font boyutunu belirler.
+   * Size.
+   * Determines the checkbox size and label font size.
    *
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Readonly durumu.
-   * true olduğunda checkbox tıklanamaz ama görsel olarak aktif görünür.
+   * Readonly state.
+   * When true, the checkbox is not clickable but appears visually active.
    *
    * @default false
    */
   readonly readonly = input<boolean>(false);
 
   /**
-   * Indeterminate (belirsiz) durumu.
-   * Kısmi seçim durumlarını göstermek için kullanılır (örn: "Select All" checkbox).
+   * Indeterminate state.
+   * Used to show partial selection states (e.g., "Select All" checkbox).
    *
    * @default false
    */
   readonly indeterminate = input<boolean>(false);
 
   /**
-   * Label metni.
-   * Checkbox'ın yanında gösterilecek ana etiket.
+   * Tristate mode.
+   * When true, the checkbox cycles through three states: null, true, and false.
+   * Useful for filters where "All", "Active", and "Passive" states are needed.
+   *
+   * @default false
+   */
+  readonly tristate = input<boolean>(false);
+
+  /**
+   * Label text.
+   * The main label to be displayed next to the checkbox.
    */
   readonly label = input<string>('');
 
   /**
-   * Description metni.
-   * Label'ın altında gösterilecek açıklayıcı metin.
+   * Description text.
+   * Explanatory text to be displayed under the label.
    */
   readonly description = input<string>('');
 
   /**
-   * Required (zorunlu) durumu.
-   * Form validasyonu için kullanılır.
+   * Required state.
+   * Used for form validation.
    *
    * @default false
    */
@@ -142,19 +151,19 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
 
   /**
    * Checked input (dumb mode).
-   * Direct binding için kullanılır.
+   * Used for direct binding.
    */
-  readonly checkedInput = input<boolean | null>(null, { alias: 'checked' });
+  readonly checked = input<boolean | null>(null);
 
   /**
    * Disabled input (dumb mode).
    */
-  readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
+  readonly disabled = input<boolean>(false);
 
   /**
-   * Checkbox için CSS class'larını hesaplayan computed signal.
-   * BEM metodolojisi ile dynamic class binding yapar.
-   * Reactive olarak güncellenir.
+   * Computed signal to calculate CSS classes for the checkbox.
+   * Performs dynamic class binding using BEM methodology.
+   * Updated reactively.
    */
   readonly checkboxClasses = computed(() => {
     const classes = ['nui-checkbox'];
@@ -174,7 +183,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
       classes.push('nui-checkbox--checked');
     }
 
-    if (this.indeterminate()) {
+    if (this.isIndeterminate()) {
       classes.push('nui-checkbox--indeterminate');
     }
 
@@ -182,8 +191,19 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   });
 
   /**
-   * Label için CSS class'larını hesaplayan computed signal.
-   * Reactive olarak güncellenir.
+   * Computed signal to track indeterminate state.
+   * Automatically returns true if tristate is enabled and value is null.
+   */
+  readonly isIndeterminate = computed(() => {
+    if (this.tristate() && this.value() === null) {
+      return true;
+    }
+    return this.indeterminate();
+  });
+
+  /**
+   * Computed signal to calculate CSS classes for the label.
+   * Updated reactively.
    */
   readonly labelClasses = computed(() => {
     const classes = ['nui-checkbox__label'];
@@ -198,8 +218,8 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   });
 
   /**
-   * Description için CSS class'larını hesaplayan computed signal.
-   * Reactive olarak güncellenir.
+   * Computed signal to calculate CSS classes for the description.
+   * Updated reactively.
    */
   readonly descriptionClasses = computed(() => {
     const classes = ['nui-checkbox__description'];
@@ -218,7 +238,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
 
     // Sync checked input
     effect(() => {
-      const val = this.checkedInput();
+      const val = this.checked();
       if (val !== null) {
         this.writeValue(val);
       }
@@ -226,13 +246,14 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
 
     // Sync disabled input
     effect(() => {
-      this.setDisabledState(this.disabledInput());
+      this.setDisabledState(this.disabled());
     });
   }
 
   /**
-   * Checkbox toggle handler'ı.
-   * Disabled veya readonly durumunda çalışmaz.
+   * Checkbox toggle handler.
+   * Does not work in disabled or readonly states.
+   * Supports tristate cycling if enabled.
    *
    * @returns void
    */
@@ -241,13 +262,27 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
       return;
     }
 
-    const newValue = !this.value();
+    let newValue: boolean | null;
+
+    if (this.tristate()) {
+      const current = this.value();
+      if (current === null) {
+        newValue = true;
+      } else if (current === true) {
+        newValue = false;
+      } else {
+        newValue = null;
+      }
+    } else {
+      newValue = !this.value();
+    }
+
     this.updateValue(newValue);
   }
 
   /**
-   * Checkbox blur handler'ı.
-   * Form touched state'ini güncellemek için.
+   * Checkbox blur handler.
+   * Used to update the form touched state.
    */
   handleBlur(): void {
     this.markAsTouched();

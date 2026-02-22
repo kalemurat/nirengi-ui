@@ -3,10 +3,8 @@
   <!-- Sidebar -->
   <aside class="demo-page__sidebar">
     <div class="demo-page__logo">
-      <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-        Nirengi
-      </h1>
-      <span class="text-xs text-gray-400 font-medium">Internal Tools</span>
+      <h1 class="demo-page__logo-title">Nirengi</h1>
+      <span class="demo-page__logo-subtitle">Internal Tools</span>
     </div>
 
     <nav class="demo-page__nav">
@@ -17,9 +15,9 @@
           (click)="selectCategory(item.id)"
         >
           <!-- Placeholder icon logic since we aren't sure of icon names -->
-          <div class="nav-item__icon"></div> 
+          <div class="nav-item__icon"></div>
           <span class="nav-item__label">{{ item.label }}</span>
-          
+
           @if (activeCategory() === item.id) {
             <div class="nav-item__indicator"></div>
           }
@@ -29,10 +27,10 @@
 
     <div class="demo-page__footer">
       <div class="user-profile">
-        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500"></div>
-        <div class="flex flex-col">
-          <span class="text-sm font-semibold text-gray-700">Admin User</span>
-          <span class="text-xs text-gray-400">admin&#64;nirengi.com</span>
+        <div class="user-profile__avatar"></div>
+        <div class="user-profile__meta">
+          <span class="user-profile__name">Admin User</span>
+          <span class="user-profile__email">admin&#64;nirengi.com</span>
         </div>
       </div>
     </div>
@@ -41,7 +39,7 @@
   <!-- Main Content -->
   <main class="demo-page__content">
     <div class="content-wrapper glass-panel">
-       <app-demo-1 [categoryId]="activeCategory()" />
+      <app-demo-1 [categoryId]="activeCategory()" />
     </div>
   </main>
 </div>

@@ -1,12 +1,13 @@
 import {
-  Component, Input, ChangeDetectionStrategy,
+  Component,
+  input,
+  ChangeDetectionStrategy,
   computed,
-  signal,
   inject,
-  HostListener, Type,
+  HostListener,
+  Type,
   TemplateRef,
-  OnInit,
-  OnDestroy
+  effect,
 } from '@angular/core';
 import { CommonModule, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import { ModalData, ModalSize } from './modal.types';
@@ -28,85 +29,106 @@ import { Size } from '../../common/enums/size.enum';
 @Component({
   selector: 'nui-modal',
   standalone: true,
-  imports: [CommonModule, NgComponentOutlet, NgTemplateOutlet, HeadingComponent, IconComponent, ButtonComponent],
+  imports: [
+    CommonModule,
+    NgComponentOutlet,
+    NgTemplateOutlet,
+    HeadingComponent,
+    IconComponent,
+    ButtonComponent,
+  ],
   template: `
-    <div class="nui-modal"
-         [attr.role]="'dialog'"
-         [attr.aria-modal]="true">
-      
+    <div class="nui-modal" [attr.role]="'dialog'" [attr.aria-modal]="true">
       <!-- Backdrop -->
       <div class="nui-modal__backdrop" (click)="onBackdropClick()"></div>
 
       <!-- Modal Panel -->
-      <div class="nui-modal__panel" [ngClass]="sizeClasses()">
-        
+      <div [class]="'nui-modal__panel ' + sizeClasses()">
         <!-- Header if title or icon exists -->
         @if (data().options.title || data().options.icon) {
           <div class="nui-modal__header">
             <div class="flex items-center gap-3">
               @if (data().options.icon) {
-                <nirengi-icon [name]="data().options.icon!" class="text-gray-400" />
+                <nui-icon [name]="data().options.icon!" class="text-tertiary" />
               }
               @if (data().options.title) {
-                <nui-heading [level]="HeadingLevel.H3" [weight]="HeadingWeight.Semibold" [text]="data().options.title!"></nui-heading>
+                <nui-heading
+                  [level]="HeadingLevel.H3"
+                  [weight]="HeadingWeight.Semibold"
+                  [text]="data().options.title!"
+                ></nui-heading>
               }
             </div>
-            
-            <nui-button 
-                 [type]="ButtonType.Ghost"
-                 [variant]="ColorVariant.Neutral" 
-                 [size]="Size.Small" 
-                 (clicked)="close()">
-               <nirengi-icon name="X" size="18" />
+
+            <nui-button
+              [kind]="ButtonType.Ghost"
+              [variant]="ColorVariant.Neutral"
+              [size]="Size.Small"
+              (clicked)="close()"
+            >
+              <nui-icon name="X" size="18" />
             </nui-button>
           </div>
         }
 
         <!-- Dynamic Content -->
         <div class="nui-modal__content">
-          <ng-container *ngComponentOutlet="componentContent; injector: data().injector"></ng-container>
-          <ng-container *ngTemplateOutlet="templateContent; context: { $implicit: data().options.data, modalRef: null }"></ng-container>
+          <ng-container
+            *ngComponentOutlet="componentContent; injector: data().injector"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="templateContent"
+            [ngTemplateOutletContext]="{ $implicit: data().options.data, modalRef: null }"
+          ></ng-container>
         </div>
       </div>
     </div>
   `,
-  styles: [`
-    .nui-modal {
-      @apply fixed inset-0 z-[50] flex items-center justify-center overflow-y-auto overflow-x-hidden p-4;
+  styles: [
+    `
+      .nui-modal {
+        @apply fixed inset-0 z-[50] flex items-center justify-center overflow-y-auto overflow-x-hidden p-4;
 
-      &__backdrop {
-        @apply fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300;
-      }
+        &__backdrop {
+          @apply fixed inset-0 bg-neutral-900/60 backdrop-blur-sm transition-opacity duration-300;
+        }
 
-      &__panel {
-        @apply relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl transform transition-all w-full max-h-[90vh] flex flex-col overflow-hidden;
-        
-        &--sm { @apply max-w-sm; }
-        &--md { @apply max-w-lg; }
-        &--lg { @apply max-w-4xl; }
-        &--full { @apply max-w-full m-4 h-full; }
-      }
+        &__panel {
+          @apply relative flex max-h-[90vh] w-full transform flex-col overflow-hidden rounded-2xl bg-primary shadow-2xl transition-all;
 
-      &__header {
-        @apply flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-800;
-      }
+          &--sm {
+            @apply max-w-sm;
+          }
+          &--md {
+            @apply max-w-lg;
+          }
+          &--lg {
+            @apply max-w-4xl;
+          }
+          &--full {
+            @apply m-4 h-full max-w-full;
+          }
+        }
 
-      &__content {
-        @apply flex-1 overflow-y-auto p-6;
+        &__header {
+          @apply flex items-center justify-between border-b border-subtle px-6 py-4;
+        }
+
+        &__content {
+          @apply flex-1 overflow-y-auto p-6;
+        }
       }
-    }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    `,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent implements OnInit, OnDestroy {
+export class ModalComponent {
   /**
    * The modal configuration data.
    */
-  readonly data = signal<ModalData>({} as ModalData);
-  @Input({ required: true, alias: 'data' }) 
-  set _data(val: ModalData) {
-    this.data.set(val);
-  }
+  readonly data = input.required<ModalData>({
+    alias: 'data',
+  });
 
   private modalService = inject(MODAL_SERVICE);
   HeadingLevel = HeadingLevel;
@@ -115,62 +137,84 @@ export class ModalComponent implements OnInit, OnDestroy {
   ButtonType = ButtonType;
   Size = Size;
 
-  // Type Guards for template/component
-  protected get componentContent(): Type<any> | null {
-    const c = this.data().content;
-    // Check if it is a class/function (Component)
-    return (typeof c === 'function') ? c as Type<any> : null;
+  constructor() {
+    // Manage body scroll lock based on modal stack count
+    effect(() => {
+      const modalCount = this.modalService.modals().length;
+      if (modalCount > 0) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
   }
 
-  protected get templateContent(): TemplateRef<any> | null {
+  /**
+   * Gets the component content from the modal data.
+   * Returns the content if it's a class/function (Component type).
+   *
+   * @returns Component type or null if content is a template
+   */
+  protected get componentContent(): Type<unknown> | null {
+    const c = this.data().content;
+    // Check if it is a class/function (Component)
+    return typeof c === 'function' ? (c as Type<unknown>) : null;
+  }
+
+  /**
+   * Gets the template content from the modal data.
+   * Returns the content if it's a TemplateRef.
+   *
+   * @returns TemplateRef or null if content is a component
+   */
+  protected get templateContent(): TemplateRef<unknown> | null {
     const c = this.data().content;
     // Check if it is a TemplateRef
-    return (c instanceof TemplateRef) ? c : null;
+    return c instanceof TemplateRef ? c : null;
   }
 
   protected readonly sizeClasses = computed(() => {
     const size = this.data().options.size || ModalSize.Medium;
-    return {
-      'nui-modal__panel--sm': size === ModalSize.Small,
-      'nui-modal__panel--md': size === ModalSize.Medium,
-      'nui-modal__panel--lg': size === ModalSize.Large,
-      'nui-modal__panel--full': size === ModalSize.Full,
-    };
+    switch (size) {
+      case ModalSize.Small:
+        return 'nui-modal__panel--sm';
+      case ModalSize.Large:
+        return 'nui-modal__panel--lg';
+      case ModalSize.Full:
+        return 'nui-modal__panel--full';
+      case ModalSize.Medium:
+      default:
+        return 'nui-modal__panel--md';
+    }
   });
 
-  ngOnInit() {
-    // Optional: Focus trap logic could go here
-    document.body.style.overflow = 'hidden';
-  }
-
-  ngOnDestroy() {
-    document.body.style.overflow = '';
-  }
-
-  onBackdropClick() {
+  /**
+   * Handles backdrop click to close the modal.
+   * Respects the backdropClose option from modal configuration.
+   */
+  onBackdropClick(): void {
     if (this.data().options.backdropClose !== false) {
       this.close();
     }
   }
 
+  /**
+   * Handles ESC key press to close the modal.
+   * Only closes if the modal is the top-most modal in the stack.
+   * Respects the escClose option from modal configuration.
+   */
   @HostListener('document:keydown.escape')
-  onEscKey() {
+  onEscKey(): void {
     if (this.data().options.escClose !== false) {
-      // Check if this modal is the top-most one? 
-      // For now assume yes, or relies on service to close correct one.
-      // But if multiple modals are open, ESC usually closes the top one.
-      // We'll just call close(), if we are rendered, we handle it.
-      // Ideally, the Service decides which one to close, or we check if we are the last one.
-      // For simplicity, we assume this component only exists if it's meant to be interactable.
-      // Note: If multiple modals, they all receive this event.
-      // The container iterates. We need a way to know if we are the active one.
-      // Let's rely on the user/Stack to handle z-index or handle closing via service strictly if complexities arise.
-      // But for basic usage, this works.
-      this.close(); 
+      // Only the top-most modal in the stack should respond to ESC
+      this.modalService.closeTopmost();
     }
   }
 
-  close() {
+  /**
+   * Closes the modal and resets body overflow when all modals are closed.
+   */
+  close(): void {
     this.modalService.close(this.data().id);
   }
 }

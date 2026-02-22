@@ -18,7 +18,7 @@
             <!-- All Sizes for this Variant -->
             <div class="showcase__size-group">
               @for (size of buttonSizes(); track size) {
-                <nui-button [type]="type" [variant]="variant" [size]="size" (clicked)="handleButtonClick()">
+                <nui-button [kind]="type" [variant]="variant" [size]="size" (clicked)="handleButtonClick()">
                   {{ size | uppercase }}
                 </nui-button>
               }

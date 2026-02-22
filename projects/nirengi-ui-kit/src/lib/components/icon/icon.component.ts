@@ -1,25 +1,26 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, LUCIDE_ICONS, LucideIconProvider } from 'lucide-angular';
 import { ALL_ICONS, IconName } from './icon.types';
 
 /**
- * İkon bileşeni.
- * Lucide ikonlarını kullanarak SVG ikonlar render eder.
+ * Icon component.
+ * Renders SVG icons using Lucide icons.
  *
- * ## Özellikler
+ * ## Features
  * - ✅ Signal-based reactive state
- * - ✅ OnPush change detection stratejisi
+ * - ✅ OnPush change detection strategy
  * - ✅ Lucide icon library integration
  * - ✅ Type-safe icon names
  *
  * @see https://lucide.dev/icons/
  *
  * @example
- * <nirengi-icon name="House" size="24" color="red" />
+ * <nui-icon name="House" size="24" color="red" />
+ * <nui-icon name="Moon" [size]="Size.Large" />
  */
 @Component({
-  selector: 'nirengi-icon',
+  selector: 'nui-icon',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   providers: [{ provide: LUCIDE_ICONS, useValue: new LucideIconProvider(ALL_ICONS) }],
@@ -29,37 +30,61 @@ import { ALL_ICONS, IconName } from './icon.types';
 })
 export class IconComponent {
   /**
-   * Gösterilecek ikonun adı.
-   * IconName tipi sayesinde otomatik tamamlama destekler.
+   * Size string to number mapping for enum support.
+   */
+  private readonly SIZE_MAP: Record<string, number> = {
+    xs: 16,
+    sm: 20,
+    md: 24,
+    lg: 28,
+    xl: 32,
+  };
+
+  /**
+   * Name of the icon to display.
+   * Supports autocomplete thanks to the IconName type.
    */
   name = input.required<IconName>();
 
   /**
-   * İkon boyutu (piksel).
-   * Varsayılan: 24
+   * Icon size (pixels or size enum string).
+   * Accepts numeric values or Size enum strings (xs, sm, md, lg, xl).
+   * Default: 24
    */
   size = input<number | string>(24);
 
   /**
-   * İkon rengi.
-   * Varsayılan: 'currentColor' (ebeveynden miras alır)
+   * Icon color.
+   * Default: 'currentColor' (inherited from parent)
    */
   color = input<string>('currentColor');
 
   /**
-   * Çizgi kalınlığı.
-   * Varsayılan: 2
+   * Stroke width.
+   * Default: 2
    */
   strokeWidth = input<number>(2);
 
   /**
-   * Mutlak çizgi kalınlığı kullanılsın mı?
-   * Varsayılan: false
+   * Should absolute stroke width be used?
+   * Default: false
    */
   absoluteStrokeWidth = input<boolean>(false);
 
   /**
-   * SVG elementine eklenecek class.
+   * Class to be added to the SVG element.
    */
   class = input<string>('');
+
+  /**
+   * Computed numeric size value.
+   * Converts string size values to pixels if needed.
+   */
+  protected readonly numericSize = computed(() => {
+    const size = this.size();
+    if (typeof size === 'number') {
+      return size;
+    }
+    return this.SIZE_MAP[size] ?? 24;
+  });
 }

@@ -14,12 +14,12 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 
 /**
  * Switch (Toggle) Component.
- * Formlarda boolean değerleri değiştirmek için kullanılır.
- * Signal tabanlı reaktif state yönetimi kullanır.
+ * Used for toggling boolean values in forms.
+ * Uses signal-based reactive state management.
  *
  * @example
  * <nui-switch [variant]="ColorVariant.Primary" [size]="Size.Medium">
- *   Bildirimleri Aç
+ *   Enable Notifications
  * </nui-switch>
  */
 @Component({
@@ -39,32 +39,32 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 })
 export class SwitchComponent extends ValueAccessorBase<boolean> {
   /**
-   * Template'de enum kullanımı için public property.
+   * Public property for using enums in the template.
    */
   public readonly Size = Size;
   public readonly ColorVariant = ColorVariant;
 
   /**
-   * Switch varyant rengi.
-   * Varsayılan: `ColorVariant.Primary`
+   * Switch variant color.
+   * Default: `ColorVariant.Primary`
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
   /**
-   * Switch boyutu.
-   * Varsayılan: `Size.Medium`
+   * Switch size.
+   * Default: `Size.Medium`
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Switch yanında gösterilecek label metni.
-   * Eğer component içeriğinde (ng-content) bir şey varsa o önceliklidir.
+   * Label text to be displayed next to the switch.
+   * If there is content in the component (ng-content), it takes priority.
    */
   readonly label = input<string>();
 
   /**
-   * Switch input'unun id değeri.
-   * Erişilebilirlik için kullanılır.
+   * ID value for the switch input.
+   * Used for accessibility.
    */
   readonly id = input<string>(`nui-switch-${Math.random().toString(36).substr(2, 9)}`);
 
@@ -75,13 +75,13 @@ export class SwitchComponent extends ValueAccessorBase<boolean> {
 
   /**
    * Checked input (dumb mode).
-   * Direct binding için kullanılır.
+   * Used for direct binding.
    */
   readonly checkedInput = input<boolean | null>(null, { alias: 'checked' });
 
   /**
-   * Container class'ları.
-   * Boyut ve varyanta göre dinamik olarak hesaplanır.
+   * Container classes.
+   * Dynamically calculated based on size and variant.
    */
   readonly containerClasses = computed(() => {
     return {
@@ -111,8 +111,8 @@ export class SwitchComponent extends ValueAccessorBase<boolean> {
   }
 
   /**
-   * Toggle işlemi.
-   * Disabled değilse değeri tersine çevirir.
+   * Toggle action.
+   * Inverts the value if not disabled.
    */
   toggle(): void {
     if (this.isDisabled()) return;
@@ -121,7 +121,7 @@ export class SwitchComponent extends ValueAccessorBase<boolean> {
   }
 
   /**
-   * Keyboard (Space/Enter) ile toggle işlemi.
+   * Toggle action via keyboard (Space/Enter).
    */
   onKeyDown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;

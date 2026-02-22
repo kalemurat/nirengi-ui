@@ -1,4 +1,4 @@
-import { Component, input, Type, inject } from '@angular/core';
+import { Component, input, Type, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopoverDirective } from '../popover/popover.directive';
 import { PopoverPosition } from '../popover/popover.types';
@@ -11,7 +11,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { ButtonType } from '../button/button.component';
 
 /**
- * Popover içinde gösterilecek örnek içerik.
+ * Example content to be displayed within the popover.
  */
 @Component({
   selector: 'nirengi-popover-example-content',
@@ -20,39 +20,41 @@ import { ButtonType } from '../button/button.component';
   template: `
     <div class="w-64">
       <nui-heading [level]="HeadingLevel.H4" class="mb-2">
-        {{ title() || 'Varsayılan Başlık' }}
+        {{ title() || 'Default Title' }}
       </nui-heading>
       <nui-paragraph class="mb-4 text-sm text-slate-600 dark:text-slate-300">
-        Bu component dinamik olarak render edildi. 
-        <br>
-        <strong>Gelen Input:</strong> {{ customData() }}
+        This component was rendered dynamically.
+        <br />
+        <strong>Input Received:</strong> {{ customData() }}
       </nui-paragraph>
       <div class="flex justify-end gap-2">
-        <nui-button 
-            [size]="Size.XSmall" 
-            [variant]="ColorVariant.Neutral" 
-            [type]="ButtonType.Ghost"
-            (clicked)="onAction('cancel')">
-            İptal
+        <nui-button
+          [size]="Size.XSmall"
+          [variant]="ColorVariant.Neutral"
+          [kind]="ButtonType.Ghost"
+          (clicked)="onAction('cancel')"
+        >
+          Cancel
         </nui-button>
-        <nui-button 
-            [size]="Size.XSmall" 
-            [variant]="ColorVariant.Primary"
-            (clicked)="onAction('cohk-guzel')">
-            Onayla
+        <nui-button
+          [size]="Size.XSmall"
+          [variant]="ColorVariant.Primary"
+          (clicked)="onAction('confirm')"
+        >
+          Confirm
         </nui-button>
       </div>
     </div>
-  `
+  `,
 })
 export class PopoverExampleContentComponent {
   /**
-   * Parent'tan gelen input örneği
+   * Input example from the parent
    */
   readonly title = input<string>();
-  
+
   /**
-   * Parent'tan gelen diğer input örneği
+   * Another input example from the parent
    */
   readonly customData = input<string>();
 
@@ -61,84 +63,116 @@ export class PopoverExampleContentComponent {
   protected readonly ColorVariant = ColorVariant;
   protected readonly ButtonType = ButtonType;
 
-  // PopoverRef opsiyonel inject edilmeli çünkü component popover dışında da kullanılabilir (teorik olarak)
+  // PopoverRef should be injected optionally because the component can also be used outside the popover (theoretically)
   private readonly popoverRef = inject(PopoverRef, { optional: true });
 
-  onAction(action: 'cancel' | 'cohk-guzel'): void {
+  /**
+   * Handles action from the example content component.
+   * Emits an event through the popover reference and closes the popover if applicable.
+   *
+   * @param action The action type: 'cancel' or 'confirm'
+   */
+  onAction(action: 'cancel' | 'confirm'): void {
     if (this.popoverRef) {
-        if (action === 'cohk-guzel') {
-             this.popoverRef.emit('action', { type: 'success', message: 'Harika!' });
-             this.popoverRef.close();
-        } else {
-             this.popoverRef.close();
-        }
+      if (action === 'confirm') {
+        this.popoverRef.emit('action', { type: 'success', message: 'Great!' });
+        this.popoverRef.close();
+      } else {
+        this.popoverRef.close();
+      }
     } else {
-        console.warn('PopoverRef bulunamadı');
+      console.warn('PopoverRef not found');
     }
   }
 }
 
 /**
- * Popover showcase için demo wrapper component.
+ * Demo wrapper component for the Popover showcase.
  */
 @Component({
   selector: 'nirengi-popover-demo',
   standalone: true,
   imports: [CommonModule, PopoverDirective, ButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex flex-col items-center justify-center p-12 bg-slate-50 dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 gap-4">
-      <nui-button 
+    <div
+      class="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-12 dark:border-slate-700 dark:bg-slate-900"
+    >
+      <nui-button
         [nirengiPopover]="contentComponent"
-        [nirengiPopoverPosition]="position()" 
+        [nirengiPopoverPosition]="position()"
         [nirengiPopoverCloseOnOutsideClick]="closeOnOutsideClick()"
         [nirengiPopoverInputs]="demoInputs"
         (nirengiPopoverOutput)="handleEvent($event)"
-        [variant]="ColorVariant.Primary">
-        Popover'ı Aç
+        [variant]="ColorVariant.Primary"
+      >
+        Open Popover
       </nui-button>
 
-      <div *ngIf="lastEvent" class="text-sm p-2 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 shadow-sm animate-fade-in">
-        <span class="font-bold text-slate-700 dark:text-slate-300">Son Event:</span>
-        <code class="ml-2 text-xs bg-slate-100 dark:bg-slate-900 p-1 rounded">{{ lastEvent | json }}</code>
-      </div>
+      @if (lastEvent) {
+        <div
+          class="animate-fade-in rounded border border-slate-200 bg-white p-2 text-sm shadow-sm dark:border-slate-700 dark:bg-slate-800"
+        >
+          <span class="font-bold text-slate-700 dark:text-slate-300">Last Event:</span>
+          <code class="ml-2 rounded bg-slate-100 p-1 text-xs dark:bg-slate-900">{{
+            lastEvent | json
+          }}</code>
+        </div>
+      }
     </div>
-  `
+  `,
 })
 export class PopoverDemoComponent {
   /**
-   * Showcase'den gelen pozisyon
+   * Position from the showcase
    */
   readonly position = input<PopoverPosition>(PopoverPosition.Bottom);
 
   /**
-   * Showcase'den gelen outside click ayarı
+   * Outside click setting from the showcase
    */
   readonly closeOnOutsideClick = input<boolean>(true);
 
   /**
-   * Gösterilecek içerik
+   * Content to be displayed
    */
-  readonly contentComponent: Type<any> = PopoverExampleContentComponent;
+  readonly contentComponent: Type<unknown> = PopoverExampleContentComponent;
 
   /**
-   * Componente geçilecek örnek inputlar
+   * Sample inputs to be passed to the component
    */
   readonly demoInputs = {
-      title: 'Dinamik Başlık',
-      customData: 'Parent componentten gelen veri.'
+    title: 'Dynamic Title',
+    customData: 'Data coming from the parent component.',
   };
-  
-  lastEvent: any = null;
+
+  /**
+   * The latest event emitted by the popover instance.
+   */
+  lastEvent: PopoverEventPayload | null = null;
 
   protected readonly ColorVariant = ColorVariant;
-  
-  handleEvent(event: any): void {
-      console.log('Popover Event:', event);
-      this.lastEvent = event;
-      
-      // 3 saniye sonra mesajı temizle
-      setTimeout(() => {
-          this.lastEvent = null;
-      }, 3000);
+
+  /**
+   * Handles popover events and displays them to the user.
+   * Automatically clears the last event after 3 seconds.
+   *
+   * @param event The event object emitted by the popover component
+   */
+  handleEvent(event: PopoverEventPayload): void {
+    this.lastEvent = event;
+
+    // Clear the message after 3 seconds
+    setTimeout(() => {
+      this.lastEvent = null;
+    }, 3000);
   }
+}
+
+/**
+ * Payload shape used for popover event samples.
+ */
+interface PopoverEventPayload {
+  key: string;
+  data: unknown;
 }

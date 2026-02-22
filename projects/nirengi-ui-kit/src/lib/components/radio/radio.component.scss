@@ -22,7 +22,7 @@
   }
 
   &__control {
-    @apply flex items-center justify-center rounded-full border-2 border-gray-300 bg-white transition-all duration-200;
+    @apply flex items-center justify-center rounded-full border-2 border-default bg-primary transition-all duration-200;
 
     // Sizes
     &--xs {
@@ -154,7 +154,7 @@
   }
 
   &__label-text {
-    @apply select-none font-medium text-gray-900;
+    @apply select-none font-medium text-primary;
 
     &--xs {
       @apply text-xs;
@@ -173,12 +173,12 @@
     }
 
     &--disabled {
-      @apply text-gray-400;
+      @apply text-disabled;
     }
   }
 
   &__description {
-    @apply select-none text-gray-500;
+    @apply select-none text-secondary;
 
     &--xs {
       @apply text-[10px];
@@ -197,7 +197,7 @@
     }
 
     &--disabled {
-      @apply text-gray-300;
+      @apply text-disabled;
     }
   }
 }

@@ -25,8 +25,8 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  *
  * ## Features
  * - ✅ Signal based ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile class binding
+ * - ✅ OnPush change detection strategy
+ * - ✅ Reactive class binding with computed signals
  * - ✅ Various types (text, password, etc.)
  * - ✅ Label, Hint, and Error message support
  * - ✅ Icon support
@@ -46,6 +46,7 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
  *   hint="Invalid password"
  * />
  */
+
 @Component({
   selector: 'nui-textbox',
   standalone: true,
@@ -116,26 +117,16 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   readonly valueInput = input<string | null>(null, { alias: 'value' });
 
   /**
+   * Whether the input is clearable.
+   * If true, shows a clear button when value is not empty.
+   * @default false
+   */
+  readonly clearable = input<boolean>(false);
+
+  /**
    * Disabled state (dumb mode).
    */
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
-
-  constructor() {
-    super();
-
-    // Sync value input
-    effect(() => {
-      const val = this.valueInput();
-      if (val !== null) {
-        this.writeValue(val);
-      }
-    });
-
-    // Sync disabled input
-    effect(() => {
-      this.setDisabledState(this.disabledInput());
-    });
-  }
 
   /**
    * Computed icon size based on component size.
@@ -171,11 +162,36 @@ export class TextboxComponent extends ValueAccessorBase<string> {
     return `nui-textbox__input--${this.size()}`;
   });
 
+  constructor() {
+    super();
+
+    // Sync value input
+    effect(() => {
+      const val = this.valueInput();
+      if (val !== null) {
+        this.writeValue(val);
+      }
+    });
+
+    // Sync disabled input
+    effect(() => {
+      this.setDisabledState(this.disabledInput());
+    });
+  }
+
   /**
    * Handle input event.
    */
   onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.updateValue(value);
+  }
+
+  /**
+   * Clears the input value.
+   */
+  clearValue(): void {
+    if (this.isDisabled() || this.readonly()) return;
+    this.updateValue('');
   }
 }

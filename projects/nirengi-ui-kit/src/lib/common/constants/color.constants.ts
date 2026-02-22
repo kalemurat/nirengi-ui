@@ -1,7 +1,7 @@
 import { ColorVariant } from '../enums/color-variant.enum';
 
 /**
- * Renk varyantlarına karşılık gelen Tailwind CSS renk isimleri.
+ * Tailwind CSS color names corresponding to color variants.
  *
  * @example
  * const colorName = COLOR_VARIANT_MAP[ColorVariant.Primary]; // 'blue'
@@ -17,8 +17,8 @@ export const COLOR_VARIANT_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Renk varyantlarına karşılık gelen varsayılan tonlar.
- * Tailwind CSS renk skalasında (50-950).
+ * Default shades corresponding to color variants.
+ * In Tailwind CSS color scale (50-950).
  *
  * @example
  * const defaultShade = COLOR_DEFAULT_SHADE_MAP[ColorVariant.Primary]; // '600'
@@ -34,8 +34,8 @@ export const COLOR_DEFAULT_SHADE_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Renk varyantlarına karşılık gelen hover tonları.
- * Daha koyu ton kullanılır.
+ * Hover shades corresponding to color variants.
+ * Uses a darker shade.
  *
  * @example
  * const hoverShade = COLOR_HOVER_SHADE_MAP[ColorVariant.Primary]; // '700'
@@ -51,8 +51,8 @@ export const COLOR_HOVER_SHADE_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Renk varyantlarına karşılık gelen text renk class'ları.
- * Light background için kullanılır.
+ * Text color classes corresponding to color variants.
+ * Used for light backgrounds.
  *
  * @example
  * const textColor = COLOR_TEXT_MAP[ColorVariant.Primary]; // 'text-blue-600'
@@ -68,8 +68,8 @@ export const COLOR_TEXT_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Renk varyantlarına karşılık gelen background renk class'ları.
- * Solid button ve background kullanımları için.
+ * Background color classes corresponding to color variants.
+ * For solid buttons and background uses.
  *
  * @example
  * const bgColor = COLOR_BG_MAP[ColorVariant.Primary]; // 'bg-blue-600'
@@ -85,7 +85,7 @@ export const COLOR_BG_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Renk varyantlarına karşılık gelen border renk class'ları.
+ * Border color classes corresponding to color variants.
  *
  * @example
  * const borderColor = COLOR_BORDER_MAP[ColorVariant.Primary]; // 'border-blue-600'

@@ -1,39 +1,39 @@
 /**
- * UI Kit bileşenleri için standart boyut değerleri.
- * Tüm componentlerde tutarlı boyutlandırma sağlamak için kullanılır.
+ * Standard size values for UI Kit components.
+ * Used to ensure consistent sizing across all components.
  *
  * @example
- * <nui-button [size]="Size.Medium">Kaydet</nui-button>
+ * <nui-button [size]="Size.Medium">Save</nui-button>
  * <nui-input [size]="Size.Large"></nui-input>
  */
 export enum Size {
   /**
-   * Ekstra küçük boyut.
-   * Kullanım: Çok kompakt alanlar, icon button'lar, chip'ler.
+   * Extra small size.
+   * Usage: Very compact areas, icon buttons, chips.
    */
   XSmall = 'xs',
 
   /**
-   * Küçük boyut.
-   * Kullanım: Kompakt listeler, secondary aksiyonlar, badge'ler.
+   * Small size.
+   * Usage: Compact lists, secondary actions, badges.
    */
   Small = 'sm',
 
   /**
-   * Orta boyut (varsayılan).
-   * Kullanım: Standart form elementleri, button'lar, çoğu component.
+   * Medium size (default).
+   * Usage: Standard form elements, buttons, most components.
    */
   Medium = 'md',
 
   /**
-   * Büyük boyut.
-   * Kullanım: Vurgulanan aksiyonlar, hero section'lar.
+   * Large size.
+   * Usage: Emphasized actions, hero sections.
    */
   Large = 'lg',
 
   /**
-   * Ekstra büyük boyut.
-   * Kullanım: Landing page'ler, özel vurgular, hero button'lar.
+   * Extra large size.
+   * Usage: Landing pages, special emphasizes, hero buttons.
    */
   XLarge = 'xl',
 }

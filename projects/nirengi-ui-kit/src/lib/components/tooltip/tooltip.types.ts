@@ -1,13 +1,13 @@
 /**
- * Tooltip pozisyonu için enum tanımı.
+ * Enum definition for tooltip position.
  */
 export enum TooltipPosition {
-  /** Üstte göster */
+  /** Show on top */
   Top = 'top',
-  /** Altta göster */
+  /** Show on bottom */
   Bottom = 'bottom',
-  /** Solda göster */
+  /** Show on left */
   Left = 'left',
-  /** Sağda göster */
+  /** Show on right */
   Right = 'right',
 }

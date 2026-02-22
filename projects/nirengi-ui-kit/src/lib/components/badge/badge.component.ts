@@ -4,51 +4,51 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Badge tipi enum'ı.
- * Badge'in görsel stilini belirler.
+ * Badge type enum.
+ * Determines the visual style of the badge.
  */
 export enum BadgeType {
-  /** Dolu arka plan */
+  /** Filled background */
   Solid = 'solid',
-  /** Sadece kenarlık */
+  /** Border only */
   Outline = 'outline',
-  /** Hafif arka plan */
+  /** Soft background */
   Soft = 'soft',
 }
 
 /**
- * Badge şekil enum'ı.
+ * Badge shape enum.
  */
 export enum BadgeShape {
-  /** Yuvarlak köşeli kare */
+  /** Rounded corner square */
   Rounded = 'rounded',
-  /** Hap şeklinde (tam yuvarlak) */
+  /** Pill shape (fully rounded) */
   Pill = 'pill',
 }
 
 /**
- * Modern badge (etiket) component'i.
- * Durum, kategori veya sayaç göstermek için kullanılır.
+ * Modern badge (label) component.
+ * Used to display status, category, or counter.
  *
- * ## Özellikler
- * - ✅ Signal tabanlı reaktif state yönetimi
- * - ✅ OnPush change detection stratejisi
- * - ✅ Computed signals ile class binding
- * - ✅ 3 farklı stil tipi (solid, outline, soft)
- * - ✅ 5 farklı boyut (xs, sm, md, lg, xl)
- * - ✅ 7 farklı renk varyantı
- * - ✅ 2 farklı şekil (rounded, pill)
- * - ✅ Tailwind + BEM metodolojisi
+ * ## Features
+ * - ✅ Signal-based reactive state management
+ * - ✅ OnPush change detection strategy
+ * - ✅ Computed signals for class binding
+ * - ✅ 3 different style types (solid, outline, soft)
+ * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ 7 different color variants
+ * - ✅ 2 different shapes (rounded, pill)
+ * - ✅ Tailwind + BEM methodology
  *
  * @example
- * <nui-badge>Yeni</nui-badge>
+ * <nui-badge>New</nui-badge>
  *
  * @example
  * <nui-badge
  *   [variant]="ColorVariant.Success"
  *   [type]="BadgeType.Soft"
  *   [shape]="BadgeShape.Pill">
- *   Tamamlandı
+ *   Completed
  * </nui-badge>
  */
 @Component({
@@ -61,35 +61,35 @@ export enum BadgeShape {
 })
 export class BadgeComponent {
   /**
-   * Badge görsel tipi.
+   * Badge visual type.
    * @default BadgeType.Solid
    */
   readonly type = input<BadgeType>(BadgeType.Solid);
 
   /**
-   * Renk varyantı.
+   * Color variant.
    * @default ColorVariant.Primary
    */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
   /**
-   * Boyut.
+   * Size.
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Şekil varyantı.
+   * Shape variant.
    * @default BadgeShape.Rounded
    */
   readonly shape = input<BadgeShape>(BadgeShape.Rounded);
 
   /**
-   * Badge için CSS class'larını hesaplayan computed signal.
-   * BEM metodolojisi ile dynamic class binding yapar.
-   * Reactive olarak güncellenir.
+   * Computed signal to calculate CSS classes for the badge.
+   * Performs dynamic class binding using BEM methodology.
+   * Updated reactively.
    *
-   * @returns BEM formatında CSS class string'i
+   * @returns CSS class string in BEM format
    */
   protected readonly badgeClasses = computed(() => {
     const classes = ['nui-badge'];
