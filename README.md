@@ -1,51 +1,56 @@
 # Nirengi UI
 
-Nirengi UI, Angular tabanlı yeniden kullanılabilir kullanıcı arayüzü (UI) bileşenleri ve örnek uygulamalar içeren bir bileşen kütüphanesidir.
+Nirengi UI is an Angular-based collection of reusable UI components and example applications designed for building admin panels and complex workflows.
 
-## Öne Çıkanlar
+## Highlights
 
-- Modüler ve genişletilebilir mimari
-- TypeScript ile yazılmış bileşenler
-- Tema ve stiller için merkezi yapı
-- Üretime hazır yönetim arayüzü
+- Modular and extensible architecture
+- Components written in TypeScript with strong typing
+- Centralized theming and style system
+- Production-ready admin UI examples
 
-## İçindekiler
+## Contents
 
-- [Projects](#projects)
-- [Kurulum](#kurulum)
-- [Kullanım](#kullanım)
-- [Katkıda Bulunma](#katkıda-bulunma)
-- [Lisans](#lisans)
+- Projects
+- Installation
+- Usage
+- Contributing
+- Sponsorship
+- License
 
 ## Projects
 
 ### nirengi-ui
-Ana yönetim arayüzü uygulaması. Yönetim panelleri, raporlar ve işlem akışları içerir.
+The main admin application with dashboards, reports and operational flows.
 
 ### nirengi-ui-kit
-Nirengi UI için bağımsız, yeniden kullanılabilir Angular/TypeScript bileşen kütüphanesi. Tema, düzen ve üretkenlik bileşenleri içerir; Nirengi UI projesine ve diğer uygulamalara kolay entegrasyon sağlar.
+A standalone component library for Nirengi UI offering themeable, reusable Angular components that can be integrated into Nirengi UI or other applications.
 
-**Özellikler:**
-- Hızlı kurulum ve entegrasyon
-- Temaya hazır, özelleştirilebilir bileşenler (Button, Card, Modal, Form bileşenleri vb.)
-- Tam TypeScript desteği ve tip güvenliği
-- Basit API ile kolay kullanım
-- Standalone Components ile modern Angular mimarisi
-- Tailwind CSS 3 entegrasyonu
-- Tree-shaking optimizasyonu
-- Dokümantasyon ve örnekler
+Key features:
+- Easy setup and integration
+- Theme-ready customizable components (Button, Card, Modal, Form controls, etc.)
+- Full TypeScript support and type safety
+- Simple, developer-friendly API
+- Standalone components using modern Angular patterns
+- Tailwind CSS integration
+- Tree-shakable builds
+- Documentation and examples
 
-**Kurulum:**
+## Installation
+
+To install the UI kit via npm:
 
 ```bash
-# npm
 npm install nirengi-ui-kit
+```
 
-# yarn
+Or with yarn:
+
+```bash
 yarn add nirengi-ui-kit
 ```
 
-**Hızlı Başlangıç (Angular + TypeScript):**
+## Quick Start (Angular + TypeScript)
 
 ```typescript
 import { Component } from '@angular/core';
@@ -59,12 +64,12 @@ import { ColorVariant } from 'nirengi-ui-kit/common/enums/color-variant.enum';
   imports: [ButtonComponent],
   template: `
     <div class="p-4">
-      <h2>nirengi-ui-kit Örnek Kullanım</h2>
-      <button nui-button 
-              [size]="buttonSize" 
+      <h2>Nirengi UI Kit Example</h2>
+      <button nui-button
+              [size]="buttonSize"
               [variant]="buttonVariant"
               (click)="handleClick()">
-        Tıkla
+        Click me
       </button>
     </div>
   `
@@ -72,90 +77,80 @@ import { ColorVariant } from 'nirengi-ui-kit/common/enums/color-variant.enum';
 export class ExampleComponent {
   buttonSize = Size.Medium;
   buttonVariant = ColorVariant.Primary;
-  
+
   handleClick() {
-    alert('Tıklandı!');
+    alert('Clicked!');
   }
 }
 ```
 
-**Dokümantasyon & Demo:**
-- GitHub: [https://github.com/kalemurat/nirengi-ui](https://github.com/kalemurat/nirengi-ui)
-- Library Dokümantasyon: [projects/nirengi-ui-kit/README.md](projects/nirengi-ui-kit/README.md)
+## Running the Project Locally
 
-**Lisans:** MIT (daha fazla bilgi için [LICENSE](LICENSE) dosyasına bakın)
-
-## Kurulum
-
-Projeyi yerel olarak çalıştırmak için:
+Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/kalemurat/nirengi-ui.git
 cd nirengi-ui
-# kurulum
 npm install
-# geliştirme sunucusu
-npm start
 ```
 
-Ana uygulamayı başlattıktan sonra tarayıcınızda `http://localhost:4200/` adresine gidin.
-
-## Kullanım
-
-### Ana Uygulama (nirengi-ui)
-
-Geliştirme sunucusunu başlatmak için:
+Start the development server:
 
 ```bash
 npm start
 ```
 
-Projeyi build etmek için:
+Open http://localhost:4200/ in your browser after the server starts.
+
+Build the main app:
 
 ```bash
 npm run build
 ```
 
-Testleri çalıştırmak için:
+Run tests:
 
 ```bash
 npm test
 ```
 
-### Library (nirengi-ui-kit)
-
-Library'yi build etmek için:
+Build the UI kit library:
 
 ```bash
 ng build nirengi-ui-kit
 ```
 
-Library testlerini çalıştırmak için:
+Run library tests:
 
 ```bash
 ng test nirengi-ui-kit
 ```
 
-Daha fazla bilgi için [nirengi-ui-kit README](projects/nirengi-ui-kit/README.md) dosyasına bakın.
+Refer to [projects/nirengi-ui-kit/README.md](projects/nirengi-ui-kit/README.md) for more library-specific documentation.
 
-## Katkıda Bulunma
+## Contributing
 
-Katkılar memnuniyetle kabul edilir. Lütfen aşağıdaki adımları izleyin:
+Contributions are welcome. Please follow these steps:
 
-1. Bu depoyu fork edin
-2. Yeni bir feature branch oluşturun (`git checkout -b feature/harika-ozellik`)
-3. Değişikliklerinizi commit edin (`git commit -m 'feat: harika özellik eklendi'`)
-4. Branch'inizi push edin (`git push origin feature/harika-ozellik`)
-5. Pull Request açın
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Commit your changes: `git commit -m "feat: add my feature"`
+4. Push your branch: `git push origin feature/my-feature`
+5. Open a Pull Request
 
-Kodlama standartlarına uyun ve mümkünse testler ekleyin. Büyük değişiklikler için önce bir issue açarak tartışmaya başlayın.
+Follow project coding standards and add tests where appropriate. For larger changes, open an issue first to discuss the design.
 
-## Destek
+## Sponsorship
+
+
+
+Nirengi UI is a high-performance Angular UI kit built for complex workflows. It is developer-friendly and modular. The project is free for individual use; donations and sponsorships help sustain ongoing development and improvements.
+
+- If you or your company rely on Nirengi UI, consider sponsoring the project to support maintenance, new features, and priority fixes.
+- Sponsorship and donations can be made via the GitHub Sponsors button on the repository.
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-pink?logo=github)](https://github.com/sponsors/kalemurat)
 
-Proje, bağış sistemi ile desteklenmeye açıktır; sponsorluk veya bağış yoluyla destek olmak isteyenleri memnuniyetle karşılıyoruz. Destek ve sponsorluk için yukarıdaki butonu kullanabilirsiniz.
+## License
 
-## Lisans
-
-Bu proje MIT Lisansı ile lisanslanmıştır. Daha fazla bilgi için [LICENSE](LICENSE) dosyasına bakın.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
