@@ -14,7 +14,7 @@
   }
 
   &__title {
-    @apply text-2xl font-bold text-gray-900;
+    @apply text-2xl font-bold text-primary;
   }
 
   &__category {
@@ -23,7 +23,7 @@
   }
 
   &__description {
-    @apply text-sm text-gray-600;
+    @apply text-sm text-secondary;
   }
 
   &__viewport {

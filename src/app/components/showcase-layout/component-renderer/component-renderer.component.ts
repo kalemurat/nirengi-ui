@@ -72,8 +72,8 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   dynamicComponentContainer!: ViewContainerRef;
 
   /**
-   * Aktif component ID.
-   * Route parametresinden reactive olarak alınır (toSignal kullanarak).
+   * Active component ID.
+   * Reactively obtained from route parameters using toSignal.
    */
   protected readonly componentId = toSignal(
     inject(ActivatedRoute).params.pipe(map((params) => params['id'] || 'button')),
@@ -81,13 +81,15 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   );
 
   /**
-   * Servisleri inject eder.
+   * Component registry service.
+   * Used to retrieve component configurations.
+   * Protected to allow currentConfig computed signal to access it.
    */
-  private readonly route = inject(ActivatedRoute);
-  private readonly registry = inject(ComponentRegistryService);
+  protected readonly registry = inject(ComponentRegistryService);
 
   /**
-   * Aktif component config.
+   * Active component configuration.
+   * Computed based on current component ID.
    */
   protected readonly currentConfig = computed(() => {
     const id = this.componentId();
@@ -95,11 +97,29 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
   });
 
   /**
-   * Tema servisi (template'de kullanılmak üzere).
+   * Theme service instance.
+   * Exposed to template for theme toggling functionality.
    */
   protected readonly themeService = inject(ThemeService);
+
+  /**
+   * Route service instance.
+   */
+  private readonly route = inject(ActivatedRoute);
+
+  /**
+   * Property state service instance.
+   */
   private readonly propertyState = inject(PropertyStateService);
+
+  /**
+   * Event logger service instance.
+   */
   private readonly eventLogger = inject(EventLoggerService);
+
+  /**
+   * Destroy ref for cleanup management.
+   */
   private readonly destroyRef = inject(DestroyRef);
 
   /**
