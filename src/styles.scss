@@ -1,9 +1,9 @@
+// Shared Styles
+@use './styles/showcase' as *;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-// Shared Styles
-@import './styles/showcase';
 
 // Angular CDK Overlay
 @import '@angular/cdk/overlay-prebuilt.css';
