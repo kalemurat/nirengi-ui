@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { HeadingComponent, HeadingLevel, HeadingAlign } from './heading.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -10,6 +11,7 @@ describe('HeadingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HeadingComponent],
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeadingComponent);
@@ -53,6 +55,33 @@ describe('HeadingComponent', () => {
       expect(heading?.classList).toContain('nui-heading--xs');
       expect(heading?.tagName.toLowerCase()).toBe('h6');
     });
+
+    it('should auto-size H3 to Medium', () => {
+      fixture.componentRef.setInput('level', HeadingLevel.H3);
+      fixture.detectChanges();
+
+      const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
+      expect(heading?.classList).toContain('nui-heading--md');
+      expect(heading?.tagName.toLowerCase()).toBe('h3');
+    });
+
+    it('should auto-size H4 to Small', () => {
+      fixture.componentRef.setInput('level', HeadingLevel.H4);
+      fixture.detectChanges();
+
+      const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
+      expect(heading?.classList).toContain('nui-heading--sm');
+      expect(heading?.tagName.toLowerCase()).toBe('h4');
+    });
+
+    it('should auto-size H5 to XSmall', () => {
+      fixture.componentRef.setInput('level', HeadingLevel.H5);
+      fixture.detectChanges();
+
+      const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
+      expect(heading?.classList).toContain('nui-heading--xs');
+      expect(heading?.tagName.toLowerCase()).toBe('h5');
+    });
   });
 
   describe('Manual Size Override', () => {
@@ -93,6 +122,30 @@ describe('HeadingComponent', () => {
       fixture.detectChanges();
       const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
       expect(heading?.classList).toContain('nui-heading--truncate');
+    });
+
+    it('should apply line clamp class', () => {
+      fixture.componentRef.setInput('lineClamp', 2);
+      fixture.detectChanges();
+
+      const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
+      expect(heading?.classList).toContain('nui-heading--line-clamp-2');
+    });
+
+    it('should apply uppercase class', () => {
+      fixture.componentRef.setInput('uppercase', true);
+      fixture.detectChanges();
+
+      const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
+      expect(heading?.classList).toContain('nui-heading--uppercase');
+    });
+
+    it('should apply margin bottom class', () => {
+      fixture.componentRef.setInput('marginBottom', true);
+      fixture.detectChanges();
+
+      const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
+      expect(heading?.classList).toContain('nui-heading--margin-bottom');
     });
   });
 });

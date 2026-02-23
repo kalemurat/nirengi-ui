@@ -6,7 +6,10 @@
     "start": "kill -9 $(lsof -t -i :4200) 2>/dev/null || true && ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test:app": "ng test nirengi-ui --browsers=ChromeHeadless --watch=false --code-coverage",
+    "test:ui-kit": "ng test nirengi-ui-kit --browsers=ChromeHeadless --watch=false --code-coverage",
+    "test:coverage:merge": "COVERAGE_LINES=96 COVERAGE_FUNCTIONS=96 COVERAGE_BRANCHES=90 COVERAGE_STATEMENTS=96 node scripts/merge-coverage.mjs",
+    "test": "npm run test:app && npm run test:ui-kit && npm run test:coverage:merge",
     "lint": "eslint \"src/**/*.{ts,html}\"",
     "format": "prettier --write \"{src,projects}/**/*.{ts,html,scss,css,json,md}\""
   },
