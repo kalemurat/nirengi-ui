@@ -79,12 +79,26 @@ export class IconComponent {
   /**
    * Computed numeric size value.
    * Converts string size values to pixels if needed.
+   * Supports:
+   * - Numeric values: 14, 16, 20, etc.
+   * - Numeric strings: "14", "16", "20", etc.
+   * - Enum strings: "xs" (16), "sm" (20), "md" (24), "lg" (28), "xl" (32)
+   * - Default: 24
    */
   protected readonly numericSize = computed(() => {
     const size = this.size();
     if (typeof size === 'number') {
       return size;
     }
-    return this.SIZE_MAP[size] ?? 24;
+    // Check enum mapping first
+    if (this.SIZE_MAP[size] !== undefined) {
+      return this.SIZE_MAP[size];
+    }
+    // Try to parse numeric string
+    const parsed = parseInt(size, 10);
+    if (!isNaN(parsed) && parsed > 0) {
+      return parsed;
+    }
+    return 24;
   });
 }
