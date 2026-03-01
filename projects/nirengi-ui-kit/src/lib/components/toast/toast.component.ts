@@ -36,86 +36,86 @@ import { IconName } from '../icon/icon.types';
     `
       .nui-toast {
         @apply pointer-events-auto flex min-w-[320px] max-w-sm items-start gap-3 rounded-lg border border-transparent p-4 shadow-lg transition-all duration-300;
+      }
 
-        &__content {
-          @apply flex-1 pt-0.5;
-        }
+      .nui-toast__content {
+        @apply flex-1 pt-0.5;
+      }
 
-        &__title {
-          @apply text-sm font-semibold leading-5 text-primary;
-        }
+      .nui-toast__title {
+        @apply text-sm font-semibold leading-5 text-primary;
+      }
 
-        &__description {
-          @apply mt-1 text-sm leading-relaxed text-secondary;
-        }
+      .nui-toast__description {
+        @apply mt-1 text-sm leading-relaxed text-secondary;
+      }
 
-        &__close {
-          @apply -mr-2 -mt-1 rounded-md p-1 text-tertiary transition-colors hover:bg-neutral-900/5 hover:text-primary;
-        }
+      .nui-toast__close {
+        @apply -mr-2 -mt-1 rounded-md p-1 text-tertiary transition-colors hover:bg-neutral-900/5 hover:text-primary;
+      }
 
-        &--success {
-          @apply border-success-300 bg-success-100 dark:border-success-800 dark:bg-success-900;
-          .nui-toast__icon {
-            @apply text-success-500 dark:text-success-400;
-          }
-          .nui-toast__title {
-            @apply text-success-900 dark:text-success-100;
-          }
-          .nui-toast__description {
-            @apply text-success-800 dark:text-success-300;
-          }
-          .nui-toast__close {
-            @apply text-success-500 hover:bg-success-200/50 hover:text-success-700 dark:text-success-400 dark:hover:bg-success-800/50 dark:hover:text-success-200;
-          }
-        }
+      .nui-toast.success {
+        @apply border-success-300 bg-success-100 dark:border-success-800 dark:bg-success-900;
+      }
+      .nui-toast.success .nui-toast__icon {
+        @apply text-success-500 dark:text-success-400;
+      }
+      .nui-toast.success .nui-toast__title {
+        @apply text-success-900 dark:text-success-100;
+      }
+      .nui-toast.success .nui-toast__description {
+        @apply text-success-800 dark:text-success-300;
+      }
+      .nui-toast.success .nui-toast__close {
+        @apply text-success-500 hover:bg-success-200/50 hover:text-success-700 dark:text-success-400 dark:hover:bg-success-800/50 dark:hover:text-success-200;
+      }
 
-        &--error {
-          @apply border-danger-300 bg-danger-100 dark:border-danger-800 dark:bg-danger-900;
-          .nui-toast__icon {
-            @apply text-danger-500 dark:text-danger-400;
-          }
-          .nui-toast__title {
-            @apply text-danger-900 dark:text-danger-100;
-          }
-          .nui-toast__description {
-            @apply text-danger-800 dark:text-danger-300;
-          }
-          .nui-toast__close {
-            @apply text-danger-500 hover:bg-danger-200/50 hover:text-danger-700 dark:text-danger-400 dark:hover:bg-danger-800/50 dark:hover:text-danger-200;
-          }
-        }
+      .nui-toast.error {
+        @apply border-danger-300 bg-danger-100 dark:border-danger-800 dark:bg-danger-900;
+      }
+      .nui-toast.error .nui-toast__icon {
+        @apply text-danger-500 dark:text-danger-400;
+      }
+      .nui-toast.error .nui-toast__title {
+        @apply text-danger-900 dark:text-danger-100;
+      }
+      .nui-toast.error .nui-toast__description {
+        @apply text-danger-800 dark:text-danger-300;
+      }
+      .nui-toast.error .nui-toast__close {
+        @apply text-danger-500 hover:bg-danger-200/50 hover:text-danger-700 dark:text-danger-400 dark:hover:bg-danger-800/50 dark:hover:text-danger-200;
+      }
 
-        &--warning {
-          @apply border-warning-300 bg-warning-100 dark:border-warning-800 dark:bg-warning-900;
-          .nui-toast__icon {
-            @apply text-warning-500 dark:text-warning-400;
-          }
-          .nui-toast__title {
-            @apply text-warning-900 dark:text-warning-100;
-          }
-          .nui-toast__description {
-            @apply text-warning-800 dark:text-warning-300;
-          }
-          .nui-toast__close {
-            @apply text-warning-500 hover:bg-warning-200/50 hover:text-warning-700 dark:text-warning-400 dark:hover:bg-warning-800/50 dark:hover:text-warning-200;
-          }
-        }
+      .nui-toast.warning {
+        @apply border-warning-300 bg-warning-100 dark:border-warning-800 dark:bg-warning-900;
+      }
+      .nui-toast.warning .nui-toast__icon {
+        @apply text-warning-500 dark:text-warning-400;
+      }
+      .nui-toast.warning .nui-toast__title {
+        @apply text-warning-900 dark:text-warning-100;
+      }
+      .nui-toast.warning .nui-toast__description {
+        @apply text-warning-800 dark:text-warning-300;
+      }
+      .nui-toast.warning .nui-toast__close {
+        @apply text-warning-500 hover:bg-warning-200/50 hover:text-warning-700 dark:text-warning-400 dark:hover:bg-warning-800/50 dark:hover:text-warning-200;
+      }
 
-        &--info {
-          @apply border-info-300 bg-info-100 dark:border-info-800 dark:bg-info-900;
-          .nui-toast__icon {
-            @apply text-info-500 dark:text-info-400;
-          }
-          .nui-toast__title {
-            @apply text-info-900 dark:text-info-100;
-          }
-          .nui-toast__description {
-            @apply text-info-800 dark:text-info-300;
-          }
-          .nui-toast__close {
-            @apply text-info-500 hover:bg-info-200/50 hover:text-info-700 dark:text-info-400 dark:hover:bg-info-800/50 dark:hover:text-info-200;
-          }
-        }
+      .nui-toast.info {
+        @apply border-info-300 bg-info-100 dark:border-info-800 dark:bg-info-900;
+      }
+      .nui-toast.info .nui-toast__icon {
+        @apply text-info-500 dark:text-info-400;
+      }
+      .nui-toast.info .nui-toast__title {
+        @apply text-info-900 dark:text-info-100;
+      }
+      .nui-toast.info .nui-toast__description {
+        @apply text-info-800 dark:text-info-300;
+      }
+      .nui-toast.info .nui-toast__close {
+        @apply text-info-500 hover:bg-info-200/50 hover:text-info-700 dark:text-info-400 dark:hover:bg-info-800/50 dark:hover:text-info-200;
       }
     `,
   ],
@@ -141,7 +141,7 @@ export class ToastComponent {
 
   containerClasses = computed(() => {
     // Note: Assuming 'nui-toast' prefix for BEM
-    return `nui-toast nui-toast--${this.data().variant}`;
+    return `nui-toast ${this.data().variant}`;
   });
 
   constructor() {

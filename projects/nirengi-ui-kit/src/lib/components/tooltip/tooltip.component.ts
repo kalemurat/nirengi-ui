@@ -27,11 +27,10 @@ import { TooltipPosition } from './tooltip.types';
       .tooltip {
         /* Base tooltip style */
         @apply pointer-events-none scale-95 whitespace-pre-line rounded-md bg-inverse px-4 py-2 text-xs font-semibold text-inverse opacity-0 shadow-xl transition-all duration-200;
-
+      }
+      .tooltip.visible {
         /* Visibility control */
-        &--visible {
-          @apply scale-100 opacity-100;
-        }
+        @apply scale-100 opacity-100;
       }
     `,
   ],
@@ -61,7 +60,7 @@ export class TooltipComponent {
   readonly containerClasses = computed(() => {
     const baseClass = 'tooltip';
     const positionClass = `tooltip--${this.position()}`;
-    const visibleClass = this.visible() ? 'tooltip--visible' : '';
+    const visibleClass = this.visible() ? 'visible' : '';
 
     return `${baseClass} ${positionClass} ${visibleClass}`;
   });

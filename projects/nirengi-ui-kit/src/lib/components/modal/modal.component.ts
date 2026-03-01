@@ -88,35 +88,38 @@ import { Size } from '../../common/enums/size.enum';
     `
       .nui-modal {
         @apply fixed inset-0 z-[50] flex items-center justify-center overflow-y-auto overflow-x-hidden p-4;
+      }
 
-        &__backdrop {
-          @apply fixed inset-0 bg-neutral-900/60 backdrop-blur-sm transition-opacity duration-300;
-        }
+      .nui-modal__backdrop {
+        @apply fixed inset-0 bg-neutral-900/60 backdrop-blur-sm transition-opacity duration-300;
+      }
 
-        &__panel {
-          @apply relative flex max-h-[90vh] w-full transform flex-col overflow-hidden rounded-2xl bg-primary shadow-2xl transition-all;
+      .nui-modal__panel {
+        @apply relative flex max-h-[90vh] w-full transform flex-col overflow-hidden rounded-2xl bg-primary shadow-2xl transition-all;
+      }
 
-          &--sm {
-            @apply max-w-sm;
-          }
-          &--md {
-            @apply max-w-lg;
-          }
-          &--lg {
-            @apply max-w-4xl;
-          }
-          &--full {
-            @apply m-4 h-full max-w-full;
-          }
-        }
+      .nui-modal__panel.sm {
+        @apply max-w-sm;
+      }
 
-        &__header {
-          @apply flex items-center justify-between border-b border-subtle px-6 py-4;
-        }
+      .nui-modal__panel.md {
+        @apply max-w-lg;
+      }
 
-        &__content {
-          @apply flex-1 overflow-y-auto p-6;
-        }
+      .nui-modal__panel.lg {
+        @apply max-w-4xl;
+      }
+
+      .nui-modal__panel.full {
+        @apply m-4 h-full max-w-full;
+      }
+
+      .nui-modal__header {
+        @apply flex items-center justify-between border-b border-subtle px-6 py-4;
+      }
+
+      .nui-modal__content {
+        @apply flex-1 overflow-y-auto p-6;
       }
     `,
   ],
@@ -177,14 +180,14 @@ export class ModalComponent {
     const size = this.data().options.size || ModalSize.Medium;
     switch (size) {
       case ModalSize.Small:
-        return 'nui-modal__panel--sm';
+        return 'sm';
       case ModalSize.Large:
-        return 'nui-modal__panel--lg';
+        return 'lg';
       case ModalSize.Full:
-        return 'nui-modal__panel--full';
+        return 'full';
       case ModalSize.Medium:
       default:
-        return 'nui-modal__panel--md';
+        return 'md';
     }
   });
 

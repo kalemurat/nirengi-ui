@@ -15,28 +15,28 @@ import { ToastComponent } from './toast.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- Top Right -->
-    <div class="nui-toast-region nui-toast-region--top-right">
+    <div class="nui-toast-region top-right">
       @for (toast of topRight(); track toast.id) {
         <nui-toast [data]="toast" (onClose)="remove($event)" />
       }
     </div>
 
     <!-- Top Left -->
-    <div class="nui-toast-region nui-toast-region--top-left">
+    <div class="nui-toast-region top-left">
       @for (toast of topLeft(); track toast.id) {
         <nui-toast [data]="toast" (onClose)="remove($event)" />
       }
     </div>
 
     <!-- Bottom Right -->
-    <div class="nui-toast-region nui-toast-region--bottom-right">
+    <div class="nui-toast-region bottom-right">
       @for (toast of bottomRight(); track toast.id) {
         <nui-toast [data]="toast" (onClose)="remove($event)" />
       }
     </div>
 
     <!-- Bottom Left -->
-    <div class="nui-toast-region nui-toast-region--bottom-left">
+    <div class="nui-toast-region bottom-left">
       @for (toast of bottomLeft(); track toast.id) {
         <nui-toast [data]="toast" (onClose)="remove($event)" />
       }
@@ -48,19 +48,18 @@ import { ToastComponent } from './toast.component';
         @apply pointer-events-none fixed z-[9999] flex flex-col gap-3 p-4;
         max-width: 100vw;
         width: auto;
-
-        &--top-right {
-          @apply right-0 top-0 items-end;
-        }
-        &--top-left {
-          @apply left-0 top-0 items-start;
-        }
-        &--bottom-right {
-          @apply bottom-0 right-0 flex-col-reverse items-end;
-        }
-        &--bottom-left {
-          @apply bottom-0 left-0 flex-col-reverse items-start;
-        }
+      }
+      .nui-toast-region.top-right {
+        @apply right-0 top-0 items-end;
+      }
+      .nui-toast-region.top-left {
+        @apply left-0 top-0 items-start;
+      }
+      .nui-toast-region.bottom-right {
+        @apply bottom-0 right-0 flex-col-reverse items-end;
+      }
+      .nui-toast-region.bottom-left {
+        @apply bottom-0 left-0 flex-col-reverse items-start;
       }
     `,
   ],
