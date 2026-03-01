@@ -75,13 +75,27 @@
     <div class="datepicker__calendar">
       <!-- Header: Month/Year & Nav -->
       <div class="datepicker__header">
-        <nui-icon [name]="icons.prev" class="datepicker__nav-icon" size="16"></nui-icon>
+        <button
+          type="button"
+          class="datepicker__nav-btn"
+          (click)="prevMonth()"
+          aria-label="Previous month"
+        >
+          <nui-icon [name]="icons.prev" class="datepicker__nav-icon" size="16"></nui-icon>
+        </button>
 
         <span class="datepicker__title">
           {{ currentMonthYear() }}
         </span>
 
-        <nui-icon [name]="icons.next" class="datepicker__nav-icon" size="16"></nui-icon>
+        <button
+          type="button"
+          class="datepicker__nav-btn"
+          (click)="nextMonth()"
+          aria-label="Next month"
+        >
+          <nui-icon [name]="icons.next" class="datepicker__nav-icon" size="16"></nui-icon>
+        </button>
       </div>
 
       <!-- Weekday Headers -->
