@@ -56,13 +56,11 @@ export default tseslint.config(
         'error',
         {
           default: [
-            'public-field',
-            'protected-field',
-            'private-field',
+            'static-field',
+            'instance-field',
             'constructor',
-            'public-method',
-            'protected-method',
-            'private-method',
+            'static-method',
+            'instance-method',
           ],
         },
       ],
