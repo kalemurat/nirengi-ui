@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "kill -9 $(lsof -t -i :4200) 2>/dev/null || true && ng serve",
     "build": "ng build",
+    "build:ui-kit": "ng build nirengi-ui-kit",
+    "build:ui-kit:prod": "ng build nirengi-ui-kit --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test:app": "ng test nirengi-ui --browsers=ChromeHeadless --watch=false --code-coverage",
     "test:ui-kit": "ng test nirengi-ui-kit --browsers=ChromeHeadless --watch=false --code-coverage",
