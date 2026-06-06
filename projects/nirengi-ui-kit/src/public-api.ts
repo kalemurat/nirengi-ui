@@ -84,14 +84,6 @@
  * import { InputComponent } from 'nirengi-ui-kit/components/input/input.component';
  * ```
  *
- * ## Path Alias Usage (Inside Library)
- * You can use TypeScript path aliases while developing the library:
- * ```typescript
- * import { Size } from '@common/enums/size.enum';
- * import { designTokenColors } from '@design-tokens/colors';
- * import { ButtonComponent } from '@components/button/button.component';
- * ```
- *
  * ## Features
  * - ✅ Angular 18+ and 20 compatible
  * - ✅ Standalone components
