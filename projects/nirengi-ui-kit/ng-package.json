@@ -4,6 +4,10 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
+  "assets": [
+    { "input": "src/lib/styles", "glob": "theme.css", "output": "." },
+    { "input": ".", "glob": "tailwind.config.js", "output": "." }
+  ],
   "allowedNonPeerDependencies": ["lucide-angular"],
   "deleteDestPath": true,
   "keepLifecycleScripts": false

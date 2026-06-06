@@ -3,12 +3,21 @@
  * Imports all stylesheet files
  */
 
-/* Import Tailwind directives */
+/* Import Tailwind directives (preflight + --tw-* initializers + used utilities) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Semantic theme tokens (--text-primary, --bg-primary, … + .dark overrides).
+ * Inlined here (extension-less import so Sass embeds it, not a CSS @import) so
+ * the single global bundle (nirengi-ui-kit/styles) is fully self-contained;
+ * the same file also ships standalone as nirengi-ui-kit/theme. */
+@import './theme';
 
 /* Import UI Kit styles */
 @import './tokens';
 @import './base';
 @import './utilities';
+
+/* Portalled select dropdown — must be global, see _select-overlay.scss */
+@import './select-overlay';

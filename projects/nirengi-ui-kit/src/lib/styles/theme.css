@@ -1,0 +1,63 @@
+/**
+ * Nirengi UI Kit — Semantic Theme Tokens
+ *
+ * Plain CSS (no Sass, no Tailwind) so it can ship as a standalone asset in the
+ * published package and be imported by any consumer:
+ *
+ *   @import 'nirengi-ui-kit/theme';   // SCSS / CSS
+ *   // or in angular.json "styles": "node_modules/nirengi-ui-kit/theme.css"
+ *
+ * These semantic custom properties are referenced by the compiled component
+ * styles (e.g. var(--text-primary), var(--bg-primary)). Without them the
+ * components render with invisible text/backgrounds. Toggle dark mode by adding
+ * the `.dark` class to a parent element (usually <html> or <body>).
+ *
+ * This file is the single source of truth for the semantic layer; the showcase
+ * app imports it instead of redefining the tokens.
+ */
+
+:root {
+  /* --- LIGHT MODE --- */
+
+  /* Text */
+  --text-primary: #111827; /* gray-900 */
+  --text-secondary: #4b5563; /* gray-600 */
+  --text-tertiary: #9ca3af; /* gray-400 */
+  --text-disabled: #d1d5db; /* gray-300 */
+  --text-inverse: #ffffff;
+  --text-brand: #2563eb; /* blue-600 */
+
+  /* Background */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb; /* gray-50 */
+  --bg-tertiary: #f3f4f6; /* gray-100 */
+  --bg-inverse: #111827; /* gray-900 */
+
+  /* Border */
+  --border-default: #e5e7eb; /* gray-200 */
+  --border-subtle: #f3f4f6; /* gray-100 */
+  --border-strong: #d1d5db; /* gray-300 */
+}
+
+.dark {
+  /* --- DARK MODE --- */
+
+  /* Text */
+  --text-primary: #f9fafb; /* gray-50 */
+  --text-secondary: #9ca3af; /* gray-400 */
+  --text-tertiary: #6b7280; /* gray-500 */
+  --text-disabled: #4b5563; /* gray-600 */
+  --text-inverse: #111827;
+  --text-brand: #60a5fa; /* blue-400 */
+
+  /* Background */
+  --bg-primary: #0f172a; /* slate-900 */
+  --bg-secondary: #1e293b; /* slate-800 */
+  --bg-tertiary: #334155; /* slate-700 */
+  --bg-inverse: #f9fafb;
+
+  /* Border */
+  --border-default: #1e293b; /* slate-800 */
+  --border-subtle: #0f172a; /* slate-900 */
+  --border-strong: #334155; /* slate-700 */
+}

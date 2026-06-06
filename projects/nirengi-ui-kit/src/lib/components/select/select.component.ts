@@ -12,7 +12,6 @@ import {
   forwardRef,
   viewChild,
   effect,
-  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -67,7 +66,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -76,7 +74,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
     },
   ],
 })
-export class SelectComponent extends ValueAccessorBase<any> {
+export class SelectComponent extends ValueAccessorBase<unknown> {
   private elementRef = inject(ElementRef);
 
   /**
@@ -89,7 +87,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * List of options to be displayed.
    * Can be an array of objects of any type or primitive values.
    */
-  readonly options = input.required<any[]>();
+  readonly options = input.required<unknown[]>();
 
   /**
    * Object property to be used for the label (display text).
@@ -173,13 +171,14 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * Custom template for rendering options.
    * Can be passed as an input or received from content projection.
    */
-  readonly itemTemplateInput = input<TemplateRef<any> | null>(null, { alias: 'itemTemplate' });
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
+  readonly itemTemplateInput = input<TemplateRef<unknown> | null>(null, { alias: 'itemTemplate' });
 
   /**
    * Template reference received from content children (ContentChild).
    * Usage: <nui-select> <ng-template ...> </nui-select>
    */
-  readonly contentItemTemplate = contentChild<TemplateRef<any>>('itemTemplate');
+  readonly contentItemTemplate = contentChild<TemplateRef<unknown>>('itemTemplate');
 
   /**
    * Internal state: Is the dropdown open?
@@ -201,6 +200,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * Disable input for template binding.
    * Works in sync with the form control's disabled state.
    */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
   /**
@@ -244,31 +244,6 @@ export class SelectComponent extends ValueAccessorBase<any> {
     ];
   });
 
-  constructor() {
-    super();
-
-    // Auto focus search input when opened
-    effect(() => {
-      if (this.isOpen() && this.searchable()) {
-        setTimeout(() => {
-          this.searchInputElement()?.nativeElement.focus();
-        });
-      }
-    });
-
-    // Close dropdown when disabled changes to true
-    effect(() => {
-      if (this.isDisabled()) {
-        this.isOpen.set(false);
-      }
-    });
-
-    // Sync disabled input with ValueAccessor base
-    effect(() => {
-      this.setDisabledState(this.disabledInput());
-    });
-  }
-
   /**
    * Computed: Active item template.
    * Priority order: Input > Content Child > Default (defined in HTML).
@@ -304,14 +279,14 @@ export class SelectComponent extends ValueAccessorBase<any> {
     const bindVal = this.bindValue();
 
     // Helper to find an option by its value
-    const findOption = (val: any) => {
+    const findOption = (val: unknown) => {
       if (!bindVal) return val; // Value is the object itself
-      return opts.find((o) => o[bindVal] === val);
+      return opts.find((o) => (o as Record<string, unknown>)[bindVal] === val);
     };
 
     if (this.multiple()) {
       if (!Array.isArray(rawVal)) return [];
-      return rawVal.map((v) => findOption(v)).filter(Boolean);
+      return (rawVal as unknown[]).map((v) => findOption(v)).filter(Boolean);
     } else {
       const opt = findOption(rawVal);
       return opt ? [opt] : [];
@@ -338,6 +313,31 @@ export class SelectComponent extends ValueAccessorBase<any> {
         return 18;
     }
   });
+
+  constructor() {
+    super();
+
+    // Auto focus search input when opened
+    effect(() => {
+      if (this.isOpen() && this.searchable()) {
+        setTimeout(() => {
+          this.searchInputElement()?.nativeElement.focus();
+        });
+      }
+    });
+
+    // Close dropdown when disabled changes to true
+    effect(() => {
+      if (this.isDisabled()) {
+        this.isOpen.set(false);
+      }
+    });
+
+    // Sync disabled input with ValueAccessor base
+    effect(() => {
+      this.setDisabledState(this.disabledInput());
+    });
+  }
 
   /**
    * Checks if there is a selected value.
@@ -407,11 +407,11 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * @param option Option object or value
    * @returns Text to be displayed
    */
-  getLabel(option: any): string {
+  getLabel(option: unknown): string {
     if (!option) return '';
     const labelProp = this.bindLabel();
     if (labelProp && typeof option === 'object') {
-      return option[labelProp] || '';
+      return String((option as Record<string, unknown>)[labelProp] ?? '');
     }
     return String(option);
   }
@@ -421,10 +421,10 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * @param option Option object
    * @returns Option's value (or itself if no bindValue)
    */
-  getValue(option: any): any {
+  getValue(option: unknown): unknown {
     const valueProp = this.bindValue();
-    if (valueProp && typeof option === 'object') {
-      return option[valueProp];
+    if (valueProp && typeof option === 'object' && option !== null) {
+      return (option as Record<string, unknown>)[valueProp];
     }
     return option;
   }
@@ -434,12 +434,12 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * @param option Option to check
    * @returns true if selected
    */
-  isSelected(option: any): boolean {
+  isSelected(option: unknown): boolean {
     const current = this.value();
     const optVal = this.getValue(option);
 
     if (this.multiple()) {
-      return Array.isArray(current) && current.includes(optVal);
+      return Array.isArray(current) && (current as unknown[]).includes(optVal);
     }
     return current === optVal;
   }
@@ -449,11 +449,11 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * Closes the dropdown in single selection mode, adds/removes the value in multiple selection mode.
    * @param option Selected option
    */
-  selectOption(option: any): void {
+  selectOption(option: unknown): void {
     const optVal = this.getValue(option);
 
     if (this.multiple()) {
-      const current = (this.value() as any[]) || [];
+      const current = (this.value() as unknown[]) || [];
       const index = current.indexOf(optVal);
 
       let newVal;
@@ -476,12 +476,12 @@ export class SelectComponent extends ValueAccessorBase<any> {
    * @param item Item to be removed
    * @param event Event object
    */
-  removeItem(item: any, event: Event): void {
+  removeItem(item: unknown, event: Event): void {
     event.stopPropagation();
     if (this.isDisabled()) return;
 
     const optVal = this.getValue(item);
-    const current = (this.value() as any[]) || [];
+    const current = (this.value() as unknown[]) || [];
     const newVal = current.filter((v) => v !== optVal);
     this.updateValue(newVal);
   }
@@ -508,7 +508,7 @@ export class SelectComponent extends ValueAccessorBase<any> {
   /**
    * TrackBy function for list performance.
    */
-  trackByFn(index: number, item: any): any {
-    return this.getValue(item) || index;
+  trackByFn(index: number, item: unknown): unknown {
+    return this.getValue(item) ?? index;
   }
 }

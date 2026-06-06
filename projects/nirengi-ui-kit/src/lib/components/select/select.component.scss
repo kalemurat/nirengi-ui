@@ -318,86 +318,14 @@
     }
   }
 
-  &__dropdown {
-    @apply absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-md border border-default bg-primary shadow-lg;
-
-    /* If appended to body, reset positioning as overlay handles it */
-    &--overlay {
-      @apply static mt-0 border border-default;
-    }
-  }
-
-  /* Global Overlay Styles */
-  .nui-select-overlay {
-    /* Ensure the overlay panel itself doesn't have padding/margin messing up */
-    @apply bg-transparent;
-
-    /* Since we lose the parent .nui-select--xs etc scope, we must ensure these classes on the overlay panel trigger the children styles */
-    /* The children styles (search input, etc) are scoped using .nui-select--xs parent */
-    /* So adding .nui-select--xs to the overlay panel (which we did in TS) should work IF the SCSS nesting supports it being on the root of the overlay */
-  }
-
-  &__search {
-    @apply border-b border-neutral-100 p-2;
-
-    &-input {
-      @apply w-full rounded-md border border-default bg-secondary text-primary;
-      @apply focus:border-primary-500 focus:bg-primary focus:outline-none focus:ring-1 focus:ring-primary-500;
-      @apply placeholder-tertiary;
-
-      /* Parent size modifier mapping via at-root or manual class check */
-      .nui-select--xs & {
-        @apply px-2 py-1 text-xs;
-      }
-
-      .nui-select--sm & {
-        @apply px-2.5 py-1.5 text-sm;
-      }
-
-      .nui-select--md & {
-        @apply px-3 py-2 text-sm;
-      }
-
-      .nui-select--lg & {
-        @apply px-3.5 py-2.5 text-base;
-      }
-
-      .nui-select--xl & {
-        @apply px-4 py-3 text-lg;
-      }
-    }
-  }
-
-  &__options {
-    @apply max-h-60 overflow-y-auto py-1;
-  }
-
-  &__option {
-    @apply flex cursor-pointer select-none items-center px-3 py-2 text-sm text-primary transition-colors;
-    @apply hover:bg-secondary;
-
-    &--selected {
-      @apply bg-primary-50 font-medium text-primary-700;
-      @apply dark:bg-primary-900/20 dark:text-primary-400;
-
-      &:hover {
-        @apply bg-primary-50;
-      }
-    }
-
-    &--disabled {
-      @apply cursor-not-allowed bg-transparent opacity-50 hover:bg-transparent;
-    }
-
-    /* Checkmark place */
-    &-check {
-      @apply ml-auto text-primary-600;
-    }
-  }
-
-  &__empty {
-    @apply px-3 py-4 text-center text-sm text-secondary;
-  }
+  /*
+   * NOTE: The dropdown/overlay styles (.nui-select__dropdown, __search,
+   * __options, __option, __empty and .nui-select-overlay) live in the GLOBAL
+   * stylesheet (styles/_select-overlay.scss → nirengi-ui-kit/styles), NOT here.
+   * The dropdown is portalled to the document body via the CDK overlay, so it
+   * falls outside this component's emulated-encapsulation scope and could not be
+   * styled from here. See _select-overlay.scss for details.
+   */
 
   &__hint {
     @apply text-xs text-secondary;

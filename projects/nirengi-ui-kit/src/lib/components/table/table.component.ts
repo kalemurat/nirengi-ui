@@ -9,7 +9,6 @@ import {
   output,
   signal,
   TemplateRef,
-  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -57,7 +56,6 @@ export interface ITableColumn {
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent<T> {
   // Inputs
