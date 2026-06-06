@@ -4,10 +4,10 @@ import { TooltipPosition } from './tooltip.types';
 
 /**
  * @example
- * // This component is not used directly, it is managed via the nirengiTooltip directive.
+ * // This component is not used directly, it is managed via the nuiTooltip directive.
  */
 @Component({
-  selector: 'nirengi-tooltip',
+  selector: 'nui-tooltip',
   standalone: true,
   imports: [CommonModule],
   template: `

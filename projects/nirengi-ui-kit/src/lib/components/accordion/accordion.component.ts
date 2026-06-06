@@ -43,9 +43,9 @@ export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'd
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccordionComponent {
-  title = input.required<string | TemplateRef<any>>();
+  title = input.required<string | TemplateRef<unknown>>();
 
-  content = input.required<string | TemplateRef<any>>();
+  content = input.required<string | TemplateRef<unknown>>();
 
   expanded = model<boolean>(false);
 
@@ -86,7 +86,7 @@ export class AccordionComponent {
     }
   }
 
-  protected isTemplate(value: any): value is TemplateRef<any> {
+  protected isTemplate(value: unknown): value is TemplateRef<unknown> {
     return value instanceof TemplateRef;
   }
 }

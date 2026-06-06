@@ -8,9 +8,13 @@ export abstract class ValueAccessorBase<T> implements ControlValueAccessor {
 
   readonly value = signal<T | null>(null);
 
-  protected onChange: (value: T | null) => void = () => {};
+  protected onChange: (value: T | null) => void = () => {
+    /* no-op until registerOnChange is called by the forms API */
+  };
 
-  protected onTouched: () => void = () => {};
+  protected onTouched: () => void = () => {
+    /* no-op until registerOnTouched is called by the forms API */
+  };
 
   /** Call from derived classes to propagate a user-driven value change; does not emit while disabled. */
   updateValue(value: T | null): void {

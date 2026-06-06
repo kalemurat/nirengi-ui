@@ -4,13 +4,13 @@ export type SizeType = `${Size}`;
 
 /**
  * @example
- * const responsiveSize: ResponsiveSizeConfig = {
+ * const responsiveSize: IResponsiveSizeConfig = {
  *   base: 'sm',
  *   md: 'md',
  *   lg: 'lg'
  * };
  */
-export interface ResponsiveSizeConfig {
+export interface IResponsiveSizeConfig {
   /** Mobile (default) size */
   base?: SizeType;
   /** Tablet size (≥768px) */
@@ -21,4 +21,4 @@ export interface ResponsiveSizeConfig {
   xl?: SizeType;
 }
 
-export type SizeValue = SizeType | ResponsiveSizeConfig;
+export type SizeValue = SizeType | IResponsiveSizeConfig;

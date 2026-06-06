@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, TemplateRef } from '@angular/core';
 
 /** Requires a unique `id` on every list item for efficient tracking. */
-export interface ListItem {
+export interface IListItem {
   id: string | number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -28,7 +28,7 @@ export interface ListItem {
   styleUrl: './list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent<T extends ListItem> {
+export class ListComponent<T extends IListItem> {
   /** Each item MUST have a unique `id` property. */
   items = input.required<T[]>();
 
@@ -36,7 +36,7 @@ export class ListComponent<T extends ListItem> {
    * If omitted, a default template is used.
    * Access the item in the template via `let-item`.
    */
-  itemTemplate = input<TemplateRef<any>>();
+  itemTemplate = input<TemplateRef<unknown>>();
 
   /** Extra CSS class(es) on the `<ul>` container (e.g. `'flex flex-col gap-2'`). */
   listClass = input<string>('');

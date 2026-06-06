@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, input, output, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
-import { ToastData, ToastVariant } from './toast.types';
+import { IToastData, ToastVariant } from './toast.types';
 import { IconName } from '../icon/icon.types';
 
 /**
  * @example
- * <nui-toast [data]="toastData" (onClose)="remove($event)" />
+ * <nui-toast [data]="toastData" (closed)="remove($event)" />
  */
 @Component({
   selector: 'nui-toast',
@@ -24,7 +24,7 @@ import { IconName } from '../icon/icon.types';
           <p class="nui-toast__description">{{ data().description }}</p>
         }
       </div>
-      <button class="nui-toast__close" (click)="onClose.emit(data().id)" aria-label="Close">
+      <button class="nui-toast__close" (click)="closed.emit(data().id)" aria-label="Close">
         <nui-icon name="X" size="16" />
       </button>
     </div>
@@ -118,8 +118,8 @@ import { IconName } from '../icon/icon.types';
   ],
 })
 export class ToastComponent {
-  data = input.required<ToastData>();
-  onClose = output<string>();
+  data = input.required<IToastData>();
+  closed = output<string>();
 
   iconName = computed<IconName>(() => {
     switch (this.data().variant) {
@@ -146,7 +146,7 @@ export class ToastComponent {
       const duration = this.data().options.duration ?? 3000;
       if (duration > 0) {
         const timer = setTimeout(() => {
-          this.onClose.emit(this.data().id);
+          this.closed.emit(this.data().id);
         }, duration);
         onCleanup(() => clearTimeout(timer));
       }

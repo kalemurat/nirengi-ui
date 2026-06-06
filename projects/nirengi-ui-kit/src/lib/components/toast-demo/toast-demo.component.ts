@@ -5,7 +5,7 @@ import { ToastComponent } from '../toast/toast.component';
 import { ToastContainerComponent } from '../toast/toast-container.component';
 import { TOAST } from '../toast/toast.token';
 import { ToastService } from '../toast/toast.service';
-import { ToastData, ToastVariant } from '../toast/toast.types';
+import { IToastData, ToastVariant } from '../toast/toast.types';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
@@ -93,7 +93,7 @@ export class ToastDemoComponent {
 
   private toast = inject(TOAST);
 
-  previewData = computed<ToastData>(() => ({
+  previewData = computed<IToastData>(() => ({
     id: 'preview',
     title: this.title(),
     description: this.description(),

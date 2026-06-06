@@ -10,7 +10,7 @@ import {
   effect,
 } from '@angular/core';
 import { CommonModule, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
-import { ModalData, ModalSize } from './modal.types';
+import { IModalData, ModalSize } from './modal.types';
 import { MODAL_SERVICE } from './modal.token';
 import { HeadingComponent, HeadingLevel, HeadingWeight } from '../heading/heading.component';
 import { IconComponent } from '../icon/icon.component';
@@ -37,8 +37,8 @@ import { Size } from '../../common/enums/size.enum';
   ],
   template: `
     <div class="nui-modal" [attr.role]="'dialog'" [attr.aria-modal]="true">
-      <!-- Backdrop -->
-      <div class="nui-modal__backdrop" (click)="onBackdropClick()"></div>
+      <!-- Backdrop: decorative click target; keyboard users dismiss via the ESC key (handled on the host). -->
+      <div class="nui-modal__backdrop" aria-hidden="true" (click)="onBackdropClick()"></div>
 
       <!-- Modal Panel -->
       <div [class]="'nui-modal__panel ' + sizeClasses()">
@@ -124,9 +124,7 @@ import { Size } from '../../common/enums/size.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent {
-  readonly data = input.required<ModalData>({
-    alias: 'data',
-  });
+  readonly data = input.required<IModalData>();
 
   private modalService = inject(MODAL_SERVICE);
   HeadingLevel = HeadingLevel;
@@ -134,6 +132,21 @@ export class ModalComponent {
   ColorVariant = ColorVariant;
   ButtonType = ButtonType;
   Size = Size;
+
+  protected readonly sizeClasses = computed(() => {
+    const size = this.data().options.size || ModalSize.Medium;
+    switch (size) {
+      case ModalSize.Small:
+        return 'sm';
+      case ModalSize.Large:
+        return 'lg';
+      case ModalSize.Full:
+        return 'full';
+      case ModalSize.Medium:
+      default:
+        return 'md';
+    }
+  });
 
   constructor() {
     // Manage body scroll lock based on modal stack count
@@ -158,21 +171,6 @@ export class ModalComponent {
     // Check if it is a TemplateRef
     return c instanceof TemplateRef ? c : null;
   }
-
-  protected readonly sizeClasses = computed(() => {
-    const size = this.data().options.size || ModalSize.Medium;
-    switch (size) {
-      case ModalSize.Small:
-        return 'sm';
-      case ModalSize.Large:
-        return 'lg';
-      case ModalSize.Full:
-        return 'full';
-      case ModalSize.Medium:
-      default:
-        return 'md';
-    }
-  });
 
   onBackdropClick(): void {
     if (this.data().options.backdropClose !== false) {

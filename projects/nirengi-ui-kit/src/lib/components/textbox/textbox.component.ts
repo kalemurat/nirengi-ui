@@ -73,6 +73,7 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   readonly size = input<Size>(Size.Medium);
 
   /** Dumb-mode value; synced to the base class via effect. */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly valueInput = input<string | null>(null, { alias: 'value' });
 
   /**
@@ -82,6 +83,7 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   readonly clearable = input<boolean>(false);
 
   /** Dumb-mode disabled; synced to the base class via effect. */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
   readonly iconSize = computed(() => {

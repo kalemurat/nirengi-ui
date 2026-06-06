@@ -34,24 +34,24 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
  *
  * ### 1. Basic Usage
  * ```html
- * <button [nirengiPopover]="MyContentComponent">Open</button>
+ * <button [nuiPopover]="MyContentComponent">Open</button>
  * ```
  *
  * ### 2. Setting Position
  * ```html
  * <button
- *   [nirengiPopover]="MyContentComponent"
- *   [nirengiPopoverPosition]="PopoverPosition.Right">
+ *   [nuiPopover]="MyContentComponent"
+ *   [nuiPopoverPosition]="PopoverPosition.Right">
  *   Open on Right
  * </button>
  * ```
  *
  * ### 3. Passing Inputs
- * Use `nirengiPopoverInputs` to send data to the rendered component.
+ * Use `nuiPopoverInputs` to send data to the rendered component.
  * ```html
  * <button
- *   [nirengiPopover]="MyContentComponent"
- *   [nirengiPopoverInputs]="{ user: currentUser, title: 'Profile' }">
+ *   [nuiPopover]="MyContentComponent"
+ *   [nuiPopoverInputs]="{ user: currentUser, title: 'Profile' }">
  *   Profile Detail
  * </button>
  * ```
@@ -64,12 +64,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
  * ```
  *
  * ### 4. Listening to Outputs (Event Handling)
- * Use `nirengiPopoverOutput` to listen to events from the rendered component.
+ * Use `nuiPopoverOutput` to listen to events from the rendered component.
  * You can send events using the `PopoverRef.emit()` method inside the component.
  * ```html
  * <button
- *   [nirengiPopover]="MyContentComponent"
- *   (nirengiPopoverOutput)="handlePopoverEvent($event)">
+ *   [nuiPopover]="MyContentComponent"
+ *   (nuiPopoverOutput)="handlePopoverEvent($event)">
  *   Take Action
  * </button>
  * ```
@@ -106,33 +106,33 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
  * ### 6. Preventing Closure on Outside Click
  * ```html
  * <button
- *   [nirengiPopover]="MyContentComponent"
- *   [nirengiPopoverCloseOnOutsideClick]="false">
+ *   [nuiPopover]="MyContentComponent"
+ *   [nuiPopoverCloseOnOutsideClick]="false">
  *   Persistent Popover
  * </button>
  * ```
  */
 @Directive({
-  selector: '[nirengiPopover]',
+  selector: '[nuiPopover]',
   standalone: true,
 })
 export class PopoverDirective implements OnDestroy {
-  readonly nirengiPopover = input.required<Type<any>>();
+  readonly nuiPopover = input.required<Type<unknown>>();
 
   /** @default PopoverPosition.Bottom */
-  readonly nirengiPopoverPosition = input<PopoverPosition>(PopoverPosition.Bottom);
+  readonly nuiPopoverPosition = input<PopoverPosition>(PopoverPosition.Bottom);
 
   /** @default false */
-  readonly nirengiPopoverCloseOnOutsideClick = input<boolean>(false);
+  readonly nuiPopoverCloseOnOutsideClick = input<boolean>(false);
 
-  readonly nirengiPopoverInputs = input<Record<string, unknown>>({});
+  readonly nuiPopoverInputs = input<Record<string, unknown>>({});
 
   readonly popoverOpened = output<void>();
 
   readonly popoverClosed = output<void>();
 
   /** Forwards events emitted via `PopoverRef.emit('key', data)` inside the content component. */
-  readonly nirengiPopoverOutput = output<{ key: string; data: unknown }>();
+  readonly nuiPopoverOutput = output<{ key: string; data: unknown }>();
 
   private overlayRef: OverlayRef | null = null;
   private popoverRef: ComponentRef<PopoverComponent> | null = null;
@@ -149,9 +149,9 @@ export class PopoverDirective implements OnDestroy {
     // Listen to input changes
     effect(() => {
       if (this.popoverRef) {
-        this.popoverRef.setInput('content', this.nirengiPopover());
-        this.popoverRef.setInput('position', this.nirengiPopoverPosition());
-        this.popoverRef.setInput('componentInputs', this.nirengiPopoverInputs());
+        this.popoverRef.setInput('content', this.nuiPopover());
+        this.popoverRef.setInput('position', this.nuiPopoverPosition());
+        this.popoverRef.setInput('componentInputs', this.nuiPopoverInputs());
 
         // Force change detection on the popover wrapper
         this.popoverRef.changeDetectorRef.detectChanges();
@@ -174,7 +174,7 @@ export class PopoverDirective implements OnDestroy {
 
     const positionStrategy = this.getPositionStrategy();
     const scrollStrategy = this.overlay.scrollStrategies.reposition();
-    const closeOnOutside = this.nirengiPopoverCloseOnOutsideClick();
+    const closeOnOutside = this.nuiPopoverCloseOnOutsideClick();
 
     const overlayConfig = new OverlayConfig({
       positionStrategy,
@@ -215,15 +215,15 @@ export class PopoverDirective implements OnDestroy {
 
     // Listen to events from PopoverRef and forward them
     popoverRef.events$.subscribe((event) => {
-      this.nirengiPopoverOutput.emit(event);
+      this.nuiPopoverOutput.emit(event);
     });
 
     const popoverPortal = new ComponentPortal(PopoverComponent);
     this.popoverRef = this.overlayRef.attach(popoverPortal);
 
-    this.popoverRef.setInput('content', this.nirengiPopover());
-    this.popoverRef.setInput('position', this.nirengiPopoverPosition());
-    this.popoverRef.setInput('componentInputs', this.nirengiPopoverInputs());
+    this.popoverRef.setInput('content', this.nuiPopover());
+    this.popoverRef.setInput('position', this.nuiPopoverPosition());
+    this.popoverRef.setInput('componentInputs', this.nuiPopoverInputs());
     this.popoverRef.setInput('injector', customInjector);
 
     // For animation
@@ -281,7 +281,7 @@ export class PopoverDirective implements OnDestroy {
   }
 
   private getPositionStrategy(): PositionStrategy {
-    const position = this.nirengiPopoverPosition();
+    const position = this.nuiPopoverPosition();
     const positions: ConnectionPositionPair[] = this.getPositions(position);
 
     return this.positionBuilder

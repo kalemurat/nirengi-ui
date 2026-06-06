@@ -1,23 +1,25 @@
 // Shared Styles
+@use 'sass:meta';
 @use './styles/showcase' as *;
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-// Angular CDK Overlay
-@import '@angular/cdk/overlay-prebuilt.css';
+// Angular CDK Overlay (`meta.load-css` embeds the CSS at the call site without
+// the deprecated `@import` rule).
+@include meta.load-css('@angular/cdk/overlay-prebuilt.css');
 
 // Semantic theme tokens (--text-primary, --bg-primary, … + .dark overrides).
 // Consumed from the library's single source of truth instead of being
 // duplicated here — the showcase is a real consumer of `nirengi-ui-kit/theme`.
-// (Published consumers use `@import 'nirengi-ui-kit/theme';` or
-//  `'nirengi-ui-kit/styles';`; here we point at the library source directly.)
-@import '../projects/nirengi-ui-kit/src/lib/styles/theme.css';
+// (Published consumers use `nirengi-ui-kit/theme` or `nirengi-ui-kit/styles`;
+//  here we point at the library source directly.)
+@include meta.load-css('../projects/nirengi-ui-kit/src/lib/styles/theme.css');
 
 // Portalled select dropdown styles. These are global (the dropdown is appended
 // to <body> via the CDK overlay, outside the component's encapsulation scope),
 // so a consumer gets them from `nirengi-ui-kit/styles`. The showcase, as a
 // consumer, pulls them from the library source and lets its own Tailwind
 // pipeline resolve the @apply directives.
-@import '../projects/nirengi-ui-kit/src/lib/styles/select-overlay';
+@include meta.load-css('../projects/nirengi-ui-kit/src/lib/styles/select-overlay');

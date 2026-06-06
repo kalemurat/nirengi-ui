@@ -5,7 +5,7 @@
  * @see https://tailwindcss.com/docs/customizing-spacing
  */
 
-export interface SpacingScale {
+export interface ISpacingScale {
   /** 0px */
   0: string;
   /** 1px (0.25rem) */
@@ -78,7 +78,7 @@ export interface SpacingScale {
   96: string;
 }
 
-export const designTokenSpacing: SpacingScale = {
+export const designTokenSpacing: ISpacingScale = {
   0: '0px',
   px: '1px',
   0.5: '0.125rem',

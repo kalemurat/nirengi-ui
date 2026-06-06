@@ -29,7 +29,7 @@ import { ParagraphComponent } from '../paragraph/paragraph.component';
 })
 export class ModalTestContentComponent {
   modalRef = inject(MODAL_REF);
-  data = inject(MODAL_DATA, { optional: true });
+  data = inject(MODAL_DATA, { optional: true }) as { id?: number } | null;
 
   HeadingLevel = HeadingLevel;
   ColorVariant = ColorVariant;
@@ -98,12 +98,12 @@ export class ModalDemoComponent {
       data: { id: 123 },
     });
 
-    ref.afterClosedPromise.then((result: any) => {
+    ref.afterClosedPromise.then((result: unknown) => {
       console.log('Modal closed with:', result);
     });
   }
 
-  openTemplate(tpl: TemplateRef<any>) {
+  openTemplate(tpl: TemplateRef<unknown>) {
     this.modalService.open(tpl, {
       title: 'Template Modal',
       data: { info: 'some info' },

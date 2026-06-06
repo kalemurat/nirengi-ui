@@ -13,28 +13,28 @@ import { ToastComponent } from './toast.component';
     <!-- Top Right -->
     <div class="nui-toast-region top-right">
       @for (toast of topRight(); track toast.id) {
-        <nui-toast [data]="toast" (onClose)="remove($event)" />
+        <nui-toast [data]="toast" (closed)="remove($event)" />
       }
     </div>
 
     <!-- Top Left -->
     <div class="nui-toast-region top-left">
       @for (toast of topLeft(); track toast.id) {
-        <nui-toast [data]="toast" (onClose)="remove($event)" />
+        <nui-toast [data]="toast" (closed)="remove($event)" />
       }
     </div>
 
     <!-- Bottom Right -->
     <div class="nui-toast-region bottom-right">
       @for (toast of bottomRight(); track toast.id) {
-        <nui-toast [data]="toast" (onClose)="remove($event)" />
+        <nui-toast [data]="toast" (closed)="remove($event)" />
       }
     </div>
 
     <!-- Bottom Left -->
     <div class="nui-toast-region bottom-left">
       @for (toast of bottomLeft(); track toast.id) {
-        <nui-toast [data]="toast" (onClose)="remove($event)" />
+        <nui-toast [data]="toast" (closed)="remove($event)" />
       }
     </div>
   `,

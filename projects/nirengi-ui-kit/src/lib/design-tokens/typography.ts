@@ -1,33 +1,33 @@
 /** @see https://tailwindcss.com/docs/font-size */
 
-export interface FontFamily {
+export interface IFontFamily {
   sans: string[];
   serif: string[];
   mono: string[];
 }
 
-export interface FontSizeConfig {
+export interface IFontSizeConfig {
   fontSize: string;
   lineHeight: string;
 }
 
-export interface FontSizes {
-  xs: FontSizeConfig;
-  sm: FontSizeConfig;
-  base: FontSizeConfig;
-  lg: FontSizeConfig;
-  xl: FontSizeConfig;
-  '2xl': FontSizeConfig;
-  '3xl': FontSizeConfig;
-  '4xl': FontSizeConfig;
-  '5xl': FontSizeConfig;
-  '6xl': FontSizeConfig;
-  '7xl': FontSizeConfig;
-  '8xl': FontSizeConfig;
-  '9xl': FontSizeConfig;
+export interface IFontSizes {
+  xs: IFontSizeConfig;
+  sm: IFontSizeConfig;
+  base: IFontSizeConfig;
+  lg: IFontSizeConfig;
+  xl: IFontSizeConfig;
+  '2xl': IFontSizeConfig;
+  '3xl': IFontSizeConfig;
+  '4xl': IFontSizeConfig;
+  '5xl': IFontSizeConfig;
+  '6xl': IFontSizeConfig;
+  '7xl': IFontSizeConfig;
+  '8xl': IFontSizeConfig;
+  '9xl': IFontSizeConfig;
 }
 
-export interface FontWeights {
+export interface IFontWeights {
   thin: string;
   extralight: string;
   light: string;
@@ -39,7 +39,7 @@ export interface FontWeights {
   black: string;
 }
 
-export const designTokenFontFamily: FontFamily = {
+export const designTokenFontFamily: IFontFamily = {
   sans: [
     'Inter',
     'system-ui',
@@ -56,7 +56,7 @@ export const designTokenFontFamily: FontFamily = {
 };
 
 /** Based on the Tailwind CSS font size system. */
-export const designTokenFontSizes: FontSizes = {
+export const designTokenFontSizes: IFontSizes = {
   xs: { fontSize: '0.75rem', lineHeight: '1rem' },
   sm: { fontSize: '0.875rem', lineHeight: '1.25rem' },
   base: { fontSize: '1rem', lineHeight: '1.5rem' },
@@ -72,7 +72,7 @@ export const designTokenFontSizes: FontSizes = {
   '9xl': { fontSize: '8rem', lineHeight: '1' },
 };
 
-export const designTokenFontWeights: FontWeights = {
+export const designTokenFontWeights: IFontWeights = {
   thin: '100',
   extralight: '200',
   light: '300',

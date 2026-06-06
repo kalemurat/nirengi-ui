@@ -5,7 +5,7 @@ import { PopoverRef } from './popover.ref';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
-  selector: 'nirengi-popover',
+  selector: 'nui-popover',
   standalone: true,
   imports: [CommonModule, IconComponent],
   template: `
@@ -49,7 +49,7 @@ import { IconComponent } from '../icon/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopoverComponent {
-  readonly content = input.required<Type<any>>();
+  readonly content = input.required<Type<unknown>>();
 
   readonly componentInputs = input<Record<string, unknown>>({});
 

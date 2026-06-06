@@ -63,12 +63,13 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
     },
   ],
 })
-export class RadioComponent extends ValueAccessorBase<any> {
+export class RadioComponent extends ValueAccessorBase<unknown> {
   /** Unique ID for accessibility. */
   readonly inputId = `nui-radio-${Math.random().toString(36).substr(2, 9)}`;
 
   /** When the model value matches this value, the radio becomes checked. */
-  readonly valueInput = input.required<any>({ alias: 'value' });
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
+  readonly valueInput = input.required<unknown>({ alias: 'value' });
 
   /** Groups multiple radio buttons together. */
   readonly name = input<string>('');
@@ -90,6 +91,7 @@ export class RadioComponent extends ValueAccessorBase<any> {
   readonly required = input<boolean>(false);
 
   /** Disabled input (dumb mode). */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
   readonly isChecked = computed(() => {

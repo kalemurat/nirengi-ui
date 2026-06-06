@@ -5,9 +5,9 @@ import { Subject, Observable } from 'rxjs';
  * Reference object injected into the component opened within a popover.
  * Used to close the popover or return data.
  */
-export class PopoverRef<T = any, R = any> {
+export class PopoverRef<T = unknown, R = unknown> {
   private readonly _afterClosed = new Subject<R | undefined>();
-  private readonly _events = new Subject<{ key: string; data: any }>();
+  private readonly _events = new Subject<{ key: string; data: unknown }>();
 
   constructor(
     private overlayRef: OverlayRef,
@@ -29,14 +29,14 @@ export class PopoverRef<T = any, R = any> {
   }
 
   /** Sends an event from the popover component to the parent. */
-  emit(key: string, data?: any): void {
+  emit(key: string, data?: unknown): void {
     this._events.next({ key, data });
   }
 
   /**
    * Observable listening to events from the component.
    */
-  get events$(): Observable<{ key: string; data: any }> {
+  get events$(): Observable<{ key: string; data: unknown }> {
     return this._events.asObservable();
   }
 }
