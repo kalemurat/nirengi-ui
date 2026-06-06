@@ -26,9 +26,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -74,15 +72,24 @@
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
+            "include": ["src/**/*.spec.ts"],
+            "exclude": ["src/main.ts"],
+            "codeCoverageExclude": [
+              "src/**/*.spec.ts",
+              "src/**/*.interface.ts",
+              "src/**/*.interfaces.ts",
+              "src/**/*.enum.ts",
+              "src/**/*.type.ts",
+              "src/**/*.types.ts",
+              "src/**/index.ts"
+            ],
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           }
         }
       }
@@ -111,7 +118,22 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/nirengi-ui-kit/tsconfig.spec.json"
+            "tsConfig": "projects/nirengi-ui-kit/tsconfig.spec.json",
+            "include": ["projects/nirengi-ui-kit/src/**/*.spec.ts"],
+            "exclude": ["projects/nirengi-ui-kit/src/public-api.ts"],
+            "codeCoverageExclude": [
+              "projects/nirengi-ui-kit/src/**/*.spec.ts",
+              "projects/nirengi-ui-kit/src/**/*.interface.ts",
+              "projects/nirengi-ui-kit/src/**/*.interfaces.ts",
+              "projects/nirengi-ui-kit/src/**/*.enum.ts",
+              "projects/nirengi-ui-kit/src/**/*.type.ts",
+              "projects/nirengi-ui-kit/src/**/*.types.ts",
+              "projects/nirengi-ui-kit/src/**/index.ts",
+              "projects/nirengi-ui-kit/src/public-api.ts",
+              "projects/nirengi-ui-kit/src/**/*.token.ts",
+              "projects/nirengi-ui-kit/src/**/*constants.ts",
+              "projects/nirengi-ui-kit/src/lib/design-tokens/**/*.ts"
+            ]
           }
         }
       }

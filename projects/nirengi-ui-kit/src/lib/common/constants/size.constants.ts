@@ -23,6 +23,7 @@ import { Size } from '../enums/size.enum';
  * }
  */
 export const SIZE_HEIGHT_CLASS_MAP: Record<Size, string> = {
+  [Size.XXSmall]: 'h-component-2xs', // 20px - defined in tailwind.config.js
   [Size.XSmall]: 'h-component-xs', // 24px - defined in tailwind.config.js
   [Size.Small]: 'h-component-sm', // 32px
   [Size.Medium]: 'h-component-md', // 36px
@@ -42,6 +43,7 @@ export const SIZE_HEIGHT_CLASS_MAP: Record<Size, string> = {
  * }
  */
 export const SIZE_PADDING_CLASS_MAP: Record<Size, string> = {
+  [Size.XXSmall]: 'px-1.5', // 6px
   [Size.XSmall]: 'px-2', // 8px
   [Size.Small]: 'px-3', // 12px
   [Size.Medium]: 'px-3.5', // 14px - tailwind.config.js > spacing
@@ -60,6 +62,7 @@ export const SIZE_PADDING_CLASS_MAP: Record<Size, string> = {
  * }
  */
 export const SIZE_TEXT_CLASS_MAP: Record<Size, string> = {
+  [Size.XXSmall]: 'text-xs', // 0.75rem / 12px (smallest step)
   [Size.XSmall]: 'text-xs', // 0.75rem / 12px
   [Size.Small]: 'text-sm', // 0.875rem / 14px
   [Size.Medium]: 'text-sm', // 0.875rem / 14px
@@ -79,6 +82,7 @@ export const SIZE_TEXT_CLASS_MAP: Record<Size, string> = {
  * }
  */
 export const SIZE_GAP_CLASS_MAP: Record<Size, string> = {
+  [Size.XXSmall]: 'gap-0.5', // 0.125rem / 2px
   [Size.XSmall]: 'gap-1', // 0.25rem / 4px
   [Size.Small]: 'gap-1.5', // 0.375rem / 6px
   [Size.Medium]: 'gap-1.5', // 0.375rem / 6px
@@ -94,6 +98,7 @@ export const SIZE_GAP_CLASS_MAP: Record<Size, string> = {
  * const iconSize = SIZE_ICON_MAP[Size.Medium]; // '16px'
  */
 export const SIZE_ICON_MAP: Record<Size, string> = {
+  [Size.XXSmall]: '10px',
   [Size.XSmall]: '12px',
   [Size.Small]: '14px',
   [Size.Medium]: '16px',
@@ -112,6 +117,7 @@ export const SIZE_ICON_MAP: Record<Size, string> = {
  * }
  */
 export const SIZE_RADIUS_CLASS_MAP: Record<Size, string> = {
+  [Size.XXSmall]: 'rounded-sm', // 0.125rem / 2px
   [Size.XSmall]: 'rounded', // 0.25rem / 4px
   [Size.Small]: 'rounded-md', // 0.375rem / 6px
   [Size.Medium]: 'rounded-md', // 0.375rem / 6px

@@ -135,6 +135,7 @@ export class CheckboxPageComponent {
    */
   getSizeLabel(size: Size): string {
     const labels: Record<Size, string> = {
+      [Size.XXSmall]: 'Extra Extra Small (2xs)',
       [Size.XSmall]: 'Extra Small (xs)',
       [Size.Small]: 'Small (sm)',
       [Size.Medium]: 'Medium (md)',

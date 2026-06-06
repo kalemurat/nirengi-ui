@@ -35,6 +35,7 @@
       "description": "Visual font size (Auto = based on Level)",
       "options": [
         { "label": "Auto (Level Based)", "value": "" },
+        { "label": "Extra Extra Small", "value": "2xs" },
         { "label": "Extra Small", "value": "xs" },
         { "label": "Small", "value": "sm" },
         { "label": "Medium", "value": "md" },

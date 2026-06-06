@@ -6,6 +6,9 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default tseslint.config(
   {
+    ignores: ['**/*.spec.ts', 'dist/**', 'node_modules/**'],
+  },
+  {
     files: ['**/*.ts'],
     rules: {
       ...eslint.configs.recommended.rules,
@@ -53,13 +56,11 @@ export default tseslint.config(
         'error',
         {
           default: [
-            'public-field',
-            'protected-field',
-            'private-field',
+            'static-field',
+            'instance-field',
             'constructor',
-            'public-method',
-            'protected-method',
-            'private-method',
+            'static-method',
+            'instance-method',
           ],
         },
       ],

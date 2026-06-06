@@ -3,5 +3,8 @@
   "dest": "../../dist/nirengi-ui-kit",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["lucide-angular"],
+  "deleteDestPath": true,
+  "keepLifecycleScripts": false
 }

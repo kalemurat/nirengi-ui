@@ -19,10 +19,28 @@
     </div>
   </section>
 
+  <!-- AUTO SIZING (LEVEL BASED) -->
+  <section class="showcase__section">
+    <h3 class="showcase__section-title">Auto Sizing (Level Based)</h3>
+    <p class="showcase__description">
+      Without an explicit <code>size</code> input, each level resolves to a distinct visual size — H5 and H6 are no
+      longer identical.
+    </p>
+    <div class="showcase__column">
+      <nui-heading [level]="HeadingLevel.H1" [text]="'H1 - Auto (xl)'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H2" [text]="'H2 - Auto (lg)'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H3" [text]="'H3 - Auto (md)'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H4" [text]="'H4 - Auto (sm)'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H5" [text]="'H5 - Auto (xs)'"></nui-heading>
+      <nui-heading [level]="HeadingLevel.H6" [text]="'H6 - Auto (2xs)'"></nui-heading>
+    </div>
+  </section>
+
   <!-- SIZE VARIANTS -->
   <section class="showcase__section">
     <h3 class="showcase__section-title">Size Variants</h3>
     <div class="showcase__column">
+      <nui-heading [size]="Size.XXSmall" [text]="'2XS - Size variant heading'"></nui-heading>
       <nui-heading [size]="Size.XSmall" [text]="'XS - Size variant heading'"></nui-heading>
       <nui-heading [size]="Size.Small" [text]="'SM - Size variant heading'"></nui-heading>
       <nui-heading [size]="Size.Medium" [text]="'MD - Size variant heading'"></nui-heading>
