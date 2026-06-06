@@ -4,3 +4,6 @@ node_modules/
 .angular/
 package-lock.json
 public/
+
+# Do not format Markdown files
+*.md
