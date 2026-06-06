@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 While the library is pre-1.0 the public API may change between minor versions.
 
+## [0.1.6] - 2026-06-07
+
+### Added
+
+- **Zero-config styling** — the library now ships self-contained CSS, so consumers
+  can use the components without installing or configuring Tailwind themselves.
+- **npm publish configuration** — `nirengi-ui-kit` is set up for public publishing
+  to the npm registry.
+
+### Changed
+
+- Rewrote the consumer-facing README as an npm landing page with per-component
+  usage examples.
+
+### Fixed
+
+- Resolved TypeScript 5.9 build errors in `tsconfig.lib.json` by adding `rootDir`
+  and dropping the deprecated `baseUrl`.
+- Made the repo-wide ESLint baseline pass cleanly.
+
 ## [0.1.5] - 2026-06-06
 
 First public release of **nirengi-ui-kit** — an Angular 20, signal-based, zoneless
@@ -53,4 +73,5 @@ component library (selector prefix `nui`), built with `ng-packagr`.
 - Prevented the popover from immediately closing on open in production builds and
   fixed a popover directive memory leak.
 
+[0.1.6]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.1.6
 [0.1.5]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.1.5
