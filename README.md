@@ -32,7 +32,7 @@ Key features:
 - Full TypeScript support and type safety
 - Simple, developer-friendly API
 - Standalone components using modern Angular patterns
-- Tailwind CSS integration
+- **No Tailwind required in consumer apps** — ships precompiled CSS (see [Styling](#styling))
 - Tree-shakable builds
 - Documentation and examples
 
@@ -83,6 +83,68 @@ export class ExampleComponent {
   }
 }
 ```
+
+## Styling
+
+> Short version for now — a fuller styling guide will follow.
+
+`nirengi-ui-kit` is **self-contained**: you do **not** need to install or
+configure Tailwind CSS in your app to use it. Each component already carries its
+own compiled, scoped styles (Angular emulated view encapsulation), so they will
+not leak into or clash with your app's CSS.
+
+There is **one** global layer the components depend on — semantic theme tokens
+(`--text-primary`, `--bg-primary`, …), Tailwind's base/`--tw-*` initializers, and
+the portalled `nui-select` dropdown styles. Ship it with a single one-time import:
+
+```scss
+/* your global stylesheet (e.g. src/styles.scss) */
+@import 'nirengi-ui-kit/styles';
+```
+
+or in `angular.json`:
+
+```jsonc
+"styles": [
+  "node_modules/nirengi-ui-kit/styles.css",
+  "src/styles.scss"
+]
+```
+
+That's it — components now render with correct colors, borders, and focus rings,
+with **no Tailwind in your project**.
+
+### Dark mode
+
+Theme tokens include light and dark values. Toggle dark mode by adding the
+`.dark` class to a parent element (typically `<html>` or `<body>`).
+
+### What ships in the package
+
+| Import path                    | Contents                                                                                   |
+| ------------------------------ | ------------------------------------------------------------------------------------------ |
+| `nirengi-ui-kit/styles`        | **Recommended.** Self-contained global CSS: theme tokens + Tailwind base + utilities + select dropdown. Import this once. |
+| `nirengi-ui-kit/theme`         | Just the semantic theme tokens (`:root` + `.dark`). Useful if you already provide the rest. |
+| `nirengi-ui-kit/tailwind-config` | The library's `tailwind.config.js`. **Only** if your app already uses Tailwind and you'd rather merge the kit's tokens into your own config instead of importing the CSS. |
+
+### Already using Tailwind? (optional)
+
+If your app uses Tailwind, you can skip `styles.css` and instead merge the kit's
+theme into your own config so its utilities resolve in your build:
+
+```js
+// tailwind.config.js
+const uiKit = require('nirengi-ui-kit/tailwind-config');
+
+module.exports = {
+  // ...
+  theme: { extend: { ...uiKit.theme.extend } },
+};
+```
+
+In this mode you still import `nirengi-ui-kit/theme` once for the semantic
+CSS custom properties (and `nirengi-ui-kit/styles` if you want the select
+dropdown styling without re-declaring it).
 
 ## Running the Project Locally
 

@@ -8,5 +8,18 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "exports": {
+    "./theme": {
+      "style": "./theme.css",
+      "default": "./theme.css"
+    },
+    "./styles": {
+      "style": "./styles.css",
+      "default": "./styles.css"
+    },
+    "./tailwind-config": {
+      "default": "./tailwind.config.js"
+    }
+  }
 }
