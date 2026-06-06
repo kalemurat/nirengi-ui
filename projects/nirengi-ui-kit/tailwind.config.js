@@ -112,6 +112,7 @@ module.exports = {
        * Size enum değerlerine karşılık gelen yükseklik değerleri.
        */
       height: {
+        'component-2xs': '20px',
         'component-xs': '24px',
         'component-sm': '32px',
         'component-md': '36px',

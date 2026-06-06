@@ -8,6 +8,12 @@
  */
 export enum Size {
   /**
+   * Extra extra small size (smallest step).
+   * Usage: The lowest typographic level (e.g. h6 headings), dense captions.
+   */
+  XXSmall = '2xs',
+
+  /**
    * Extra small size.
    * Usage: Very compact areas, icon buttons, chips.
    */

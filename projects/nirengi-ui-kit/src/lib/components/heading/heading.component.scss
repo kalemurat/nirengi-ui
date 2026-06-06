@@ -4,16 +4,21 @@
 // TYPOGRAPHY:
 // This component's font sizes use the Tailwind default typography scale.
 // Designed for responsive and semantic headings.
- 
+
 .nui-heading {
   // Base styles
   @apply leading-tight;
   @apply transition-colors duration-200;
- 
+
   // ============================================================================
   // SIZE VARIANTS
   // Font sizes and line-height values
   // ============================================================================
+
+  &--2xs {
+    @apply text-xs;
+    line-height: 1.4;
+  }
 
   &--xs {
     @apply text-sm;
