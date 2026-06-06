@@ -44,6 +44,7 @@ export class HeadingPageComponent {
    * Heading boyutları listesi.
    */
   protected readonly headingSizes = signal<Size[]>([
+    Size.XXSmall,
     Size.XSmall,
     Size.Small,
     Size.Medium,

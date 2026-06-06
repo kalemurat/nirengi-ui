@@ -61,7 +61,7 @@ export enum HeadingWeight {
  * - ✅ OnPush change detection strategy
  * - ✅ Computed signals for class binding
  * - ✅ 6 different HTML semantic levels (h1-h6)
- * - ✅ 5 different sizes (xs, sm, md, lg, xl)
+ * - ✅ 6 different sizes (2xs, xs, sm, md, lg, xl)
  * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
  * - ✅ 3 different alignments (left, center, right)
  * - ✅ 5 different font weights (normal, medium, semibold, bold, extrabold)
@@ -273,8 +273,9 @@ export class HeadingComponent {
       case HeadingLevel.H4:
         return Size.Small;
       case HeadingLevel.H5:
-      case HeadingLevel.H6:
         return Size.XSmall;
+      case HeadingLevel.H6:
+        return Size.XXSmall;
       default:
         return Size.Medium;
     }

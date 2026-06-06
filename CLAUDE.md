@@ -132,11 +132,31 @@ ng test nirengi-ui-kit --code-coverage
 - Address any findings it reports; do not consider the task done while there are unresolved security issues.
 - This applies to component logic, services, directives, build/config changes, and dependency updates alike.
 
+## 🏗️ Build verification — required when the task is done
+
+**When a task is complete, build BOTH projects and confirm there are no errors.**
+Treat this as a mandatory final step alongside tests and the security review — the
+work is not done until both builds are green.
+
+- Build the library first, then the showcase app (the app consumes the library
+  from `dist/`, so order matters):
+
+  ```bash
+  npm run build:ui-kit   # Build the library (nirengi-ui-kit)
+  npm run build          # Build the showcase app (nirengi-ui)
+  ```
+
+- If either build reports an error (or warning that breaks the build), **fix it**
+  before considering the task finished. Do not leave a broken build.
+- This applies to any change — component logic, enums/tokens, styles, configs, or
+  the showcase wiring.
+
 ## Other commands
 
 ```bash
 npm start                 # Run the showcase app (localhost:4200)
 npm run build:ui-kit      # Build the library
+npm run build             # Build the showcase app
 npm run lint              # ESLint
 npm run format            # Prettier
 ```
