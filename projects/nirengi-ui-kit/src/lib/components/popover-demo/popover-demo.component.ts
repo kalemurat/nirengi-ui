@@ -11,7 +11,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { ButtonType } from '../button/button.component';
 
 @Component({
-  selector: 'nirengi-popover-example-content',
+  selector: 'nui-popover-example-content',
   standalone: true,
   imports: [CommonModule, HeadingComponent, ParagraphComponent, ButtonComponent],
   template: `
@@ -72,7 +72,7 @@ export class PopoverExampleContentComponent {
 }
 
 @Component({
-  selector: 'nirengi-popover-demo',
+  selector: 'nui-popover-demo',
   standalone: true,
   imports: [CommonModule, PopoverDirective, ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,11 +81,11 @@ export class PopoverExampleContentComponent {
       class="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-12 dark:border-slate-700 dark:bg-slate-900"
     >
       <nui-button
-        [nirengiPopover]="contentComponent"
-        [nirengiPopoverPosition]="position()"
-        [nirengiPopoverCloseOnOutsideClick]="closeOnOutsideClick()"
-        [nirengiPopoverInputs]="demoInputs"
-        (nirengiPopoverOutput)="handleEvent($event)"
+        [nuiPopover]="contentComponent"
+        [nuiPopoverPosition]="position()"
+        [nuiPopoverCloseOnOutsideClick]="closeOnOutsideClick()"
+        [nuiPopoverInputs]="demoInputs"
+        (nuiPopoverOutput)="handleEvent($event)"
         [variant]="ColorVariant.Primary"
       >
         Open Popover
@@ -116,11 +116,11 @@ export class PopoverDemoComponent {
     customData: 'Data coming from the parent component.',
   };
 
-  lastEvent: PopoverEventPayload | null = null;
+  lastEvent: IPopoverEventPayload | null = null;
 
   protected readonly ColorVariant = ColorVariant;
 
-  handleEvent(event: PopoverEventPayload): void {
+  handleEvent(event: IPopoverEventPayload): void {
     this.lastEvent = event;
 
     // Clear the message after 3 seconds
@@ -130,7 +130,7 @@ export class PopoverDemoComponent {
   }
 }
 
-interface PopoverEventPayload {
+interface IPopoverEventPayload {
   key: string;
   data: unknown;
 }

@@ -18,15 +18,15 @@ export type ColorShade =
 
 /**
  * @example
- * const color: ColorConfig = {
+ * const color: IColorConfig = {
  *   variant: 'primary',
  *   shade: '600'
  * };
  */
-export interface ColorConfig {
+export interface IColorConfig {
   variant: ColorVariantType;
   /** @default '500' */
   shade?: ColorShade;
 }
 
-export type ColorValue = ColorVariantType | ColorConfig;
+export type ColorValue = ColorVariantType | IColorConfig;

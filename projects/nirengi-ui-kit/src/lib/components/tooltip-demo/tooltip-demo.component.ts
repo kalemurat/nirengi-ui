@@ -6,7 +6,7 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
 
 /** Demo component that showcases TooltipDirective inside the nirengi-ui-kit showcase system. */
 @Component({
-  selector: 'nirengi-tooltip-demo',
+  selector: 'nui-tooltip-demo',
   standalone: true,
   imports: [CommonModule, TooltipDirective, ButtonComponent],
   template: `
@@ -14,8 +14,8 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
       class="flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 p-20"
     >
       <nui-button
-        [nirengiTooltip]="tooltipText()"
-        [nirengiTooltipPosition]="tooltipPosition()"
+        [nuiTooltip]="tooltipText()"
+        [nuiTooltipPosition]="tooltipPosition()"
         [kind]="ButtonType.Solid"
       >
         Hover Over Me

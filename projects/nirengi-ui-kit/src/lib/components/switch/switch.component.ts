@@ -50,9 +50,11 @@ export class SwitchComponent extends ValueAccessorBase<boolean> {
   readonly id = input<string>(`nui-switch-${Math.random().toString(36).substr(2, 9)}`);
 
   /** Dumb/controlled-mode disabled binding. */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
   /** Dumb/controlled-mode checked binding. */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly checkedInput = input<boolean | null>(null, { alias: 'checked' });
 
   readonly containerClasses = computed(() => {

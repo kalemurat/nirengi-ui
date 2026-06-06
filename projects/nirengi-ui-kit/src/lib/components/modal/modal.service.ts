@@ -1,5 +1,5 @@
 import { Injectable, Injector, signal, TemplateRef, Type } from '@angular/core';
-import { IModalService, ModalData, ModalOptions, ModalSize } from './modal.types';
+import { IModalService, IModalData, IModalOptions, ModalSize } from './modal.types';
 import { ModalRef } from './modal-ref';
 import { MODAL_DATA, MODAL_REF } from './modal.token';
 
@@ -10,21 +10,21 @@ import { MODAL_DATA, MODAL_REF } from './modal.token';
   providedIn: 'root',
 })
 export class ModalService implements IModalService {
-  readonly modals = signal<ModalData[]>([]);
+  readonly modals = signal<IModalData[]>([]);
   private readonly modalStackCount = signal(0);
 
   constructor(private injector: Injector) {}
 
-  open<T>(content: Type<T> | TemplateRef<T>, options?: ModalOptions): ModalRef<T> {
+  open<T>(content: Type<T> | TemplateRef<T>, options?: IModalOptions): ModalRef<T> {
     const id = crypto.randomUUID();
-    const modalOptions: ModalOptions = {
+    const modalOptions: IModalOptions = {
       size: ModalSize.Medium,
       backdropClose: true,
       escClose: true,
       ...options,
     };
 
-    const modalRef = new ModalRef<T>(id, (modalId, result) => {
+    const modalRef = new ModalRef<T>(id, (modalId) => {
       // Logic to run when close is called on the Ref
       this.remove(modalId);
     });
@@ -41,7 +41,7 @@ export class ModalService implements IModalService {
       });
     }
 
-    const modalData: ModalData = {
+    const modalData: IModalData = {
       id,
       content,
       options: modalOptions,

@@ -95,27 +95,12 @@ export class TextareaComponent extends ValueAccessorBase<string> {
   readonly autoResize = input<boolean>(false);
 
   /** Allows setting a value without a form control (uncontrolled / dumb mode). */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly valueInput = input<string | null>(null, { alias: 'value' });
 
   /** Allows disabling the textarea without a form control (uncontrolled / dumb mode). */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
-
-  constructor() {
-    super();
-
-    // Sync value input
-    effect(() => {
-      const val = this.valueInput();
-      if (val !== null) {
-        this.writeValue(val);
-      }
-    });
-
-    // Sync disabled input
-    effect(() => {
-      this.setDisabledState(this.disabledInput());
-    });
-  }
 
   readonly iconSize = computed(() => {
     switch (this.size()) {
@@ -157,6 +142,23 @@ export class TextareaComponent extends ValueAccessorBase<string> {
     const current = this.value()?.length || 0;
     return current > max;
   });
+
+  constructor() {
+    super();
+
+    // Sync value input
+    effect(() => {
+      const val = this.valueInput();
+      if (val !== null) {
+        this.writeValue(val);
+      }
+    });
+
+    // Sync disabled input
+    effect(() => {
+      this.setDisabledState(this.disabledInput());
+    });
+  }
 
   onInput(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;

@@ -4,7 +4,7 @@
  * @see https://tailwindcss.com/docs/responsive-design
  */
 
-export interface Breakpoints {
+export interface IBreakpoints {
   /** Small screens (mobile) - 640px */
   sm: string;
   /** Medium screens (tablet) - 768px */
@@ -17,7 +17,7 @@ export interface Breakpoints {
   '2xl': string;
 }
 
-export const designTokenBreakpoints: Breakpoints = {
+export const designTokenBreakpoints: IBreakpoints = {
   sm: '640px',
   md: '768px',
   lg: '1024px',

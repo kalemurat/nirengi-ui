@@ -15,7 +15,7 @@
     "test:ui-kit": "ng test nirengi-ui-kit --browsers=ChromeHeadless --watch=false --code-coverage",
     "test:coverage:merge": "COVERAGE_LINES=96 COVERAGE_FUNCTIONS=96 COVERAGE_BRANCHES=90 COVERAGE_STATEMENTS=96 node scripts/merge-coverage.mjs",
     "test": "npm run test:app && npm run test:ui-kit && npm run test:coverage:merge",
-    "lint": "eslint \"src/**/*.{ts,html}\"",
+    "lint": "eslint \"{src,projects}/**/*.{ts,html}\"",
     "format": "prettier --write \"{src,projects}/**/*.{ts,html,scss,css,json,md}\""
   },
   "private": true,

@@ -48,14 +48,6 @@ export class TabsComponent {
 
   readonly activeIndex = signal<number>(0);
 
-  /** Does not select the tab if it is disabled. */
-  selectTab(index: number): void {
-    const tab = this.tabs().at(index);
-    if (tab && !tab.disabled()) {
-      this.activeIndex.set(index);
-    }
-  }
-
   protected readonly containerClasses = computed(() => {
     const classes = ['nui-tabs'];
 
@@ -72,4 +64,12 @@ export class TabsComponent {
 
     return classes.join(' ');
   });
+
+  /** Does not select the tab if it is disabled. */
+  selectTab(index: number): void {
+    const tab = this.tabs().at(index);
+    if (tab && !tab.disabled()) {
+      this.activeIndex.set(index);
+    }
+  }
 }

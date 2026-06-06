@@ -28,7 +28,15 @@
             @for (item of selectedItems(); track $index) {
               <span class="nui-select__chip">
                 {{ getLabel(item) }}
-                <span class="nui-select__chip-remove" (click)="removeItem(item, $event)">
+                <span
+                  class="nui-select__chip-remove"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Remove item"
+                  (click)="removeItem(item, $event)"
+                  (keydown.enter)="removeItem(item, $event)"
+                  (keydown.space)="removeItem(item, $event)"
+                >
                   <nui-icon name="X" [size]="12" />
                 </span>
               </span>
@@ -76,8 +84,13 @@
           @for (option of filteredOptions(); track trackByFn($index, option)) {
             <div
               class="nui-select__option"
+              role="option"
+              tabindex="0"
+              [attr.aria-selected]="isSelected(option)"
               [class.nui-select__option--selected]="isSelected(option)"
               (click)="selectOption(option)"
+              (keydown.enter)="selectOption(option)"
+              (keydown.space)="selectOption(option)"
             >
               <!-- Content -->
               <ng-container

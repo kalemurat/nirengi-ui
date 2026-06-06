@@ -23,17 +23,17 @@ import { TooltipPosition } from './tooltip.types';
  * Attaches a tooltip to the host element via Angular CDK Overlay.
  *
  * @example
- * <button [nirengiTooltip]="'Confirm action'" [nirengiTooltipPosition]="TooltipPosition.Top">Confirm</button>
+ * <button [nuiTooltip]="'Confirm action'" [nuiTooltipPosition]="TooltipPosition.Top">Confirm</button>
  */
 @Directive({
-  selector: '[nirengiTooltip]',
+  selector: '[nuiTooltip]',
   standalone: true,
 })
 export class TooltipDirective implements OnDestroy {
-  readonly nirengiTooltip = input.required<string>();
+  readonly nuiTooltip = input.required<string>();
 
   /** @default TooltipPosition.Top */
-  readonly nirengiTooltipPosition = input<TooltipPosition>(TooltipPosition.Top);
+  readonly nuiTooltipPosition = input<TooltipPosition>(TooltipPosition.Top);
 
   private overlayRef: OverlayRef | null = null;
   private tooltipRef: ComponentRef<TooltipComponent> | null = null;
@@ -46,8 +46,8 @@ export class TooltipDirective implements OnDestroy {
     // Listen to input changes and update
     effect(() => {
       if (this.tooltipRef) {
-        this.tooltipRef.setInput('text', this.nirengiTooltip());
-        this.tooltipRef.setInput('position', this.nirengiTooltipPosition());
+        this.tooltipRef.setInput('text', this.nuiTooltip());
+        this.tooltipRef.setInput('position', this.nuiTooltipPosition());
         // If position changes, position strategy might need updating but show/hide is enough for now
       }
     });
@@ -68,8 +68,8 @@ export class TooltipDirective implements OnDestroy {
     this.tooltipRef = this.overlayRef.attach(tooltipPortal);
 
     // Set component inputs
-    this.tooltipRef.setInput('text', this.nirengiTooltip());
-    this.tooltipRef.setInput('position', this.nirengiTooltipPosition());
+    this.tooltipRef.setInput('text', this.nuiTooltip());
+    this.tooltipRef.setInput('position', this.nuiTooltipPosition());
 
     // Make visible (for animation)
     // Leave for the next tick with requestAnimationFrame to ensure the transition works
@@ -103,7 +103,7 @@ export class TooltipDirective implements OnDestroy {
   }
 
   private getPositionStrategy(): PositionStrategy {
-    const position = this.nirengiTooltipPosition();
+    const position = this.nuiTooltipPosition();
     const positions: ConnectionPositionPair[] = [];
 
     // Create overlay positions

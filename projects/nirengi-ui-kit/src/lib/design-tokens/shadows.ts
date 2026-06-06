@@ -4,7 +4,7 @@
  * @see https://tailwindcss.com/docs/box-shadow
  */
 
-export interface Shadows {
+export interface IShadows {
   none: string;
   xs: string;
   sm: string;
@@ -15,7 +15,7 @@ export interface Shadows {
   inner: string;
 }
 
-export const designTokenShadows: Shadows = {
+export const designTokenShadows: IShadows = {
   none: 'none',
   xs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
   sm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',

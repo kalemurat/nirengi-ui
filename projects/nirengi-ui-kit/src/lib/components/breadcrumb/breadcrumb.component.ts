@@ -4,15 +4,15 @@ import { RouterLink } from '@angular/router';
 import { Size } from '../../common/enums/size.enum';
 
 /** Defines the properties for each breadcrumb link or text. */
-export interface BreadcrumbItem {
+export interface IBreadcrumbItem {
   label: string;
 
   /** If not defined, the item will not be clickable (rendered as a span). */
-  url?: string | any[];
+  url?: string | unknown[];
 
   fragment?: string;
 
-  queryParams?: any;
+  queryParams?: Record<string, unknown>;
 
   /** If true, the item is not clickable and takes a disabled style. */
   disabled?: boolean;
@@ -48,14 +48,14 @@ export interface BreadcrumbItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbComponent {
-  readonly items = input.required<BreadcrumbItem[]>();
+  readonly items = input.required<IBreadcrumbItem[]>();
 
   /**
    * Separator between items. Can be a string (e.g. `'/'`, `'>'`) or a `TemplateRef`.
    *
    * @default '/'
    */
-  readonly separator = input<string | TemplateRef<any>>('/');
+  readonly separator = input<string | TemplateRef<unknown>>('/');
 
   /** @default Size.Medium */
   readonly size = input<Size>(Size.Medium);
@@ -76,7 +76,7 @@ export class BreadcrumbComponent {
     return classes.join(' ');
   });
 
-  protected isTemplate(value: string | TemplateRef<any>): boolean {
+  protected isTemplate(value: string | TemplateRef<unknown>): boolean {
     return value instanceof TemplateRef;
   }
 }
