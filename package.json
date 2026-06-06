@@ -10,6 +10,7 @@
     "build:ui-kit:prod": "ng build nirengi-ui-kit --configuration=production",
     "postbuild:ui-kit:prod": "npm run build:styles",
     "build:styles": "node scripts/build-styles.mjs",
+    "publish:ui-kit": "npm run build:ui-kit:prod && npm publish ./dist/nirengi-ui-kit",
     "watch": "ng build --watch --configuration development",
     "test:app": "ng test nirengi-ui --browsers=ChromeHeadless --watch=false --code-coverage",
     "test:ui-kit": "ng test nirengi-ui-kit --browsers=ChromeHeadless --watch=false --code-coverage",
