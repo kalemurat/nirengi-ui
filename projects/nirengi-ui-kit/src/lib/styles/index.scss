@@ -3,21 +3,25 @@
  * Imports all stylesheet files
  */
 
+/* `meta.load-css` embeds each stylesheet's CSS at the call site (preserving the
+ * emit order below) without the deprecated `@import` rule. */
+@use 'sass:meta';
+
 /* Import Tailwind directives (preflight + --tw-* initializers + used utilities) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Semantic theme tokens (--text-primary, --bg-primary, … + .dark overrides).
- * Inlined here (extension-less import so Sass embeds it, not a CSS @import) so
- * the single global bundle (nirengi-ui-kit/styles) is fully self-contained;
- * the same file also ships standalone as nirengi-ui-kit/theme. */
-@import './theme';
+ * Embedded here (so Sass inlines the CSS, not a runtime CSS @import) so the
+ * single global bundle (nirengi-ui-kit/styles) is fully self-contained; the
+ * same file also ships standalone as nirengi-ui-kit/theme. */
+@include meta.load-css('theme.css');
 
 /* Import UI Kit styles */
-@import './tokens';
-@import './base';
-@import './utilities';
+@include meta.load-css('tokens');
+@include meta.load-css('base');
+@include meta.load-css('utilities');
 
 /* Portalled select dropdown — must be global, see _select-overlay.scss */
-@import './select-overlay';
+@include meta.load-css('select-overlay');
