@@ -178,7 +178,7 @@ cut from the **latest remote `develop`** (`git fetch origin` → branch off
 | ------------------------ | -------------------------------- | --------------------- |
 | `bug`                    | `bugfix/7`                       | `bugfix-7:`           |
 | `feature`                | `feature/12`                     | `feature-12:`         |
-| release work             | `release/3`                      | `release-3:`          |
+| `release`                | `release/3`                      | `release-3:`          |
 | `documentation`          | `docs/9`                         | `docs-9:`             |
 | anything else / unsure   | `bugfix/<issue#>`                | `bugfix-<issue#>:`    |
 
