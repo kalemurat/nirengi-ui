@@ -2,6 +2,15 @@
 
 Guidance for Claude Code (and any AI agent) working in this repository.
 
+## ⚠️ Communication language
+
+**Always talk to the user in Turkish.** All conversational replies, explanations,
+summaries, and questions directed at the user must be written in Turkish — even
+if the user writes in another language. This rule applies only to the
+conversation with the user; code, identifiers, comments, commit messages, and
+GitHub issues/PRs still follow their own language conventions (issues and PRs are
+written in English as defined elsewhere in this file).
+
 ## What is this project?
 
 **This is a UI kit project.** Its sole purpose is to produce a library of reusable, themeable Angular components (`nirengi-ui-kit`). This repo is **not** a product or an application — it is a **component library**.
@@ -12,6 +21,41 @@ The workspace contains two Angular projects:
 - **`nirengi-ui`** (`src/`) — A showcase/demo application (Storybook-like) that exhibits the library. Selector prefix: `app`. It exists only to display and try out the components; it is not a product on its own.
 
 When doing work, the default target is the library (`projects/nirengi-ui-kit`). If a component is added or changed, the demo side (`src/app`) is updated only to showcase it.
+
+## The two sides — library and showcase
+
+There are two sides to every component, and a new component is **not complete
+until both sides exist**:
+
+1. **The library component** — `projects/nirengi-ui-kit/src/lib/components/<name>/`
+   with the four co-located files (`*.component.ts/.html/.scss/.spec.ts`). This is
+   the actual product (`nui` selector prefix).
+2. **The showcase** — the demo app under `src/` (`app` selector prefix) that
+   displays and lets you try the component. Existing showcase components live
+   under `src/app/components/`, `src/app/pages/`, and `src/app/core/`.
+
+### ⚠️ Adding a new UI-kit element → also add it to the showcase
+
+Whenever a **new component is added to `nirengi-ui-kit`**, it **must also be
+surfaced in the showcase app** so it is visible/usable in the demo. Mirror how
+existing components are wired up:
+
+- Add a showcase **config** at `src/app/configs/<name>.showcase.json` (every
+  existing component has one — e.g. `button.showcase.json`, `heading.showcase.json`).
+- If the component has a dedicated demo page, add it under
+  `src/app/pages/<name>-page/` (mirroring the four-file structure of
+  `heading-page/`, `button-page/`, etc.).
+- Register any new route in `src/app/app.routes.ts` (follow the existing
+  `loadComponent` lazy-route pattern used for most pages).
+- Match how the closest existing component is showcased — do not invent a new
+  pattern; copy the established one (config-driven `ShowcaseLayoutComponent`
+  and/or a dedicated `*-page` component).
+
+If a component **already** has its showcase entry, that's fine — no extra work is
+needed; just confirm it is present and up to date.
+
+Conversely, changing an existing library component means checking whether its
+showcase entry (config/page) needs updating to reflect the change.
 
 ## Tech stack
 
@@ -102,6 +146,29 @@ npm run format            # Prettier
 - **Do not add signatures to commit messages.** Never add `Co-Authored-By: ...` or any AI signature. Commit messages must be clean and plain.
 - Use conventional commit format (`feat:`, `fix:`, `chore:`, `refactor:`, `test:`, `docs:`).
 - `.mcp.json` and `.claude/github-mcp.env` contain secret tokens; they are gitignored and must **never** be committed.
+
+## Branch & issue workflow
+
+Work tied to a GitHub issue follows a strict branch/commit naming convention. The
+branch **type** is chosen from the issue's primary label, and the branch is always
+cut from the **latest remote `develop`** (`git fetch origin` → branch off
+`origin/develop`). PRs target `develop`, never `master`.
+
+| Issue label              | Branch name (`<prefix><issue#>`) | Commit message prefix |
+| ------------------------ | -------------------------------- | --------------------- |
+| `bug`                    | `bugfix/7`                       | `bugfix-7:`           |
+| `feature`                | `feature/12`                     | `feature-12:`         |
+| release work             | `release/3`                      | `release-3:`          |
+| `documentation`          | `docs/9`                         | `docs-9:`             |
+| anything else / unsure   | `bugfix/<issue#>`                | `bugfix-<issue#>:`    |
+
+- Branch name = `<prefix>/<issue-number>` (e.g. issue #7 with label `bug` → `bugfix/7`).
+- Commit message = `<prefix>-<issue-number>: <imperative summary>`
+  (e.g. `bugfix-7: differentiate H5 and H6 default sizes`). Still **no AI signature**.
+- The issue number is encoded in the branch name; when already on such a branch,
+  the issue id can be read from the branch (`bugfix/7` → issue `7`) without asking.
+- The end-to-end flow (open issue → branch off `develop` → solve → PR to `develop`)
+  is automated by the `create-issue` and `solve-issue` skills in `.claude/skills/`.
 
 ## Secrets
 
