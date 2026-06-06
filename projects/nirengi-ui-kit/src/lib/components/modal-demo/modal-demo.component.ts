@@ -8,9 +8,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { HeadingComponent, HeadingLevel } from '../heading/heading.component';
 import { ParagraphComponent } from '../paragraph/paragraph.component';
 
-/**
- * Simple content component for testing modal.
- */
 @Component({
   selector: 'nui-modal-test-content',
   standalone: true,
@@ -42,9 +39,6 @@ export class ModalTestContentComponent {
   }
 }
 
-/**
- * Modal Demo Component.
- */
 @Component({
   selector: 'nui-modal-demo',
   standalone: true,

@@ -11,9 +11,6 @@ import { Size } from '../enums/size.enum';
  */
 
 /**
- * Tailwind height classes corresponding to Size enum values.
- * Determines the heights of components.
- *
  * ⚠️ Real values: tailwind.config.js > theme.extend.height
  *
  * @example
@@ -32,9 +29,6 @@ export const SIZE_HEIGHT_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Tailwind padding classes corresponding to Size enum values.
- * Used for horizontal padding.
- *
  * ⚠️ Real values: Tailwind default + theme.extend.spacing
  *
  * @example
@@ -52,8 +46,6 @@ export const SIZE_PADDING_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Tailwind text size classes corresponding to Size enum values.
- *
  * ⚠️ Real values: Tailwind default fontSize
  *
  * @example
@@ -71,10 +63,7 @@ export const SIZE_TEXT_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Tailwind gap classes corresponding to Size enum values.
- * Flex/Grid gap values.
- *
- * ⚠️ Real values: Tailwind default gap
+ * Flex/Grid gap values. ⚠️ Real values: Tailwind default gap
  *
  * @example
  * &--md {
@@ -91,8 +80,7 @@ export const SIZE_GAP_CLASS_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Icon sizes (pixels) corresponding to Size enum values.
- * Width/height values for SVG icons.
+ * Width/height pixel values for SVG icons.
  *
  * @example
  * const iconSize = SIZE_ICON_MAP[Size.Medium]; // '16px'
@@ -107,8 +95,6 @@ export const SIZE_ICON_MAP: Record<Size, string> = {
 } as const;
 
 /**
- * Tailwind border-radius classes corresponding to Size enum values.
- *
  * ⚠️ Real values: Tailwind default borderRadius
  *
  * @example

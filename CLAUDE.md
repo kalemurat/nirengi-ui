@@ -104,6 +104,50 @@ Rule: if there is any uncertainty about an Angular pattern, **do not guess** —
 - **Accessibility**: Honor WCAG 2.1 AA (keyboard navigation, ARIA, focus management).
 - When creating a new component, mirror the existing component file structure exactly: `*.component.ts`, `*.component.html`, `*.component.scss`, `*.component.spec.ts`.
 
+## 📝 Docblock convention — write signal, not noise
+
+Comments must add information the code cannot convey on its own. A docblock that
+only restates the symbol's name, type, or signature is noise: it costs reading and
+maintenance effort, drifts out of sync, and adds nothing. Favour fewer, denser
+docblocks over a docblock on every member.
+
+### KEEP — these earn their place
+
+- **Public-API docs that reach consumers** — docblocks on library (`nui`) component
+  classes, `input()` / `output()` / `model()` members, and exported
+  types/enums/tokens surface in consumer IDE IntelliSense via the published
+  `.d.ts`. Keep them.
+- **`@example` usage** and **`@default <value>`** — concrete usage and default
+  values the signature alone doesn't show.
+- **"Why" / rationale** — design-system notes (e.g. "sizes come from central
+  `size.constants.ts` for cross-component consistency"), non-obvious decisions,
+  links (`@see`).
+- **Edge cases / contracts** — behaviour the reader can't infer, e.g. "does not
+  emit while disabled or loading", "returns `null` when the host is detached".
+- **Terse enum-member notes** — single-line `/** ... */` clarifying a member's
+  semantics or marking the default.
+
+### REMOVE / TRIM — these are noise
+
+- **Restating the name/type** — `/** Size. */ size = input<Size>()`,
+  `/** Component's value state. */ value = signal(...)`. Delete, or trim to only
+  the value-carrying part (keep the `@default`, drop the restatement).
+- **Trivial method docs** — `/** Click handler method. @returns void */`,
+  `/** Constructor */`, `/** Toggles the theme. */ toggleTheme()`. Delete unless
+  they document a non-obvious contract/edge case (keep only that line).
+- **Self-evident `@returns void` / `@param` that repeat the signature** — drop.
+- **`ControlValueAccessor` boilerplate restatement** — `/** Writes value from
+  model to view */ writeValue()` adds nothing over the interface; drop.
+
+### Rules of thumb
+
+- Library (`projects/nirengi-ui-kit`) public API gets the benefit of the doubt —
+  it's the published product. Showcase (`src/app`, `app` prefix) internals are
+  not public; trim aggressively.
+- This is a comments-only concern — never change behaviour to satisfy it.
+- When trimming a block down to one useful line, prefer a single-line `/** ... */`
+  over a multi-line block.
+
 ## Testing — required
 
 This project uses **Karma + Jasmine**, with specs co-located next to source as `*.spec.ts`.

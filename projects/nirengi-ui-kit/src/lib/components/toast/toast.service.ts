@@ -5,9 +5,6 @@ import { IToastService, ToastData, ToastOptions, ToastVariant } from './toast.ty
   providedIn: 'root',
 })
 export class ToastService implements IToastService {
-  /**
-   * Active toasts signal.
-   */
   readonly toasts = signal<ToastData[]>([]);
 
   success(data: { title: string; description: string; options?: ToastOptions }): void {
@@ -26,10 +23,6 @@ export class ToastService implements IToastService {
     this.show(data, ToastVariant.Warning);
   }
 
-  /**
-   * Removes a toast by ID.
-   * @param id The toast ID to remove
-   */
   remove(id: string): void {
     this.toasts.update((current) => current.filter((t) => t.id !== id));
   }

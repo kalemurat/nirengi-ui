@@ -7,39 +7,21 @@
  * <nui-input [size]="Size.Large"></nui-input>
  */
 export enum Size {
-  /**
-   * Extra extra small size (smallest step).
-   * Usage: The lowest typographic level (e.g. h6 headings), dense captions.
-   */
+  /** The lowest typographic level (e.g. h6 headings), dense captions. */
   XXSmall = '2xs',
 
-  /**
-   * Extra small size.
-   * Usage: Very compact areas, icon buttons, chips.
-   */
+  /** Very compact areas, icon buttons, chips. */
   XSmall = 'xs',
 
-  /**
-   * Small size.
-   * Usage: Compact lists, secondary actions, badges.
-   */
+  /** Compact lists, secondary actions, badges. */
   Small = 'sm',
 
-  /**
-   * Medium size (default).
-   * Usage: Standard form elements, buttons, most components.
-   */
+  /** Standard form elements, buttons, most components. Default size. */
   Medium = 'md',
 
-  /**
-   * Large size.
-   * Usage: Emphasized actions, hero sections.
-   */
+  /** Emphasized actions, hero sections. */
   Large = 'lg',
 
-  /**
-   * Extra large size.
-   * Usage: Landing pages, special emphasizes, hero buttons.
-   */
+  /** Landing pages, special emphasizes, hero buttons. */
   XLarge = 'xl',
 }

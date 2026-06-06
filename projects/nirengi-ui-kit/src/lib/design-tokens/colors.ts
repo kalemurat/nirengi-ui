@@ -5,10 +5,7 @@
  * @see https://tailwindcss.com/docs/customizing-colors
  */
 
-/**
- * Color palette interface.
- * 11 different shades (50-950) are defined for each color.
- */
+/** 11 shades (50–950) per color. */
 export interface ColorPalette {
   50: string;
   100: string;
@@ -23,9 +20,6 @@ export interface ColorPalette {
   950: string;
 }
 
-/**
- * All design token color definitions.
- */
 export interface DesignTokenColors {
   /** Main brand color palette */
   primary: ColorPalette;
@@ -44,7 +38,6 @@ export interface DesignTokenColors {
 }
 
 /**
- * Default color palettes.
  * Based on Tailwind CSS's default color system.
  * Can be overridden from the main project.
  */

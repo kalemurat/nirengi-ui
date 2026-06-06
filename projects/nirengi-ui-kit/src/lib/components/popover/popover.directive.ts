@@ -117,46 +117,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
 })
 export class PopoverDirective implements OnDestroy {
-  /**
-   * Component to be displayed inside the popover.
-   */
   readonly nirengiPopover = input.required<Type<any>>();
 
-  /**
-   * Popover position.
-   * Default: Bottom
-   */
+  /** @default PopoverPosition.Bottom */
   readonly nirengiPopoverPosition = input<PopoverPosition>(PopoverPosition.Bottom);
 
-  /**
-   * Determines whether the popover closes when clicked outside.
-   * Default: false
-   */
+  /** @default false */
   readonly nirengiPopoverCloseOnOutsideClick = input<boolean>(false);
 
-  /**
-   * Inputs to be passed to the popover content component.
-   */
   readonly nirengiPopoverInputs = input<Record<string, unknown>>({});
 
-  /**
-   * Triggered when the popover is opened
-   */
   readonly popoverOpened = output<void>();
 
-  /**
-   * Triggered when the popover is closed
-   */
   readonly popoverClosed = output<void>();
 
-  /**
-   * Forwards events from the popover content to the outside.
-   * Triggered when `PopoverRef.emit('key', data)` is used inside the component.
-   */
-  /**
-   * Forwards events from the popover content to the outside.
-   * Triggered when `PopoverRef.emit('key', data)` is used inside the component.
-   */
+  /** Forwards events emitted via `PopoverRef.emit('key', data)` inside the content component. */
   readonly nirengiPopoverOutput = output<{ key: string; data: unknown }>();
 
   private overlayRef: OverlayRef | null = null;
@@ -262,10 +237,7 @@ export class PopoverDirective implements OnDestroy {
     this.popoverOpened.emit();
   }
 
-  /**
-   * Closes the popover.
-   * Works only if the popover is currently visible.
-   */
+  /** Does nothing if the popover is not currently visible. */
   close(): void {
     if (!this.isVisible) return;
 

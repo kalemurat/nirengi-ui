@@ -19,8 +19,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
 
 /**
- * Modal Wrapper Component.
- * Renders the backdrop and the modal container.
  * Handles closing via backdrop click or ESC key.
  *
  * @example
@@ -126,9 +124,6 @@ import { Size } from '../../common/enums/size.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent {
-  /**
-   * The modal configuration data.
-   */
   readonly data = input.required<ModalData>({
     alias: 'data',
   });
@@ -152,24 +147,12 @@ export class ModalComponent {
     });
   }
 
-  /**
-   * Gets the component content from the modal data.
-   * Returns the content if it's a class/function (Component type).
-   *
-   * @returns Component type or null if content is a template
-   */
   protected get componentContent(): Type<unknown> | null {
     const c = this.data().content;
     // Check if it is a class/function (Component)
     return typeof c === 'function' ? (c as Type<unknown>) : null;
   }
 
-  /**
-   * Gets the template content from the modal data.
-   * Returns the content if it's a TemplateRef.
-   *
-   * @returns TemplateRef or null if content is a component
-   */
   protected get templateContent(): TemplateRef<unknown> | null {
     const c = this.data().content;
     // Check if it is a TemplateRef
@@ -191,21 +174,13 @@ export class ModalComponent {
     }
   });
 
-  /**
-   * Handles backdrop click to close the modal.
-   * Respects the backdropClose option from modal configuration.
-   */
   onBackdropClick(): void {
     if (this.data().options.backdropClose !== false) {
       this.close();
     }
   }
 
-  /**
-   * Handles ESC key press to close the modal.
-   * Only closes if the modal is the top-most modal in the stack.
-   * Respects the escClose option from modal configuration.
-   */
+  /** Only closes if this is the top-most modal in the stack. */
   @HostListener('document:keydown.escape')
   onEscKey(): void {
     if (this.data().options.escClose !== false) {
@@ -214,9 +189,6 @@ export class ModalComponent {
     }
   }
 
-  /**
-   * Closes the modal and resets body overflow when all modals are closed.
-   */
   close(): void {
     this.modalService.close(this.data().id);
   }

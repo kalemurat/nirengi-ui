@@ -10,9 +10,6 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { ButtonType } from '../button/button.component';
 
-/**
- * Example content to be displayed within the popover.
- */
 @Component({
   selector: 'nirengi-popover-example-content',
   standalone: true,
@@ -48,14 +45,8 @@ import { ButtonType } from '../button/button.component';
   `,
 })
 export class PopoverExampleContentComponent {
-  /**
-   * Input example from the parent
-   */
   readonly title = input<string>();
 
-  /**
-   * Another input example from the parent
-   */
   readonly customData = input<string>();
 
   protected readonly HeadingLevel = HeadingLevel;
@@ -66,12 +57,6 @@ export class PopoverExampleContentComponent {
   // PopoverRef should be injected optionally because the component can also be used outside the popover (theoretically)
   private readonly popoverRef = inject(PopoverRef, { optional: true });
 
-  /**
-   * Handles action from the example content component.
-   * Emits an event through the popover reference and closes the popover if applicable.
-   *
-   * @param action The action type: 'cancel' or 'confirm'
-   */
   onAction(action: 'cancel' | 'confirm'): void {
     if (this.popoverRef) {
       if (action === 'confirm') {
@@ -86,9 +71,6 @@ export class PopoverExampleContentComponent {
   }
 }
 
-/**
- * Demo wrapper component for the Popover showcase.
- */
 @Component({
   selector: 'nirengi-popover-demo',
   standalone: true,
@@ -123,42 +105,21 @@ export class PopoverExampleContentComponent {
   `,
 })
 export class PopoverDemoComponent {
-  /**
-   * Position from the showcase
-   */
   readonly position = input<PopoverPosition>(PopoverPosition.Bottom);
 
-  /**
-   * Outside click setting from the showcase
-   */
   readonly closeOnOutsideClick = input<boolean>(true);
 
-  /**
-   * Content to be displayed
-   */
   readonly contentComponent: Type<unknown> = PopoverExampleContentComponent;
 
-  /**
-   * Sample inputs to be passed to the component
-   */
   readonly demoInputs = {
     title: 'Dynamic Title',
     customData: 'Data coming from the parent component.',
   };
 
-  /**
-   * The latest event emitted by the popover instance.
-   */
   lastEvent: PopoverEventPayload | null = null;
 
   protected readonly ColorVariant = ColorVariant;
 
-  /**
-   * Handles popover events and displays them to the user.
-   * Automatically clears the last event after 3 seconds.
-   *
-   * @param event The event object emitted by the popover component
-   */
   handleEvent(event: PopoverEventPayload): void {
     this.lastEvent = event;
 
@@ -169,9 +130,6 @@ export class PopoverDemoComponent {
   }
 }
 
-/**
- * Payload shape used for popover event samples.
- */
 interface PopoverEventPayload {
   key: string;
   data: unknown;

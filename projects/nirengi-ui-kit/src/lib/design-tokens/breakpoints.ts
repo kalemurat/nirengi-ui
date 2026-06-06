@@ -1,13 +1,9 @@
 /**
  * UI Kit breakpoint (responsive) design tokens.
- * Screen size threshold values for responsive design.
  *
  * @see https://tailwindcss.com/docs/responsive-design
  */
 
-/**
- * Breakpoint definitions interface.
- */
 export interface Breakpoints {
   /** Small screens (mobile) - 640px */
   sm: string;
@@ -21,10 +17,6 @@ export interface Breakpoints {
   '2xl': string;
 }
 
-/**
- * Default breakpoint values.
- * Based on Tailwind CSS breakpoint system.
- */
 export const designTokenBreakpoints: Breakpoints = {
   sm: '640px',
   md: '768px',
@@ -35,9 +27,6 @@ export const designTokenBreakpoints: Breakpoints = {
 
 /**
  * Helper that converts breakpoints to media query format.
- *
- * @param breakpoint - Breakpoint value
- * @returns Media query string
  *
  * @example
  * const mediaQuery = getMediaQuery(designTokenBreakpoints.md);

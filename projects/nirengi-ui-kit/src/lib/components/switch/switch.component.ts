@@ -13,10 +13,6 @@ import { Size } from '../../common/enums/size.enum';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 
 /**
- * Switch (Toggle) Component.
- * Used for toggling boolean values in forms.
- * Uses signal-based reactive state management.
- *
  * @example
  * <nui-switch [variant]="ColorVariant.Primary" [size]="Size.Medium">
  *   Enable Notifications
@@ -38,51 +34,27 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
   ],
 })
 export class SwitchComponent extends ValueAccessorBase<boolean> {
-  /**
-   * Public property for using enums in the template.
-   */
   public readonly Size = Size;
   public readonly ColorVariant = ColorVariant;
 
-  /**
-   * Switch variant color.
-   * Default: `ColorVariant.Primary`
-   */
+  /** @default ColorVariant.Primary */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
-  /**
-   * Switch size.
-   * Default: `Size.Medium`
-   */
+  /** @default Size.Medium */
   readonly size = input<Size>(Size.Medium);
 
-  /**
-   * Label text to be displayed next to the switch.
-   * If there is content in the component (ng-content), it takes priority.
-   */
+  /** If ng-content is provided, it takes priority over this label. */
   readonly label = input<string>();
 
-  /**
-   * ID value for the switch input.
-   * Used for accessibility.
-   */
+  /** @default auto-generated random id */
   readonly id = input<string>(`nui-switch-${Math.random().toString(36).substr(2, 9)}`);
 
-  /**
-   * Disabled input (dumb mode).
-   */
+  /** Dumb/controlled-mode disabled binding. */
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
-  /**
-   * Checked input (dumb mode).
-   * Used for direct binding.
-   */
+  /** Dumb/controlled-mode checked binding. */
   readonly checkedInput = input<boolean | null>(null, { alias: 'checked' });
 
-  /**
-   * Container classes.
-   * Dynamically calculated based on size and variant.
-   */
   readonly containerClasses = computed(() => {
     return {
       'nui-switch': true,
@@ -110,19 +82,14 @@ export class SwitchComponent extends ValueAccessorBase<boolean> {
     });
   }
 
-  /**
-   * Toggle action.
-   * Inverts the value if not disabled.
-   */
+  /** No-op when disabled. */
   toggle(): void {
     if (this.isDisabled()) return;
     this.updateValue(!this.value());
     this.markAsTouched();
   }
 
-  /**
-   * Toggle action via keyboard (Space/Enter).
-   */
+  /** Handles Space and Enter keys; prevents default scroll on Space. */
   onKeyDown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;
     if (event.key === ' ' || event.key === 'Enter') {

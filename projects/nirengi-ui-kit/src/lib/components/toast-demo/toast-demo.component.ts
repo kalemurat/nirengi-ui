@@ -9,11 +9,6 @@ import { ToastData, ToastVariant } from '../toast/toast.types';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
-/**
- * Demo component for Toast notifications.
- * Demonstrates the usage of ToastService via TOAST token.
- * Also provides a static preview for showcase.
- */
 @Component({
   selector: 'nui-toast-demo',
   standalone: true,

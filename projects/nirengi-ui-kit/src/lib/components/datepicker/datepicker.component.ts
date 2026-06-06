@@ -38,34 +38,11 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
 
-/**
- * Type definition for Datepicker value.
- * Can be a single Date or a Range object.
- */
 export type DateValues = Date | { start: Date | null; end: Date | null };
 
-/**
- * Selection mode.
- */
 export type DatepickerSelectionMode = 'single' | 'range';
 
 /**
- * Modern datepicker component.
- * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
- *
- * ## Features
- * - ✅ Signal-based ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ Two-way data binding support (ngModel, formControl)
- * - ✅ OnPush change detection strategy
- * - ✅ Reactive class binding with computed signals
- * - ✅ Single & Range selection mode
- * - ✅ Time selection (Hour/Minute)
- * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ 5 different sizes (xs, sm, md, lg, xl)
- * - ✅ Disabled and readonly states
- * - ✅ WCAG 2.1 AA accessibility standards
- * - ✅ Keyboard navigation support
- *
  * @example
  * // With Reactive Forms
  * <nui-datepicker [formControl]="dateControl" label="Birth Date"></nui-datepicker>
@@ -89,10 +66,9 @@ export type DatepickerSelectionMode = 'single' | 'range';
  *   [size]="Size.Large"
  *   label="Start Date"></nui-datepicker>
  *
- * @see https://v20.angular.dev/guide/signals
  * @see {@link ValueAccessorBase}
- * @see {@link Size} - Standard size values
- * @see {@link ColorVariant} - Color variants
+ * @see {@link Size}
+ * @see {@link ColorVariant}
  */
 @Component({
   selector: 'nui-datepicker',
@@ -120,29 +96,14 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
 
-  /**
-   * Whether the datepicker is clearable.
-   * If true, shows a clear button when a value is selected.
-   * @default false
-   */
+  /** Shows a clear button when a value is selected. @default false */
   readonly clearable = input<boolean>(false);
 
-  /**
-   * Color variant.
-   * Provides a color theme with semantic meaning.
-   *
-   * @default ColorVariant.Primary
-   */
+  /** @default ColorVariant.Primary */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
-  /**
-   * Component size.
-   */
   readonly size = input<Size>(Size.Medium);
 
-  /**
-   * Computed icon size based on component size.
-   */
   readonly iconSize = computed(() => {
     switch (this.size()) {
       case Size.XSmall:
@@ -160,44 +121,24 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     }
   });
 
-  /**
-   * Validation hint text.
-   */
   readonly hint = input<string>('');
 
-  /**
-   * Error message text.
-   */
   readonly error = input<string>('');
 
-  /**
-   * Date format string.
-   * If not provided, defaults based on `withTime`.
-   */
+  /** If not provided, defaults based on `withTime`. */
   readonly formatStr = input<string>(''); // Dynamic default handled in computed
 
-  /**
-   * Selection mode: 'single' or 'range'.
-   */
   readonly selectionMode = input<DatepickerSelectionMode>('single');
 
-  /**
-   * Enable time selection.
-   */
   readonly withTime = input<boolean>(false);
 
   // --- Outputs ---
 
-  /**
-   * Event emitted when date value selection is complete/changed by user.
-   */
+  /** Emitted when date selection is complete or changed by user. */
   readonly dateChange = output<DateValues>();
 
   // --- Public Computed ---
 
-  /**
-   * Resolved format string.
-   */
   readonly resolvedFormat = computed(() => {
     if (this.formatStr()) return this.formatStr();
     return this.withTime() ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy';
@@ -219,11 +160,6 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return '';
   });
 
-  /**
-   * Computed classes for the input element.
-   * Performs dynamic class binding using BEM methodology.
-   * Updated reactively.
-   */
   readonly inputClasses = computed(() => {
     const classes = ['datepicker__input'];
 
@@ -264,9 +200,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return days;
   });
 
-  /**
-   * Helper to safely access range values in template
-   */
+  /** Safely typed range value for template access. */
   readonly rangeValue = computed(() => {
     const v = this.value();
     if (this.isRange(v)) {
@@ -277,14 +211,9 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   // --- Internal State ---
 
-  /**
-   * Current view date (month/year navigation).
-   */
+  /** Current view date for month/year navigation. */
   readonly viewDate = signal<Date>(new Date());
 
-  /**
-   * Popup open state.
-   */
   readonly isOpen = signal<boolean>(false);
 
   // Time state (for internal UI binding)
@@ -339,10 +268,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   // --- Actions ---
 
-  /**
-   * Toggles the datepicker popup open/close state.
-   * Syncs the view date to the current value when opening.
-   */
+  /** Syncs the view date to the current value when opening. */
   toggleOpen(): void {
     if (this.isDisabled() || this.readonly()) return;
     this.isOpen.update((v) => !v);
@@ -359,34 +285,21 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     }
   }
 
-  /**
-   * Closes the datepicker popup and marks the control as touched.
-   */
+  /** Closes the popup and marks the control as touched. */
   close(): void {
     this.isOpen.set(false);
     this.markAsTouched();
   }
 
-  /**
-   * Navigates to the previous month in the calendar view.
-   */
   prevMonth(): void {
     this.viewDate.update((d) => subMonths(d, 1));
   }
 
-  /**
-   * Navigates to the next month in the calendar view.
-   */
   nextMonth(): void {
     this.viewDate.update((d) => addMonths(d, 1));
   }
 
-  /**
-   * Handles date click event.
-   * Applies time selection if enabled and manages single/range selection modes.
-   *
-   * @param {Date} date - The selected date.
-   */
+  /** Applies time if `withTime` is enabled; swaps start/end when end is before start in range mode. */
   selectDate(date: Date): void {
     const mode = this.selectionMode();
     const currentVal = this.value();
@@ -437,10 +350,6 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     }
   }
 
-  /**
-   * Clears the selected date value.
-   * @param event - Mouse click event.
-   */
   clearValue(event: Event): void {
     event.stopPropagation();
     if (this.isDisabled() || this.readonly()) return;
@@ -448,52 +357,29 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     this.dateChange.emit(null!);
   }
 
-  /**
-   * Toggles the hour picker dropdown.
-   */
   toggleHourPicker(): void {
     this.showHourPicker.update((v) => !v);
     this.showMinutePicker.set(false);
   }
 
-  /**
-   * Toggles the minute picker dropdown.
-   */
   toggleMinutePicker(): void {
     this.showMinutePicker.update((v) => !v);
     this.showHourPicker.set(false);
   }
 
-  /**
-   * Selects a specific hour value and updates the time.
-   *
-   * @param {number} h - The hour value (0-23).
-   */
   selectHour(h: number): void {
     this.selectedHour.set(h);
     this.updateTime();
     this.showHourPicker.set(false);
   }
 
-  /**
-   * Selects a specific minute value and updates the time.
-   *
-   * @param {number} m - The minute value (0-59).
-   */
   selectMinute(m: number): void {
     this.selectedMinute.set(m);
     this.updateTime();
     this.showMinutePicker.set(false);
   }
 
-  /**
-   * Writes a value to the component from outside (ControlValueAccessor).
-   * Handles both Date objects and ISO date strings.
-   * Validates and converts input to the appropriate format based on selection mode.
-   *
-   * @override
-   * @param {DateValues | null} obj - The value to write.
-   */
+  /** Also accepts ISO date strings; validates before setting. */
   override writeValue(obj: DateValues | null): void {
     // Basic type checking and safe setting
     if (!obj) {
@@ -523,23 +409,12 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   // --- Helper Predicates ---
 
-  /**
-   * Type guard to check if a value is a range object.
-   *
-   * @param {unknown} val - The value to check.
-   * @returns {boolean} True if the value is a range object.
-   */
+  /** Type guard for range values. */
   isRange(val: unknown): val is { start: Date | null; end: Date | null } {
     return !!val && typeof val === 'object' && 'start' in val;
   }
 
-  /**
-   * Checks if a given date is currently selected.
-   * Works for both single and range selection modes.
-   *
-   * @param {Date} date - The date to check.
-   * @returns {boolean} True if the date is selected.
-   */
+  /** Works for both single and range selection modes (matches start or end in range). */
   isSelected(date: Date): boolean {
     const val = this.value();
     if (this.selectionMode() === 'single') {
@@ -550,13 +425,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return false;
   }
 
-  /**
-   * Checks if a given date is within the selected range.
-   * Only applicable in range selection mode.
-   *
-   * @param {Date} date - The date to check.
-   * @returns {boolean} True if the date is within the range.
-   */
+  /** Only returns true when both range start and end are set. */
   isInRange(date: Date): boolean {
     const val = this.value();
     if (this.selectionMode() === 'range' && this.isRange(val) && val.start && val.end) {
@@ -565,46 +434,21 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return false;
   }
 
-  /**
-   * Checks if a given date belongs to the currently viewed month.
-   *
-   * @param {Date} date - The date to check.
-   * @returns {boolean} True if the date is in the current month.
-   */
   isCurrentMonth(date: Date): boolean {
     return isSameMonth(date, this.viewDate());
   }
 
-  /**
-   * Checks if a given date is today.
-   *
-   * @param {Date} date - The date to check.
-   * @returns {boolean} True if the date is today.
-   */
   isDateToday(date: Date): boolean {
     return isToday(date);
   }
 
-  /**
-   * Checks if two dates are the same day.
-   *
-   * @param {Date} d1 - The first date.
-   * @param {Date} d2 - The second date.
-   * @returns {boolean} True if dates are the same day.
-   */
   isSameDay(d1: Date, d2: Date): boolean {
     return isSameDay(d1, d2);
   }
 
   // --- Private Methods ---
 
-  /**
-   * Updates the time component of the current value.
-   * Applies the selected hour and minute to the date.
-   * For range mode, applies time to the end date if complete, otherwise to the start date.
-   *
-   * @private
-   */
+  /** In range mode applies time to end if complete, otherwise to start. */
   private updateTime(): void {
     const h = this.selectedHour();
     const m = this.selectedMinute();

@@ -13,8 +13,6 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * File Upload Component
- *
  * Supports drag & drop and click to upload.
  * Can handle single or multiple files.
  * Provides a remove button for each file and a 'clear all' option.
@@ -39,95 +37,50 @@ export class FileUploadComponent {
   protected readonly ColorVariant = ColorVariant;
   protected readonly ButtonType = ButtonType;
 
-  /**
-   * Label for the upload button.
-   * Default: 'Upload'
-   */
+  /** @default 'Upload' */
   readonly uploadLabel = input<string>('Upload');
 
-  /**
-   * Label for the remove all button.
-   * Default: 'Remove all'
-   */
+  /** @default 'Remove all' */
   readonly removeAllLabel = input<string>('Remove all');
 
-  /**
-   * Text for the clickable part of the drop zone.
-   * Default: 'Click to upload file'
-   */
+  /** @default 'Click to upload file' */
   readonly clickLabel = input<string>('Click to upload file');
 
-  /**
-   * Text for the drag and drop part of the drop zone.
-   * Default: 'or drag and drop'
-   */
+  /** @default 'or drag and drop' */
   readonly dragDropLabel = input<string>('or drag and drop');
 
-  /**
-   * Whether to allow multiple file selection.
-   * Default: false
-   */
+  /** @default false */
   readonly multiple = input<boolean>(false);
 
-  /**
-   * Accepted file types (e.g. '.png, .jpg, image/*').
-   */
+  /** Accepted file types (e.g. '.png, .jpg, image/*'). */
   readonly accept = input<string>('');
 
-  /**
-   * Whether the component is disabled.
-   */
   readonly disabled = input<boolean>(false);
 
-  /**
-   * Emitted when files are selected or dropped.
-   * Returns an array of File objects.
-   */
+  /** Emitted when files are selected or dropped; payload is the current file list. */
   readonly fileSelected = output<File[]>();
 
-  /**
-   * Emitted when files are about to be uploaded.
-   * Paylod: Array of files to upload.
-   */
+  /** Emitted when the upload action is triggered; payload is the current file list. */
   readonly upload = output<File[]>();
 
-  /**
-   * Emitted when a single file is removed.
-   * Payload: The removed File object.
-   */
+  /** Emitted when a single file is removed; payload is the removed File. */
   readonly fileDeleted = output<File>();
 
-  /**
-   * Emitted when all files are cleared.
-   * Payload: Array of cleared File objects.
-   */
+  /** Emitted when all files are cleared; payload is the list that was cleared. */
   readonly filesCleared = output<File[]>();
 
   /**
-   * Deprecated: Use fileDeleted or filesCleared instead if possible,
-   * but kept for compatibility or different use case (remaining files).
-   * Emitted when a file is removed (returns remaining files).
+   * @deprecated Use `fileDeleted` (removed file) or `filesCleared` (all cleared) instead.
+   * Emitted on any removal; payload is the remaining files after removal.
    */
   readonly fileRemoved = output<File[]>();
 
-  /**
-   * Internal reference to the file input element
-   */
   readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
 
-  /**
-   * Signal to track selected files
-   */
   readonly files = signal<File[]>([]);
 
-  /**
-   * Signal to track drag over state
-   */
   readonly isDragOver = signal<boolean>(false);
 
-  /**
-   * Handles drag over event
-   */
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -136,18 +89,12 @@ export class FileUploadComponent {
     }
   }
 
-  /**
-   * Handles drag leave event
-   */
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.isDragOver.set(false);
   }
 
-  /**
-   * Handles drop event
-   */
   onDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -163,9 +110,6 @@ export class FileUploadComponent {
     }
   }
 
-  /**
-   * Handles file input change event
-   */
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -173,9 +117,6 @@ export class FileUploadComponent {
     }
   }
 
-  /**
-   * Processes selected files, updates signals and emits events
-   */
   private handleFiles(fileList: FileList): void {
     const newFiles = Array.from(fileList);
 
@@ -201,9 +142,6 @@ export class FileUploadComponent {
     this.fileInput().nativeElement.value = '';
   }
 
-  /**
-   * Removes a specific file from the list
-   */
   removeFile(fileToRemove: File, event: Event): void {
     event.stopPropagation();
     if (this.disabled()) return;
@@ -218,9 +156,6 @@ export class FileUploadComponent {
     this.fileSelected.emit(this.files());
   }
 
-  /**
-   * Clears all files
-   */
   clearFiles(): void {
     if (this.disabled()) return;
 
@@ -232,17 +167,11 @@ export class FileUploadComponent {
     this.fileSelected.emit([]);
   }
 
-  /**
-   * Triggers the upload event
-   */
   onUpload(): void {
     if (this.disabled() || this.files().length === 0) return;
     this.upload.emit(this.files());
   }
 
-  /**
-   * Formats file size to human readable string
-   */
   formatSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;

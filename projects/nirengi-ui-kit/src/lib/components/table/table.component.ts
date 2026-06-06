@@ -32,18 +32,7 @@ export interface ITableColumn {
 }
 
 /**
- * Performance-oriented, flexible, and customizable data table component.
- * Supports filtering, pagination, and virtual scrolling features.
- *
- * ## Features
- * - ✅ Standalone Component
- * - ✅ OnPush Change Detection
- * - ✅ Signal-based state management
- * - ✅ Virtual Scrolling support (@angular/cdk/scrolling)
- * - ✅ Customizable Heading and Row templates
- * - ✅ Column-based automatic rendering support (Simple Mode)
- * - ✅ Global and Column-based filtering
- * - ✅ Debounce supported filtering performance optimization
+ * Performance-oriented data table with filtering, pagination, and virtual scrolling.
  *
  * @example
  * <nui-table [data]="users" [columns]="[{field: 'name', header: 'Name'}]" [virtualScroll]="true">
@@ -60,82 +49,54 @@ export interface ITableColumn {
 export class TableComponent<T> {
   // Inputs
 
-  /**
-   * Data list to be displayed in the table.
-   */
   data = input.required<T[]>();
 
-  /**
-   * Waiting time for filtering process (ms).
-   * For performance, a default delay of 500ms is applied.
-   */
+  /** Debounce delay for filter input (ms). Applied for performance. @default 500 */
   filterDebounce = input<number>(500);
 
   /**
-   * Enables/disables the virtual scrolling feature.
    * Recommended to be `true` for large data sets.
    * @default false
    */
   virtualScroll = input<boolean>(false);
 
-  /**
-   * Height of each row when virtual scrolling is used (px).
-   * @default 48
-   */
+  /** @default 48 */
   itemSize = input<number>(48);
 
   /**
-   * Viewport height for virtual scrolling.
-   * As a CSS value (e.g., '400px', '100%').
+   * CSS height of the virtual-scroll viewport (e.g. `'400px'`, `'100%'`).
    * @default '400px'
    */
   scrollHeight = input<string>('400px');
 
   /**
-   * Enables/disables the pagination feature.
-   * If `virtualScroll` is active, this feature is disabled.
+   * Disabled automatically when `virtualScroll` is active.
    * @default true
    */
   pagination = input<boolean>(true);
 
-  /**
-   * Number of records to be shown per page.
-   * Supports two-way binding.
-   * @default 10
-   */
+  /** @default 10 */
   pageSize = model<number>(10);
 
-  /**
-   * Table size.
-   * 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-   * @default Size.Medium
-   */
+  /** @default Size.Medium */
   size = input<Size>(Size.Medium);
 
   /**
-   * Shows the table loading state.
-   * When true, table content is blurred and a loading spinner is shown.
-   * Pagination buttons are disabled.
+   * When true, table content is blurred, a loading spinner is shown, and pagination is disabled.
    * @default false
    */
   loading = input<boolean>(false);
 
-  /**
-   * Column definitions.
-   * If headTemplate/rowTemplate is not provided, the table is automatically created according to these definitions.
-   */
+  /** When no `headTemplate`/`rowTemplate` is provided, the table renders automatically from these definitions. */
   columns = input<ITableColumn[]>([]);
 
   /**
-   * Total number of records.
-   * If pagination is done on the backend, this value must be provided.
-   * If not provided, `data.length` is used.
+   * Required for server-side pagination; falls back to `data.length` when omitted.
    */
   totalRecords = input<number | undefined>(undefined);
 
   /**
-   * Enables/disables manual (lazy) mode.
-   * When true, internal filtering, sorting and pagination are disabled.
+   * When true, internal filtering, sorting, and pagination are disabled (server-side mode).
    * @default false
    */
   lazy = input<boolean>(false);
@@ -151,10 +112,8 @@ export class TableComponent<T> {
   gridLines = input<'none' | 'horizontal' | 'vertical' | 'both'>('horizontal');
 
   /**
-   * The name of the property (field) used to uniquely identify rows.
-   * Works similarly to Angular's `trackBy` logic, but takes a string path instead of a function.
-   * Supports nested data paths (e.g., 'user.id').
-   * If not provided, array index is used.
+   * String property path for row identity (like Angular's `trackBy` but field-name based).
+   * Supports nested paths (e.g. `'user.id'`). Falls back to array index when omitted.
    *
    * @example
    * <nui-table trackBy="id" ... />
@@ -224,47 +183,30 @@ export class TableComponent<T> {
 
   // Outputs
 
-  /**
-   * Page change event.
-   * Used for backend-based pagination.
-   */
+  /** Emitted on page change; use for server-side pagination. */
   pageChange = output<number | string>();
 
-  /**
-   * Triggered when the global filtering value changes.
-   * Can be used for filtering on the backend.
-   */
+  /** Emitted when the global filter value changes; use for server-side filtering. */
   globalFilterChange = output<string>();
 
-  /**
-   * Triggered when filtering values (global or column-based) change.
-   * Returns all active filters as an object.
-   */
+  /** Returns all active filters (global + column) as an object. */
   filterChange = output<{ global: string; columns: Record<string, IFilterMetadata> }>();
 
-  /**
-   * Triggered when a row is clicked.
-   */
   rowClick = output<T>();
 
-  /**
-   * Triggered when column sorting changes.
-   */
   sortChange = output<{ field: string; order: 'asc' | 'desc' | null }>();
 
   // Content Children
 
   /**
-   * Table header template.
-   * The user should add <th> elements and filter inputs inside this template.
-   * Template context: { filter: (field, value, matchMode) => void }
+   * Add `<th>` elements and filter inputs inside this template.
+   * Template context: `{ filter: (field, value, matchMode) => void }`
    */
   headTemplate = contentChild<TemplateRef<unknown>>('headTemplate');
 
   /**
-   * Table row template.
-   * The user should add <td> elements and data display inside this template.
-   * Template context: { $implicit: item }
+   * Add `<td>` elements inside this template.
+   * Template context: `{ $implicit: item }`
    */
   rowTemplate = contentChild<TemplateRef<unknown>>('rowTemplate');
 
@@ -356,9 +298,6 @@ export class TableComponent<T> {
     return this.filteredData()?.length ?? 0;
   });
 
-  /**
-   * Total number of pages.
-   */
   totalPages = computed(() => {
     const total = this._totalRecords();
     const size = this.pageSize() || 10;
@@ -366,9 +305,6 @@ export class TableComponent<T> {
     return Math.ceil(total / size);
   });
 
-  /**
-   * Displayed record range.
-   */
   visibleRange = computed(() => {
     const total = this._totalRecords();
     if (total === 0) return { start: 0, end: 0 };
@@ -381,10 +317,6 @@ export class TableComponent<T> {
     return { start, end };
   });
 
-  /**
-   * Pagination buttons.
-   * Circular button structure and '...' logic.
-   */
   pages = computed(() => {
     const total = this.totalPages();
     const current = this.currentPage();
@@ -433,9 +365,6 @@ export class TableComponent<T> {
     return [...new Set(pages)];
   });
 
-  /**
-   * Row height class.
-   */
   readonly rowHeightClass = computed(() => {
     switch (this.size()) {
       case Size.XSmall:
@@ -453,12 +382,7 @@ export class TableComponent<T> {
     }
   });
 
-  /**
-   * Pagination button class.
-   */
-  /**
-   * Pagination button class for number buttons (Square/Circle).
-   */
+  /** Pagination CSS class for number buttons. */
   readonly paginationNumberClass = computed(() => {
     switch (this.size()) {
       case Size.XSmall:
@@ -476,9 +400,7 @@ export class TableComponent<T> {
     }
   });
 
-  /**
-   * Pagination button class for navigation (Prev/Next) buttons.
-   */
+  /** Pagination CSS class for Prev/Next navigation buttons. */
   readonly paginationNavClass = computed(() => {
     switch (this.size()) {
       case Size.XSmall:
@@ -531,13 +453,6 @@ export class TableComponent<T> {
 
   // Methods
 
-  /**
-   * Calculates the tracking value for the template loop.
-   * If trackBy is provided, it returns the property value of the relevant row, otherwise it returns the index.
-   *
-   * @param index Loop index number
-   * @param item Row data
-   */
   getTrackByValue(index: number, item: T): unknown {
     const key = this.trackBy();
     if (!key) return index;
@@ -548,14 +463,7 @@ export class TableComponent<T> {
       .reduce((acc: unknown, prop: string) => (acc as Record<string, unknown>)?.[prop], item);
   }
 
-  /**
-   * Applies column-based filtering.
-   * Used within the template.
-   * Note: filterChange event is emitted automatically after debounce via effect.
-   * @param field Field name to filter
-   * @param value Filter value
-   * @param matchMode Matching mode (default: contains)
-   */
+  /** `filterChange` is emitted automatically after debounce via effect, not on every call. */
   filter(field: string, value: unknown, matchMode: FilterMatchMode = 'contains'): void {
     this.filtersState.update((s: Record<string, IFilterMetadata>) => ({
       ...s,
@@ -566,10 +474,6 @@ export class TableComponent<T> {
     // Note: filterChange.emit() is handled by effect after debounce
   }
 
-  /**
-   * Applies global filtering.
-   * @param value Search value
-   */
   filterGlobal(value: string) {
     this.globalFilterState.set(value);
     this.currentPage.set(1);
@@ -577,10 +481,6 @@ export class TableComponent<T> {
     this.filterChange.emit(this.currentFilters());
   }
 
-  /**
-   * Changes the page.
-   * @param page New page number
-   */
   setPage(page: number | string) {
     if (typeof page === 'string') return; // Ellipsis handle
 
@@ -590,12 +490,7 @@ export class TableComponent<T> {
     }
   }
 
-  /**
-   * Changes the page size.
-   * Resets the current page to 1 and emits pageChange.
-   *
-   * @param {number} value - The new page size.
-   */
+  /** Resets current page to 1 and emits `pageChange`. */
   onPageSizeChange(value: number) {
     this.pageSize.set(value);
     this.currentPage.set(1);

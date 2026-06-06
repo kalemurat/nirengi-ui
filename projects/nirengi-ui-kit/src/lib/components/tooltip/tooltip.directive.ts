@@ -20,8 +20,7 @@ import { TooltipComponent } from './tooltip.component';
 import { TooltipPosition } from './tooltip.types';
 
 /**
- * Directive that shows a tooltip when the element is hovered over.
- * Uses Angular CDK Overlay for positioning.
+ * Attaches a tooltip to the host element via Angular CDK Overlay.
  *
  * @example
  * <button [nirengiTooltip]="'Confirm action'" [nirengiTooltipPosition]="TooltipPosition.Top">Confirm</button>
@@ -31,15 +30,9 @@ import { TooltipPosition } from './tooltip.types';
   standalone: true,
 })
 export class TooltipDirective implements OnDestroy {
-  /**
-   * Tooltip text.
-   */
   readonly nirengiTooltip = input.required<string>();
 
-  /**
-   * Tooltip position.
-   * Default: Top
-   */
+  /** @default TooltipPosition.Top */
   readonly nirengiTooltipPosition = input<TooltipPosition>(TooltipPosition.Top);
 
   private overlayRef: OverlayRef | null = null;
@@ -60,9 +53,6 @@ export class TooltipDirective implements OnDestroy {
     });
   }
 
-  /**
-   * Executed when the mouse enters the element.
-   */
   @HostListener('mouseenter')
   show(): void {
     if (this.overlayRef) {
@@ -90,9 +80,6 @@ export class TooltipDirective implements OnDestroy {
     });
   }
 
-  /**
-   * Executed when the mouse leaves the element.
-   */
   @HostListener('mouseleave')
   hide(): void {
     if (this.tooltipRef) {
@@ -115,9 +102,6 @@ export class TooltipDirective implements OnDestroy {
     }
   }
 
-  /**
-   * Creates the position strategy.
-   */
   private getPositionStrategy(): PositionStrategy {
     const position = this.nirengiTooltipPosition();
     const positions: ConnectionPositionPair[] = [];

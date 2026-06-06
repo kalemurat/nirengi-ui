@@ -12,9 +12,6 @@ export enum ModalSize {
   Full = 'full',
 }
 
-/**
- * Options for configuring modal behavior and presentation.
- */
 export interface ModalOptions {
   size?: ModalSize;
   title?: string;
@@ -34,9 +31,6 @@ export interface ModalData {
   injector?: Injector;
 }
 
-/**
- * Public API for managing modal instances.
- */
 export interface IModalService {
   readonly modals: Signal<ModalData[]>;
   open<T>(content: Type<T> | TemplateRef<T>, options?: ModalOptions): ModalRef<T>;

@@ -5,9 +5,6 @@ import { ToastData, ToastVariant } from './toast.types';
 import { IconName } from '../icon/icon.types';
 
 /**
- * Toast notification component.
- * Displays a single toast message.
- *
  * @example
  * <nui-toast [data]="toastData" (onClose)="remove($event)" />
  */

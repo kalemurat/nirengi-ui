@@ -4,10 +4,7 @@ import { Injectable, signal, effect } from '@angular/core';
   providedIn: 'root',
 })
 export class ThemeService {
-  /**
-   * Current theme signal (light | dark).
-   * Initial value from localStorage or system preference.
-   */
+  /** Initial value from localStorage or system preference. */
   readonly theme = signal<'light' | 'dark'>(this.getInitialTheme());
 
   constructor() {
@@ -23,16 +20,10 @@ export class ThemeService {
     });
   }
 
-  /**
-   * Toggles between light and dark theme.
-   */
   toggleTheme(): void {
     this.theme.update((current) => (current === 'light' ? 'dark' : 'light'));
   }
 
-  /**
-   * Gets initial theme preference.
-   */
   private getInitialTheme(): 'light' | 'dark' {
     const saved = localStorage.getItem('theme');
     if (saved === 'light' || saved === 'dark') {

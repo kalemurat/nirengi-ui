@@ -60,25 +60,7 @@ import {
 } from 'nirengi-ui-kit';
 
 /**
- * Showcase Layout Component.
- * 3-panel layout structure for component showcase.
- *
- * ## Layout Structure
- * - Left: Menu Panel (280px)
- * - Center: Component Renderer + Event Console (flex-grow)
- * - Right: Properties Panel (380px)
- *
- * ## Responsibilities
- * - Providing component-level services
- * - Initializing the component registry
- * - Loading JSON configs
- * - Layout orchestration
- *
- * ## Features
- * - ✅ 3-panel layout with CSS Grid
- * - ✅ Component-level DI (memory cleanup)
- * - ✅ Responsive design
- * - ✅ OnPush change detection
+ * 3-panel layout: Left — Menu (280px), Center — Renderer + Console, Right — Properties (380px).
  *
  * @see {@link PropertyStateService}
  * @see {@link EventLoggerService}

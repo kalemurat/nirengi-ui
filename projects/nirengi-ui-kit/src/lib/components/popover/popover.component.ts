@@ -37,7 +37,7 @@ import { IconComponent } from '../icon/icon.component';
 
       /* Content area */
       .popover__content {
-        @apply flex flex-col mt-2;
+        @apply mt-2 flex flex-col;
       }
 
       /* Close button */
@@ -49,22 +49,18 @@ import { IconComponent } from '../icon/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopoverComponent {
-  /** Content component to be displayed. */
   readonly content = input.required<Type<any>>();
 
-  /** Inputs to be passed to the content component. */
   readonly componentInputs = input<Record<string, unknown>>({});
 
-  /** Injector for the content component. */
   readonly injector = input<Injector>();
 
-  /** Popover position. */
+  /** @default PopoverPosition.Bottom */
   readonly position = input<PopoverPosition>(PopoverPosition.Bottom);
 
-  /** Visibility state. */
+  /** @default false */
   readonly visible = input<boolean>(false);
 
-  /** Computed signal for the container classes. */
   readonly containerClasses = computed(() => {
     const baseClass = 'popover';
     const positionClass = `popover--${this.position()}`;
@@ -73,7 +69,6 @@ export class PopoverComponent {
     return `${baseClass} ${positionClass} ${visibleClass}`;
   });
 
-  /** Closes the popover by getting PopoverRef from the injector. */
   closePopover(): void {
     const ref = this.injector()?.get(PopoverRef, null);
     if (ref) {

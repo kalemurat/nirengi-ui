@@ -1,13 +1,4 @@
 /**
- * Showcase Configuration Interfaces.
- * Storybook-style UI Kit showcase sistemi için JSON-driven type-safe konfigürasyon arayüzleri.
- *
- * Bu interface'ler component showcase'lerinin tamamen JSON ile yönetilmesini sağlar:
- * - Property tanımları (enum, boolean, string, vs.)
- * - Event tanımları
- * - Component metadata
- * - Menu yapısı
- *
  * @example
  * ```json
  * {
@@ -20,15 +11,8 @@
  * ```
  */
 
-/**
- * Property tipi enum.
- * Her property'nin hangi UI kontrolü ile düzenleneceğini belirler.
- */
 export type PropertyType = 'string' | 'number' | 'boolean' | 'enum' | 'array' | 'contentProjection';
 
-/**
- * Enum property için seçenek tanımı.
- */
 export interface IPropertyOption {
   /** Kullanıcıya gösterilecek label */
   label: string;
@@ -37,10 +21,6 @@ export interface IPropertyOption {
   value: unknown;
 }
 
-/**
- * Component property konfigürasyonu.
- * Her property'nin UI'da nasıl gösterileceğini ve düzenleneceğini tanımlar.
- */
 export interface IPropertyConfig {
   /** Property adı (component @Input() ile eşleşmeli) */
   name: string;
@@ -70,9 +50,6 @@ export interface IPropertyConfig {
   hideInPanel?: boolean;
 }
 
-/**
- * Component event konfigürasyonu.
- */
 export interface IEventConfig {
   /** Event adı (component @Output() ile eşleşmeli) */
   name: string;
@@ -84,10 +61,6 @@ export interface IEventConfig {
   payloadDescription?: string;
 }
 
-/**
- * Component showcase örneği.
- * Belirli property kombinasyonları ile örnek kullanımlar.
- */
 export interface IShowcaseExample {
   /** Örnek başlığı */
   title: string;
@@ -99,10 +72,6 @@ export interface IShowcaseExample {
   propertyValues: Record<string, unknown>;
 }
 
-/**
- * Showcase edilecek component'in tam konfigürasyonu.
- * Bir component'in tüm metadata, property ve event tanımlarını içerir.
- */
 export interface IComponentShowcaseConfig {
   /** Unique component ID (route ile eşleşir) */
   id: string;
@@ -129,9 +98,6 @@ export interface IComponentShowcaseConfig {
   examples?: IShowcaseExample[];
 }
 
-/**
- * Menü kategorisi.
- */
 export interface IMenuCategory {
   /** Kategori adı */
   name: string;
@@ -140,9 +106,6 @@ export interface IMenuCategory {
   items: IMenuItemConfig[];
 }
 
-/**
- * Menü item konfigürasyonu.
- */
 export interface IMenuItemConfig {
   /** Component ID */
   id: string;
@@ -154,18 +117,12 @@ export interface IMenuItemConfig {
   description: string;
 }
 
-/**
- * Ana menü konfigürasyonu.
- */
 export interface IMenuConfig {
   /** Kategoriler listesi */
   categories: IMenuCategory[];
 }
 
-/**
- * Event log kaydı.
- * Event console'da gösterilecek log entry.
- */
+/** Event console'da gösterilecek log entry. */
 export interface IEventLog {
   /** Unique log ID */
   id: string;

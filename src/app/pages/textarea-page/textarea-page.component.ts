@@ -7,10 +7,6 @@ import {
   ColorVariant,
 } from '../../../../projects/nirengi-ui-kit/src/public-api';
 
-/**
- * Textarea component showcase sayfası.
- * Textarea componentinin tüm özelliklerini ve varyasyonlarını gösterir.
- */
 @Component({
   selector: 'app-textarea-page',
   standalone: true,
@@ -19,12 +15,9 @@ import {
   styleUrl: './textarea-page.component.scss',
 })
 export class TextareaPageComponent {
-  /** Size enum referansı */
   protected readonly sizes = Object.values(Size);
 
-  /** ColorVariant enum referansı */
   protected readonly ColorVariant = ColorVariant;
 
-  /** Demo form control */
   protected readonly demoControl = new FormControl('');
 }
