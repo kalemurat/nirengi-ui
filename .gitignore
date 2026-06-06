@@ -45,3 +45,9 @@ Thumbs.db
 
 # Claude Code — gizli MCP token'i (asla commit'lenmemeli)
 .mcp.json
+
+# npm publish — token'lar asla commit'lenmemeli
+.npmrc
+.env
+.env.*
+
