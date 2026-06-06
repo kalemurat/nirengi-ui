@@ -13,22 +13,6 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Modern checkbox component.
- * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
- *
- * ## Features
- * - ✅ Signal-based ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ Two-way data binding support (ngModel, formControl)
- * - ✅ OnPush change detection strategy
- * - ✅ Reactive class binding with computed signals
- * - ✅ 5 different sizes (xs, sm, md, lg, xl)
- * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ Disabled and readonly states
- * - ✅ Indeterminate state support
- * - ✅ Label and description support
- * - ✅ WCAG 2.1 AA accessibility standards
- * - ✅ Keyboard navigation support
- *
  * @example
  * // With Reactive Forms
  * <nui-checkbox [formControl]="termsControl" label="I Accept"></nui-checkbox>
@@ -88,24 +72,13 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
    */
   readonly inputId = `nui-checkbox-${Math.random().toString(36).substr(2, 9)}`;
 
-  /**
-   * Color variant.
-   * Provides a color theme with semantic meaning.
-   *
-   * @default ColorVariant.Primary
-   */
+  /** @default ColorVariant.Primary */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
-  /**
-   * Size.
-   * Determines the checkbox size and label font size.
-   *
-   * @default Size.Medium
-   */
+  /** @default Size.Medium */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Readonly state.
    * When true, the checkbox is not clickable but appears visually active.
    *
    * @default false
@@ -113,7 +86,6 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   readonly readonly = input<boolean>(false);
 
   /**
-   * Indeterminate state.
    * Used to show partial selection states (e.g., "Select All" checkbox).
    *
    * @default false
@@ -121,50 +93,26 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   readonly indeterminate = input<boolean>(false);
 
   /**
-   * Tristate mode.
-   * When true, the checkbox cycles through three states: null, true, and false.
+   * When true, cycles through three states: null → true → false.
    * Useful for filters where "All", "Active", and "Passive" states are needed.
    *
    * @default false
    */
   readonly tristate = input<boolean>(false);
 
-  /**
-   * Label text.
-   * The main label to be displayed next to the checkbox.
-   */
   readonly label = input<string>('');
 
-  /**
-   * Description text.
-   * Explanatory text to be displayed under the label.
-   */
   readonly description = input<string>('');
 
-  /**
-   * Required state.
-   * Used for form validation.
-   *
-   * @default false
-   */
+  /** @default false */
   readonly required = input<boolean>(false);
 
-  /**
-   * Checked input (dumb mode).
-   * Used for direct binding.
-   */
+  /** Dumb-mode: bypasses ControlValueAccessor; use for direct binding. */
   readonly checked = input<boolean | null>(null);
 
-  /**
-   * Disabled input (dumb mode).
-   */
+  /** Dumb-mode: mirrors setDisabledState without a form control. */
   readonly disabled = input<boolean>(false);
 
-  /**
-   * Computed signal to calculate CSS classes for the checkbox.
-   * Performs dynamic class binding using BEM methodology.
-   * Updated reactively.
-   */
   readonly checkboxClasses = computed(() => {
     const classes = ['nui-checkbox'];
 
@@ -190,10 +138,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     return classes.join(' ');
   });
 
-  /**
-   * Computed signal to track indeterminate state.
-   * Automatically returns true if tristate is enabled and value is null.
-   */
+  /** Returns true when tristate is enabled and value is null. */
   readonly isIndeterminate = computed(() => {
     if (this.tristate() && this.value() === null) {
       return true;
@@ -201,10 +146,6 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     return this.indeterminate();
   });
 
-  /**
-   * Computed signal to calculate CSS classes for the label.
-   * Updated reactively.
-   */
   readonly labelClasses = computed(() => {
     const classes = ['nui-checkbox__label'];
 
@@ -217,10 +158,6 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     return classes.join(' ');
   });
 
-  /**
-   * Computed signal to calculate CSS classes for the description.
-   * Updated reactively.
-   */
   readonly descriptionClasses = computed(() => {
     const classes = ['nui-checkbox__description'];
 
@@ -250,13 +187,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     });
   }
 
-  /**
-   * Checkbox toggle handler.
-   * Does not work in disabled or readonly states.
-   * Supports tristate cycling if enabled.
-   *
-   * @returns void
-   */
+  /** Does not emit while disabled or readonly; cycles tristate when enabled. */
   handleToggle(): void {
     if (this.isDisabled() || this.readonly()) {
       return;
@@ -280,10 +211,6 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
     this.updateValue(newValue);
   }
 
-  /**
-   * Checkbox blur handler.
-   * Used to update the form touched state.
-   */
   handleBlur(): void {
     this.markAsTouched();
   }

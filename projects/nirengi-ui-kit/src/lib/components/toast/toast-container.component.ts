@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from './toast.service';
 import { ToastComponent } from './toast.component';
 
-/**
- * Toast container component.
- * Renders toast notifications in valid positions.
- * Should be placed once in the application root.
- */
+/** Should be placed once in the application root. */
 @Component({
   selector: 'nui-toast-container',
   standalone: true,

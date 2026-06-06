@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
-/**
- * Paragraph alignment enum.
- * Determines the horizontal alignment of the paragraph.
- */
+/** Horizontal text alignment options for the paragraph. */
 export enum ParagraphAlign {
   /** Left aligned (default) */
   Left = 'left',
@@ -18,10 +15,7 @@ export enum ParagraphAlign {
   Justify = 'justify',
 }
 
-/**
- * Paragraph font weight enum.
- * Determines the typographic thickness of the paragraph.
- */
+/** Font weight options for the paragraph. */
 export enum ParagraphWeight {
   /** Thin thickness (300) */
   Light = 'light',
@@ -36,28 +30,7 @@ export enum ParagraphWeight {
 }
 
 /**
- * Modern paragraph component.
- * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
- *
- * ## Features
- * - ✅ Signal-based reactive state management
- * - ✅ OnPush change detection strategy
- * - ✅ Computed signals for class binding
- * - ✅ 5 different sizes (xs, sm, md, lg, xl)
- * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ 4 different alignments (left, center, right, justify)
- * - ✅ 5 different font weights (light, normal, medium, semibold, bold)
- * - ✅ Truncate and line clamp support
- * - ✅ Leading (line height) control
- * - ✅ Margin bottom support
- * - ✅ WCAG 2.1 AA accessibility standards
- * - ✅ SEO optimized semantic HTML
- *
- * ## Design System Integration
- * The component uses central values from the design system:
- * - Font size: Tailwind default typography scale
- * - Colors: Consistent color palette with ColorVariant enum
- * - Spacing: Design token spacing values
+ * Semantic paragraph element with size, color, alignment, weight, truncation, and leading controls.
  *
  * @example
  * // Basic usage
@@ -86,7 +59,6 @@ export enum ParagraphWeight {
  *   and an ellipsis will be added to the end...
  * </nui-paragraph>
  *
- * @see https://v20.angular.dev/guide/signals
  * @see {@link Size} - Standard size values
  * @see {@link ColorVariant} - Color variants
  * @see {@link ParagraphAlign} - Alignment options
@@ -101,86 +73,37 @@ export enum ParagraphWeight {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParagraphComponent {
-  /**
-   * Paragraph size.
-   * Determines the visual font size.
-   *
-   * @default Size.Medium
-   */
+  /** @default Size.Medium */
   size = input<Size>(Size.Medium);
 
-  /**
-   * Color variant.
-   * Determines the text color of the paragraph.
-   *
-   * @default ColorVariant.Neutral
-   */
+  /** @default ColorVariant.Neutral */
   variant = input<ColorVariant>(ColorVariant.Neutral);
 
-  /**
-   * Horizontal alignment.
-   * Determines the text-align value of the paragraph.
-   *
-   * @default ParagraphAlign.Left
-   */
+  /** @default ParagraphAlign.Left */
   align = input<ParagraphAlign>(ParagraphAlign.Left);
 
-  /**
-   * Font weight.
-   * Determines the typographic thickness of the paragraph.
-   *
-   * @default ParagraphWeight.Normal
-   */
+  /** @default ParagraphWeight.Normal */
   weight = input<ParagraphWeight>(ParagraphWeight.Normal);
 
-  /**
-   * Truncate state.
-   * When true, overflowing text is cut off with an ellipsis.
-   *
-   * @default false
-   */
+  /** @default false */
   truncate = input<boolean>(false);
 
   /**
-   * Line clamp value.
-   * Text is cut off after the specified number of lines.
-   * If no value is provided, the truncate feature applies.
+   * Clamps text to this many lines. When omitted, the `truncate` input applies instead.
    *
    * @default undefined
    */
   lineClamp = input<number | undefined>(undefined);
 
-  /**
-   * Leading (line height) value.
-   * Determines the spacing between lines.
-   *
-   * @default 'normal'
-   */
+  /** @default 'normal' */
   leading = input<'none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose'>('normal');
 
-  /**
-   * Margin bottom state.
-   * When true, a standard margin is added below the paragraph.
-   *
-   * @default false
-   */
+  /** @default false */
   marginBottom = input<boolean>(false);
 
-  /**
-   * Italic state.
-   * When true, text becomes italic.
-   *
-   * @default false
-   */
+  /** @default false */
   italic = input<boolean>(false);
 
-  /**
-   * Computed signal to calculate CSS classes for the paragraph.
-   * Performs dynamic class binding using BEM methodology.
-   * Updated reactively.
-   *
-   * @returns CSS class string in BEM format
-   */
   protected readonly paragraphClasses = computed(() => {
     const classes = ['nui-paragraph'];
 

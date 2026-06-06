@@ -8,10 +8,6 @@ import { ParagraphComponent, ParagraphAlign } from '../paragraph/paragraph.compo
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
 
-/**
- * Tabs Demo Component for Showcase.
- * Demonstrates various configurations of the Tabs component, controlled by properties panel.
- */
 @Component({
   selector: 'nui-tabs-demo',
   standalone: true,
@@ -140,9 +136,6 @@ import { Size } from '../../common/enums/size.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsDemoComponent {
-  /**
-   * Controlled by Showcase Properties Panel
-   */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
   readonly size = input<Size>(Size.Medium);
   readonly fullWidth = input<boolean>(false);

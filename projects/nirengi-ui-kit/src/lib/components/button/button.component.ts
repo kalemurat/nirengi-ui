@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
-/**
- * Button type enum.
- * Determines the visual style and behavior of the button.
- */
+/** Visual style variants for the button element. */
 export enum ButtonType {
   /** Solid background, high contrast (default) */
   Solid = 'solid',
@@ -19,30 +16,11 @@ export enum ButtonType {
 }
 
 /**
- * Modern button component.
- * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
+ * Themeable button component supporting solid, outline, ghost, and soft styles.
  *
- * ## Features
- * - ✅ Signal-based reactive state management
- * - ✅ OnPush change detection strategy
- * - ✅ Computed signals for class binding
- * - ✅ 4 different button types (solid, outline, ghost, soft)
- * - ✅ 5 different sizes (xs, sm, md, lg, xl)
- * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ Disabled and loading states
- * - ✅ Full width option
- * - ✅ Icon support (prefix and suffix)
- * - ✅ WCAG 2.1 AA accessibility standards
- * - ✅ Keyboard navigation support
- *
- * ## Design System Integration
- * The component uses central size values from the `size.constants.ts` file:
- * - SIZE_HEIGHT_MAP: Button heights
- * - SIZE_PADDING_MAP: Horizontal padding values
- * - SIZE_TEXT_MAP: Font size values
- * - SIZE_GAP_MAP: Gap between icon and text
- *
- * This ensures size consistency with other components like Input, Select, and Badge.
+ * Sizes are driven by the central `size.constants.ts` maps (SIZE_HEIGHT_MAP,
+ * SIZE_PADDING_MAP, SIZE_TEXT_MAP, SIZE_GAP_MAP), keeping button dimensions
+ * consistent with Input, Select, and Badge components.
  *
  * @example
  * // Simple usage
@@ -69,11 +47,9 @@ export enum ButtonType {
  * // With click event
  * <nui-button (clicked)="handleSave()">Save</nui-button>
  *
- * @see https://v20.angular.dev/guide/signals
  * @see {@link ButtonType} - Button style types
  * @see {@link Size} - Standard size values
  * @see {@link ColorVariant} - Color variants
- * @see {@link SIZE_HEIGHT_MAP} - Central size height mapping
  */
 @Component({
   selector: 'nui-button',
@@ -84,78 +60,30 @@ export enum ButtonType {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  /**
-   * Button kind (visual style).
-   * Determines the visual style and behavior.
-   *
-   * @default ButtonType.Solid
-   */
+  /** @default ButtonType.Solid */
   kind = input<ButtonType>(ButtonType.Solid);
 
-  /**
-   * Color variant.
-   * Provides a color theme with semantic meaning.
-   *
-   * @default ColorVariant.Primary
-   */
+  /** @default ColorVariant.Primary */
   variant = input<ColorVariant>(ColorVariant.Primary);
 
-  /**
-   * Size.
-   * Determines the button's height, padding, and font size.
-   *
-   * @default Size.Medium
-   */
+  /** @default Size.Medium */
   size = input<Size>(Size.Medium);
 
-  /**
-   * Disabled state.
-   * When true, the button is not clickable and appears visually disabled.
-   *
-   * @default false
-   */
+  /** @default false */
   disabled = input<boolean>(false);
 
-  /**
-   * Loading state.
-   * When true, the button shows a loading spinner and becomes unclickable.
-   *
-   * @default false
-   */
+  /** @default false */
   loading = input<boolean>(false);
 
-  /**
-   * Full width state.
-   * When true, the button covers the full width of its parent container.
-   *
-   * @default false
-   */
+  /** @default false */
   fullWidth = input<boolean>(false);
 
-  /**
-   * Click event.
-   * Emitted when the button is clicked.
-   * Not emitted during loading or disabled states.
-   *
-   * @event clicked
-   */
+  /** Not emitted while disabled or loading. */
   clicked = output<void>();
 
-  /**
-   * Native button type.
-   * Determines the browser behavior of the button (submit form, reset form, etc.).
-   *
-   * @default 'button'
-   */
+  /** @default 'button' */
   type = input<'button' | 'submit' | 'reset'>('button');
 
-  /**
-   * Computed signal to calculate CSS classes for the button.
-   * Performs dynamic class binding using BEM methodology.
-   * Updated reactively.
-   *
-   * @returns CSS class string in BEM format
-   */
   protected readonly buttonClasses = computed(() => {
     const classes = ['nui-button'];
 
@@ -178,12 +106,6 @@ export class ButtonComponent {
     return classes.join(' ');
   });
 
-  /**
-   * Click handler method.
-   * Does not emit event during loading or disabled states.
-   *
-   * @returns void
-   */
   handleClick(): void {
     if (!this.disabled() && !this.loading()) {
       this.clicked.emit();

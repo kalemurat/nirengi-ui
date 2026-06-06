@@ -1,6 +1,3 @@
-/**
- * Enum definition for tooltip position.
- */
 export enum TooltipPosition {
   /** Show on top */
   Top = 'top',

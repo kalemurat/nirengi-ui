@@ -26,32 +26,6 @@ import {
   IPropertyConfig,
 } from '../../../core/interfaces/showcase-config.interface';
 
-/**
- * Component Renderer.
- * Seçili component'i dinamik olarak render eder.
- * ViewContainerRef kullanarak runtime'da component instance oluşturur.
- *
- * ## Sorumluluklar
- * - Dynamic component loading ve rendering
- * - Property binding (signal input API ile uyumlu)
- * - Event binding ve logging
- * - Component lifecycle yönetimi
- * - Tema yönetimi (light/dark mode)
- *
- * ## Özellikler
- * - ✅ ViewContainerRef ile dynamic render
- * - ✅ Angular 20 input() signal API desteği
- * - ✅ ComponentRef.setInput() ile reactive property binding
- * - ✅ Route params'a reactive subscription
- * - ✅ Event logger entegrasyonu
- * - ✅ Tema seçici (sun/moon icon toggle)
- * - ✅ OnPush change detection
- *
- * @see {@link ComponentRegistryService}
- * @see {@link PropertyStateService}
- * @see {@link EventLoggerService}
- * @see {@link ThemeService}
- */
 @Component({
   selector: 'app-component-renderer',
   standalone: true,
@@ -60,89 +34,39 @@ import {
   styleUrl: './component-renderer.component.scss',
 })
 export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
-  /**
-   * Size enum for template usage.
-   */
   readonly Size = SizeEnum;
 
-  /**
-   * Dynamic component render için container referansı.
-   */
   @ViewChild('dynamicComponent', { read: ViewContainerRef })
   dynamicComponentContainer!: ViewContainerRef;
 
-  /**
-   * Active component ID.
-   * Reactively obtained from route parameters using toSignal.
-   */
   protected readonly componentId = toSignal(
     inject(ActivatedRoute).params.pipe(map((params) => params['id'] || 'button')),
     { initialValue: 'button' }
   );
 
-  /**
-   * Component registry service.
-   * Used to retrieve component configurations.
-   * Protected to allow currentConfig computed signal to access it.
-   */
   protected readonly registry = inject(ComponentRegistryService);
 
-  /**
-   * Active component configuration.
-   * Computed based on current component ID.
-   */
   protected readonly currentConfig = computed(() => {
     const id = this.componentId();
     return this.registry.getConfig(id);
   });
 
-  /**
-   * Theme service instance.
-   * Exposed to template for theme toggling functionality.
-   */
   protected readonly themeService = inject(ThemeService);
 
-  /**
-   * Route service instance.
-   */
   private readonly route = inject(ActivatedRoute);
 
-  /**
-   * Property state service instance.
-   */
   private readonly propertyState = inject(PropertyStateService);
 
-  /**
-   * Event logger service instance.
-   */
   private readonly eventLogger = inject(EventLoggerService);
 
-  /**
-   * Destroy ref for cleanup management.
-   */
   private readonly destroyRef = inject(DestroyRef);
 
-  /**
-   * Aktif component referansı.
-   * Signal olarak tanımlanır, böylece effect'ler değişikliği track edebilir.
-   */
   private readonly currentComponentRef = signal<ComponentRef<unknown> | null>(null);
 
-  /**
-   * ViewChild hazır mı?
-   */
   private viewInitialized = signal(false);
 
-  /**
-   * Component temizlendiğinde/değiştiğinde tetiklenen subject.
-   * Subscription'ları sonlandırmak için kullanılır.
-   */
   private readonly componentDestroy$ = new Subject<void>();
 
-  /**
-   * Constructor.
-   * Effect'i injection context içinde başlatır.
-   */
   constructor() {
     // Effect'i constructor'da oluştur (injection context içinde)
     effect(() => {
@@ -212,9 +136,6 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     this.clearComponent();
   }
 
-  /**
-   * Component'i render eder.
-   */
   private async renderComponent(id: string, config: IComponentShowcaseConfig): Promise<void> {
     // Önceki component'i temizle
     this.clearComponent();
@@ -248,9 +169,6 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /**
-   * Önceki component'i clear eder.
-   */
   private clearComponent(): void {
     // Event subscription'larını temizle
     this.componentDestroy$.next();
@@ -261,13 +179,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     this.currentComponentRef.set(null);
   }
 
-  /**
-   * Content projection için projectableNodes oluşturur.
-   * Config'teki contentProjection tipindeki property'lerin default değerlerini text node'lara dönüştürür.
-   *
-   * @param config - Showcase config
-   * @returns ProjectableNodes array (Angular'ın ng-content slot'larına enjekte edilecek)
-   */
+  /** Converts `contentProjection` property defaults to text nodes for ng-content slots. */
   private buildProjectableNodes(config: IComponentShowcaseConfig): Node[][] {
     const contentProjectionProps = config.properties.filter(
       (prop: IPropertyConfig) => prop.type === 'contentProjection'
@@ -292,13 +204,6 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     return nodes.length > 0 ? [nodes] : [];
   }
 
-  /**
-   * Component property'lerini bind eder.
-   * Angular 20 input() signal API ile uyumlu olarak ComponentRef.setInput() kullanır.
-   *
-   * @param componentRef - Component ref
-   * @param config - Showcase config
-   */
   private bindProperties(
     componentRef: ComponentRef<unknown>,
     config: IComponentShowcaseConfig
@@ -326,13 +231,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     componentRef.changeDetectorRef.detectChanges();
   }
 
-  /**
-   * Showcase property ismini component input ismine map eder.
-   * Bazı showcase property isimleri component input isimleriyle farklı olabilir.
-   *
-   * @param propertyName - Showcase config'teki property ismi
-   * @returns Component'in beklediği input ismi
-   */
+  /** Maps showcase property names to component input names when they differ (e.g. select `items` → `options`). */
   private mapPropertyName(propertyName: string, componentId: string): string {
     // Component-specific mappings
     if (componentId === 'select' && propertyName === 'items') {
@@ -345,18 +244,7 @@ export class ComponentRendererComponent implements AfterViewInit, OnDestroy {
     return propertyName;
   }
 
-  /**
-   * Component event'lerini bind eder.
-   * Event'leri EventLoggerService'e yönlendirir.
-   *
-   * takeUntilDestroyed() operatörü ile memory leak önlenir:
-   * - Component destroy edildiğinde subscription'lar otomatik temizlenir
-   * - Her component değişiminde önceki subscription'lar unsubscribe olur
-   *
-   * @param instance - Component instance
-   * @param config - Showcase config
-   * @param componentId - Component ID
-   */
+  /** Subscribes to config-declared events and forwards them to EventLoggerService; subscriptions are cleaned up via `componentDestroy$` on each component swap. */
   private bindEvents(
     instance: unknown,
     config: IComponentShowcaseConfig,

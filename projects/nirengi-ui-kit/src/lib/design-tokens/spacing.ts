@@ -5,10 +5,6 @@
  * @see https://tailwindcss.com/docs/customizing-spacing
  */
 
-/**
- * Spacing values interface.
- * Spacing scale from 0 to 96.
- */
 export interface SpacingScale {
   /** 0px */
   0: string;
@@ -82,10 +78,6 @@ export interface SpacingScale {
   96: string;
 }
 
-/**
- * Default spacing scale.
- * Uses Tailwind CSS's default spacing system.
- */
 export const designTokenSpacing: SpacingScale = {
   0: '0px',
   px: '1px',

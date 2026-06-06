@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MODAL_SERVICE } from './modal.token';
 import { ModalComponent } from './modal.component';
 
-/**
- * Modal Container.
- * Place this once in app root (e.g. app.component.html) to enable Modals.
- * Iterates over active modals and renders them.
- */
+/** Place once in app root (e.g. app.component.html) to enable modals. */
 @Component({
   selector: 'nui-modal-container',
   standalone: true,

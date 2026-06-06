@@ -15,14 +15,6 @@ export class ModalService implements IModalService {
 
   constructor(private injector: Injector) {}
 
-  /**
-   * Opens a new modal with the specified content and options.
-   *
-   * @template T Data type passed to the modal content
-   * @param content Component type or template to render inside the modal
-   * @param options Modal configuration options
-   * @returns Reference to the opened modal
-   */
   open<T>(content: Type<T> | TemplateRef<T>, options?: ModalOptions): ModalRef<T> {
     const id = crypto.randomUUID();
     const modalOptions: ModalOptions = {
@@ -61,19 +53,11 @@ export class ModalService implements IModalService {
     return modalRef;
   }
 
-  /**
-   * Closes a modal by its unique identifier.
-   *
-   * @param id Unique modal identifier
-   */
   close(id: string): void {
     this.remove(id);
   }
 
-  /**
-   * Closes the top-most modal in the stack.
-   * Ensures that in multi-modal scenarios, only the topmost modal responds to ESC key.
-   */
+  /** In multi-modal scenarios, only the topmost modal responds to ESC key. */
   closeTopmost(): void {
     const current = this.modals();
     if (current.length > 0) {
@@ -82,9 +66,6 @@ export class ModalService implements IModalService {
     }
   }
 
-  /**
-   * Closes all open modals and clears the stack.
-   */
   closeAll(): void {
     this.modals.set([]);
   }

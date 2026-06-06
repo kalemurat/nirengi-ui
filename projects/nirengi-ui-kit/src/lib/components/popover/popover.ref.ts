@@ -14,10 +14,6 @@ export class PopoverRef<T = any, R = any> {
     public config: { data?: T } = {}
   ) {}
 
-  /**
-   * Closes the popover.
-   * @param result Optional result to be returned
-   */
   close(result?: R): void {
     this._afterClosed.next(result);
     this._afterClosed.complete();
@@ -32,11 +28,7 @@ export class PopoverRef<T = any, R = any> {
     return this._afterClosed.asObservable();
   }
 
-  /**
-   * Used to send events from the component to the parent.
-   * @param key Event name/key
-   * @param data Event data
-   */
+  /** Sends an event from the popover component to the parent. */
   emit(key: string, data?: any): void {
     this._events.next({ key, data });
   }

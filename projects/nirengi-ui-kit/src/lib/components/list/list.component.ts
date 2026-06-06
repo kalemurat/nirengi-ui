@@ -1,25 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, TemplateRef } from '@angular/core';
 
-/**
- * Generic `id` interface for list items.
- * Allows for efficient tracking of items.
- */
+/** Requires a unique `id` on every list item for efficient tracking. */
 export interface ListItem {
   id: string | number;
   [key: string]: any;
 }
 
 /**
- * List component that renders a collection of items using a customizable template.
- * Supports content projection via TemplateRef, allowing the item content to be fully customized.
- *
- * ## Features
- * - ✅ OnPush change detection strategy
- * - ✅ Signal-based inputs
- * - ✅ Custom item template support
- * - ✅ BEM style support
- * - ✅ TrackBy optimization using `id`
+ * Renders a collection of items via a caller-supplied `TemplateRef`.
  *
  * @example
  * <nui-list [items]="users" [itemTemplate]="userTemplate" />
@@ -40,29 +29,18 @@ export interface ListItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent<T extends ListItem> {
-  /**
-   * Collection of items to be displayed.
-   * Each item MUST have a unique `id` property.
-   */
+  /** Each item MUST have a unique `id` property. */
   items = input.required<T[]>();
 
   /**
-   * Template to be used for rendering each item.
-   * If not provided, a default template is used.
-   * The template content provides access to the item via `let-item`.
+   * If omitted, a default template is used.
+   * Access the item in the template via `let-item`.
    */
   itemTemplate = input<TemplateRef<any>>();
 
-  /**
-   * Optional custom CSS class for the list container (ul).
-   * Useful for layout adjustments (e.g., 'flex flex-col gap-2').
-   */
+  /** Extra CSS class(es) on the `<ul>` container (e.g. `'flex flex-col gap-2'`). */
   listClass = input<string>('');
 
-  /**
-   * Computed classes for the list container.
-   * Combines the base BEM class with custom classes.
-   */
   protected readonly containerClasses = computed(() => {
     return `nui-list ${this.listClass()}`.trim();
   });
