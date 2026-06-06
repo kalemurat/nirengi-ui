@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
-/**
- * Badge type enum.
- * Determines the visual style of the badge.
- */
+/** Determines the visual style of the badge. */
 export enum BadgeType {
   /** Filled background */
   Solid = 'solid',
@@ -16,9 +13,6 @@ export enum BadgeType {
   Soft = 'soft',
 }
 
-/**
- * Badge shape enum.
- */
 export enum BadgeShape {
   /** Rounded corner square */
   Rounded = 'rounded',
@@ -27,18 +21,7 @@ export enum BadgeShape {
 }
 
 /**
- * Modern badge (label) component.
- * Used to display status, category, or counter.
- *
- * ## Features
- * - ✅ Signal-based reactive state management
- * - ✅ OnPush change detection strategy
- * - ✅ Computed signals for class binding
- * - ✅ 3 different style types (solid, outline, soft)
- * - ✅ 5 different sizes (xs, sm, md, lg, xl)
- * - ✅ 7 different color variants
- * - ✅ 2 different shapes (rounded, pill)
- * - ✅ Tailwind + BEM methodology
+ * Badge component for displaying status, category, or counter labels.
  *
  * @example
  * <nui-badge>New</nui-badge>
@@ -60,37 +43,18 @@ export enum BadgeShape {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BadgeComponent {
-  /**
-   * Badge visual type.
-   * @default BadgeType.Solid
-   */
+  /** @default BadgeType.Solid */
   readonly type = input<BadgeType>(BadgeType.Solid);
 
-  /**
-   * Color variant.
-   * @default ColorVariant.Primary
-   */
+  /** @default ColorVariant.Primary */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);
 
-  /**
-   * Size.
-   * @default Size.Medium
-   */
+  /** @default Size.Medium */
   readonly size = input<Size>(Size.Medium);
 
-  /**
-   * Shape variant.
-   * @default BadgeShape.Rounded
-   */
+  /** @default BadgeShape.Rounded */
   readonly shape = input<BadgeShape>(BadgeShape.Rounded);
 
-  /**
-   * Computed signal to calculate CSS classes for the badge.
-   * Performs dynamic class binding using BEM methodology.
-   * Updated reactively.
-   *
-   * @returns CSS class string in BEM format
-   */
   protected readonly badgeClasses = computed(() => {
     const classes = ['nui-badge'];
 

@@ -3,10 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
-/**
- * Heading level enum.
- * Represents HTML semantic heading levels (h1-h6).
- */
 export enum HeadingLevel {
   /** H1 - Page title, highest level */
   H1 = 'h1',
@@ -22,10 +18,6 @@ export enum HeadingLevel {
   H6 = 'h6',
 }
 
-/**
- * Heading alignment enum.
- * Determines the horizontal alignment of the heading.
- */
 export enum HeadingAlign {
   /** Left aligned (default) */
   Left = 'left',
@@ -35,10 +27,6 @@ export enum HeadingAlign {
   Right = 'right',
 }
 
-/**
- * Heading font weight enum.
- * Determines the typographic thickness of the heading.
- */
 export enum HeadingWeight {
   /** Normal thickness (400) */
   Normal = 'normal',
@@ -53,28 +41,6 @@ export enum HeadingWeight {
 }
 
 /**
- * Modern heading component.
- * Uses Angular 20 signal-based API and Tailwind + BEM methodology.
- *
- * ## Features
- * - ✅ Signal-based reactive state management
- * - ✅ OnPush change detection strategy
- * - ✅ Computed signals for class binding
- * - ✅ 6 different HTML semantic levels (h1-h6)
- * - ✅ 6 different sizes (2xs, xs, sm, md, lg, xl)
- * - ✅ 7 different color variants (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ 3 different alignments (left, center, right)
- * - ✅ 5 different font weights (normal, medium, semibold, bold, extrabold)
- * - ✅ Truncate and line clamp support
- * - ✅ WCAG 2.1 AA accessibility standards
- * - ✅ SEO optimized semantic HTML
- *
- * ## Design System Integration
- * The component uses central values from the design system:
- * - Font size: Tailwind default typography scale
- * - Colors: Consistent color palette with ColorVariant enum
- * - Spacing: Design token spacing values
- *
  * @example
  * // Basic usage
  * <nui-heading>Main Title</nui-heading>
@@ -102,7 +68,6 @@ export enum HeadingWeight {
  *   A very long heading text...
  * </nui-heading>
  *
- * @see https://v20.angular.dev/guide/signals
  * @see {@link HeadingLevel} - HTML semantic levels
  * @see {@link Size} - Standard size values
  * @see {@link ColorVariant} - Color variants
@@ -118,49 +83,27 @@ export enum HeadingWeight {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeadingComponent {
-  /**
-   * HTML semantic level.
-   * Ensures the correct structure in the page hierarchy.
-   *
-   * @default HeadingLevel.H2
-   */
+  /** @default HeadingLevel.H2 */
   level = input<HeadingLevel>(HeadingLevel.H2);
 
   /**
-   * Heading size.
-   * Determines the visual font size (independent of semantic level).
+   * Visual font size, independent of semantic level.
    * If not specified, it is automatically determined based on the heading level.
    *
    * @default undefined
    */
   size = input<Size | undefined>(undefined);
 
-  /**
-   * Color variant.
-   * Determines the text color of the heading.
-   *
-   * @default ColorVariant.Neutral
-   */
+  /** @default ColorVariant.Neutral */
   variant = input<ColorVariant>(ColorVariant.Neutral);
 
-  /**
-   * Horizontal alignment.
-   * Determines the text-align value of the heading.
-   *
-   * @default HeadingAlign.Left
-   */
+  /** @default HeadingAlign.Left */
   align = input<HeadingAlign>(HeadingAlign.Left);
 
-  /**
-   * Font weight.
-   * Determines the typographic thickness of the heading.
-   *
-   * @default HeadingWeight.Bold
-   */
+  /** @default HeadingWeight.Bold */
   weight = input<HeadingWeight>(HeadingWeight.Bold);
 
   /**
-   * Truncate state.
    * When true, overflowing text is cut off with an ellipsis.
    *
    * @default false
@@ -168,7 +111,6 @@ export class HeadingComponent {
   truncate = input<boolean>(false);
 
   /**
-   * Line clamp value.
    * Text is cut off after the specified number of lines.
    * If no value is provided, the truncate feature applies.
    *
@@ -176,37 +118,15 @@ export class HeadingComponent {
    */
   lineClamp = input<number | undefined>(undefined);
 
-  /**
-   * Uppercase state.
-   * When true, all characters become uppercase.
-   *
-   * @default false
-   */
+  /** @default false */
   uppercase = input<boolean>(false);
 
-  /**
-   * Margin bottom state.
-   * When true, a standard margin is added below the heading.
-   *
-   * @default false
-   */
+  /** @default false */
   marginBottom = input<boolean>(false);
 
-  /**
-   * Heading text.
-   * Content text of the heading.
-   *
-   * @default ''
-   */
+  /** @default '' */
   text = input<string>('');
 
-  /**
-   * Computed signal to calculate CSS classes for the heading.
-   * Performs dynamic class binding using BEM methodology.
-   * Updated reactively.
-   *
-   * @returns CSS class string in BEM format
-   */
   protected readonly headingClasses = computed(() => {
     const classes = ['nui-heading'];
 
@@ -237,13 +157,6 @@ export class HeadingComponent {
     return classes.join(' ');
   });
 
-  /**
-   * Computed signal to return the heading level for the ARIA level attribute.
-   * Required for accessibility.
-   * Updated reactively.
-   *
-   * @returns ARIA level (1-6)
-   */
   protected readonly ariaLevel = computed(() => {
     const levelMap: Record<HeadingLevel, number> = {
       [HeadingLevel.H1]: 1,
@@ -256,12 +169,6 @@ export class HeadingComponent {
     return levelMap[this.level()];
   });
 
-  /**
-   * Returns the default size based on the heading level.
-   *
-   * @param level - Current heading level
-   * @returns Default size (Size enum)
-   */
   private getDefaultSizeByLevel(level: HeadingLevel): Size {
     switch (level) {
       case HeadingLevel.H1:

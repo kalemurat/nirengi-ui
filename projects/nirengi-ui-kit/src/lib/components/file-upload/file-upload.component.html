@@ -2,12 +2,18 @@
   <!-- Drop Zone area -->
   <div
     class="file-upload__drop-zone"
+    role="button"
+    [attr.tabindex]="disabled() ? -1 : 0"
+    [attr.aria-disabled]="disabled()"
+    aria-label="Choose files or drag and drop"
     [class.file-upload__drop-zone--active]="isDragOver()"
     [class.file-upload__drop-zone--disabled]="disabled()"
     (dragover)="onDragOver($event)"
     (dragleave)="onDragLeave($event)"
     (drop)="onDrop($event)"
     (click)="fileInput.click()"
+    (keydown.enter)="fileInput.click()"
+    (keydown.space)="fileInput.click()"
   >
     <input
       #fileInput

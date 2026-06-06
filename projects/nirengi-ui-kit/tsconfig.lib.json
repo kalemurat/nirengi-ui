@@ -4,20 +4,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "rootDir": "src",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "inlineSources": true,
-    "types": [],
-    "baseUrl": "../../",
-    "paths": {
-      "@common/*": ["./projects/nirengi-ui-kit/src/lib/common/*"],
-      "@design-tokens/*": ["./projects/nirengi-ui-kit/src/lib/design-tokens/*"],
-      "@components/*": ["./projects/nirengi-ui-kit/src/lib/components/*"],
-      "@directives/*": ["./projects/nirengi-ui-kit/src/lib/directives/*"],
-      "@pipes/*": ["./projects/nirengi-ui-kit/src/lib/pipes/*"],
-      "@styles/*": ["./projects/nirengi-ui-kit/src/lib/styles/*"]
-    }
+    "types": []
   },
   "include": ["src/**/*.ts"],
   "exclude": ["**/*.spec.ts"]

@@ -6,22 +6,6 @@ import { CheckboxComponent } from 'nirengi-ui-kit';
 import { Size } from 'nirengi-ui-kit';
 import { ColorVariant } from 'nirengi-ui-kit';
 
-/**
- * Checkbox component showcase page.
- * Demonstrates all variations and usage examples of the Checkbox component.
- * Shows Reactive Forms (FormControl) usage.
- *
- * ## Showcase Categories
- * - ✅ Basic usage
- * - ✅ Size variations (xs, sm, md, lg, xl)
- * - ✅ Color variants (primary, secondary, success, warning, danger, info, neutral)
- * - ✅ Label and description examples
- * - ✅ Disabled and read-only states
- * - ✅ Indeterminate state
- * - ✅ Required field
- *
- * @see {@link CheckboxComponent}
- */
 @Component({
   selector: 'app-checkbox-page',
   standalone: true,
@@ -30,19 +14,9 @@ import { ColorVariant } from 'nirengi-ui-kit';
   styleUrl: './checkbox-page.component.scss',
 })
 export class CheckboxPageComponent {
-  /**
-   * Public property to use Size enum in template.
-   */
   protected readonly Size = Size;
-
-  /**
-   * Public property to use ColorVariant enum in template.
-   */
   protected readonly ColorVariant = ColorVariant;
 
-  /**
-   * List of all size values.
-   */
   protected readonly sizes = signal<Size[]>([
     Size.XSmall,
     Size.Small,
@@ -51,9 +25,6 @@ export class CheckboxPageComponent {
     Size.XLarge,
   ]);
 
-  /**
-   * List of all color variants.
-   */
   protected readonly variants = signal<ColorVariant[]>([
     ColorVariant.Primary,
     ColorVariant.Secondary,
@@ -88,9 +59,6 @@ export class CheckboxPageComponent {
   protected onSaleControl = new FormControl(true);
   protected freeShippingControl = new FormControl(false);
 
-  /**
-   * Select all indeterminate state (computed).
-   */
   protected selectAllIndeterminate = computed(() => {
     const option1 = this.option1Control.value ?? false;
     const option2 = this.option2Control.value ?? false;
@@ -99,9 +67,6 @@ export class CheckboxPageComponent {
     return checkedCount > 0 && checkedCount < 3;
   });
 
-  /**
-   * Reference for destroying subscriptions.
-   */
   private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
@@ -128,11 +93,6 @@ export class CheckboxPageComponent {
       });
   }
 
-  /**
-   * Converts Size enum value to display text.
-   * @param size - The size value to convert
-   * @returns The display label
-   */
   getSizeLabel(size: Size): string {
     const labels: Record<Size, string> = {
       [Size.XXSmall]: 'Extra Extra Small (2xs)',
@@ -145,18 +105,10 @@ export class CheckboxPageComponent {
     return labels[size];
   }
 
-  /**
-   * Converts Variant enum value to display text.
-   * @param variant - The variant value to convert
-   * @returns The display label
-   */
   getVariantLabel(variant: ColorVariant): string {
     return variant.charAt(0).toUpperCase() + variant.slice(1);
   }
 
-  /**
-   * Update select all checkbox based on child checkboxes.
-   */
   private updateSelectAll(): void {
     const option1 = this.option1Control.value ?? false;
     const option2 = this.option2Control.value ?? false;

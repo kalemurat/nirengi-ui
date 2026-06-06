@@ -5,11 +5,8 @@
  * @see https://tailwindcss.com/docs/customizing-colors
  */
 
-/**
- * Color palette interface.
- * 11 different shades (50-950) are defined for each color.
- */
-export interface ColorPalette {
+/** 11 shades (50–950) per color. */
+export interface IColorPalette {
   50: string;
   100: string;
   200: string;
@@ -23,32 +20,28 @@ export interface ColorPalette {
   950: string;
 }
 
-/**
- * All design token color definitions.
- */
-export interface DesignTokenColors {
+export interface IDesignTokenColors {
   /** Main brand color palette */
-  primary: ColorPalette;
+  primary: IColorPalette;
   /** Secondary color palette */
-  secondary: ColorPalette;
+  secondary: IColorPalette;
   /** Success status color palette */
-  success: ColorPalette;
+  success: IColorPalette;
   /** Warning status color palette */
-  warning: ColorPalette;
+  warning: IColorPalette;
   /** Error/Danger status color palette */
-  danger: ColorPalette;
+  danger: IColorPalette;
   /** Information color palette */
-  info: ColorPalette;
+  info: IColorPalette;
   /** Neutral/Gray shade palette */
-  neutral: ColorPalette;
+  neutral: IColorPalette;
 }
 
 /**
- * Default color palettes.
  * Based on Tailwind CSS's default color system.
  * Can be overridden from the main project.
  */
-export const designTokenColors: DesignTokenColors = {
+export const designTokenColors: IDesignTokenColors = {
   primary: {
     50: '#eff6ff',
     100: '#dbeafe',

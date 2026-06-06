@@ -34,30 +34,15 @@ import { TabLabelDirective } from './tab-label.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabComponent {
-  /**
-   * Tab label.
-   * Text to be displayed in the header part.
-   * If the `nuiTabLabel` directive is used, this value is ignored.
-   */
+  /** If the `nuiTabLabel` directive is used, this value is ignored. */
   readonly label = input<string>();
 
-  /**
-   * Disabled state.
-   * If true, the tab cannot be selected.
-   *
-   * @default false
-   */
+  /** @default false */
   readonly disabled = input<boolean>(false);
 
-  /**
-   * Custom label template.
-   * Captures content with the `nuiTabLabel` directive.
-   */
+  /** Captures content projected with the `nuiTabLabel` directive. */
   readonly labelTemplate = contentChild(TabLabelDirective);
 
-  /**
-   * Template reference holding the tab content.
-   * Used by the parent component (Tabs) to render the content.
-   */
+  /** Used by the parent `nui-tabs` component to render the active tab's content. */
   readonly contentTemplate = viewChild.required(TemplateRef);
 }

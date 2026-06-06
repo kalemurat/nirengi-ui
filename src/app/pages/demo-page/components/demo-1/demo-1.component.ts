@@ -25,9 +25,6 @@ import {
 } from 'nirengi-ui-kit';
 import { FormsModule } from '@angular/forms';
 
-/**
- * Mock data interface for the demo table.
- */
 interface IDemoData {
   id: number;
   name: string;
@@ -36,10 +33,6 @@ interface IDemoData {
   joinDate: string;
 }
 
-/**
- * Demo 1 component showcasing a table with mock data, actions, and modal integration.
- * Designed to demonstrate the capabilities of nirengi-ui-kit components.
- */
 @Component({
   selector: 'app-demo-1',
   standalone: true,
@@ -64,19 +57,10 @@ export class Demo1Component {
   readonly BadgeType = BadgeType;
   readonly BadgeShape = BadgeShape;
 
-  /**
-   * The category filter ID to simulating data changes.
-   */
   readonly categoryId = input<string>('all');
 
-  /**
-   * Detail modal template reference.
-   */
   readonly detailTemplate = viewChild<TemplateRef<IDemoData>>('detailTemplate');
 
-  /**
-   * Table columns definition.
-   */
   readonly columns: ITableColumn[] = [
     { field: 'name', header: 'Name', filterable: true },
     { field: 'role', header: 'Role', filterable: true },
@@ -85,9 +69,6 @@ export class Demo1Component {
     { field: 'actions', header: 'Actions' },
   ];
 
-  /**
-   * Mock data generation based on category input.
-   */
   readonly tableData = computed(() => {
     const cat = this.categoryId();
     // Simulate data changes based on category
@@ -150,9 +131,6 @@ export class Demo1Component {
     return baseData;
   });
 
-  /**
-   * Status filter options derived from table data.
-   */
   readonly statusOptions = computed(() => {
     // Get unique status values
     const data = this.tableData();
@@ -167,11 +145,6 @@ export class Demo1Component {
 
   private readonly modalService = inject(MODAL_SERVICE);
 
-  /**
-   * Handle status filter change.
-   * @param selectedValues Array of selected status booleans
-   * @param filterFn The filter function from the table template context
-   */
   onStatusFilterChange(
     selectedValues: boolean[],
     filterFn: (field: string, value: unknown, matchMode: string) => void
@@ -186,11 +159,6 @@ export class Demo1Component {
     filterFn('status', selectedValues, 'in');
   }
 
-  /**
-   * Handle name filter change.
-   * @param event The input event
-   * @param filterFn The filter function
-   */
   onNameFilterChange(
     event: Event,
     filterFn: (field: string, value: unknown, matchMode: string) => void
@@ -199,10 +167,6 @@ export class Demo1Component {
     filterFn('name', val, 'contains');
   }
 
-  /**
-   * Opens the detail modal for a specific item.
-   * @param item The item to view.
-   */
   openDetail(item: IDemoData): void {
     const tpl = this.detailTemplate();
     if (tpl) {
@@ -214,19 +178,11 @@ export class Demo1Component {
     }
   }
 
-  /**
-   * Deletes an item (Client-side simulation).
-   * @param item - Item to delete
-   */
   deleteItem(item: IDemoData): void {
     console.log('Delete item:', item);
   }
 
-  /**
-   * Closes the detail modal.
-   * Note: This method is used in the template for the 'Close' button.
-   * It calls closeAll or close specific id if tracked.
-   */
+  /** Uses closeAll rather than a targeted close because modal IDs are not tracked. */
   closeDialog(): void {
     this.modalService.closeAll();
   }

@@ -12,7 +12,6 @@ import {
   forwardRef,
   viewChild,
   effect,
-  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -23,20 +22,10 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Modern Select/Dropdown component.
- * Supports single/multiple selection, searching, and custom item templates.
+ * Select/Dropdown component with single/multiple selection, search, and custom item templates.
  *
- * ## Features
- * - ✅ ControlValueAccessor support (Form integration)
- * - ✅ Single and Multiple selection
- * - ✅ Searchable options
- * - ✅ Custom item template support
- * - ✅ OnPush change detection strategy
- * - ✅ Signal-based reactive state management
- * - ✅ Sizing support (xs, sm, md, lg, xl)
- *
- * @see {@link IconComponent} - Used icon component
- * @see {@link ValueAccessorBase} - Form infrastructure
+ * @see {@link IconComponent}
+ * @see {@link ValueAccessorBase}
  *
  * @example
  * <!-- Basic Usage -->
@@ -67,7 +56,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -76,7 +64,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
     },
   ],
 })
-export class SelectComponent extends ValueAccessorBase<any> {
+export class SelectComponent extends ValueAccessorBase<unknown> {
   private elementRef = inject(ElementRef);
 
   /**
@@ -85,122 +73,66 @@ export class SelectComponent extends ValueAccessorBase<any> {
    */
   readonly inputId = `nui-select-${Math.random().toString(36).substr(2, 9)}`;
 
-  /**
-   * List of options to be displayed.
-   * Can be an array of objects of any type or primitive values.
-   */
-  readonly options = input.required<any[]>();
+  readonly options = input.required<unknown[]>();
 
   /**
-   * Object property to be used for the label (display text).
-   * If not provided, the option itself is used as the label.
+   * Object property used for display text. If omitted, the option itself is used as the label.
    * @example 'name', 'title'
    */
   readonly bindLabel = input<string>();
 
   /**
-   * Object property to be used for the value.
-   * If not provided, the option object itself is used as the value.
+   * Object property used as the bound value. If omitted, the option object itself is used.
    * @example 'id', 'uuid'
    */
   readonly bindValue = input<string>();
 
-  /**
-   * Whether multiple selection is allowed.
-   * Default: false
-   */
+  /** @default false */
   readonly multiple = input<boolean>(false);
 
-  /**
-   * Whether a search box is shown within the dropdown.
-   * Default: false
-   */
+  /** @default false */
   readonly searchable = input<boolean>(false);
 
-  /**
-   * Enables the clear button in single selection mode.
-   * Default: true
-   */
+  /** @default true */
   readonly clearable = input<boolean>(true);
 
-  /**
-   * Component label.
-   * Displayed above the input.
-   */
   readonly label = input<string>();
 
-  /**
-   * Placeholder text to be displayed when no selection is made.
-   * Default: 'Select...'
-   */
+  /** @default 'Select...' */
   readonly placeholder = input<string>('Select...');
 
-  /**
-   * Helper hint text.
-   * Displayed in small font below the component.
-   */
   readonly hint = input<string>();
 
-  /**
-   * Success message text.
-   * Displayed below the component when in a success state (green border).
-   */
+  /** Displayed below the component in a success state (green border). */
   readonly success = input<string>();
 
-  /**
-   * Warning message text.
-   * Displayed below the component when in a warning state (yellow border).
-   */
+  /** Displayed below the component in a warning state (yellow border). */
   readonly warning = input<string>();
 
-  /**
-   * Component size.
-   * Accepts Size enum values (xs, sm, md, lg, xl).
-   * Default: Size.Medium
-   */
+  /** @default Size.Medium */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Color variant.
-   * Accepts `ColorVariant` enum values to be used in component style and BEM modifier classes.
-   * Default: `ColorVariant.Primary`
-   *
+   * @default ColorVariant.Secondary
    * @see ColorVariant
    */
   readonly variant = input<ColorVariant>(ColorVariant.Secondary);
 
-  /**
-   * Custom template for rendering options.
-   * Can be passed as an input or received from content projection.
-   */
-  readonly itemTemplateInput = input<TemplateRef<any> | null>(null, { alias: 'itemTemplate' });
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
+  readonly itemTemplateInput = input<TemplateRef<unknown> | null>(null, { alias: 'itemTemplate' });
 
-  /**
-   * Template reference received from content children (ContentChild).
-   * Usage: <nui-select> <ng-template ...> </nui-select>
-   */
-  readonly contentItemTemplate = contentChild<TemplateRef<any>>('itemTemplate');
+  /** Custom item template via content projection: `<ng-template #itemTemplate let-item>`. */
+  readonly contentItemTemplate = contentChild<TemplateRef<unknown>>('itemTemplate');
 
-  /**
-   * Internal state: Is the dropdown open?
-   */
   readonly isOpen = signal<boolean>(false);
 
-  /**
-   * Internal state: Current search term.
-   */
   readonly searchTerm = signal<string>('');
 
-  /**
-   * Provides access to the search input element.
-   * Used to automatically focus when the dropdown opens.
-   */
+  /** Auto-focused when the dropdown opens with `searchable` enabled. */
   readonly searchInputElement = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
-  /**
-   * Disable input for template binding.
-   * Works in sync with the form control's disabled state.
-   */
+  /** Kept in sync with the form control's disabled state via `setDisabledState`. */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
   /**
@@ -212,21 +144,12 @@ export class SelectComponent extends ValueAccessorBase<any> {
   protected readonly Size = Size;
   protected readonly ColorVariant = ColorVariant;
 
-  /**
-   * Holds the trigger width (for Overlay).
-   */
   readonly triggerWidth = signal<number | null>(null);
 
-  /**
-   * Computed: Container classes including variant and size.
-   */
   readonly containerClasses = computed(() => {
     return `nui-select--${this.variant()} nui-select--${this.size()}`;
   });
 
-  /**
-   * Computed: Trigger classes for size.
-   */
   readonly triggerClasses = computed(() => {
     return `nui-select__trigger--${this.size()}`;
   });
@@ -242,6 +165,63 @@ export class SelectComponent extends ValueAccessorBase<any> {
       `nui-select--${this.size()}`,
       `nui-select--${this.variant()}`,
     ];
+  });
+
+  /** Priority: input binding > content child > template default. */
+  readonly itemTemplate = computed(
+    () => this.itemTemplateInput() || this.contentItemTemplate() || null
+  );
+
+  readonly filteredOptions = computed(() => {
+    const term = this.searchTerm().toLowerCase();
+    const allOptions = this.options();
+
+    if (!term) return allOptions;
+
+    return allOptions.filter((opt) => {
+      const label = this.getLabel(opt).toString().toLowerCase();
+      return label.includes(term);
+    });
+  });
+
+  /** Bridges between the `value` signal (which may hold only IDs) and full option objects. */
+  readonly selectedItems = computed(() => {
+    const rawVal = this.value();
+    if (rawVal === null || rawVal === undefined) return [];
+
+    const opts = this.options();
+    const bindVal = this.bindValue();
+
+    // Helper to find an option by its value
+    const findOption = (val: unknown) => {
+      if (!bindVal) return val; // Value is the object itself
+      return opts.find((o) => (o as Record<string, unknown>)[bindVal] === val);
+    };
+
+    if (this.multiple()) {
+      if (!Array.isArray(rawVal)) return [];
+      return (rawVal as unknown[]).map((v) => findOption(v)).filter(Boolean);
+    } else {
+      const opt = findOption(rawVal);
+      return opt ? [opt] : [];
+    }
+  });
+
+  readonly iconSize = computed(() => {
+    switch (this.size()) {
+      case Size.XSmall:
+        return 14;
+      case Size.Small:
+        return 16;
+      case Size.Medium:
+        return 18;
+      case Size.Large:
+        return 20;
+      case Size.XLarge:
+        return 24;
+      default:
+        return 18;
+    }
   });
 
   constructor() {
@@ -269,90 +249,13 @@ export class SelectComponent extends ValueAccessorBase<any> {
     });
   }
 
-  /**
-   * Computed: Active item template.
-   * Priority order: Input > Content Child > Default (defined in HTML).
-   */
-  readonly itemTemplate = computed(
-    () => this.itemTemplateInput() || this.contentItemTemplate() || null
-  );
-
-  /**
-   * Computed: Options filtered by the search term.
-   */
-  readonly filteredOptions = computed(() => {
-    const term = this.searchTerm().toLowerCase();
-    const allOptions = this.options();
-
-    if (!term) return allOptions;
-
-    return allOptions.filter((opt) => {
-      const label = this.getLabel(opt).toString().toLowerCase();
-      return label.includes(term);
-    });
-  });
-
-  /**
-   * Computed: Full object forms of the selected items.
-   * Bridges between the `value` signal (which might only hold IDs) and option objects.
-   */
-  readonly selectedItems = computed(() => {
-    const rawVal = this.value();
-    if (rawVal === null || rawVal === undefined) return [];
-
-    const opts = this.options();
-    const bindVal = this.bindValue();
-
-    // Helper to find an option by its value
-    const findOption = (val: any) => {
-      if (!bindVal) return val; // Value is the object itself
-      return opts.find((o) => o[bindVal] === val);
-    };
-
-    if (this.multiple()) {
-      if (!Array.isArray(rawVal)) return [];
-      return rawVal.map((v) => findOption(v)).filter(Boolean);
-    } else {
-      const opt = findOption(rawVal);
-      return opt ? [opt] : [];
-    }
-  });
-
-  /**
-   * Computed: Icon size.
-   * Dynamically calculated based on component size.
-   */
-  readonly iconSize = computed(() => {
-    switch (this.size()) {
-      case Size.XSmall:
-        return 14;
-      case Size.Small:
-        return 16;
-      case Size.Medium:
-        return 18;
-      case Size.Large:
-        return 20;
-      case Size.XLarge:
-        return 24;
-      default:
-        return 18;
-    }
-  });
-
-  /**
-   * Checks if there is a selected value.
-   * @returns true if value exists, false otherwise.
-   */
   hasValue(): boolean {
     const val = this.value();
     if (Array.isArray(val)) return val.length > 0;
     return val !== null && val !== undefined;
   }
 
-  /**
-   * Toggles dropdown visibility (Open/Close).
-   * Does nothing if disabled.
-   */
+  /** No-op when disabled. */
   toggleDropdown(): void {
     if (this.isDisabled()) return;
 
@@ -368,9 +271,6 @@ export class SelectComponent extends ValueAccessorBase<any> {
     }
   }
 
-  /**
-   * Updates the trigger width.
-   */
   private updateTriggerWidth() {
     const rect = this.elementRef.nativeElement
       .querySelector('.nui-select__trigger')
@@ -380,10 +280,6 @@ export class SelectComponent extends ValueAccessorBase<any> {
     }
   }
 
-  /**
-   * Closes the dropdown when clicking outside.
-   * @param event Click event
-   */
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
@@ -391,9 +287,6 @@ export class SelectComponent extends ValueAccessorBase<any> {
     }
   }
 
-  /**
-   * Closes the dropdown and clears the state.
-   */
   close(): void {
     if (this.isOpen()) {
       this.isOpen.set(false);
@@ -402,58 +295,40 @@ export class SelectComponent extends ValueAccessorBase<any> {
     }
   }
 
-  /**
-   * Returns the display label for an option.
-   * @param option Option object or value
-   * @returns Text to be displayed
-   */
-  getLabel(option: any): string {
+  getLabel(option: unknown): string {
     if (!option) return '';
     const labelProp = this.bindLabel();
     if (labelProp && typeof option === 'object') {
-      return option[labelProp] || '';
+      return String((option as Record<string, unknown>)[labelProp] ?? '');
     }
     return String(option);
   }
 
-  /**
-   * Returns the value of an option (for comparison).
-   * @param option Option object
-   * @returns Option's value (or itself if no bindValue)
-   */
-  getValue(option: any): any {
+  /** Returns the option itself when `bindValue` is not set. */
+  getValue(option: unknown): unknown {
     const valueProp = this.bindValue();
-    if (valueProp && typeof option === 'object') {
-      return option[valueProp];
+    if (valueProp && typeof option === 'object' && option !== null) {
+      return (option as Record<string, unknown>)[valueProp];
     }
     return option;
   }
 
-  /**
-   * Checks if an option is selected.
-   * @param option Option to check
-   * @returns true if selected
-   */
-  isSelected(option: any): boolean {
+  isSelected(option: unknown): boolean {
     const current = this.value();
     const optVal = this.getValue(option);
 
     if (this.multiple()) {
-      return Array.isArray(current) && current.includes(optVal);
+      return Array.isArray(current) && (current as unknown[]).includes(optVal);
     }
     return current === optVal;
   }
 
-  /**
-   * Handles option selection.
-   * Closes the dropdown in single selection mode, adds/removes the value in multiple selection mode.
-   * @param option Selected option
-   */
-  selectOption(option: any): void {
+  /** Closes the dropdown in single mode; toggles the value in multiple mode. */
+  selectOption(option: unknown): void {
     const optVal = this.getValue(option);
 
     if (this.multiple()) {
-      const current = (this.value() as any[]) || [];
+      const current = (this.value() as unknown[]) || [];
       const index = current.indexOf(optVal);
 
       let newVal;
@@ -471,44 +346,28 @@ export class SelectComponent extends ValueAccessorBase<any> {
     }
   }
 
-  /**
-   * Item removal helper (removal via chip).
-   * @param item Item to be removed
-   * @param event Event object
-   */
-  removeItem(item: any, event: Event): void {
+  removeItem(item: unknown, event: Event): void {
     event.stopPropagation();
     if (this.isDisabled()) return;
 
     const optVal = this.getValue(item);
-    const current = (this.value() as any[]) || [];
+    const current = (this.value() as unknown[]) || [];
     const newVal = current.filter((v) => v !== optVal);
     this.updateValue(newVal);
   }
 
-  /**
-   * Updates the search term.
-   * @param event Input event
-   */
   onSearch(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
     this.searchTerm.set(val);
   }
 
-  /**
-   * Clears the value (for single selection).
-   * @param event Event object
-   */
   clearValue(event: Event): void {
     event.stopPropagation();
     if (this.isDisabled()) return;
     this.updateValue(this.multiple() ? [] : null);
   }
 
-  /**
-   * TrackBy function for list performance.
-   */
-  trackByFn(index: number, item: any): any {
-    return this.getValue(item) || index;
+  trackByFn(index: number, item: unknown): unknown {
+    return this.getValue(item) ?? index;
   }
 }

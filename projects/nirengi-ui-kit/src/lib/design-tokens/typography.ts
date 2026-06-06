@@ -1,55 +1,33 @@
-/**
- * UI Kit typography design tokens.
- * Font families, sizes, weights, and line-height values.
- *
- * @see https://tailwindcss.com/docs/font-size
- */
+/** @see https://tailwindcss.com/docs/font-size */
 
-/**
- * Font family definitions.
- */
-export interface FontFamily {
-  /** Sans-serif font family */
+export interface IFontFamily {
   sans: string[];
-  /** Serif font family */
   serif: string[];
-  /** Monospace font family */
   mono: string[];
 }
 
-/**
- * Font size and line-height combination.
- */
-export interface FontSizeConfig {
-  /** Font size (rem or px) */
+export interface IFontSizeConfig {
   fontSize: string;
-  /** Line height */
   lineHeight: string;
 }
 
-/**
- * Font size scale.
- */
-export interface FontSizes {
-  xs: FontSizeConfig;
-  sm: FontSizeConfig;
-  base: FontSizeConfig;
-  lg: FontSizeConfig;
-  xl: FontSizeConfig;
-  '2xl': FontSizeConfig;
-  '3xl': FontSizeConfig;
-  '4xl': FontSizeConfig;
-  '5xl': FontSizeConfig;
-  '6xl': FontSizeConfig;
-  '7xl': FontSizeConfig;
-  '8xl': FontSizeConfig;
-  '9xl': FontSizeConfig;
+export interface IFontSizes {
+  xs: IFontSizeConfig;
+  sm: IFontSizeConfig;
+  base: IFontSizeConfig;
+  lg: IFontSizeConfig;
+  xl: IFontSizeConfig;
+  '2xl': IFontSizeConfig;
+  '3xl': IFontSizeConfig;
+  '4xl': IFontSizeConfig;
+  '5xl': IFontSizeConfig;
+  '6xl': IFontSizeConfig;
+  '7xl': IFontSizeConfig;
+  '8xl': IFontSizeConfig;
+  '9xl': IFontSizeConfig;
 }
 
-/**
- * Font weight values.
- */
-export interface FontWeights {
+export interface IFontWeights {
   thin: string;
   extralight: string;
   light: string;
@@ -61,10 +39,7 @@ export interface FontWeights {
   black: string;
 }
 
-/**
- * Default font families.
- */
-export const designTokenFontFamily: FontFamily = {
+export const designTokenFontFamily: IFontFamily = {
   sans: [
     'Inter',
     'system-ui',
@@ -80,11 +55,8 @@ export const designTokenFontFamily: FontFamily = {
   mono: ['Fira Code', 'Consolas', 'Monaco', 'Courier New', 'monospace'],
 };
 
-/**
- * Default font sizes.
- * Based on the Tailwind CSS font size system.
- */
-export const designTokenFontSizes: FontSizes = {
+/** Based on the Tailwind CSS font size system. */
+export const designTokenFontSizes: IFontSizes = {
   xs: { fontSize: '0.75rem', lineHeight: '1rem' },
   sm: { fontSize: '0.875rem', lineHeight: '1.25rem' },
   base: { fontSize: '1rem', lineHeight: '1.5rem' },
@@ -100,10 +72,7 @@ export const designTokenFontSizes: FontSizes = {
   '9xl': { fontSize: '8rem', lineHeight: '1' },
 };
 
-/**
- * Default font weights.
- */
-export const designTokenFontWeights: FontWeights = {
+export const designTokenFontWeights: IFontWeights = {
   thin: '100',
   extralight: '200',
   light: '300',

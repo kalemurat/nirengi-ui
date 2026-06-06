@@ -2,15 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { IEventLog } from '../interfaces/showcase-config.interface';
 
 /**
- * Event Logger Service.
- * Captures component events and displays them in a terminal-style console.
- *
- * ## Responsibilities
- * - Logging events with timestamps
- * - Maintaining event history
- * - Log clearing operations
- *
- * ## Usage
+ * @example
  * ```typescript
  * // Component-level provide
  * providers: [EventLoggerService]
@@ -26,28 +18,13 @@ import { IEventLog } from '../interfaces/showcase-config.interface';
  */
 @Injectable()
 export class EventLoggerService {
-  /**
-   * Computed signal for event logs.
-   * Exposed as read-only externally.
-   *
-   * @returns Event log array (newest first)
-   */
+  /** Exposed as read-only computed; newest log first. */
   readonly eventLogs = computed(() => this.logs());
 
-  /**
-   * Signal for event log records.
-   * Kept with the newest log at the beginning.
-   */
+  /** Newest log is always at index 0. */
   private readonly logs = signal<IEventLog[]>([]);
 
   /**
-   * Records a new event log.
-   * Automatically generates a timestamp and a unique ID.
-   *
-   * @param componentId - Component ID (e.g., 'button')
-   * @param eventName - Event name (e.g., 'onClick')
-   * @param payload - Event payload (can be any value)
-   *
    * @example
    * ```typescript
    * // Button click event
@@ -70,42 +47,20 @@ export class EventLoggerService {
     this.logs.update((current) => [log, ...current]);
   }
 
-  /**
-   * Clears all event logs.
-   * Used when "Clear" button is clicked.
-   */
   clearLogs(): void {
     this.logs.set([]);
   }
 
-  /**
-   * Retrieves the last N logs.
-   * Prevents displaying too many logs for performance.
-   *
-   * @param count - Number of logs to display
-   * @returns Last N logs
-   */
+  /** Prevents displaying too many logs for performance. */
   getRecentLogs(count: number): IEventLog[] {
     return this.logs().slice(0, count);
   }
 
-  /**
-   * Generates a unique log ID.
-   * Combination of timestamp + random number.
-   *
-   * @returns Unique log ID
-   */
   private generateLogId(): string {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  /**
-   * Sanitizes the event payload.
-   * Makes it safe for circular references and large objects.
-   *
-   * @param payload - Raw payload
-   * @returns Sanitized payload
-   */
+  /** Guards against circular references and oversized DOM event objects. */
   private sanitizePayload(payload: unknown): unknown {
     // Take only important info for DOM events like MouseEvent, KeyboardEvent
     if (payload instanceof Event) {

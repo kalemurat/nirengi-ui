@@ -1,37 +1,21 @@
 /**
  * UI Kit shadow design tokens.
- * Used for box-shadow values.
  *
  * @see https://tailwindcss.com/docs/box-shadow
  */
 
-/**
- * Shadow definitions interface.
- */
-export interface Shadows {
-  /** No shadow */
+export interface IShadows {
   none: string;
-  /** Extra small shadow */
   xs: string;
-  /** Small shadow */
   sm: string;
-  /** Medium (default) shadow */
   md: string;
-  /** Large shadow */
   lg: string;
-  /** Extra large shadow */
   xl: string;
-  /** 2x large shadow */
   '2xl': string;
-  /** Inner shadow */
   inner: string;
 }
 
-/**
- * Default shadow values.
- * Based on Tailwind CSS shadow system.
- */
-export const designTokenShadows: Shadows = {
+export const designTokenShadows: IShadows = {
   none: 'none',
   xs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
   sm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',

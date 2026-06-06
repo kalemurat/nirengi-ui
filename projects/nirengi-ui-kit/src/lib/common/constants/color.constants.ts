@@ -17,8 +17,7 @@ export const COLOR_VARIANT_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Default shades corresponding to color variants.
- * In Tailwind CSS color scale (50-950).
+ * Default shades in the Tailwind CSS color scale (50-950).
  *
  * @example
  * const defaultShade = COLOR_DEFAULT_SHADE_MAP[ColorVariant.Primary]; // '600'
@@ -34,8 +33,7 @@ export const COLOR_DEFAULT_SHADE_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Hover shades corresponding to color variants.
- * Uses a darker shade.
+ * Hover shades — one step darker than the default shade.
  *
  * @example
  * const hoverShade = COLOR_HOVER_SHADE_MAP[ColorVariant.Primary]; // '700'
@@ -51,8 +49,7 @@ export const COLOR_HOVER_SHADE_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Text color classes corresponding to color variants.
- * Used for light backgrounds.
+ * Text color classes for use on light backgrounds.
  *
  * @example
  * const textColor = COLOR_TEXT_MAP[ColorVariant.Primary]; // 'text-blue-600'
@@ -68,8 +65,7 @@ export const COLOR_TEXT_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Background color classes corresponding to color variants.
- * For solid buttons and background uses.
+ * Solid background color classes (used for filled buttons and similar surfaces).
  *
  * @example
  * const bgColor = COLOR_BG_MAP[ColorVariant.Primary]; // 'bg-blue-600'
@@ -85,8 +81,6 @@ export const COLOR_BG_MAP: Record<ColorVariant, string> = {
 } as const;
 
 /**
- * Border color classes corresponding to color variants.
- *
  * @example
  * const borderColor = COLOR_BORDER_MAP[ColorVariant.Primary]; // 'border-blue-600'
  */

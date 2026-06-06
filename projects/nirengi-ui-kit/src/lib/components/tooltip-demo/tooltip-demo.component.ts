@@ -4,12 +4,9 @@ import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TooltipPosition } from '../tooltip/tooltip.types';
 import { ButtonComponent, ButtonType } from '../button/button.component';
 
-/**
- * Demo component used to showcase the Tooltip component in the showcase system.
- * This component uses TooltipDirective and is controlled by external inputs.
- */
+/** Demo component that showcases TooltipDirective inside the nirengi-ui-kit showcase system. */
 @Component({
-  selector: 'nirengi-tooltip-demo',
+  selector: 'nui-tooltip-demo',
   standalone: true,
   imports: [CommonModule, TooltipDirective, ButtonComponent],
   template: `
@@ -17,8 +14,8 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
       class="flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 p-20"
     >
       <nui-button
-        [nirengiTooltip]="tooltipText()"
-        [nirengiTooltipPosition]="tooltipPosition()"
+        [nuiTooltip]="tooltipText()"
+        [nuiTooltipPosition]="tooltipPosition()"
         [kind]="ButtonType.Solid"
       >
         Hover Over Me
@@ -28,14 +25,8 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TooltipDemoComponent {
-  /**
-   * The text to be displayed inside the tooltip.
-   */
   readonly tooltipText = input<string>('Hello World!');
 
-  /**
-   * Tooltip position.
-   */
   readonly tooltipPosition = input<TooltipPosition>(TooltipPosition.Top);
 
   // Enum reference for use in the template (if needed)

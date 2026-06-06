@@ -1,5 +1,5 @@
 import { Injectable, Injector, signal, TemplateRef, Type } from '@angular/core';
-import { IModalService, ModalData, ModalOptions, ModalSize } from './modal.types';
+import { IModalService, IModalData, IModalOptions, ModalSize } from './modal.types';
 import { ModalRef } from './modal-ref';
 import { MODAL_DATA, MODAL_REF } from './modal.token';
 
@@ -10,29 +10,21 @@ import { MODAL_DATA, MODAL_REF } from './modal.token';
   providedIn: 'root',
 })
 export class ModalService implements IModalService {
-  readonly modals = signal<ModalData[]>([]);
+  readonly modals = signal<IModalData[]>([]);
   private readonly modalStackCount = signal(0);
 
   constructor(private injector: Injector) {}
 
-  /**
-   * Opens a new modal with the specified content and options.
-   *
-   * @template T Data type passed to the modal content
-   * @param content Component type or template to render inside the modal
-   * @param options Modal configuration options
-   * @returns Reference to the opened modal
-   */
-  open<T>(content: Type<T> | TemplateRef<T>, options?: ModalOptions): ModalRef<T> {
+  open<T>(content: Type<T> | TemplateRef<T>, options?: IModalOptions): ModalRef<T> {
     const id = crypto.randomUUID();
-    const modalOptions: ModalOptions = {
+    const modalOptions: IModalOptions = {
       size: ModalSize.Medium,
       backdropClose: true,
       escClose: true,
       ...options,
     };
 
-    const modalRef = new ModalRef<T>(id, (modalId, result) => {
+    const modalRef = new ModalRef<T>(id, (modalId) => {
       // Logic to run when close is called on the Ref
       this.remove(modalId);
     });
@@ -49,7 +41,7 @@ export class ModalService implements IModalService {
       });
     }
 
-    const modalData: ModalData = {
+    const modalData: IModalData = {
       id,
       content,
       options: modalOptions,
@@ -61,19 +53,11 @@ export class ModalService implements IModalService {
     return modalRef;
   }
 
-  /**
-   * Closes a modal by its unique identifier.
-   *
-   * @param id Unique modal identifier
-   */
   close(id: string): void {
     this.remove(id);
   }
 
-  /**
-   * Closes the top-most modal in the stack.
-   * Ensures that in multi-modal scenarios, only the topmost modal responds to ESC key.
-   */
+  /** In multi-modal scenarios, only the topmost modal responds to ESC key. */
   closeTopmost(): void {
     const current = this.modals();
     if (current.length > 0) {
@@ -82,9 +66,6 @@ export class ModalService implements IModalService {
     }
   }
 
-  /**
-   * Closes all open modals and clears the stack.
-   */
   closeAll(): void {
     this.modals.set([]);
   }

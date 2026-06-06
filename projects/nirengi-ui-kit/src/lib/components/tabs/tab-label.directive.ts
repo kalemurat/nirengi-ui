@@ -1,8 +1,7 @@
 import { Directive, inject, TemplateRef } from '@angular/core';
 
 /**
- * Directive for the tab label.
- * Used to use a custom template (icon, image, etc.) in the tab header.
+ * Use this directive to provide a custom template (icon, image, etc.) for the tab header.
  *
  * @example
  * <nui-tab>
@@ -18,8 +17,5 @@ import { Directive, inject, TemplateRef } from '@angular/core';
   standalone: true,
 })
 export class TabLabelDirective {
-  /**
-   * Template reference.
-   */
   readonly template = inject(TemplateRef);
 }

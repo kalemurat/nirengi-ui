@@ -1,0 +1,95 @@
+/**
+ * Nirengi UI Kit — Select dropdown (overlay) styles
+ *
+ * The select dropdown is portalled to the document body via the CDK
+ * ConnectedOverlay, so it lives OUTSIDE the <nui-select> component's DOM tree.
+ * Angular's emulated view encapsulation scopes a component's styles with a
+ * generated `[_ngcontent-*]` attribute that only matches elements inside that
+ * tree — the portalled overlay panel never receives it. Therefore the dropdown
+ * styles cannot be encapsulated on the component; they must ship as part of the
+ * library's global stylesheet (`nirengi-ui-kit/styles`).
+ *
+ * The overlay panel carries `nui-select-overlay` plus `nui-select--{size}` /
+ * `nui-select--{variant}` classes (added in SelectComponent.overlayPanelClasses),
+ * which is why the size-scoped rules below key off `.nui-select--{size}`.
+ *
+ * All selectors are prefixed `nui-` so they stay namespaced and do not collide
+ * with consumer styles. (Inline-mode dropdowns — `appendToBody=false` — also
+ * use these classes, so a single global definition serves both modes.)
+ */
+
+.nui-select__dropdown {
+  @apply absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-md border border-default bg-primary shadow-lg;
+
+  /* If appended to body, reset positioning as the overlay handles it */
+  &--overlay {
+    @apply static mt-0 border border-default;
+  }
+}
+
+/* Overlay panel wrapper: keep it transparent so the dropdown's own surface shows */
+.nui-select-overlay {
+  @apply bg-transparent;
+}
+
+.nui-select__search {
+  @apply border-b border-neutral-100 p-2;
+
+  &-input {
+    @apply w-full rounded-md border border-default bg-secondary text-primary;
+    @apply focus:border-primary-500 focus:bg-primary focus:outline-none focus:ring-1 focus:ring-primary-500;
+    @apply placeholder-tertiary;
+
+    /* Size mapping comes from the size class on the overlay panel / inline parent */
+    .nui-select--xs & {
+      @apply px-2 py-1 text-xs;
+    }
+
+    .nui-select--sm & {
+      @apply px-2.5 py-1.5 text-sm;
+    }
+
+    .nui-select--md & {
+      @apply px-3 py-2 text-sm;
+    }
+
+    .nui-select--lg & {
+      @apply px-3.5 py-2.5 text-base;
+    }
+
+    .nui-select--xl & {
+      @apply px-4 py-3 text-lg;
+    }
+  }
+}
+
+.nui-select__options {
+  @apply max-h-60 overflow-y-auto py-1;
+}
+
+.nui-select__option {
+  @apply flex cursor-pointer select-none items-center px-3 py-2 text-sm text-primary transition-colors;
+  @apply hover:bg-secondary;
+
+  &--selected {
+    @apply bg-primary-50 font-medium text-primary-700;
+    @apply dark:bg-primary-900/20 dark:text-primary-400;
+
+    &:hover {
+      @apply bg-primary-50;
+    }
+  }
+
+  &--disabled {
+    @apply cursor-not-allowed bg-transparent opacity-50 hover:bg-transparent;
+  }
+
+  /* Checkmark place */
+  &-check {
+    @apply ml-auto text-primary-600;
+  }
+}
+
+.nui-select__empty {
+  @apply px-3 py-4 text-center text-sm text-secondary;
+}

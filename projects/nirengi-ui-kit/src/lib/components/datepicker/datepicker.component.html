@@ -75,12 +75,7 @@
     <div class="datepicker__calendar">
       <!-- Header: Month/Year & Nav -->
       <div class="datepicker__header">
-        <button
-          type="button"
-          class="datepicker__nav-btn"
-          (click)="prevMonth()"
-          aria-label="Previous month"
-        >
+        <button type="button" class="datepicker__nav-btn" (click)="prevMonth()" aria-label="Previous month">
           <nui-icon [name]="icons.prev" class="datepicker__nav-icon" size="16"></nui-icon>
         </button>
 
@@ -88,12 +83,7 @@
           {{ currentMonthYear() }}
         </span>
 
-        <button
-          type="button"
-          class="datepicker__nav-btn"
-          (click)="nextMonth()"
-          aria-label="Next month"
-        >
+        <button type="button" class="datepicker__nav-btn" (click)="nextMonth()" aria-label="Next month">
           <nui-icon [name]="icons.next" class="datepicker__nav-icon" size="16"></nui-icon>
         </button>
       </div>
@@ -145,8 +135,13 @@
                   @for (h of hoursList; track h) {
                     <li
                       class="datepicker__time-item"
+                      role="option"
+                      tabindex="0"
+                      [attr.aria-selected]="selectedHour() === h"
                       [class.datepicker__time-item--selected]="selectedHour() === h"
                       (click)="selectHour(h)"
+                      (keydown.enter)="selectHour(h)"
+                      (keydown.space)="selectHour(h)"
                     >
                       {{ h | number: '2.0' }}
                     </li>
@@ -166,8 +161,13 @@
                   @for (m of minutesList; track m) {
                     <li
                       class="datepicker__time-item"
+                      role="option"
+                      tabindex="0"
+                      [attr.aria-selected]="selectedMinute() === m"
                       [class.datepicker__time-item--selected]="selectedMinute() === m"
                       (click)="selectMinute(m)"
+                      (keydown.enter)="selectMinute(m)"
+                      (keydown.space)="selectMinute(m)"
                     >
                       {{ m | number: '2.0' }}
                     </li>

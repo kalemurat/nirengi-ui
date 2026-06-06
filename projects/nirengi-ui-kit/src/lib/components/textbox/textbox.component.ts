@@ -14,25 +14,10 @@ import { IconName } from '../icon/icon.types';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
-/**
- * Textbox input types definitions.
- */
 export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 'tel' | 'url';
 
 /**
- * Modern textbox (input) component.
- * Allows user input for various data types.
- *
- * ## Features
- * - ✅ Signal based ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ OnPush change detection strategy
- * - ✅ Reactive class binding with computed signals
- * - ✅ Various types (text, password, etc.)
- * - ✅ Label, Hint, and Error message support
- * - ✅ Icon support
- * - ✅ Size variations
- * - ✅ Disabled state
- * - ✅ Tailwind + BEM styling
+ * Signal-based textbox component with ControlValueAccessor support.
  *
  * @example
  * <nui-textbox label="Username" placeholder="Enter user" [formControl]="userCtrl" />
@@ -68,69 +53,39 @@ export class TextboxComponent extends ValueAccessorBase<string> {
    */
   readonly inputId = `nui-textbox-${Math.random().toString(36).substr(2, 9)}`;
 
-  /**
-   * Label text.
-   */
   readonly label = input<string>();
 
-  /**
-   * Placeholder text.
-   */
   readonly placeholder = input<string>('');
 
-  /**
-   * Input type.
-   * @default 'text'
-   */
+  /** @default 'text' */
   readonly type = input<TextboxType>('text');
 
-  /**
-   * Helper hint text.
-   */
   readonly hint = input<string>();
 
-  /**
-   * Component color variant.
-   * @default ColorVariant.Neutral
-   */
+  /** @default ColorVariant.Neutral */
   readonly variant = input<ColorVariant>(ColorVariant.Neutral);
 
-  /**
-   * Icon name to display.
-   */
   readonly icon = input<IconName>();
 
-  /**
-   * Readonly state.
-   */
   readonly readonly = input<boolean>(false);
 
-  /**
-   * Component size.
-   * @default Size.Medium
-   */
+  /** @default Size.Medium */
   readonly size = input<Size>(Size.Medium);
 
-  /**
-   * Input value (dumb mode).
-   */
+  /** Dumb-mode value; synced to the base class via effect. */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly valueInput = input<string | null>(null, { alias: 'value' });
 
   /**
-   * Whether the input is clearable.
-   * If true, shows a clear button when value is not empty.
+   * Shows a clear button when the value is not empty.
    * @default false
    */
   readonly clearable = input<boolean>(false);
 
-  /**
-   * Disabled state (dumb mode).
-   */
+  /** Dumb-mode disabled; synced to the base class via effect. */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
 
-  /**
-   * Computed icon size based on component size.
-   */
   readonly iconSize = computed(() => {
     switch (this.size()) {
       case Size.XSmall:
@@ -148,16 +103,10 @@ export class TextboxComponent extends ValueAccessorBase<string> {
     }
   });
 
-  /**
-   * Container CSS classes (variant).
-   */
   protected readonly containerClasses = computed(() => {
     return `nui-textbox--${this.variant()} nui-textbox--${this.size()}`;
   });
 
-  /**
-   * Input CSS classes (size).
-   */
   protected readonly inputClasses = computed(() => {
     return `nui-textbox__input--${this.size()}`;
   });
@@ -179,17 +128,12 @@ export class TextboxComponent extends ValueAccessorBase<string> {
     });
   }
 
-  /**
-   * Handle input event.
-   */
   onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.updateValue(value);
   }
 
-  /**
-   * Clears the input value.
-   */
+  /** No-op when disabled or readonly. */
   clearValue(): void {
     if (this.isDisabled() || this.readonly()) return;
     this.updateValue('');

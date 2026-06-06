@@ -10,7 +10,7 @@ import {
   effect,
 } from '@angular/core';
 import { CommonModule, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
-import { ModalData, ModalSize } from './modal.types';
+import { IModalData, ModalSize } from './modal.types';
 import { MODAL_SERVICE } from './modal.token';
 import { HeadingComponent, HeadingLevel, HeadingWeight } from '../heading/heading.component';
 import { IconComponent } from '../icon/icon.component';
@@ -19,8 +19,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
 
 /**
- * Modal Wrapper Component.
- * Renders the backdrop and the modal container.
  * Handles closing via backdrop click or ESC key.
  *
  * @example
@@ -39,8 +37,8 @@ import { Size } from '../../common/enums/size.enum';
   ],
   template: `
     <div class="nui-modal" [attr.role]="'dialog'" [attr.aria-modal]="true">
-      <!-- Backdrop -->
-      <div class="nui-modal__backdrop" (click)="onBackdropClick()"></div>
+      <!-- Backdrop: decorative click target; keyboard users dismiss via the ESC key (handled on the host). -->
+      <div class="nui-modal__backdrop" aria-hidden="true" (click)="onBackdropClick()"></div>
 
       <!-- Modal Panel -->
       <div [class]="'nui-modal__panel ' + sizeClasses()">
@@ -126,12 +124,7 @@ import { Size } from '../../common/enums/size.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent {
-  /**
-   * The modal configuration data.
-   */
-  readonly data = input.required<ModalData>({
-    alias: 'data',
-  });
+  readonly data = input.required<IModalData>();
 
   private modalService = inject(MODAL_SERVICE);
   HeadingLevel = HeadingLevel;
@@ -139,42 +132,6 @@ export class ModalComponent {
   ColorVariant = ColorVariant;
   ButtonType = ButtonType;
   Size = Size;
-
-  constructor() {
-    // Manage body scroll lock based on modal stack count
-    effect(() => {
-      const modalCount = this.modalService.modals().length;
-      if (modalCount > 0) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  /**
-   * Gets the component content from the modal data.
-   * Returns the content if it's a class/function (Component type).
-   *
-   * @returns Component type or null if content is a template
-   */
-  protected get componentContent(): Type<unknown> | null {
-    const c = this.data().content;
-    // Check if it is a class/function (Component)
-    return typeof c === 'function' ? (c as Type<unknown>) : null;
-  }
-
-  /**
-   * Gets the template content from the modal data.
-   * Returns the content if it's a TemplateRef.
-   *
-   * @returns TemplateRef or null if content is a component
-   */
-  protected get templateContent(): TemplateRef<unknown> | null {
-    const c = this.data().content;
-    // Check if it is a TemplateRef
-    return c instanceof TemplateRef ? c : null;
-  }
 
   protected readonly sizeClasses = computed(() => {
     const size = this.data().options.size || ModalSize.Medium;
@@ -191,21 +148,37 @@ export class ModalComponent {
     }
   });
 
-  /**
-   * Handles backdrop click to close the modal.
-   * Respects the backdropClose option from modal configuration.
-   */
+  constructor() {
+    // Manage body scroll lock based on modal stack count
+    effect(() => {
+      const modalCount = this.modalService.modals().length;
+      if (modalCount > 0) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  protected get componentContent(): Type<unknown> | null {
+    const c = this.data().content;
+    // Check if it is a class/function (Component)
+    return typeof c === 'function' ? (c as Type<unknown>) : null;
+  }
+
+  protected get templateContent(): TemplateRef<unknown> | null {
+    const c = this.data().content;
+    // Check if it is a TemplateRef
+    return c instanceof TemplateRef ? c : null;
+  }
+
   onBackdropClick(): void {
     if (this.data().options.backdropClose !== false) {
       this.close();
     }
   }
 
-  /**
-   * Handles ESC key press to close the modal.
-   * Only closes if the modal is the top-most modal in the stack.
-   * Respects the escClose option from modal configuration.
-   */
+  /** Only closes if this is the top-most modal in the stack. */
   @HostListener('document:keydown.escape')
   onEscKey(): void {
     if (this.data().options.escClose !== false) {
@@ -214,9 +187,6 @@ export class ModalComponent {
     }
   }
 
-  /**
-   * Closes the modal and resets body overflow when all modals are closed.
-   */
   close(): void {
     this.modalService.close(this.data().id);
   }

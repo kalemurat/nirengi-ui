@@ -3,14 +3,11 @@ import { CommonModule } from '@angular/common';
 import { TooltipPosition } from './tooltip.types';
 
 /**
- * Component that displays the tooltip content.
- * Dynamically created and managed by the directive.
- *
  * @example
- * // This component is not used directly, it is managed via the nirengiTooltip directive.
+ * // This component is not used directly, it is managed via the nuiTooltip directive.
  */
 @Component({
-  selector: 'nirengi-tooltip',
+  selector: 'nui-tooltip',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -37,26 +34,12 @@ import { TooltipPosition } from './tooltip.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TooltipComponent {
-  /**
-   * Text to be displayed.
-   */
   readonly text = input.required<string>();
 
-  /**
-   * Tooltip position.
-   */
   readonly position = input<TooltipPosition>(TooltipPosition.Top);
 
-  /**
-   * Visibility state.
-   * Used for animation.
-   */
   readonly visible = input<boolean>(false);
 
-  /**
-   * Computed signal for the container style.
-   * Produces classes in accordance with BEM methodology.
-   */
   readonly containerClasses = computed(() => {
     const baseClass = 'tooltip';
     const positionClass = `tooltip--${this.position()}`;

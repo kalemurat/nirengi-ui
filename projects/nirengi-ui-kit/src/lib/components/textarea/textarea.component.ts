@@ -15,20 +15,7 @@ import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 /**
- * Modern textarea component.
- * Component used for multi-line text input.
- *
- * ## Features
- * - ✅ Signal-based ControlValueAccessor (NG_VALUE_ACCESSOR)
- * - ✅ OnPush change detection strategy
- * - ✅ Computed signals for class binding
- * - ✅ Label, Hint, and Error message support
- * - ✅ Icon support
- * - ✅ Size variations (xs, sm, md, lg, xl)
- * - ✅ Disabled and readonly states
- * - ✅ Auto-resize feature
- * - ✅ Character count support (maxlength)
- * - ✅ Tailwind + BEM styling
+ * Multi-line text input form control with label, hint, icon, auto-resize, and character count support.
  *
  * @example
  * <nui-textarea
@@ -65,28 +52,14 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
   ],
 })
 export class TextareaComponent extends ValueAccessorBase<string> {
-  /**
-   * Unique ID for accessibility.
-   * Automatically generated for each textarea instance.
-   */
+  /** Unique ID auto-generated per instance; used to link label and textarea for accessibility. */
   readonly textareaId = `nui-textarea-${Math.random().toString(36).substr(2, 9)}`;
 
-  /**
-   * Label text.
-   * Displayed above the textarea.
-   */
   readonly label = input<string>();
 
-  /**
-   * Placeholder text.
-   * Displayed when the textarea is empty.
-   */
   readonly placeholder = input<string>('');
 
-  /**
-   * Helper hint text.
-   * Displayed below the textarea (if there is no error).
-   */
+  /** Displayed below the textarea only when no error is present. */
   readonly hint = input<string>();
 
   /**
@@ -95,56 +68,80 @@ export class TextareaComponent extends ValueAccessorBase<string> {
    */
   readonly variant = input<ColorVariant>(ColorVariant.Neutral);
 
-  /**
-   * Icon name.
-   * Displayed in the top-left corner of the textarea.
-   */
+  /** Icon displayed in the top-left corner of the textarea. */
   readonly icon = input<IconName>();
 
-  /**
-   * Readonly state.
-   * If true, the textarea is not editable but is not disabled.
-   */
+  /** When true, the textarea is not editable but remains focusable and is not considered disabled. */
   readonly readonly = input<boolean>(false);
 
   /**
-   * Component size.
-   * Affects text size and padding.
    * @default Size.Medium
    */
   readonly size = input<Size>(Size.Medium);
 
   /**
-   * Number of textarea rows.
-   * Determines the minimum height.
+   * Determines the initial (minimum) height of the textarea.
    * @default 3
    */
   readonly rows = input<number>(3);
 
-  /**
-   * Maximum character count.
-   * If provided, a character counter is displayed.
-   */
+  /** When provided, a character counter ("current/max") is shown below the textarea. */
   readonly maxlength = input<number>();
 
   /**
-   * Auto-resize feature.
-   * If true, the height is automatically adjusted based on the content.
+   * When true, the textarea grows to fit its content automatically.
    * @default false
    */
   readonly autoResize = input<boolean>(false);
 
-  /**
-   * Textarea value (dumb mode).
-   * Can be assigned a value without using form control.
-   */
+  /** Allows setting a value without a form control (uncontrolled / dumb mode). */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly valueInput = input<string | null>(null, { alias: 'value' });
 
-  /**
-   * Disabled state (dumb mode).
-   * Can be disabled without using form control.
-   */
+  /** Allows disabling the textarea without a form control (uncontrolled / dumb mode). */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
+
+  readonly iconSize = computed(() => {
+    switch (this.size()) {
+      case Size.XSmall:
+        return 14;
+      case Size.Small:
+        return 16;
+      case Size.Medium:
+        return 18;
+      case Size.Large:
+        return 20;
+      case Size.XLarge:
+        return 24;
+      default:
+        return 18;
+    }
+  });
+
+  readonly containerClasses = computed(
+    () => `nui-textarea--${this.variant()} nui-textarea--${this.size()}`
+  );
+
+  protected readonly textareaClasses = computed(() => {
+    return `nui-textarea__input--${this.size()}`;
+  });
+
+  protected readonly characterCount = computed(() => {
+    const max = this.maxlength();
+    if (!max) return undefined;
+
+    const current = this.value()?.length || 0;
+    return `${current}/${max}`;
+  });
+
+  protected readonly isOverLimit = computed(() => {
+    const max = this.maxlength();
+    if (!max) return false;
+
+    const current = this.value()?.length || 0;
+    return current > max;
+  });
 
   constructor() {
     super();
@@ -163,82 +160,6 @@ export class TextareaComponent extends ValueAccessorBase<string> {
     });
   }
 
-  /**
-   * Computed signal that calculates the icon size based on the component size.
-   * Automatically updated when size changes.
-   *
-   * @returns Icon pixel size
-   */
-  readonly iconSize = computed(() => {
-    switch (this.size()) {
-      case Size.XSmall:
-        return 14;
-      case Size.Small:
-        return 16;
-      case Size.Medium:
-        return 18;
-      case Size.Large:
-        return 20;
-      case Size.XLarge:
-        return 24;
-      default:
-        return 18;
-    }
-  });
-
-  /**
-   * Computed signal to calculate CSS classes for the container element.
-   * Follows variant changes.
-   */
-  readonly containerClasses = computed(
-    () => `nui-textarea--${this.variant()} nui-textarea--${this.size()}`
-  );
-
-  /**
-   * Computed signal to calculate CSS classes for the textarea.
-   * Reactively follows size changes.
-   *
-   * @returns Size-based CSS class string
-   */
-  protected readonly textareaClasses = computed(() => {
-    return `nui-textarea__input--${this.size()}`;
-  });
-
-  /**
-   * Computed signal to calculate the character counter text.
-   * If maxlength exists, it is displayed in the "current/maximum" format.
-   *
-   * @returns Character counter text or undefined
-   */
-  protected readonly characterCount = computed(() => {
-    const max = this.maxlength();
-    if (!max) return undefined;
-
-    const current = this.value()?.length || 0;
-    return `${current}/${max}`;
-  });
-
-  /**
-   * Computed signal that checks if the character limit has been exceeded.
-   * If true, the character counter is displayed in red.
-   *
-   * @returns true if limit exceeded, false otherwise
-   */
-  protected readonly isOverLimit = computed(() => {
-    const max = this.maxlength();
-    if (!max) return false;
-
-    const current = this.value()?.length || 0;
-    return current > max;
-  });
-
-  /**
-   * Input event handler.
-   * Triggered when the user types in the textarea.
-   * Adjusts the height if auto-resize is active.
-   *
-   * @param event - Input event
-   */
   onInput(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
     const value = textarea.value;
@@ -252,12 +173,6 @@ export class TextareaComponent extends ValueAccessorBase<string> {
     }
   }
 
-  /**
-   * Adjusts the textarea height based on the content.
-   * Used for the auto-resize feature.
-   *
-   * @param textarea - HTML textarea element
-   */
   private adjustHeight(textarea: HTMLTextAreaElement): void {
     // Reset height to auto to get scrollHeight
     textarea.style.height = 'auto';

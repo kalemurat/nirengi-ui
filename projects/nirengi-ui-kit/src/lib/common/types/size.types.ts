@@ -1,23 +1,16 @@
 import { Size } from '../enums/size.enum';
 
-/**
- * Type definition for standard size values in UI Kit.
- * Represents all values in the Size enum as strings.
- */
 export type SizeType = `${Size}`;
 
 /**
- * Responsive size configuration type.
- * Allows defining different size values for different screen sizes.
- *
  * @example
- * const responsiveSize: ResponsiveSizeConfig = {
+ * const responsiveSize: IResponsiveSizeConfig = {
  *   base: 'sm',
  *   md: 'md',
  *   lg: 'lg'
  * };
  */
-export interface ResponsiveSizeConfig {
+export interface IResponsiveSizeConfig {
   /** Mobile (default) size */
   base?: SizeType;
   /** Tablet size (≥768px) */
@@ -28,8 +21,4 @@ export interface ResponsiveSizeConfig {
   xl?: SizeType;
 }
 
-/**
- * Combined type for component sizing.
- * Accepts either a single size value or a responsive configuration.
- */
-export type SizeValue = SizeType | ResponsiveSizeConfig;
+export type SizeValue = SizeType | IResponsiveSizeConfig;

@@ -16,16 +16,6 @@ import { Size } from '../../common/enums/size.enum';
 export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
 
 /**
- * Accordion Component.
- * Title and content sections can be received as `TemplateRef` or `string`.
- *
- * ## Features
- * - ✅ Standalone Component
- * - ✅ OnPush Change Detection
- * - ✅ Signal-based state management
- * - ✅ Template projection and String content support
- * - ✅ Custom sizing & status
- *
  * @example
  * <!-- String Usage -->
  * <nui-accordion
@@ -53,27 +43,12 @@ export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'd
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccordionComponent {
-  /**
-   * Title.
-   * Can be TemplateRef or string.
-   */
-  title = input.required<string | TemplateRef<any>>();
+  title = input.required<string | TemplateRef<unknown>>();
 
-  /**
-   * Content.
-   * Can be TemplateRef or string.
-   */
-  content = input.required<string | TemplateRef<any>>();
+  content = input.required<string | TemplateRef<unknown>>();
 
-  /**
-   * Expanded/Collapsed state.
-   * Supports two-way binding as it is a model signal.
-   */
   expanded = model<boolean>(false);
 
-  /**
-   * Disabled state.
-   */
   disabled = input<boolean>(false);
 
   /**
@@ -88,24 +63,12 @@ export class AccordionComponent {
    */
   status = input<AccordionStatus>('default');
 
-  /**
-   * Random string for unique ID generation.
-   */
   private readonly uniqueId = Math.random().toString(36).substring(2, 9);
 
-  /**
-   * Header element ID.
-   */
   protected readonly headerId = `accordion-header-${this.uniqueId}`;
 
-  /**
-   * Content element ID.
-   */
   protected readonly contentId = `accordion-content-${this.uniqueId}`;
 
-  /**
-   * Calculates container CSS classes.
-   */
   protected containerClasses = computed(() => {
     return [
       'nui-accordion',
@@ -116,19 +79,14 @@ export class AccordionComponent {
     ].join(' ');
   });
 
-  /**
-   * Toggles the accordion state.
-   */
+  /** Does not toggle while disabled. */
   toggle() {
     if (!this.disabled()) {
       this.expanded.update((v) => !v);
     }
   }
 
-  /**
-   * Checks if the value is a TemplateRef.
-   */
-  protected isTemplate(value: any): value is TemplateRef<any> {
+  protected isTemplate(value: unknown): value is TemplateRef<unknown> {
     return value instanceof TemplateRef;
   }
 }

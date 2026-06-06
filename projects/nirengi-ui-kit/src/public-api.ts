@@ -84,14 +84,6 @@
  * import { InputComponent } from 'nirengi-ui-kit/components/input/input.component';
  * ```
  *
- * ## Path Alias Usage (Inside Library)
- * You can use TypeScript path aliases while developing the library:
- * ```typescript
- * import { Size } from '@common/enums/size.enum';
- * import { designTokenColors } from '@design-tokens/colors';
- * import { ButtonComponent } from '@components/button/button.component';
- * ```
- *
  * ## Features
  * - ✅ Angular 18+ and 20 compatible
  * - ✅ Standalone components
@@ -323,15 +315,15 @@ export { RadioComponent } from './lib/components/radio/radio.component';
  * @see {@link BreadcrumbComponent}
  */
 export { BreadcrumbComponent } from './lib/components/breadcrumb/breadcrumb.component';
-export type { BreadcrumbItem } from './lib/components/breadcrumb/breadcrumb.component';
+export type { IBreadcrumbItem } from './lib/components/breadcrumb/breadcrumb.component';
 
 /**
  * List component and interface.
  * @see {@link ListComponent}
- * @see {@link ListItem}
+ * @see {@link IListItem}
  */
 export { ListComponent } from './lib/components/list/list.component';
-export type { ListItem } from './lib/components/list/list.component';
+export type { IListItem } from './lib/components/list/list.component';
 
 /**
  * Table component and types.
