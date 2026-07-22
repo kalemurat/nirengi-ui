@@ -1,5 +1,6 @@
 import { Component, input, Type, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { JsonPipe } from '@angular/common';
+
 import { PopoverDirective } from '../popover/popover.directive';
 import { PopoverPosition } from '../popover/popover.types';
 import { PopoverRef } from '../popover/popover.ref';
@@ -13,7 +14,8 @@ import { ButtonType } from '../button/button.component';
 @Component({
   selector: 'nui-popover-example-content',
   standalone: true,
-  imports: [CommonModule, HeadingComponent, ParagraphComponent, ButtonComponent],
+  imports: [HeadingComponent, ParagraphComponent, ButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="w-64">
       <nui-heading [level]="HeadingLevel.H4" class="mb-2">
@@ -74,7 +76,7 @@ export class PopoverExampleContentComponent {
 @Component({
   selector: 'nui-popover-demo',
   standalone: true,
-  imports: [CommonModule, PopoverDirective, ButtonComponent],
+  imports: [PopoverDirective, ButtonComponent, JsonPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

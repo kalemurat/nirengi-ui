@@ -1,5 +1,5 @@
 import { Component, input, ChangeDetectionStrategy, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, LUCIDE_ICONS, LucideIconProvider } from 'lucide-angular';
 import { ALL_ICONS, IconName } from './icon.types';
 
@@ -13,7 +13,7 @@ import { ALL_ICONS, IconName } from './icon.types';
 @Component({
   selector: 'nui-icon',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [LucideAngularModule],
   providers: [{ provide: LUCIDE_ICONS, useValue: new LucideIconProvider(ALL_ICONS) }],
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss',

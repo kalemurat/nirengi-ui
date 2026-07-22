@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ButtonType, ColorVariant, Size, IconName } from 'nirengi-ui-kit';
 import { Demo1Component } from './components/demo-1/demo-1.component';
 
@@ -14,7 +14,7 @@ import { ModalContainerComponent } from 'nirengi-ui-kit';
 @Component({
   selector: 'app-demo-page',
   standalone: true,
-  imports: [CommonModule, Demo1Component, ModalContainerComponent],
+  imports: [Demo1Component, ModalContainerComponent],
   templateUrl: './demo-page.component.html',
   styleUrl: './demo-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

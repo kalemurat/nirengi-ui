@@ -1,4 +1,4 @@
-import { Injectable, Injector, signal, TemplateRef, Type } from '@angular/core';
+import { inject, Injectable, Injector, signal, TemplateRef, Type } from '@angular/core';
 import { IModalService, IModalData, IModalOptions, ModalSize } from './modal.types';
 import { ModalRef } from './modal-ref';
 import { MODAL_DATA, MODAL_REF } from './modal.token';
@@ -13,7 +13,7 @@ export class ModalService implements IModalService {
   readonly modals = signal<IModalData[]>([]);
   private readonly modalStackCount = signal(0);
 
-  constructor(private injector: Injector) {}
+  private readonly injector = inject(Injector);
 
   open<T>(content: Type<T> | TemplateRef<T>, options?: IModalOptions): ModalRef<T> {
     const id = crypto.randomUUID();

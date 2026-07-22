@@ -1,5 +1,5 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   ParagraphComponent,
   ParagraphAlign,
@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'app-paragraph-page',
   standalone: true,
-  imports: [CommonModule, ParagraphComponent],
+  imports: [ParagraphComponent],
   templateUrl: './paragraph-page.component.html',
   styleUrl: './paragraph-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

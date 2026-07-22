@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TooltipPosition } from './tooltip.types';
 
 /**
@@ -9,7 +9,7 @@ import { TooltipPosition } from './tooltip.types';
 @Component({
   selector: 'nui-tooltip',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div [class]="containerClasses()">
       {{ text() }}
