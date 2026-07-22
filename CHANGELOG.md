@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 While the library is pre-1.0 the public API may change between minor versions.
 
+## [0.2.1] - 2026-07-23
+
+**No library changes.** The package contents are identical to `0.2.0` — nothing
+under `projects/nirengi-ui-kit/src` was touched. If you are on `0.2.0` there is
+nothing to gain by upgrading.
+
+This version exists to exercise the release pipeline end to end after publishing
+switched from an `NPM_TOKEN` environment variable to an `npm login` session. Only
+repository tooling changed: the tracked `.npmrc` was removed because, being
+project-level, it overrode a valid `~/.npmrc` login with an empty credential and
+broke `npm publish`.
+
 ## [0.2.0] - 2026-07-23
 
 ### Added
@@ -121,6 +133,7 @@ component library (selector prefix `nui`), built with `ng-packagr`.
 - Prevented the popover from immediately closing on open in production builds and
   fixed a popover directive memory leak.
 
+[0.2.1]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.1
 [0.2.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.0
 [0.1.6]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.1.6
 [0.1.5]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.1.5
