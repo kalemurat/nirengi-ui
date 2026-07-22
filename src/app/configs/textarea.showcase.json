@@ -92,9 +92,9 @@
       "description": "Icon to display inside the textarea",
       "options": [
         { "label": "None", "value": "" },
-        { "label": "MessageSquare", "value": "MessageSquare" },
-        { "label": "Edit", "value": "Edit" },
-        { "label": "FileText", "value": "FileText" }
+        { "label": "chat-1-line", "value": "chat-1-line" },
+        { "label": "edit-line", "value": "edit-line" },
+        { "label": "file-text-line", "value": "file-text-line" }
       ]
     },
     {
@@ -138,7 +138,7 @@
         "label": "Dynamic Input",
         "autoResize": true,
         "placeholder": "Type multiple lines to see me grow...",
-        "icon": "Edit"
+        "icon": "edit-line"
       }
     }
   ],

@@ -10,6 +10,7 @@
     "build:ui-kit:prod": "ng build nirengi-ui-kit --configuration=production",
     "postbuild:ui-kit:prod": "npm run build:styles",
     "build:styles": "node scripts/build-styles.mjs",
+    "generate:icons": "node scripts/generate-icon-data.mjs",
     "publish:ui-kit": "npm run build:ui-kit:prod && npm publish ./dist/nirengi-ui-kit",
     "watch": "ng build --watch --configuration development",
     "test:app": "ng test nirengi-ui --browsers=ChromeHeadless --watch=false --code-coverage",
@@ -29,7 +30,6 @@
     "@angular/platform-browser": "^22.0.8",
     "@angular/router": "^22.0.8",
     "date-fns": "^4.1.0",
-    "lucide-angular": "^0.563.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -59,6 +59,7 @@
     "postcss": "^8.5.6",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "remixicon": "^4.9.1",
     "tailwindcss": "^3.4.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.33.1"

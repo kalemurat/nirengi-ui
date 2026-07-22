@@ -7,3 +7,6 @@ public/
 
 # Do not format Markdown files
 *.md
+
+# Generated icon data (1.7 MB) — regenerate with `npm run generate:icons`
+projects/nirengi-ui-kit/src/lib/components/icon/icon-data.ts

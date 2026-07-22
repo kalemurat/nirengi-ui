@@ -87,10 +87,10 @@
       "description": "Icon to display inside the input",
       "options": [
         { "label": "None", "value": "" },
-        { "label": "User", "value": "User" },
-        { "label": "Lock", "value": "Lock" },
-        { "label": "Mail", "value": "Mail" },
-        { "label": "Search", "value": "Search" }
+        { "label": "user-line", "value": "user-line" },
+        { "label": "lock-line", "value": "lock-line" },
+        { "label": "mail-line", "value": "mail-line" },
+        { "label": "search-line", "value": "search-line" }
       ]
     },
     {
@@ -123,7 +123,7 @@
       "propertyValues": {
         "label": "Password",
         "type": "password",
-        "icon": "Lock",
+        "icon": "lock-line",
         "placeholder": "Enter password"
       }
     },
@@ -135,7 +135,7 @@
         "value": "invalid-email",
         "variant": "danger",
         "hint": "Please enter a valid email address",
-        "icon": "Mail"
+        "icon": "mail-line"
       }
     }
   ],

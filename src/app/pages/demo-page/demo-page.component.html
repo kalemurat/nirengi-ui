@@ -14,8 +14,7 @@
           [class.nav-item--active]="activeCategory() === item.id"
           (click)="selectCategory(item.id)"
         >
-          <!-- Placeholder icon logic since we aren't sure of icon names -->
-          <div class="nav-item__icon"></div>
+          <nui-icon class="nav-item__icon" [name]="item.icon" [size]="20" />
           <span class="nav-item__label">{{ item.label }}</span>
 
           @if (activeCategory() === item.id) {

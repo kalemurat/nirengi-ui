@@ -115,7 +115,7 @@ export class ModalDemoComponent {
   openWithIcon() {
     this.modalService.open(ModalTestContentComponent, {
       title: 'System Alert',
-      icon: 'BellRing',
+      icon: 'notification-3-line',
       data: { id: 'alert-01' },
     });
   }
