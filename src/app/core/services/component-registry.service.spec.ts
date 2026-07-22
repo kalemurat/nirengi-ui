@@ -22,7 +22,7 @@ describe('ComponentRegistryService', () => {
 
   it('should register component and resolve it from loader', async () => {
     const config = buildConfig('button', 'Controls');
-    const loader = jasmine.createSpy().and.resolveTo(MockComponent as unknown as Type<unknown>);
+    const loader = vi.fn().mockResolvedValue(MockComponent as unknown as Type<unknown>);
 
     service.registerComponent(config, loader);
 
@@ -33,7 +33,7 @@ describe('ComponentRegistryService', () => {
 
   it('should use cache after first component load', async () => {
     const config = buildConfig('badge');
-    const loader = jasmine.createSpy().and.resolveTo(MockComponent as unknown as Type<unknown>);
+    const loader = vi.fn().mockResolvedValue(MockComponent as unknown as Type<unknown>);
 
     service.registerComponent(config, loader);
 
@@ -60,12 +60,12 @@ describe('ComponentRegistryService', () => {
     service.registerConfig(config);
 
     expect(service.getConfig('checkbox')).toEqual(config);
-    expect(service.hasComponent('checkbox')).toBeTrue();
+    expect(service.hasComponent('checkbox')).toBe(true);
     expect(service.getAllComponentIds()).toEqual(['checkbox']);
   });
 
   it('should throw error for unknown component without loader', async () => {
-    await expectAsync(service.getComponent('unknown')).toBeRejectedWithError(
+    await expect(service.getComponent('unknown')).rejects.toThrowError(
       'Component "unknown" is not registered in the registry or missing loader.'
     );
   });

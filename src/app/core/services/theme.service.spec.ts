@@ -26,6 +26,16 @@ describe('ThemeService', () => {
     TestBed.resetTestingModule();
     localStorage.clear();
     document.documentElement.classList.remove('dark');
+    // jsdom does not implement matchMedia, so provide a light-preference default
+    // that individual tests can override.
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => mediaQuery(false))
+    );
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 
   it('should create', () => {
@@ -38,10 +48,10 @@ describe('ThemeService', () => {
     localStorage.setItem('theme', 'dark');
 
     const service = injectService();
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(service.theme()).toBe('dark');
-    expect(document.documentElement.classList.contains('dark')).toBeTrue();
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
   });
 
   it('should initialize from saved light theme and remove dark class', () => {
@@ -49,19 +59,29 @@ describe('ThemeService', () => {
     document.documentElement.classList.add('dark');
 
     const service = injectService();
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(service.theme()).toBe('light');
-    expect(document.documentElement.classList.contains('dark')).toBeFalse();
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 
   it('should initialize from system preference when no saved theme', () => {
-    spyOn(window, 'matchMedia').and.returnValue(mediaQuery(false));
+    vi.spyOn(window, 'matchMedia').mockReturnValue(mediaQuery(false));
 
     const service = injectService();
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(service.theme()).toBe('light');
+  });
+
+  it('should initialize to dark when the system prefers a dark colour scheme', () => {
+    vi.spyOn(window, 'matchMedia').mockReturnValue(mediaQuery(true));
+
+    const service = injectService();
+    TestBed.tick();
+
+    expect(service.theme()).toBe('dark');
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
   });
 
   it('should toggle from light to dark and persist localStorage value', () => {
@@ -69,7 +89,7 @@ describe('ThemeService', () => {
     const service = injectService();
 
     service.toggleTheme();
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(service.theme()).toBe('dark');
     expect(localStorage.getItem('theme')).toBe('dark');
@@ -78,12 +98,12 @@ describe('ThemeService', () => {
   it('should toggle from dark to light and update html class', () => {
     localStorage.setItem('theme', 'dark');
     const service = injectService();
-    TestBed.flushEffects();
+    TestBed.tick();
 
     service.toggleTheme();
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(service.theme()).toBe('light');
-    expect(document.documentElement.classList.contains('dark')).toBeFalse();
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 });

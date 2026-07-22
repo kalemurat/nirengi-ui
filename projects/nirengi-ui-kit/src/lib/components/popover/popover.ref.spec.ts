@@ -7,7 +7,7 @@ describe('PopoverRef', () => {
 
   beforeEach(() => {
     overlayRef = {
-      dispose: jasmine.createSpy('dispose'),
+      dispose: vi.fn().mockName('dispose'),
     } as unknown as OverlayRef;
   });
 
@@ -17,7 +17,7 @@ describe('PopoverRef', () => {
 
     ref.emit('save', { ok: true });
 
-    await expectAsync(eventPromise).toBeResolvedTo({ key: 'save', data: { ok: true } });
+    await expect(eventPromise).resolves.toEqual({ key: 'save', data: { ok: true } });
   });
 
   it('should close, emit result and dispose overlay', async () => {
@@ -26,7 +26,7 @@ describe('PopoverRef', () => {
 
     ref.close('result');
 
-    await expectAsync(closePromise).toBeResolvedTo('result');
+    await expect(closePromise).resolves.toEqual('result');
     expect(overlayRef.dispose).toHaveBeenCalled();
   });
 });

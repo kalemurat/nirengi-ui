@@ -10,13 +10,14 @@ const thresholds = {
   statements: Number(process.env.COVERAGE_STATEMENTS ?? 0),
 };
 
+// Vitest (@angular/build:unit-test) writes an istanbul `json-summary` report per
+// project into coverage/<project>/coverage-summary.json.
 const reportPaths = ['nirengi-ui', 'nirengi-ui-kit'].map((project) =>
-  path.join(coverageRoot, project, 'index.html')
+  path.join(coverageRoot, project, 'coverage-summary.json')
 );
 
-function parseSummary(html) {
-  const pattern =
-    /<span class="quiet">(Statements|Branches|Functions|Lines)<\/span>\s*<span class='fraction'>(\d+)\/(\d+)<\/span>/g;
+function parseSummary(json) {
+  const total = JSON.parse(json).total;
 
   const metrics = {
     statements: { hit: 0, found: 0 },
@@ -25,12 +26,12 @@ function parseSummary(html) {
     lines: { hit: 0, found: 0 },
   };
 
-  for (const match of html.matchAll(pattern)) {
-    const metric = match[1].toLowerCase();
-    metrics[metric] = {
-      hit: Number(match[2]),
-      found: Number(match[3]),
-    };
+  for (const metric of Object.keys(metrics)) {
+    const entry = total?.[metric];
+    if (!entry) {
+      throw new Error(`Coverage summary is missing the '${metric}' totals.`);
+    }
+    metrics[metric] = { hit: entry.covered, found: entry.total };
   }
 
   return metrics;
@@ -41,9 +42,7 @@ function toPct(hit, found) {
 }
 
 function printMetric(label, metric) {
-  console.log(
-    `${label.padEnd(10)}: ${metric.pct.toFixed(2)}% (${metric.hit}/${metric.found})`
-  );
+  console.log(`${label.padEnd(10)}: ${metric.pct.toFixed(2)}% (${metric.hit}/${metric.found})`);
 }
 
 for (const reportPath of reportPaths) {
@@ -61,8 +60,7 @@ const merged = {
 };
 
 for (const reportPath of reportPaths) {
-  const html = fs.readFileSync(reportPath, 'utf8');
-  const summary = parseSummary(html);
+  const summary = parseSummary(fs.readFileSync(reportPath, 'utf8'));
 
   merged.statements.hit += summary.statements.hit;
   merged.statements.found += summary.statements.found;
@@ -94,9 +92,7 @@ const failures = Object.entries(thresholds).filter(
 if (failures.length > 0) {
   console.warn('\nCoverage threshold check failed:');
   for (const [key, threshold] of failures) {
-    console.warn(
-      `- ${key}: expected >= ${threshold}%, actual ${metrics[key].pct.toFixed(2)}%`
-    );
+    console.warn(`- ${key}: expected >= ${threshold}%, actual ${metrics[key].pct.toFixed(2)}%`);
   }
   process.exit(1);
 }
