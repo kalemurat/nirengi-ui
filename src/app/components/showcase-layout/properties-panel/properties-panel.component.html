@@ -69,6 +69,28 @@
               />
             }
 
+            @case ('icon') {
+              <nui-select
+                [id]="prop.name"
+                [options]="iconOptions()"
+                bindLabel="label"
+                bindValue="value"
+                [searchable]="true"
+                [ngModel]="getPropertyValue(prop.name)"
+                [disabled]="!!prop.readOnly"
+                [size]="Size.XSmall"
+                [clearable]="false"
+                (ngModelChange)="updateProperty(prop.name, $event)"
+              >
+                <ng-template #itemTemplate let-item>
+                  <span class="properties-panel__icon-option">
+                    <nui-icon [name]="item.value" [size]="18" />
+                    {{ item.label }}
+                  </span>
+                </ng-template>
+              </nui-select>
+            }
+
             @case ('array') {
               <div class="properties-panel__array-info">
                 <span class="properties-panel__icon">📋</span>

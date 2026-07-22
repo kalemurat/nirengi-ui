@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IconComponent } from './icon.component';
-import { ALL_ICONS, IconName, IconNames } from './icon.types';
+import { loadNuiIconNames } from './icon-names.loader';
 
 describe('IconComponent', () => {
   let fixture: ComponentFixture<IconComponent>;
 
-  const svg = (): SVGSVGElement => fixture.nativeElement.querySelector('svg');
-  const path = (): SVGPathElement => fixture.nativeElement.querySelector('svg path');
+  const glyph = (): HTMLElement => fixture.nativeElement.querySelector('i');
 
   const setInput = (name: string, value: unknown) => {
     fixture.componentRef.setInput(name, value);
@@ -22,58 +21,55 @@ describe('IconComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('icon data set', () => {
-    it('exposes the bundled RemixIcon set', () => {
-      expect(IconNames.length).toBeGreaterThan(3000);
-      expect(IconNames).toContain('home-line');
-      expect(IconNames).toEqual(Object.keys(ALL_ICONS) as IconName[]);
+  describe('icon name list', () => {
+    it('resolves the bundled name list lazily', async () => {
+      const names = await loadNuiIconNames();
+
+      expect(names.length).toBeGreaterThan(3000);
+      expect(names).toContain('home-line');
     });
 
-    it('stores every icon as SVG path data with no escapable characters', () => {
-      const invalid = IconNames.filter((name) => !/^[A-Za-z0-9 .,\-]+$/.test(ALL_ICONS[name]));
+    it('lists only upstream kebab-case names', async () => {
+      const names = await loadNuiIconNames();
+      const invalid = names.filter((name) => !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name));
 
       expect(invalid).toEqual([]);
     });
   });
 
   describe('rendering', () => {
-    it('renders the svg and path in the SVG namespace', () => {
-      expect(svg().namespaceURI).toBe('http://www.w3.org/2000/svg');
-      expect(path().namespaceURI).toBe('http://www.w3.org/2000/svg');
+    it('applies the upstream CSS class alongside the BEM hook', () => {
+      expect(glyph().classList).toContain('nui-icon');
+      expect(glyph().classList).toContain('ri-home-line');
     });
 
-    it('renders the path data of the requested icon', () => {
-      expect(path().getAttribute('d')).toBe(ALL_ICONS['home-line']);
-    });
-
-    it('swaps the path data when the name changes', () => {
+    it('swaps the class when the name changes', () => {
       setInput('name', 'check-line');
 
-      expect(path().getAttribute('d')).toBe(ALL_ICONS['check-line']);
+      expect(glyph().classList).toContain('ri-check-line');
+      expect(glyph().classList).not.toContain('ri-home-line');
     });
 
-    it('uses a 24x24 viewBox and hides itself from assistive technology', () => {
-      expect(svg().getAttribute('viewBox')).toBe('0 0 24 24');
-      expect(svg().getAttribute('aria-hidden')).toBe('true');
-      expect(svg().getAttribute('focusable')).toBe('false');
+    it('hides itself from assistive technology', () => {
+      expect(glyph().getAttribute('aria-hidden')).toBe('true');
     });
 
-    it('drops the d attribute for an unknown icon name', () => {
+    it('renders an unmatched class for an unknown icon name rather than throwing', () => {
       setInput('name', 'not-a-real-icon');
 
-      expect(path().hasAttribute('d')).toBeFalse();
+      expect(glyph().classList).toContain('ri-not-a-real-icon');
     });
   });
 
   describe('color', () => {
-    it('fills with currentColor by default', () => {
-      expect(svg().getAttribute('fill')).toBe('currentColor');
+    it('inherits the surrounding color by default', () => {
+      expect(glyph().style.color).toBe('currentcolor');
     });
 
-    it('fills with the provided color', () => {
+    it('applies the provided color', () => {
       setInput('color', 'red');
 
-      expect(svg().getAttribute('fill')).toBe('red');
+      expect(glyph().style.color).toBe('red');
     });
   });
 
@@ -81,29 +77,31 @@ describe('IconComponent', () => {
     const expectSize = (value: number | string, expected: string) => {
       setInput('size', value);
 
-      expect(svg().getAttribute('width')).toBe(expected);
-      expect(svg().getAttribute('height')).toBe(expected);
+      expect(glyph().style.fontSize).toBe(expected);
+      expect(glyph().style.width).toBe(expected);
+      expect(glyph().style.height).toBe(expected);
     };
 
     it('defaults to 24', () => {
-      expect(svg().getAttribute('width')).toBe('24');
-      expect(svg().getAttribute('height')).toBe('24');
+      expect(glyph().style.fontSize).toBe('24px');
+      expect(glyph().style.width).toBe('24px');
+      expect(glyph().style.height).toBe('24px');
     });
 
-    it('accepts a pixel number', () => expectSize(48, '48'));
+    it('accepts a pixel number', () => expectSize(48, '48px'));
 
     it('maps the size tokens', () => {
-      expectSize('xs', '16');
-      expectSize('sm', '20');
-      expectSize('md', '24');
-      expectSize('lg', '28');
-      expectSize('xl', '32');
+      expectSize('xs', '16px');
+      expectSize('sm', '20px');
+      expectSize('md', '24px');
+      expectSize('lg', '28px');
+      expectSize('xl', '32px');
     });
 
-    it('parses a numeric string', () => expectSize('40', '40'));
+    it('parses a numeric string', () => expectSize('40', '40px'));
 
-    it('falls back to 24 for an unparsable size', () => expectSize('huge', '24'));
+    it('falls back to 24 for an unparsable size', () => expectSize('huge', '24px'));
 
-    it('falls back to 24 for a non-positive numeric string', () => expectSize('0', '24'));
+    it('falls back to 24 for a non-positive numeric string', () => expectSize('0', '24px'));
   });
 });

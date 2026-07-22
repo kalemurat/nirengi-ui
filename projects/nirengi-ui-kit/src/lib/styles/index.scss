@@ -18,6 +18,12 @@
  * same file also ships standalone as nirengi-ui-kit/theme. */
 @include meta.load-css('theme.css');
 
+/* RemixIcon web font — what `<nui-icon>` renders. Embedded here because the kit's
+ * own components (select, datepicker, toast, textbox, …) render icons, so a
+ * consumer of the single global bundle needs it; it also ships standalone as
+ * nirengi-ui-kit/icons for anyone composing their own stylesheet. */
+@include meta.load-css('icons.css');
+
 /* Import UI Kit styles */
 @include meta.load-css('tokens');
 @include meta.load-css('base');

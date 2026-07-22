@@ -7,20 +7,10 @@
   "properties": [
     {
       "name": "name",
-      "type": "string",
+      "type": "icon",
       "label": "Icon Name",
       "defaultValue": "home-line",
-      "description": "RemixIcon name in kebab-case, without the ri- prefix",
-      "options": [
-        { "label": "home-line", "value": "home-line" },
-        { "label": "user-line", "value": "user-line" },
-        { "label": "settings-line", "value": "settings-line" },
-        { "label": "delete-bin-line", "value": "delete-bin-line" },
-        { "label": "check-line", "value": "check-line" },
-        { "label": "error-warning-line", "value": "error-warning-line" },
-        { "label": "information-line", "value": "information-line" },
-        { "label": "heart-fill", "value": "heart-fill" }
-      ]
+      "description": "Search all 3229 RemixIcon names (kebab-case, without the ri- prefix)"
     },
     {
       "name": "size",

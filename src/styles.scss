@@ -17,6 +17,11 @@
 //  here we point at the library source directly.)
 @include meta.load-css('../projects/nirengi-ui-kit/src/lib/styles/theme.css');
 
+// RemixIcon web font. Without this stylesheet `<nui-icon>` renders nothing, so a
+// published consumer imports `nirengi-ui-kit/icons`; the showcase, as a consumer,
+// points at the library source.
+@include meta.load-css('../projects/nirengi-ui-kit/src/lib/styles/icons.css');
+
 // Portalled select dropdown styles. These are global (the dropdown is appended
 // to <body> via the CDK overlay, outside the component's encapsulation scope),
 // so a consumer gets them from `nirengi-ui-kit/styles`. The showcase, as a

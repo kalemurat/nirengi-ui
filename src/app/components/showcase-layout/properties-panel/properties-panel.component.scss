@@ -87,3 +87,8 @@
     }
   }
 }
+
+// Icon picker option: the glyph next to its name.
+.properties-panel__icon-option {
+  @apply flex items-center gap-2;
+}

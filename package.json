@@ -10,7 +10,7 @@
     "build:ui-kit:prod": "ng build nirengi-ui-kit --configuration=production",
     "postbuild:ui-kit:prod": "npm run build:styles",
     "build:styles": "node scripts/build-styles.mjs",
-    "generate:icons": "node scripts/generate-icon-data.mjs",
+    "generate:icons": "node scripts/generate-icons.mjs",
     "publish:ui-kit": "npm run build:ui-kit:prod && npm publish ./dist/nirengi-ui-kit",
     "watch": "ng build --watch --configuration development",
     "test:app": "ng test nirengi-ui --browsers=ChromeHeadless --watch=false --code-coverage",

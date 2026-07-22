@@ -3,3 +3,12 @@
   align-items: center;
   justify-content: center;
 }
+
+.nui-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  // The glyph is a ::before pseudo-element, so the default line-height would add
+  // leading and make the box taller than the requested size.
+  line-height: 1;
+}
