@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 While the library is pre-1.0 the public API may change between minor versions.
 
-## [Unreleased]
+## [0.2.0] - 2026-07-23
+
+### Added
+
+- **Angular 21 and 22 support.** The peer range widens from `^20.3.0` to
+  `^20.3.0 || ^21.0.0 || ^22.0.0`, so the kit installs cleanly on Angular 21 and 22
+  workspaces. Angular 20 remains supported.
 
 ### Changed
 
@@ -115,5 +121,6 @@ component library (selector prefix `nui`), built with `ng-packagr`.
 - Prevented the popover from immediately closing on open in production builds and
   fixed a popover directive memory leak.
 
+[0.2.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.0
 [0.1.6]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.1.6
 [0.1.5]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.1.5
