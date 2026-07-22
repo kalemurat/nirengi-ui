@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideZonelessChangeDetection, ViewEncapsulation } from '@angular/core';
+import { Component, provideZonelessChangeDetection, ViewEncapsulation } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { SelectComponent } from './select.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -36,7 +37,13 @@ describe('select.component.ts', () => {
 
   it('should use emulated (not None) view encapsulation so component styles do not leak', () => {
     createComponent();
-    const def = (SelectComponent as unknown as { ɵcmp: { encapsulation: ViewEncapsulation } }).ɵcmp;
+    const def = (
+      SelectComponent as unknown as {
+        ɵcmp: {
+          encapsulation: ViewEncapsulation;
+        };
+      }
+    ).ɵcmp;
     expect(def.encapsulation).not.toBe(ViewEncapsulation.None);
     expect(def.encapsulation).toBe(ViewEncapsulation.Emulated);
   });
@@ -45,7 +52,7 @@ describe('select.component.ts', () => {
     createComponent();
     const host = fixture.nativeElement as HTMLElement;
     const attrs = host.getAttributeNames();
-    expect(attrs.some((a) => a.startsWith('_nghost-'))).toBeTrue();
+    expect(attrs.some((a) => a.startsWith('_nghost-'))).toBe(true);
   });
 
   // ─── Creation ─────────────────────────────────────────────────────────────
@@ -58,7 +65,7 @@ describe('select.component.ts', () => {
 
     it('should initialise isOpen to false', () => {
       createComponent();
-      expect(component.isOpen()).toBeFalse();
+      expect(component.isOpen()).toBe(false);
     });
 
     it('should initialise searchTerm to empty string', () => {
@@ -73,7 +80,7 @@ describe('select.component.ts', () => {
 
     it('should initialise isDisabled to false', () => {
       createComponent();
-      expect(component.isDisabled()).toBeFalse();
+      expect(component.isDisabled()).toBe(false);
     });
 
     it('should generate a unique inputId', () => {
@@ -98,27 +105,27 @@ describe('select.component.ts', () => {
 
     it('should default multiple to false', () => {
       createComponent();
-      expect(component.multiple()).toBeFalse();
+      expect(component.multiple()).toBe(false);
     });
 
     it('should default searchable to false', () => {
       createComponent();
-      expect(component.searchable()).toBeFalse();
+      expect(component.searchable()).toBe(false);
     });
 
     it('should default clearable to true', () => {
       createComponent();
-      expect(component.clearable()).toBeTrue();
+      expect(component.clearable()).toBe(true);
     });
 
     it('should default appendToBody to true', () => {
       createComponent();
-      expect(component.appendToBody()).toBeTrue();
+      expect(component.appendToBody()).toBe(true);
     });
 
     it('should default disabled to false', () => {
       createComponent();
-      expect(component.disabledInput()).toBeFalse();
+      expect(component.disabledInput()).toBe(false);
     });
   });
 
@@ -175,21 +182,21 @@ describe('select.component.ts', () => {
     describe('multiple', () => {
       it('should switch to multiple selection mode', () => {
         createComponent((f) => f.componentRef.setInput('multiple', true));
-        expect(component.multiple()).toBeTrue();
+        expect(component.multiple()).toBe(true);
       });
     });
 
     describe('searchable', () => {
       it('should enable search mode', () => {
         createComponent((f) => f.componentRef.setInput('searchable', true));
-        expect(component.searchable()).toBeTrue();
+        expect(component.searchable()).toBe(true);
       });
     });
 
     describe('clearable', () => {
       it('should disable clear button when false', () => {
         createComponent((f) => f.componentRef.setInput('clearable', false));
-        expect(component.clearable()).toBeFalse();
+        expect(component.clearable()).toBe(false);
       });
     });
 
@@ -333,12 +340,12 @@ describe('select.component.ts', () => {
       it('should disable via disabledInput (alias: disabled)', () => {
         createComponent((f) => f.componentRef.setInput('disabled', true));
         fixture.detectChanges();
-        expect(component.isDisabled()).toBeTrue();
+        expect(component.isDisabled()).toBe(true);
       });
 
       it('should not be disabled by default', () => {
         createComponent();
-        expect(component.isDisabled()).toBeFalse();
+        expect(component.isDisabled()).toBe(false);
       });
 
       it('should apply disabled class to trigger when disabled', () => {
@@ -352,12 +359,12 @@ describe('select.component.ts', () => {
     describe('appendToBody', () => {
       it('should default to true', () => {
         createComponent();
-        expect(component.appendToBody()).toBeTrue();
+        expect(component.appendToBody()).toBe(true);
       });
 
       it('should accept false', () => {
         createComponent((f) => f.componentRef.setInput('appendToBody', false));
-        expect(component.appendToBody()).toBeFalse();
+        expect(component.appendToBody()).toBe(false);
       });
     });
   });
@@ -561,31 +568,31 @@ describe('select.component.ts', () => {
     describe('hasValue', () => {
       it('should return false when value is null', () => {
         createComponent();
-        expect(component.hasValue()).toBeFalse();
+        expect(component.hasValue()).toBe(false);
       });
 
       it('should return true for a primitive value', () => {
         createComponent();
         component.writeValue('Alpha');
-        expect(component.hasValue()).toBeTrue();
+        expect(component.hasValue()).toBe(true);
       });
 
       it('should return false for empty array in multiple mode', () => {
         createComponent((f) => f.componentRef.setInput('multiple', true));
         component.writeValue([]);
-        expect(component.hasValue()).toBeFalse();
+        expect(component.hasValue()).toBe(false);
       });
 
       it('should return true for non-empty array in multiple mode', () => {
         createComponent((f) => f.componentRef.setInput('multiple', true));
         component.writeValue(['Alpha']);
-        expect(component.hasValue()).toBeTrue();
+        expect(component.hasValue()).toBe(true);
       });
 
       it('should return false when value is undefined', () => {
         createComponent();
         component.value.set(undefined as any);
-        expect(component.hasValue()).toBeFalse();
+        expect(component.hasValue()).toBe(false);
       });
     });
 
@@ -593,6 +600,30 @@ describe('select.component.ts', () => {
       it('should be null when no template is provided', () => {
         createComponent();
         expect(component.itemTemplate()).toBeNull();
+      });
+
+      it('should resolve a projected #itemTemplate content child', () => {
+        @Component({
+          imports: [SelectComponent],
+          template: `
+            <nui-select [options]="options">
+              <ng-template #itemTemplate let-item>{{ item }}</ng-template>
+            </nui-select>
+          `,
+        })
+        class HostComponent {
+          readonly options = SIMPLE_OPTIONS;
+        }
+
+        TestBed.configureTestingModule({ imports: [HostComponent] });
+        const hostFixture = TestBed.createComponent(HostComponent);
+        hostFixture.detectChanges();
+
+        const select = hostFixture.debugElement.query(By.directive(SelectComponent))
+          .componentInstance as SelectComponent;
+
+        expect(select.contentItemTemplate()).toBeTruthy();
+        expect(select.itemTemplate()).toBe(select.contentItemTemplate()!);
       });
     });
   });
@@ -603,24 +634,24 @@ describe('select.component.ts', () => {
     describe('toggleDropdown', () => {
       it('should open dropdown when closed', () => {
         createComponent();
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
         component.toggleDropdown();
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
       });
 
       it('should close dropdown when open', () => {
         createComponent();
         component.toggleDropdown();
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
         component.toggleDropdown();
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
       });
 
       it('should do nothing when disabled', () => {
         createComponent((f) => f.componentRef.setInput('disabled', true));
         fixture.detectChanges();
         component.toggleDropdown();
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
       });
 
       it('should clear searchTerm when closing', () => {
@@ -633,7 +664,7 @@ describe('select.component.ts', () => {
 
       it('should call onTouched when closing', () => {
         createComponent();
-        const touchedSpy = jasmine.createSpy('onTouched');
+        const touchedSpy = vi.fn().mockName('onTouched');
         component.registerOnTouched(touchedSpy);
         component.toggleDropdown(); // open
         component.toggleDropdown(); // close
@@ -645,7 +676,7 @@ describe('select.component.ts', () => {
       it('should set isOpen to true', () => {
         createComponent();
         component.toggleDropdown();
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
       });
     });
 
@@ -654,7 +685,7 @@ describe('select.component.ts', () => {
         createComponent();
         component.isOpen.set(true);
         component.close();
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
       });
 
       it('should clear searchTerm when closing', () => {
@@ -667,7 +698,7 @@ describe('select.component.ts', () => {
 
       it('should call onTouched when closing', () => {
         createComponent();
-        const spy = jasmine.createSpy('onTouched');
+        const spy = vi.fn().mockName('onTouched');
         component.registerOnTouched(spy);
         component.isOpen.set(true);
         component.close();
@@ -676,11 +707,11 @@ describe('select.component.ts', () => {
 
       it('should do nothing when already closed', () => {
         createComponent();
-        const spy = jasmine.createSpy('onTouched');
+        const spy = vi.fn().mockName('onTouched');
         component.registerOnTouched(spy);
         component.close(); // already closed
         expect(spy).not.toHaveBeenCalled();
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
       });
     });
 
@@ -695,7 +726,7 @@ describe('select.component.ts', () => {
         createComponent();
         component.isOpen.set(true);
         component.selectOption('Alpha');
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
       });
 
       it('should use bindValue to extract the actual value', () => {
@@ -709,7 +740,7 @@ describe('select.component.ts', () => {
 
       it('should fire onChange when a value is selected', () => {
         createComponent();
-        const spy = jasmine.createSpy('onChange');
+        const spy = vi.fn().mockName('onChange');
         component.registerOnChange(spy);
         component.selectOption('Beta');
         expect(spy).toHaveBeenCalledWith('Beta');
@@ -750,7 +781,7 @@ describe('select.component.ts', () => {
         component.isOpen.set(true);
         component.writeValue([]);
         component.selectOption('Alpha');
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
       });
 
       it('should handle null current value by starting fresh', () => {
@@ -777,7 +808,7 @@ describe('select.component.ts', () => {
         createComponent((f) => f.componentRef.setInput('multiple', true));
         component.writeValue(['Alpha', 'Beta']);
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.removeItem('Alpha', fakeEvent);
         expect(component.value()).toEqual(['Beta']);
         expect(fakeEvent.stopPropagation).toHaveBeenCalled();
@@ -787,7 +818,7 @@ describe('select.component.ts', () => {
         createComponent((f) => f.componentRef.setInput('multiple', true));
         component.writeValue(['Alpha']);
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.removeItem('Alpha', fakeEvent);
         expect(fakeEvent.stopPropagation).toHaveBeenCalled();
       });
@@ -800,7 +831,7 @@ describe('select.component.ts', () => {
         fixture.detectChanges();
         component.writeValue(['Alpha', 'Beta']);
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.removeItem('Alpha', fakeEvent);
         // Value remains unchanged since disabled
         expect(component.value()).toEqual(['Alpha', 'Beta']);
@@ -814,7 +845,7 @@ describe('select.component.ts', () => {
         });
         component.writeValue([1, 2, 3]);
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.removeItem({ id: 2, name: 'Bob' }, fakeEvent);
         expect(component.value()).toEqual([1, 3]);
       });
@@ -825,7 +856,7 @@ describe('select.component.ts', () => {
         createComponent();
         component.writeValue('Alpha');
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.clearValue(fakeEvent);
         expect(component.value()).toBeNull();
       });
@@ -834,7 +865,7 @@ describe('select.component.ts', () => {
         createComponent((f) => f.componentRef.setInput('multiple', true));
         component.writeValue(['Alpha', 'Beta']);
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.clearValue(fakeEvent);
         expect(component.value()).toEqual([]);
       });
@@ -843,7 +874,7 @@ describe('select.component.ts', () => {
         createComponent();
         component.writeValue('Alpha');
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.clearValue(fakeEvent);
         expect(fakeEvent.stopPropagation).toHaveBeenCalled();
       });
@@ -853,7 +884,7 @@ describe('select.component.ts', () => {
         fixture.detectChanges();
         component.writeValue('Alpha');
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.clearValue(fakeEvent);
         // updateValue respects isDisabled, but stopPropagation still called
         expect(fakeEvent.stopPropagation).toHaveBeenCalled();
@@ -861,11 +892,11 @@ describe('select.component.ts', () => {
 
       it('should fire onChange with null after clearing single', () => {
         createComponent();
-        const spy = jasmine.createSpy('onChange');
+        const spy = vi.fn().mockName('onChange');
         component.registerOnChange(spy);
         component.writeValue('Alpha');
         const fakeEvent = new MouseEvent('click');
-        spyOn(fakeEvent, 'stopPropagation');
+        vi.spyOn(fakeEvent, 'stopPropagation').mockReturnValue(undefined);
         component.clearValue(fakeEvent);
         expect(spy).toHaveBeenCalledWith(null);
       });
@@ -955,19 +986,19 @@ describe('select.component.ts', () => {
     describe('isSelected', () => {
       it('should return false when no value is set', () => {
         createComponent();
-        expect(component.isSelected('Alpha')).toBeFalse();
+        expect(component.isSelected('Alpha')).toBe(false);
       });
 
       it('should return true when value matches in single mode', () => {
         createComponent();
         component.writeValue('Alpha');
-        expect(component.isSelected('Alpha')).toBeTrue();
+        expect(component.isSelected('Alpha')).toBe(true);
       });
 
       it('should return false when value does not match in single mode', () => {
         createComponent();
         component.writeValue('Alpha');
-        expect(component.isSelected('Beta')).toBeFalse();
+        expect(component.isSelected('Beta')).toBe(false);
       });
 
       it('should return true when option in array (multiple mode)', () => {
@@ -977,14 +1008,14 @@ describe('select.component.ts', () => {
           f.componentRef.setInput('bindValue', 'id');
         });
         component.writeValue([1, 3]);
-        expect(component.isSelected({ id: 1, name: 'Alice' })).toBeTrue();
-        expect(component.isSelected({ id: 2, name: 'Bob' })).toBeFalse();
+        expect(component.isSelected({ id: 1, name: 'Alice' })).toBe(true);
+        expect(component.isSelected({ id: 2, name: 'Bob' })).toBe(false);
       });
 
       it('should return false in multiple mode when value is not array', () => {
         createComponent((f) => f.componentRef.setInput('multiple', true));
         component.value.set('Alpha' as any);
-        expect(component.isSelected('Alpha')).toBeFalse();
+        expect(component.isSelected('Alpha')).toBe(false);
       });
     });
 
@@ -1037,7 +1068,7 @@ describe('select.component.ts', () => {
     describe('registerOnChange', () => {
       it('should register the onChange callback', () => {
         createComponent();
-        const spy = jasmine.createSpy('onChange');
+        const spy = vi.fn().mockName('onChange');
         component.registerOnChange(spy);
         component.selectOption('Alpha');
         expect(spy).toHaveBeenCalledWith('Alpha');
@@ -1047,7 +1078,7 @@ describe('select.component.ts', () => {
     describe('registerOnTouched', () => {
       it('should register the onTouched callback', () => {
         createComponent();
-        const spy = jasmine.createSpy('onTouched');
+        const spy = vi.fn().mockName('onTouched');
         component.registerOnTouched(spy);
         component.isOpen.set(true);
         component.close();
@@ -1059,21 +1090,21 @@ describe('select.component.ts', () => {
       it('should set isDisabled to true', () => {
         createComponent();
         component.setDisabledState(true);
-        expect(component.isDisabled()).toBeTrue();
+        expect(component.isDisabled()).toBe(true);
       });
 
       it('should set isDisabled back to false', () => {
         createComponent();
         component.setDisabledState(true);
         component.setDisabledState(false);
-        expect(component.isDisabled()).toBeFalse();
+        expect(component.isDisabled()).toBe(false);
       });
     });
 
     describe('updateValue', () => {
       it('should update value and fire onChange', () => {
         createComponent();
-        const spy = jasmine.createSpy('onChange');
+        const spy = vi.fn().mockName('onChange');
         component.registerOnChange(spy);
         component.updateValue('Gamma');
         expect(component.value()).toBe('Gamma');
@@ -1083,7 +1114,7 @@ describe('select.component.ts', () => {
       it('should not update when disabled', () => {
         createComponent();
         component.setDisabledState(true);
-        const spy = jasmine.createSpy('onChange');
+        const spy = vi.fn().mockName('onChange');
         component.registerOnChange(spy);
         component.updateValue('Alpha');
         expect(component.value()).toBeNull();
@@ -1094,7 +1125,7 @@ describe('select.component.ts', () => {
     describe('markAsTouched', () => {
       it('should call onTouched when not disabled', () => {
         createComponent();
-        const spy = jasmine.createSpy('onTouched');
+        const spy = vi.fn().mockName('onTouched');
         component.registerOnTouched(spy);
         component.markAsTouched();
         expect(spy).toHaveBeenCalled();
@@ -1103,7 +1134,7 @@ describe('select.component.ts', () => {
       it('should not call onTouched when disabled', () => {
         createComponent();
         component.setDisabledState(true);
-        const spy = jasmine.createSpy('onTouched');
+        const spy = vi.fn().mockName('onTouched');
         component.registerOnTouched(spy);
         component.markAsTouched();
         expect(spy).not.toHaveBeenCalled();
@@ -1122,7 +1153,7 @@ describe('select.component.ts', () => {
         const outsideNode = document.createElement('div');
         document.body.appendChild(outsideNode);
         component.onClickOutside(new MouseEvent('click', { bubbles: true }));
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
         document.body.removeChild(outsideNode);
       });
 
@@ -1134,7 +1165,7 @@ describe('select.component.ts', () => {
         // Simulate a click with target being an inner node
         const fakeEvent = { target: innerNode } as unknown as Event;
         component.onClickOutside(fakeEvent);
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
       });
     });
 
@@ -1144,11 +1175,11 @@ describe('select.component.ts', () => {
         const trigger = fixture.nativeElement.querySelector('.nui-select__trigger') as HTMLElement;
         trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
         fixture.detectChanges();
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
 
         trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
         fixture.detectChanges();
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
       });
 
       it('should open/close on Space key on trigger', () => {
@@ -1156,7 +1187,7 @@ describe('select.component.ts', () => {
         const trigger = fixture.nativeElement.querySelector('.nui-select__trigger') as HTMLElement;
         trigger.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
         fixture.detectChanges();
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
       });
     });
   });
@@ -1170,14 +1201,14 @@ describe('select.component.ts', () => {
       // The effect reacts synchronously in zoneless mode when the signal changes
       component.setDisabledState(true);
       fixture.detectChanges();
-      expect(component.isOpen()).toBeFalse();
+      expect(component.isOpen()).toBe(false);
     });
 
     it('should sync disabledInput with isDisabled via effect', () => {
       createComponent();
       fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
-      expect(component.isDisabled()).toBeTrue();
+      expect(component.isDisabled()).toBe(true);
     });
   });
 
@@ -1374,7 +1405,7 @@ describe('select.component.ts', () => {
         const trigger = fixture.nativeElement.querySelector('.nui-select__trigger') as HTMLElement;
         trigger.click();
         fixture.detectChanges();
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
       });
     });
   });
@@ -1386,7 +1417,7 @@ describe('select.component.ts', () => {
       createComponent((f) => f.componentRef.setInput('options', []));
       expect(component.filteredOptions()).toEqual([]);
       expect(component.selectedItems()).toEqual([]);
-      expect(component.hasValue()).toBeFalse();
+      expect(component.hasValue()).toBe(false);
     });
 
     it('should not throw when options change after initialization', () => {
@@ -1410,7 +1441,7 @@ describe('select.component.ts', () => {
       // hasValue only checks for null/undefined; empty string is still considered a value
       createComponent();
       component.writeValue('');
-      expect(component.hasValue()).toBeTrue();
+      expect(component.hasValue()).toBe(true);
     });
 
     it('should handle getLabel on number option without bindLabel', () => {

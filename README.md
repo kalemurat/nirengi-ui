@@ -189,6 +189,21 @@ Run tests:
 npm test
 ```
 
+Unit tests run on [Vitest](https://vitest.dev/) via the `@angular/build:unit-test`
+builder, in a Node.js/jsdom environment — no browser is launched. `npm test` runs the
+app suite, then the library suite, then merges both coverage reports and checks the
+combined thresholds:
+
+```bash
+npm run test:app       # app specs + coverage
+npm run test:ui-kit    # library specs + coverage
+npm run test:coverage:merge   # merge both reports and enforce the combined gates
+```
+
+Each project writes an istanbul report to `coverage/<project>/`. Per-project
+thresholds live in the `test` target of `angular.json`; the merged gates are the
+`COVERAGE_*` variables on the `test:coverage:merge` script.
+
 Build the UI kit library:
 
 ```bash

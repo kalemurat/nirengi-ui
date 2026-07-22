@@ -6,7 +6,7 @@ describe('ToastService', () => {
 
   beforeEach(() => {
     service = new ToastService();
-    spyOn(crypto, 'randomUUID').and.returnValue('00000000-0000-4000-8000-000000000000');
+    vi.spyOn(crypto, 'randomUUID').mockReturnValue('00000000-0000-4000-8000-000000000000');
   });
 
   it('should create success toast with defaults', () => {
@@ -15,7 +15,7 @@ describe('ToastService', () => {
     const toasts = service.toasts();
     expect(toasts.length).toBe(1);
     expect(toasts[0]).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         id: '00000000-0000-4000-8000-000000000000',
         title: 'Success',
         description: 'Done',
