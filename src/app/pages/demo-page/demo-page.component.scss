@@ -43,8 +43,7 @@
     }
 
     &__icon {
-      @apply h-5 w-5 rounded-md bg-current opacity-20;
-      // This is a placeholder visual for icon since we are using div
+      @apply h-5 w-5 shrink-0;
     }
   }
 

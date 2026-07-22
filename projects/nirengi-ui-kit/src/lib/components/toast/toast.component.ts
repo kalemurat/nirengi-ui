@@ -25,7 +25,7 @@ import { IconName } from '../icon/icon.types';
         }
       </div>
       <button class="nui-toast__close" (click)="closed.emit(data().id)" aria-label="Close">
-        <nui-icon name="X" size="16" />
+        <nui-icon name="close-line" size="16" />
       </button>
     </div>
   `,
@@ -124,15 +124,15 @@ export class ToastComponent {
   iconName = computed<IconName>(() => {
     switch (this.data().variant) {
       case ToastVariant.Success:
-        return 'Check';
+        return 'check-line';
       case ToastVariant.Error:
-        return 'CircleAlert';
+        return 'error-warning-line';
       case ToastVariant.Warning:
-        return 'TriangleAlert';
+        return 'alert-line';
       case ToastVariant.Info:
-        return 'Info';
+        return 'information-line';
       default:
-        return 'Info';
+        return 'information-line';
     }
   });
 

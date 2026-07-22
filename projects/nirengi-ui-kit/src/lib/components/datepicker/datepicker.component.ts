@@ -31,7 +31,6 @@ import {
   subMonths,
 } from 'date-fns';
 import { tr } from 'date-fns/locale';
-import { LucideAngularModule } from 'lucide-angular';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../icon/icon.types';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
@@ -73,7 +72,7 @@ export type DatepickerSelectionMode = 'single' | 'range';
 @Component({
   selector: 'nui-datepicker',
   standalone: true,
-  imports: [CommonModule, OverlayModule, LucideAngularModule, FormsModule, IconComponent],
+  imports: [CommonModule, OverlayModule, FormsModule, IconComponent],
   templateUrl: './datepicker.component.html',
   styleUrl: './datepicker.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -234,11 +233,11 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     next: IconName;
     clear: IconName;
   } = {
-    calendar: 'Calendar',
-    clock: 'Clock',
-    prev: 'ChevronLeft',
-    next: 'ChevronRight',
-    clear: 'X',
+    calendar: 'calendar-line',
+    clock: 'time-line',
+    prev: 'arrow-left-s-line',
+    next: 'arrow-right-s-line',
+    clear: 'close-line',
   };
 
   constructor() {

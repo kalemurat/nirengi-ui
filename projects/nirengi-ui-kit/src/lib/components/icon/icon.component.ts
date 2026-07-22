@@ -1,20 +1,24 @@
 import { Component, input, ChangeDetectionStrategy, computed } from '@angular/core';
 
-import { LucideAngularModule, LUCIDE_ICONS, LucideIconProvider } from 'lucide-angular';
 import { ALL_ICONS, IconName } from './icon.types';
 
 /**
- * @see https://lucide.dev/icons/
+ * Renders one of the bundled RemixIcon glyphs as an inline `<svg>`.
+ *
+ * Icons ship as raw path data generated from the upstream `remixicon` assets, so
+ * the kit carries no runtime icon dependency and stays installable on every
+ * supported Angular major. The path is bound through `[attr.d]`, never
+ * `innerHTML`, so no sanitizer bypass is involved.
+ *
+ * @see https://remixicon.com — browse names (drop the `ri-` prefix)
  *
  * @example
- * <nui-icon name="House" size="24" color="red" />
- * <nui-icon name="Moon" [size]="Size.Large" />
+ * <nui-icon name="home-line" size="24" color="red" />
+ * <nui-icon name="moon-line" [size]="Size.Large" />
  */
 @Component({
   selector: 'nui-icon',
   standalone: true,
-  imports: [LucideAngularModule],
-  providers: [{ provide: LUCIDE_ICONS, useValue: new LucideIconProvider(ALL_ICONS) }],
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +32,7 @@ export class IconComponent {
     xl: 32,
   };
 
-  /** Supports autocomplete via the `IconName` type union. */
+  /** RemixIcon name in upstream kebab-case (`home-line`); autocompletes via `IconName`. */
   name = input.required<IconName>();
 
   /**
@@ -40,13 +44,10 @@ export class IconComponent {
   /** @default 'currentColor' — inherits from parent element */
   color = input<string>('currentColor');
 
-  /** @default 2 */
-  strokeWidth = input<number>(2);
-
-  /** @default false */
-  absoluteStrokeWidth = input<boolean>(false);
-
   class = input<string>('');
+
+  /** `undefined` for an unknown name, which renders an empty `<svg>` rather than throwing. */
+  protected readonly pathData = computed<string | undefined>(() => ALL_ICONS[this.name()]);
 
   protected readonly numericSize = computed(() => {
     const size = this.size();

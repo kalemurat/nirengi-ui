@@ -37,7 +37,7 @@
                   (keydown.enter)="removeItem(item, $event)"
                   (keydown.space)="removeItem(item, $event)"
                 >
-                  <nui-icon name="X" [size]="12" />
+                  <nui-icon name="close-line" [size]="12" />
                 </span>
               </span>
             }
@@ -52,13 +52,13 @@
       <!-- Clear Button -->
       @if (hasValue() && clearable() && !isDisabled()) {
         <button type="button" class="nui-select__clear" (click)="clearValue($event)" aria-label="Clear selection">
-          <nui-icon name="X" [size]="iconSize()" />
+          <nui-icon name="close-line" [size]="iconSize()" />
         </button>
       }
 
       <!-- Arrow Icon -->
       <div class="nui-select__icon" [class.nui-select__icon--open]="isOpen()">
-        <nui-icon name="ChevronDown" [size]="iconSize()" />
+        <nui-icon name="arrow-down-s-line" [size]="iconSize()" />
       </div>
     </div>
 
@@ -101,7 +101,7 @@
               <!-- Checkmark for multiple (or single) -->
               @if (isSelected(option)) {
                 <span class="nui-select__option-check">
-                  <nui-icon name="Check" [size]="16" />
+                  <nui-icon name="check-line" [size]="16" />
                 </span>
               }
             </div>

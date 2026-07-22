@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 While the library is pre-1.0 the public API may change between minor versions.
 
+## [Unreleased]
+
+### Changed
+
+- **BREAKING — icons are now RemixIcon instead of Lucide.** `<nui-icon>` renders the
+  bundled [RemixIcon](https://remixicon.com) set (3229 glyphs) and every icon name
+  changed: names are now upstream kebab-case without the `ri-` prefix
+  (`House` → `home-line`, `Check` → `check-line`, `X` → `close-line`,
+  `ChevronDown` → `arrow-down-s-line`). `IconName`, `ALL_ICONS`, and `IconNames`
+  keep their shape, so the compiler flags every outdated name.
+- **BREAKING — `strokeWidth` and `absoluteStrokeWidth` inputs were removed** from
+  `<nui-icon>`. RemixIcon is a filled/outlined set with no stroke-width concept;
+  pick the `-line` or `-fill` variant of a glyph instead.
+- Icons render as an inline `<svg>` with the path bound through `[attr.d]` — no
+  `innerHTML` and no sanitizer bypass.
+
+### Removed
+
+- **`lucide-angular` runtime dependency.** It declared `@angular/core: 13.x - 21.x`
+  and was bundled into the package via `allowedNonPeerDependencies`, which forced
+  consumers on Angular 22 to install with `--legacy-peer-deps`. The kit now has no
+  runtime icon dependency at all: path data is generated from the framework-agnostic
+  `remixicon` assets at development time (`npm run generate:icons`) and committed.
+  Angular 20 support (`^20.3.0 || ^21.0.0 || ^22.0.0`) is unaffected.
+
 ## [0.1.6] - 2026-06-07
 
 ### Added

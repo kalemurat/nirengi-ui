@@ -148,10 +148,11 @@ of the enum members.
 ```
 
 **Icon** — `nirengi-ui-kit/components/icon/icon.component`
-(icon names come from the bundled Lucide set — see `IconName`)
+(icon names are [RemixIcon](https://remixicon.com) names in kebab-case without the
+`ri-` prefix — see `IconName`; the full set is bundled, no extra install needed)
 
 ```html
-<nui-icon name="check" [size]="20" color="currentColor" />
+<nui-icon name="check-line" [size]="20" color="currentColor" />
 ```
 
 **List** — `nirengi-ui-kit/components/list/list.component`

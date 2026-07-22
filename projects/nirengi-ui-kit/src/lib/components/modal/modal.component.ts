@@ -64,7 +64,7 @@ import { Size } from '../../common/enums/size.enum';
               [size]="Size.Small"
               (clicked)="close()"
             >
-              <nui-icon name="X" size="18" />
+              <nui-icon name="close-line" size="18" />
             </nui-button>
           </div>
         }

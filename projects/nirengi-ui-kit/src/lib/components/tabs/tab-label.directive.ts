@@ -6,7 +6,7 @@ import { Directive, inject, TemplateRef } from '@angular/core';
  * @example
  * <nui-tab>
  *   <ng-template nuiTabLabel>
- *     <nui-icon name="user" />
+ *     <nui-icon name="user-line" />
  *     <span>Profile</span>
  *   </ng-template>
  *   Content...
