@@ -46,8 +46,13 @@ Thumbs.db
 # Claude Code — gizli MCP token'i (asla commit'lenmemeli)
 .mcp.json
 
+# Claude Code yerel workspace'i (.claude/github-mcp.env token içerir) ve
+# paralel task worktree'leri — asla commit'lenmemeli
+.claude/
+.worktrees/
+
 # npm publish — token'lar asla commit'lenmemeli
-.npmrc
+# (.npmrc repoda takipli ve gerçek token içermez; sadece ${NPM_TOKEN} referansı)
 .env
 .env.*
 

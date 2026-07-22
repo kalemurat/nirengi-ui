@@ -59,7 +59,9 @@ showcase entry (config/page) needs updating to reflect the change.
 
 ## Tech stack
 
-- **Angular 20** (signal-based, zoneless)
+- **Angular 22** (signal-based, zoneless) — the workspace runs on Angular 22; the
+  published library declares a peer range of `^20.3.0 || ^21.0.0 || ^22.0.0`, so
+  library code must stay compatible with Angular 20 as well.
 - TypeScript (strict)
 - Tailwind CSS 3 + SCSS (`@apply`)
 - Standalone components (no NgModule)
@@ -195,6 +197,46 @@ work is not done until both builds are green.
 - This applies to any change — component logic, enums/tokens, styles, configs, or
   the showcase wiring.
 
+## 👀 Visual verification — look at it in the browser yourself
+
+**Do not ask the user "please open the page and tell me how it looks".** When a
+change is visual (a new component, a style/layout/theme change, a showcase page,
+an interaction or accessibility behavior), **open the running showcase app in the
+browser and inspect it yourself** before reporting the work as done.
+
+Use the **`claude-in-chrome` MCP** for this — invoke the `claude-in-chrome` skill
+first, then the `mcp__claude-in-chrome__*` tools. Do **not** add or use Playwright,
+Puppeteer, or any other external browser-automation dependency for this purpose;
+this repo intentionally has no e2e/browser-automation tooling and none should be
+introduced.
+
+Procedure:
+
+1. **Make sure the dev server is up.** `npm start` serves the showcase at
+   `http://localhost:4200` (start it in the background if it is not already
+   running). If the change touches the library, remember the app consumes it from
+   `dist/` — run `npm run build:ui-kit` first.
+2. **Open the page in a fresh MCP tab** (`tabs_create_mcp` / `navigate`), which is
+   an isolated tab group separate from the user's own tabs — never hijack a tab the
+   user is working in.
+3. **Go to the relevant page**, not just the app root:
+   - Config-driven showcase: `http://localhost:4200/showcase/<id>`, where `<id>`
+     matches a `src/app/configs/<id>.showcase.json` (e.g. `/showcase/button`,
+     `/showcase/table`, `/showcase/toast`).
+   - Dedicated demo page, when one exists under `src/app/pages/<name>-page/`:
+     `http://localhost:4200/<name>` (e.g. `/button`, `/select`, `/icon`).
+   - `http://localhost:4200/` redirects to `/showcase/button`; there is **no bare
+     `/showcase` route** — always include the component id.
+4. **Actually inspect it**: take a screenshot / read the page, exercise the
+   variants (sizes, colors, disabled/loading/empty states), click and keyboard-tab
+   through it, and check `read_console_messages` for errors. Check both light and
+   dark theme when the change is style-related.
+5. **Fix what you see** and re-check, then state in your report what you verified
+   in the browser and on which URL.
+
+This is in addition to — not a replacement for — the unit tests, the security
+review, and the build verification above.
+
 ## Other commands
 
 ```bash
@@ -209,7 +251,7 @@ npm run format            # Prettier
 
 - **Do not add signatures to commit messages.** Never add `Co-Authored-By: ...` or any AI signature. Commit messages must be clean and plain.
 - Use conventional commit format (`feat:`, `fix:`, `chore:`, `refactor:`, `test:`, `docs:`).
-- `.mcp.json` and `.claude/github-mcp.env` contain secret tokens; they are gitignored and must **never** be committed.
+- `.mcp.json` and `.claude/github-mcp.env` contain secret tokens; both `.mcp.json` and the whole `.claude/` directory are listed in `.gitignore` and must **never** be committed.
 
 ## Branch & issue workflow
 
