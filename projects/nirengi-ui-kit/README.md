@@ -1,6 +1,6 @@
 # Nirengi UI Kit
 
-A modern, themeable **Angular 20** component library. Standalone, signal-based,
+A modern, themeable component library for **Angular 20, 21 and 22**. Standalone, signal-based,
 and **zoneless-friendly** — every component is a standalone Angular component with
 the `nui` selector prefix. It ships its **own precompiled CSS**, so you do **not**
 need Tailwind in your app.
@@ -20,9 +20,21 @@ need Tailwind in your app.
 npm install nirengi-ui-kit
 ```
 
-Peer dependencies (Angular 20):
+### Requirements
+
+| Requirement | Supported versions                                            |
+| ----------- | ------------------------------------------------------------- |
+| Angular     | `20.3+`, `21.x` or `22.x`                                     |
+| Node.js     | whatever your Angular version requires (Angular 22 needs `^22.22.3 \|\| ^24.15.0 \|\| >=26.0.0`) |
+
+Peer dependencies — install the Angular major you are already on:
 
 ```bash
+# Angular 22
+npm install @angular/core@^22 @angular/common@^22
+
+# …or Angular 21 / Angular 20
+npm install @angular/core@^21 @angular/common@^21
 npm install @angular/core@^20 @angular/common@^20
 ```
 
@@ -30,9 +42,9 @@ npm install @angular/core@^20 @angular/common@^20
 
 ## Styling setup (required)
 
-Components depend on **one** global CSS layer (theme tokens, Tailwind base, and the
-portalled `nui-select` dropdown styles). Import it **once** — then everything
-renders correctly with no Tailwind in your project.
+Components depend on **one** global CSS layer (theme tokens, Tailwind base, the
+RemixIcon web font, and the portalled `nui-select` dropdown styles). Import it
+**once** — then everything renders correctly with no Tailwind in your project.
 
 ```scss
 /* src/styles.scss */
@@ -62,8 +74,9 @@ module.exports = { theme: { extend: { ...uiKit.theme.extend } } };
 
 | Import path                      | Contents                                                                 |
 | -------------------------------- | ------------------------------------------------------------------------ |
-| `nirengi-ui-kit/styles`          | **Recommended.** Full self-contained CSS — import once.                  |
+| `nirengi-ui-kit/styles`          | **Recommended.** Full self-contained CSS (icons included) — import once. |
 | `nirengi-ui-kit/theme`           | Just the semantic theme tokens (`:root` + `.dark`).                      |
+| `nirengi-ui-kit/icons`           | Just the RemixIcon web font — needed only alongside `theme`.             |
 | `nirengi-ui-kit/tailwind-config` | The kit's `tailwind.config.js`, to merge into your own Tailwind setup.   |
 
 ---
@@ -136,10 +149,27 @@ of the enum members.
 ```
 
 **Icon** — `nirengi-ui-kit/components/icon/icon.component`
-(icon names come from the bundled Lucide set — see `IconName`)
+(icon names are [RemixIcon](https://remixicon.com) names in kebab-case without the
+`ri-` prefix — see `IconName`; all 3229 are bundled, no extra install needed)
 
 ```html
-<nui-icon name="check" [size]="20" color="currentColor" />
+<nui-icon name="check-line" [size]="20" color="currentColor" />
+```
+
+Icons come from the vendored RemixIcon **web font**, so they add **zero bytes to
+your JavaScript bundle** — an icon is a CSS class, and any name works whether it is
+a literal or computed at runtime. The font is a cached static asset the browser
+fetches once. This does mean the stylesheet is **required**: it is already part of
+`nirengi-ui-kit/styles`, but if you compose your own CSS from
+`nirengi-ui-kit/theme`, add `@import 'nirengi-ui-kit/icons';` too — without it no
+icon renders, including the ones inside `nui-select`, `nui-datepicker` and
+`nui-toast`.
+
+Building an icon picker? `loadNuiIconNames()` fetches the name list (~60 kB) in its
+own lazy chunk, so it never lands in your initial bundle:
+
+```ts
+const names = await loadNuiIconNames();
 ```
 
 **List** — `nirengi-ui-kit/components/list/list.component`

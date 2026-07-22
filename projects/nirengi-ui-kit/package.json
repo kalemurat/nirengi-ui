@@ -1,9 +1,9 @@
 {
   "name": "nirengi-ui-kit",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "peerDependencies": {
-    "@angular/common": "^20.3.0",
-    "@angular/core": "^20.3.0"
+    "@angular/common": "^20.3.0 || ^21.0.0 || ^22.0.0",
+    "@angular/core": "^20.3.0 || ^21.0.0 || ^22.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -21,6 +21,13 @@
     "./styles": {
       "style": "./styles.css",
       "default": "./styles.css"
+    },
+    "./icons": {
+      "style": "./icons.css",
+      "default": "./icons.css"
+    },
+    "./remixicon.woff2": {
+      "default": "./remixicon.woff2"
     },
     "./tailwind-config": {
       "default": "./tailwind.config.js"

@@ -10,7 +10,7 @@ describe('ValueAccessorBase', () => {
   });
 
   it('should update value and call onChange when enabled', () => {
-    const onChange = jasmine.createSpy('onChange');
+    const onChange = vi.fn().mockName('onChange');
     accessor.registerOnChange(onChange);
 
     accessor.updateValue('test');
@@ -20,7 +20,7 @@ describe('ValueAccessorBase', () => {
   });
 
   it('should not update value when disabled', () => {
-    const onChange = jasmine.createSpy('onChange');
+    const onChange = vi.fn().mockName('onChange');
     accessor.registerOnChange(onChange);
     accessor.setDisabledState(true);
 
@@ -31,7 +31,7 @@ describe('ValueAccessorBase', () => {
   });
 
   it('should call onTouched when enabled', () => {
-    const onTouched = jasmine.createSpy('onTouched');
+    const onTouched = vi.fn().mockName('onTouched');
     accessor.registerOnTouched(onTouched);
 
     accessor.markAsTouched();
@@ -40,7 +40,7 @@ describe('ValueAccessorBase', () => {
   });
 
   it('should not call onTouched when disabled', () => {
-    const onTouched = jasmine.createSpy('onTouched');
+    const onTouched = vi.fn().mockName('onTouched');
     accessor.registerOnTouched(onTouched);
     accessor.setDisabledState(true);
 
@@ -54,6 +54,6 @@ describe('ValueAccessorBase', () => {
     accessor.setDisabledState(true);
 
     expect(accessor.value()).toBe('model-value');
-    expect(accessor.isDisabled()).toBeTrue();
+    expect(accessor.isDisabled()).toBe(true);
   });
 });

@@ -7,7 +7,7 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   TableComponent,
   ITableColumn,
@@ -37,7 +37,6 @@ interface IDemoData {
   selector: 'app-demo-1',
   standalone: true,
   imports: [
-    CommonModule,
     TableComponent,
     BadgeComponent,
     ButtonComponent,

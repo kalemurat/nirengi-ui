@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, input, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ButtonComponent } from '../button/button.component';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastContainerComponent } from '../toast/toast-container.component';
@@ -12,7 +12,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 @Component({
   selector: 'nui-toast-demo',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, ToastComponent, ToastContainerComponent],
+  imports: [ButtonComponent, ToastComponent, ToastContainerComponent],
   providers: [{ provide: TOAST, useExisting: ToastService }],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

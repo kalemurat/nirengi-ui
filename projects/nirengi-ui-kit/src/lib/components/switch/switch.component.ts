@@ -6,7 +6,7 @@ import {
   forwardRef,
   input,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
@@ -21,7 +21,7 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 @Component({
   selector: 'nui-switch',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

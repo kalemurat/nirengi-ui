@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideZonelessChangeDetection, ViewEncapsulation } from '@angular/core';
+import { Component, provideZonelessChangeDetection, ViewEncapsulation } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { TableComponent, ITableColumn, FilterMatchMode } from './table.component';
 import { Size } from '../../common/enums/size.enum';
 
@@ -14,7 +15,10 @@ interface TestRow {
 
 interface NestedRow {
   id: number;
-  user: { id: number; name: string };
+  user: {
+    id: number;
+    name: string;
+  };
 }
 
 const SAMPLE_DATA: TestRow[] = [
@@ -43,9 +47,10 @@ const SAMPLE_COLUMNS: ITableColumn[] = [
  * The debounce is captured at construction time (field initializer), so
  * `filterDebounce` setInput has no effect on the pipe — we always wait 600ms.
  */
-async function createFilterableComponent(
-  overrides: Record<string, unknown> = {}
-): Promise<{ fixture: ComponentFixture<TableComponent<TestRow>>; component: TableComponent<TestRow> }> {
+async function createFilterableComponent(overrides: Record<string, unknown> = {}): Promise<{
+  fixture: ComponentFixture<TableComponent<TestRow>>;
+  component: TableComponent<TestRow>;
+}> {
   const fixture = TestBed.createComponent<TableComponent<TestRow>>(TableComponent);
   const component = fixture.componentInstance;
 
@@ -73,9 +78,10 @@ async function applyFilterAndWait(
   fixture.detectChanges();
 }
 
-function createComponent(
-  overrides: Record<string, unknown> = {}
-): { fixture: ComponentFixture<TableComponent<TestRow>>; component: TableComponent<TestRow> } {
+function createComponent(overrides: Record<string, unknown> = {}): {
+  fixture: ComponentFixture<TableComponent<TestRow>>;
+  component: TableComponent<TestRow>;
+} {
   const fixture = TestBed.createComponent<TableComponent<TestRow>>(TableComponent);
   const component = fixture.componentInstance;
 
@@ -100,7 +106,13 @@ describe('table.component.ts', () => {
   // ─── Encapsulation guards (required to preserve) ───────────────────────────
 
   it('should use emulated (not None) view encapsulation so component styles do not leak', () => {
-    const def = (TableComponent as unknown as { ɵcmp: { encapsulation: ViewEncapsulation } }).ɵcmp;
+    const def = (
+      TableComponent as unknown as {
+        ɵcmp: {
+          encapsulation: ViewEncapsulation;
+        };
+      }
+    ).ɵcmp;
     expect(def.encapsulation).not.toBe(ViewEncapsulation.None);
     expect(def.encapsulation).toBe(ViewEncapsulation.Emulated);
   });
@@ -111,7 +123,7 @@ describe('table.component.ts', () => {
     fixture.detectChanges();
     const host = fixture.nativeElement as HTMLElement;
     const attrs = host.getAttributeNames();
-    expect(attrs.some((a) => a.startsWith('_nghost-'))).toBeTrue();
+    expect(attrs.some((a) => a.startsWith('_nghost-'))).toBe(true);
   });
 
   // ─── Component creation ────────────────────────────────────────────────────
@@ -475,7 +487,7 @@ describe('table.component.ts', () => {
       await new Promise((r) => setTimeout(r, 600));
       fixture.detectChanges();
       const result = component.filteredData();
-      expect(result.every((r) => r.name.toLowerCase().startsWith('a'))).toBeTrue();
+      expect(result.every((r) => r.name.toLowerCase().startsWith('a'))).toBe(true);
       expect(result.length).toBeGreaterThan(0);
     });
 
@@ -485,7 +497,7 @@ describe('table.component.ts', () => {
       await new Promise((r) => setTimeout(r, 600));
       fixture.detectChanges();
       const result = component.filteredData();
-      expect(result.every((r) => r.name.toLowerCase().endsWith('e'))).toBeTrue();
+      expect(result.every((r) => r.name.toLowerCase().endsWith('e'))).toBe(true);
       expect(result.length).toBeGreaterThan(0);
     });
 
@@ -495,7 +507,7 @@ describe('table.component.ts', () => {
       await new Promise((r) => setTimeout(r, 600));
       fixture.detectChanges();
       const result = component.filteredData();
-      expect(result.every((r) => ['admin', 'guest'].includes(r.category!))).toBeTrue();
+      expect(result.every((r) => ['admin', 'guest'].includes(r.category!))).toBe(true);
       expect(result.length).toBeGreaterThan(0);
     });
 
@@ -538,7 +550,7 @@ describe('table.component.ts', () => {
       await new Promise((r) => setTimeout(r, 600));
       fixture.detectChanges();
       const result = component.filteredData();
-      expect(result.every((r) => r.category === 'admin' && r.active)).toBeTrue();
+      expect(result.every((r) => r.category === 'admin' && r.active)).toBe(true);
     });
 
     it('should return empty array when filter matches no row', async () => {
@@ -597,7 +609,7 @@ describe('table.component.ts', () => {
       await new Promise((r) => setTimeout(r, 600));
       fixture.detectChanges();
       const result = component.filteredData();
-      expect(result.some((r) => r.email === 'alice@example.com')).toBeTrue();
+      expect(result.some((r) => r.email === 'alice@example.com')).toBe(true);
     });
 
     it('should apply global filter using startsWith mode', async () => {
@@ -638,7 +650,7 @@ describe('table.component.ts', () => {
       fixture.detectChanges();
       const result = component.filteredData();
       expect(result.length).toBeGreaterThan(0);
-      expect(result.every((r) => r.name.toLowerCase().includes('li'))).toBeTrue();
+      expect(result.every((r) => r.name.toLowerCase().includes('li'))).toBe(true);
     });
   });
 
@@ -994,7 +1006,7 @@ describe('table.component.ts', () => {
 
     it('should emit globalFilterChange output synchronously', () => {
       const { component } = createComponent();
-      const spy = jasmine.createSpy('globalFilterChange');
+      const spy = vi.fn().mockName('globalFilterChange');
       component.globalFilterChange.subscribe(spy);
       component.filterGlobal('hello');
       expect(spy).toHaveBeenCalledWith('hello');
@@ -1002,21 +1014,21 @@ describe('table.component.ts', () => {
 
     it('should emit filterChange output synchronously', () => {
       const { component } = createComponent();
-      const spy = jasmine.createSpy('filterChange');
+      const spy = vi.fn().mockName('filterChange');
       component.filterChange.subscribe(spy);
       component.filterGlobal('hello');
       expect(spy).toHaveBeenCalled();
-      const emitted = spy.calls.mostRecent().args[0];
+      const emitted = vi.mocked(spy).mock.lastCall![0];
       expect(emitted.global).toBe('hello');
     });
 
     it('should emit filterChange with the current column filters too', () => {
       const { component } = createComponent();
       component.filter('name', 'Alice');
-      const spy = jasmine.createSpy('filterChange');
+      const spy = vi.fn().mockName('filterChange');
       component.filterChange.subscribe(spy);
       component.filterGlobal('admin');
-      const emitted = spy.calls.mostRecent().args[0];
+      const emitted = vi.mocked(spy).mock.lastCall![0];
       expect(emitted.columns['name']).toBeDefined();
       expect(emitted.global).toBe('admin');
     });
@@ -1033,7 +1045,7 @@ describe('table.component.ts', () => {
 
     it('should emit pageChange when page is valid', () => {
       const { component } = createComponent({ totalRecords: 50, pageSize: 10 });
-      const spy = jasmine.createSpy('pageChange');
+      const spy = vi.fn().mockName('pageChange');
       component.pageChange.subscribe(spy);
       component.setPage(3);
       expect(spy).toHaveBeenCalledWith(3);
@@ -1060,7 +1072,7 @@ describe('table.component.ts', () => {
 
     it('should not emit pageChange when page is a string', () => {
       const { component } = createComponent({ totalRecords: 50, pageSize: 10 });
-      const spy = jasmine.createSpy('pageChange');
+      const spy = vi.fn().mockName('pageChange');
       component.pageChange.subscribe(spy);
       component.setPage('...');
       expect(spy).not.toHaveBeenCalled();
@@ -1112,7 +1124,7 @@ describe('table.component.ts', () => {
 
     it('should emit pageChange with 1', () => {
       const { component } = createComponent();
-      const spy = jasmine.createSpy('pageChange');
+      const spy = vi.fn().mockName('pageChange');
       component.pageChange.subscribe(spy);
       component.onPageSizeChange(20);
       expect(spy).toHaveBeenCalledWith(1);
@@ -1171,7 +1183,7 @@ describe('table.component.ts', () => {
       });
       fixture.detectChanges();
 
-      const spy = jasmine.createSpy('rowClick');
+      const spy = vi.fn().mockName('rowClick');
       component.rowClick.subscribe(spy);
 
       const rows = (fixture.nativeElement as HTMLElement).querySelectorAll(
@@ -1189,14 +1201,14 @@ describe('table.component.ts', () => {
       });
       fixture.detectChanges();
 
-      const spy = jasmine.createSpy('rowClick');
+      const spy = vi.fn().mockName('rowClick');
       component.rowClick.subscribe(spy);
 
       const rows = (fixture.nativeElement as HTMLElement).querySelectorAll(
         'tr.nui-table__row--body'
       );
       (rows[0] as HTMLElement).click();
-      expect(spy.calls.mostRecent().args[0]).toEqual(SAMPLE_DATA[0]);
+      expect(vi.mocked(spy).mock.lastCall![0]).toEqual(SAMPLE_DATA[0]);
     });
 
     it('should expose rowClick output', () => {
@@ -1215,7 +1227,7 @@ describe('table.component.ts', () => {
 
     it('should allow subscription and manual emit on sortChange', () => {
       const { component } = createComponent();
-      const spy = jasmine.createSpy('sortChange');
+      const spy = vi.fn().mockName('sortChange');
       component.sortChange.subscribe(spy);
       component.sortChange.emit({ field: 'name', order: 'asc' });
       expect(spy).toHaveBeenCalledWith({ field: 'name', order: 'asc' });
@@ -1223,7 +1235,7 @@ describe('table.component.ts', () => {
 
     it('should allow emitting with order null', () => {
       const { component } = createComponent();
-      const spy = jasmine.createSpy('sortChange');
+      const spy = vi.fn().mockName('sortChange');
       component.sortChange.subscribe(spy);
       component.sortChange.emit({ field: 'age', order: null });
       expect(spy).toHaveBeenCalledWith({ field: 'age', order: null });
@@ -1235,7 +1247,7 @@ describe('table.component.ts', () => {
   describe('Output: filterChange (debounce-triggered)', () => {
     it('should emit filterChange after debounce with column filter info', async () => {
       const { fixture, component } = await createFilterableComponent();
-      const spy = jasmine.createSpy('filterChange');
+      const spy = vi.fn().mockName('filterChange');
       component.filterChange.subscribe(spy);
 
       component.filter('name', 'Alice');
@@ -1243,14 +1255,14 @@ describe('table.component.ts', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalled();
-      const emitted = spy.calls.mostRecent().args[0];
+      const emitted = vi.mocked(spy).mock.lastCall![0];
       expect(emitted.columns['name'].value).toBe('Alice');
       expect(emitted.columns['name'].matchMode).toBe('contains');
     });
 
     it('should include both global and column info in filterChange emission', async () => {
       const { fixture, component } = await createFilterableComponent();
-      const spy = jasmine.createSpy('filterChange');
+      const spy = vi.fn().mockName('filterChange');
       component.filterChange.subscribe(spy);
 
       component.filterGlobal('hello'); // emits immediately via filterGlobal
@@ -1258,7 +1270,7 @@ describe('table.component.ts', () => {
       await new Promise((r) => setTimeout(r, 600));
       fixture.detectChanges();
 
-      const calls = spy.calls.allArgs();
+      const calls = vi.mocked(spy).mock.calls;
       expect(calls.length).toBeGreaterThan(0);
     });
   });
@@ -1319,7 +1331,7 @@ describe('table.component.ts', () => {
       const input = (fixture.nativeElement as HTMLElement).querySelector(
         '.nui-table-toolbar__search-input'
       ) as HTMLInputElement;
-      expect(input?.disabled).toBeTrue();
+      expect(input?.disabled).toBe(true);
     });
 
     it('should render with custom searchPlaceholder', async () => {
@@ -1398,9 +1410,7 @@ describe('table.component.ts', () => {
       fixture.componentRef.setInput('data', []);
       fixture.componentRef.setInput('emptyTitle', 'No Data Found');
       fixture.detectChanges();
-      const title = (fixture.nativeElement as HTMLElement).querySelector(
-        '.nui-table__empty-title'
-      );
+      const title = (fixture.nativeElement as HTMLElement).querySelector('.nui-table__empty-title');
       expect(title?.textContent?.trim()).toBe('No Data Found');
     });
 
@@ -1463,7 +1473,7 @@ describe('table.component.ts', () => {
       const prev = (fixture.nativeElement as HTMLElement).querySelector(
         '.nui-table-pagination__btn--prev'
       ) as HTMLButtonElement;
-      expect(prev?.disabled).toBeTrue();
+      expect(prev?.disabled).toBe(true);
     });
 
     it('should disable next button on last page', async () => {
@@ -1474,7 +1484,7 @@ describe('table.component.ts', () => {
       const next = (fixture.nativeElement as HTMLElement).querySelector(
         '.nui-table-pagination__btn--next'
       ) as HTMLButtonElement;
-      expect(next?.disabled).toBeTrue();
+      expect(next?.disabled).toBe(true);
     });
 
     it('should show custom prev/next labels', async () => {
@@ -1521,7 +1531,7 @@ describe('table.component.ts', () => {
       const prev = (fixture.nativeElement as HTMLElement).querySelector(
         '.nui-table-pagination__btn--prev'
       ) as HTMLButtonElement;
-      expect(prev?.disabled).toBeTrue();
+      expect(prev?.disabled).toBe(true);
     });
   });
 
@@ -1600,6 +1610,35 @@ describe('table.component.ts', () => {
       const { component } = createComponent();
       expect(component.rowTemplate()).toBeUndefined();
     });
+
+    it('should resolve and render a projected #headTemplate content child', () => {
+      @Component({
+        imports: [TableComponent],
+        template: `
+          <nui-table [data]="data" [columns]="columns">
+            <ng-template #headTemplate>
+              <th class="custom-head">Custom header</th>
+            </ng-template>
+          </nui-table>
+        `,
+      })
+      class HostComponent {
+        readonly data = SAMPLE_DATA;
+        readonly columns = SAMPLE_COLUMNS;
+      }
+
+      TestBed.configureTestingModule({ imports: [HostComponent] });
+      const hostFixture = TestBed.createComponent(HostComponent);
+      hostFixture.detectChanges();
+
+      const table = hostFixture.debugElement.query(By.directive(TableComponent))
+        .componentInstance as TableComponent<TestRow>;
+
+      expect(table.headTemplate()).toBeTruthy();
+      expect(
+        (hostFixture.nativeElement as HTMLElement).querySelector('.custom-head')?.textContent
+      ).toContain('Custom header');
+    });
   });
 
   // ─── Edge cases ───────────────────────────────────────────────────────────
@@ -1634,7 +1673,7 @@ describe('table.component.ts', () => {
 
     it('should not emit pageChange when setPage receives ellipsis string', () => {
       const { component } = createComponent({ totalRecords: 50, pageSize: 10 });
-      const spy = jasmine.createSpy('pageChange');
+      const spy = vi.fn().mockName('pageChange');
       component.pageChange.subscribe(spy);
       component.setPage('...');
       expect(spy).not.toHaveBeenCalled();

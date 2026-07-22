@@ -26,7 +26,7 @@ describe('EventLoggerService', () => {
 
     const [log] = service.eventLogs();
     expect(log.payload).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         type: 'click',
         target: 'BUTTON',
       })
@@ -41,7 +41,7 @@ describe('EventLoggerService', () => {
 
     const [log] = service.eventLogs();
     expect(log.payload).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         type: 'change',
         target: 'unknown',
       })
@@ -49,7 +49,10 @@ describe('EventLoggerService', () => {
   });
 
   it('should fallback to string for circular payload', () => {
-    const payload: { name: string; self?: unknown } = { name: 'circular' };
+    const payload: {
+      name: string;
+      self?: unknown;
+    } = { name: 'circular' };
     payload.self = payload;
 
     service.logEvent('demo', 'change', payload);

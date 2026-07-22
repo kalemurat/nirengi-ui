@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TabsComponent } from '../tabs/tabs.component';
 import { TabComponent } from '../tabs/tab.component';
 import { HeadingComponent, HeadingLevel, HeadingWeight } from '../heading/heading.component';
@@ -11,7 +11,7 @@ import { Size } from '../../common/enums/size.enum';
 @Component({
   selector: 'nui-tabs-demo',
   standalone: true,
-  imports: [CommonModule, TabsComponent, TabComponent, HeadingComponent, ParagraphComponent],
+  imports: [TabsComponent, TabComponent, HeadingComponent, ParagraphComponent],
   template: `
     <div class="flex flex-col gap-8">
       <!-- Live Preview -->

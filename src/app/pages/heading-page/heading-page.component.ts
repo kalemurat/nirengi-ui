@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+
 import {
   HeadingComponent,
   HeadingLevel,
@@ -12,8 +12,9 @@ import {
 @Component({
   selector: 'app-heading-page',
   standalone: true,
-  imports: [CommonModule, HeadingComponent],
+  imports: [HeadingComponent],
   templateUrl: './heading-page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './heading-page.scss',
 })
 export class HeadingPageComponent {

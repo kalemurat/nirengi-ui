@@ -11,7 +11,7 @@ import { IconComponent } from '../icon/icon.component';
   template: `
     <div [class]="containerClasses()">
       <button class="popover__close" (click)="closePopover()" title="Kapat">
-        <nui-icon name="X" [size]="16"></nui-icon>
+        <nui-icon name="close-line" [size]="16"></nui-icon>
       </button>
       <div class="popover__content">
         <ng-container

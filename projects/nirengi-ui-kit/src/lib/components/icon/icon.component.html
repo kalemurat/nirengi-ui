@@ -1,9 +1,8 @@
-<lucide-icon
-  [name]="name()"
-  [size]="numericSize()"
-  [color]="color()"
-  [strokeWidth]="strokeWidth()"
-  [absoluteStrokeWidth]="absoluteStrokeWidth()"
-  class="nui-icon"
->
-</lucide-icon>
+<i
+  [class]="iconClass()"
+  [style.font-size.px]="numericSize()"
+  [style.width.px]="numericSize()"
+  [style.height.px]="numericSize()"
+  [style.color]="color()"
+  aria-hidden="true"
+></i>

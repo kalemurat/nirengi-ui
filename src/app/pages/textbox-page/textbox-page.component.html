@@ -47,17 +47,17 @@
     <div class="textbox-page__grid">
       <div class="textbox-page__card">
         <h3 class="textbox-page__card-title">Search</h3>
-        <nui-textbox placeholder="Search..." icon="Search" type="search" />
+        <nui-textbox placeholder="Search..." icon="search-line" type="search" />
       </div>
 
       <div class="textbox-page__card">
         <h3 class="textbox-page__card-title">Email</h3>
-        <nui-textbox label="Email Address" placeholder="john@example.com" icon="Mail" type="email" />
+        <nui-textbox label="Email Address" placeholder="john@example.com" icon="mail-line" type="email" />
       </div>
 
       <div class="textbox-page__card">
         <h3 class="textbox-page__card-title">Password</h3>
-        <nui-textbox label="Password" type="password" icon="Lock" placeholder="••••••••" />
+        <nui-textbox label="Password" type="password" icon="lock-line" placeholder="••••••••" />
       </div>
     </div>
   </section>
@@ -67,7 +67,7 @@
     <h2 class="textbox-page__title">Sizes</h2>
     <div class="textbox-page__row textbox-page__row--boxed">
       @for (size of sizes; track size) {
-        <nui-textbox [label]="'Size: ' + size" [size]="size" [placeholder]="'This is ' + size + ' input'" icon="Type" />
+        <nui-textbox [label]="'Size: ' + size" [size]="size" [placeholder]="'This is ' + size + ' input'" icon="text" />
       }
     </div>
   </section>

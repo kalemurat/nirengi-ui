@@ -32,7 +32,7 @@ describe('PropertyStateService', () => {
     service.resetToDefaults(config);
 
     expect(service.getProperty('label')).toBe('Save');
-    expect(service.getProperty('disabled')).toBeFalse();
+    expect(service.getProperty('disabled')).toBe(false);
   });
 
   it('should clear all properties', () => {

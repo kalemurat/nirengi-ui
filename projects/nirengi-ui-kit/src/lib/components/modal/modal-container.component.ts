@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MODAL_SERVICE } from './modal.token';
 import { ModalComponent } from './modal.component';
 
@@ -7,7 +7,7 @@ import { ModalComponent } from './modal.component';
 @Component({
   selector: 'nui-modal-container',
   standalone: true,
-  imports: [CommonModule, ModalComponent],
+  imports: [ModalComponent],
   template: `
     @for (modal of modals(); track modal.id) {
       <nui-modal [data]="modal" />

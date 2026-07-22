@@ -6,7 +6,7 @@ import {
   effect,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
@@ -35,7 +35,7 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
 @Component({
   selector: 'nui-textbox',
   standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent],
+  imports: [FormsModule, IconComponent],
   templateUrl: './textbox.component.html',
   styleUrl: './textbox.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

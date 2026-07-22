@@ -226,12 +226,17 @@ export {
 
 /**
  * Icon component and types.
+ *
+ * Icons come from the vendored RemixIcon web font, so they cost nothing in the
+ * JavaScript bundle — but the stylesheet is a required setup step:
+ * `@use 'nirengi-ui-kit/icons';`.
+ *
  * @see {@link IconComponent}
  * @see {@link IconName}
  */
 export { IconComponent } from './lib/components/icon/icon.component';
-export type { IconName } from './lib/components/icon/icon.types';
-export { ALL_ICONS, IconNames } from './lib/components/icon/icon.types';
+export { loadNuiIconNames } from './lib/components/icon/icon-names.loader';
+export type { IconName, BundledIconName } from './lib/components/icon/icon.types';
 
 /**
  * Badge component and enums.

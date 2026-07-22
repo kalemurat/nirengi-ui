@@ -6,7 +6,13 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default tseslint.config(
   {
-    ignores: ['**/*.spec.ts', 'dist/**', 'node_modules/**'],
+    ignores: [
+      '**/*.spec.ts',
+      'dist/**',
+      'node_modules/**',
+      // Generated from the remixicon assets — see scripts/generate-icons.mjs
+      'projects/nirengi-ui-kit/src/lib/components/icon/icon-names.ts',
+    ],
   },
   {
     files: ['**/*.ts'],

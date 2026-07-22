@@ -1,5 +1,5 @@
 import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 
@@ -77,7 +77,7 @@ export enum HeadingWeight {
 @Component({
   selector: 'nui-heading',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './heading.component.html',
   styleUrl: './heading.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

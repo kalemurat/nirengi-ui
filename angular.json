@@ -33,8 +33,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2MB",
-                  "maximumError": "5MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -68,28 +68,23 @@
           "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
+            "buildTarget": "nirengi-ui:build:development",
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "include": ["src/**/*.spec.ts"],
-            "exclude": ["src/main.ts"],
-            "codeCoverageExclude": [
-              "src/**/*.spec.ts",
-              "src/**/*.interface.ts",
-              "src/**/*.interfaces.ts",
-              "src/**/*.enum.ts",
-              "src/**/*.type.ts",
-              "src/**/*.types.ts",
-              "src/**/index.ts"
-            ],
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": ["src/styles.scss"]
+            "include": ["**/*.spec.ts"],
+            "coverageReporters": ["html", "text-summary", "json-summary"],
+            "coverageExclude": [
+              "**/*.html",
+              "**/*.spec.ts",
+              "**/*.interface.ts",
+              "**/*.interfaces.ts",
+              "**/*.enum.ts",
+              "**/*.type.ts",
+              "**/*.types.ts",
+              "**/index.ts",
+              "src/main.ts"
+            ]
           }
         }
       }
@@ -116,23 +111,31 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
+            "buildTarget": "nirengi-ui:build:development",
             "tsConfig": "projects/nirengi-ui-kit/tsconfig.spec.json",
-            "include": ["projects/nirengi-ui-kit/src/**/*.spec.ts"],
-            "exclude": ["projects/nirengi-ui-kit/src/public-api.ts"],
-            "codeCoverageExclude": [
-              "projects/nirengi-ui-kit/src/**/*.spec.ts",
-              "projects/nirengi-ui-kit/src/**/*.interface.ts",
-              "projects/nirengi-ui-kit/src/**/*.interfaces.ts",
-              "projects/nirengi-ui-kit/src/**/*.enum.ts",
-              "projects/nirengi-ui-kit/src/**/*.type.ts",
-              "projects/nirengi-ui-kit/src/**/*.types.ts",
-              "projects/nirengi-ui-kit/src/**/index.ts",
-              "projects/nirengi-ui-kit/src/public-api.ts",
-              "projects/nirengi-ui-kit/src/**/*.token.ts",
-              "projects/nirengi-ui-kit/src/**/*constants.ts",
-              "projects/nirengi-ui-kit/src/lib/design-tokens/**/*.ts"
+            "include": ["**/*.spec.ts"],
+            "coverageReporters": ["html", "text-summary", "json-summary"],
+            "coverageThresholds": {
+              "statements": 93,
+              "branches": 85,
+              "functions": 98,
+              "lines": 92
+            },
+            "coverageExclude": [
+              "**/*.html",
+              "**/*.spec.ts",
+              "**/*.interface.ts",
+              "**/*.interfaces.ts",
+              "**/*.enum.ts",
+              "**/*.type.ts",
+              "**/*.types.ts",
+              "**/index.ts",
+              "**/public-api.ts",
+              "**/*.token.ts",
+              "**/*constants.ts",
+              "**/design-tokens/**"
             ]
           }
         }

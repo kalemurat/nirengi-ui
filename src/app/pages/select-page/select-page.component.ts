@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SelectComponent, Size } from '../../../../projects/nirengi-ui-kit/src/public-api';
@@ -15,6 +15,7 @@ interface IUser {
   standalone: true,
   imports: [CommonModule, FormsModule, SelectComponent],
   templateUrl: './select-page.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './select-page.component.scss',
 })
 export class SelectPageComponent {

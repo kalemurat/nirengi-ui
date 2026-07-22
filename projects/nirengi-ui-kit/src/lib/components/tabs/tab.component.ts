@@ -22,7 +22,7 @@ import { TabLabelDirective } from './tab-label.directive';
  * <!-- With Custom Template -->
  * <nui-tab>
  *   <ng-template nuiTabLabel>
- *      <nui-icon name="user" /> Profile
+ *      <nui-icon name="user-line" /> Profile
  *   </ng-template>
  *   Content...
  * </nui-tab>

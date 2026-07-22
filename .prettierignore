@@ -7,3 +7,7 @@ public/
 
 # Do not format Markdown files
 *.md
+
+# Vendored RemixIcon font + generated name list — `npm run generate:icons`
+projects/nirengi-ui-kit/src/lib/components/icon/icon-names.ts
+projects/nirengi-ui-kit/src/lib/styles/icons.css

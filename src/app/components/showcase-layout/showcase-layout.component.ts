@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IComponentShowcaseConfig } from '../../core/interfaces/showcase-config.interface';
 import { MenuPanelComponent } from './menu-panel/menu-panel.component';
 import { ComponentRendererComponent } from './component-renderer/component-renderer.component';
@@ -70,7 +70,6 @@ import {
   selector: 'app-showcase-layout',
   standalone: true,
   imports: [
-    CommonModule,
     MenuPanelComponent,
     ComponentRendererComponent,
     PropertiesPanelComponent,
