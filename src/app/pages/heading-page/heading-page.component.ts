@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   HeadingComponent,
   HeadingLevel,
@@ -12,7 +12,7 @@ import {
 @Component({
   selector: 'app-heading-page',
   standalone: true,
-  imports: [CommonModule, HeadingComponent],
+  imports: [HeadingComponent],
   templateUrl: './heading-page.html',
   styleUrl: './heading-page.scss',
 })

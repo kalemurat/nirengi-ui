@@ -7,7 +7,7 @@ import {
   ElementRef,
   viewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ButtonComponent, ButtonType } from '../button/button.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -27,7 +27,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 @Component({
   selector: 'nui-file-upload',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [ButtonComponent],
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

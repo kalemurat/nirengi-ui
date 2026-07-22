@@ -1,11 +1,11 @@
 import { Component, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IconComponent, IconNames, IconName, Size as SizeEnum } from 'nirengi-ui-kit';
 
 @Component({
   selector: 'app-icon-page',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './icon-page.html',
   styleUrl: './icon-page.scss',
 })

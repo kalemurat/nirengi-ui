@@ -11,7 +11,7 @@ import {
   signal,
   ComponentRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, take, takeUntil } from 'rxjs/operators';
@@ -29,7 +29,7 @@ import {
 @Component({
   selector: 'app-component-renderer',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './component-renderer.component.html',
   styleUrl: './component-renderer.component.scss',
 })

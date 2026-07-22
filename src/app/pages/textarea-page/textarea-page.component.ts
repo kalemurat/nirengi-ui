@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   TextareaComponent,
@@ -10,7 +10,7 @@ import {
 @Component({
   selector: 'app-textarea-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TextareaComponent],
+  imports: [ReactiveFormsModule, TextareaComponent],
   templateUrl: './textarea-page.component.html',
   styleUrl: './textarea-page.component.scss',
 })

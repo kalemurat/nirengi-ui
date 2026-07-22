@@ -6,7 +6,7 @@ import {
   computed,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { Size } from '../../common/enums/size.enum';
@@ -51,7 +51,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 @Component({
   selector: 'nui-radio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './radio.component.html',
   styleUrl: './radio.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

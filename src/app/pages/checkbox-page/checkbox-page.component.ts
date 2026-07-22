@@ -1,6 +1,6 @@
 import { Component, signal, computed, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxComponent } from 'nirengi-ui-kit';
 import { Size } from 'nirengi-ui-kit';
@@ -9,7 +9,7 @@ import { ColorVariant } from 'nirengi-ui-kit';
 @Component({
   selector: 'app-checkbox-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CheckboxComponent],
+  imports: [ReactiveFormsModule, CheckboxComponent],
   templateUrl: './checkbox-page.component.html',
   styleUrl: './checkbox-page.component.scss',
 })

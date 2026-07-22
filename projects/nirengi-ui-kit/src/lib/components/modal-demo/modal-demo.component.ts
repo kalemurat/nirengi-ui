@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { JsonPipe } from '@angular/common';
+
 import { ButtonComponent } from '../button/button.component';
 import { MODAL_SERVICE, MODAL_REF, MODAL_DATA } from '../modal/modal.token';
 import { ModalContainerComponent } from '../modal/modal-container.component';
@@ -11,7 +12,7 @@ import { ParagraphComponent } from '../paragraph/paragraph.component';
 @Component({
   selector: 'nui-modal-test-content',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, ParagraphComponent],
+  imports: [ButtonComponent, ParagraphComponent],
   template: `
     <div class="flex flex-col gap-4">
       <nui-paragraph>
@@ -42,7 +43,7 @@ export class ModalTestContentComponent {
 @Component({
   selector: 'nui-modal-demo',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, ModalContainerComponent, HeadingComponent],
+  imports: [ButtonComponent, ModalContainerComponent, HeadingComponent, JsonPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-col gap-8">

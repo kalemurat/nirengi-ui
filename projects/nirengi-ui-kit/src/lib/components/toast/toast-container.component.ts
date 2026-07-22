@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ToastService } from './toast.service';
 import { ToastComponent } from './toast.component';
 
@@ -7,7 +7,7 @@ import { ToastComponent } from './toast.component';
 @Component({
   selector: 'nui-toast-container',
   standalone: true,
-  imports: [CommonModule, ToastComponent],
+  imports: [ToastComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- Top Right -->

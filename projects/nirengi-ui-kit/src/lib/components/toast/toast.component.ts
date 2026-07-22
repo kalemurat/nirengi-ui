@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, output, computed, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IconComponent } from '../icon/icon.component';
 import { IToastData, ToastVariant } from './toast.types';
 import { IconName } from '../icon/icon.types';
@@ -11,7 +11,7 @@ import { IconName } from '../icon/icon.types';
 @Component({
   selector: 'nui-toast',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [class]="containerClasses()" role="alert">

@@ -1,5 +1,5 @@
 import { Component, inject, computed, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -12,7 +12,7 @@ import { TextboxComponent, CheckboxComponent, SelectComponent, Size } from 'nire
 @Component({
   selector: 'app-properties-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule, TextboxComponent, CheckboxComponent, SelectComponent],
+  imports: [FormsModule, TextboxComponent, CheckboxComponent, SelectComponent],
   templateUrl: './properties-panel.component.html',
   styleUrl: './properties-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
