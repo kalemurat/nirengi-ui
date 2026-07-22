@@ -55,7 +55,10 @@ Thumbs.db
 CLAUDE.md
 
 # npm publish — token'lar asla commit'lenmemeli
-# (.npmrc repoda takipli ve gerçek token içermez; sadece ${NPM_TOKEN} referansı)
+# Yayin icin `npm login` kullanilir; token'i ~/.npmrc'de (repo disinda) tutar.
+# Repo koklu bir .npmrc, proje seviyesinde oldugu icin ~/.npmrc'yi ezer ve
+# calisan girisi bozar — bu yuzden .npmrc takip edilmez ve yok sayilir.
+.npmrc
 .env
 .env.*
 
