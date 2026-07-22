@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TextboxComponent, Size } from '../../../../projects/nirengi-ui-kit/src/public-api';
@@ -8,6 +8,7 @@ import { TextboxComponent, Size } from '../../../../projects/nirengi-ui-kit/src/
   standalone: true,
   imports: [ReactiveFormsModule, TextboxComponent],
   templateUrl: './textbox-page.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './textbox-page.component.scss',
 })
 export class TextboxPageComponent {

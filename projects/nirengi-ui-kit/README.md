@@ -1,6 +1,6 @@
 # Nirengi UI Kit
 
-A modern, themeable **Angular 20** component library. Standalone, signal-based,
+A modern, themeable component library for **Angular 20, 21 and 22**. Standalone, signal-based,
 and **zoneless-friendly** — every component is a standalone Angular component with
 the `nui` selector prefix. It ships its **own precompiled CSS**, so you do **not**
 need Tailwind in your app.
@@ -20,9 +20,21 @@ need Tailwind in your app.
 npm install nirengi-ui-kit
 ```
 
-Peer dependencies (Angular 20):
+### Requirements
+
+| Requirement | Supported versions                                            |
+| ----------- | ------------------------------------------------------------- |
+| Angular     | `20.3+`, `21.x` or `22.x`                                     |
+| Node.js     | whatever your Angular version requires (Angular 22 needs `^22.22.3 \|\| ^24.15.0 \|\| >=26.0.0`) |
+
+Peer dependencies — install the Angular major you are already on:
 
 ```bash
+# Angular 22
+npm install @angular/core@^22 @angular/common@^22
+
+# …or Angular 21 / Angular 20
+npm install @angular/core@^21 @angular/common@^21
 npm install @angular/core@^20 @angular/common@^20
 ```
 

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent, ButtonType, Size, ColorVariant } from 'nirengi-ui-kit';
 
@@ -7,6 +7,7 @@ import { ButtonComponent, ButtonType, Size, ColorVariant } from 'nirengi-ui-kit'
   standalone: true,
   imports: [CommonModule, ButtonComponent],
   templateUrl: './button-page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './button-page.scss',
 })
 export class ButtonPageComponent {

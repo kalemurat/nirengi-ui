@@ -36,6 +36,19 @@ Key features:
 - Tree-shakable builds
 - Documentation and examples
 
+## Requirements
+
+| Tool       | Minimum version                                                        |
+| ---------- | ---------------------------------------------------------------------- |
+| Node.js    | `^22.22.3 \|\| ^24.15.0 \|\| >=26.0.0` — required by Angular 22          |
+| npm        | `>=8.0.0`                                                              |
+| Angular    | `20.3+`, `21.x` or `22.x` (the library supports all three)              |
+| TypeScript | `>=6.0 <6.1` — required to build this workspace                         |
+
+> Developing in this repository requires Node.js **22.22.3 or newer** (or 24.15+/26+).
+> Angular 22 refuses to build on older releases. Consumers of the published
+> `nirengi-ui-kit` package only need a Node version their own Angular version supports.
+
 ## Installation
 
 To install the UI kit via npm:

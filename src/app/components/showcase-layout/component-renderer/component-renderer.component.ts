@@ -10,6 +10,7 @@ import {
   DestroyRef,
   signal,
   ComponentRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
@@ -31,6 +32,7 @@ import {
   standalone: true,
   imports: [IconComponent],
   templateUrl: './component-renderer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './component-renderer.component.scss',
 })
 export class ComponentRendererComponent implements AfterViewInit, OnDestroy {

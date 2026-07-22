@@ -1,4 +1,11 @@
-import { Component, signal, computed, DestroyRef, inject } from '@angular/core';
+import {
+  Component,
+  signal,
+  computed,
+  DestroyRef,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +18,7 @@ import { ColorVariant } from 'nirengi-ui-kit';
   standalone: true,
   imports: [ReactiveFormsModule, CheckboxComponent],
   templateUrl: './checkbox-page.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './checkbox-page.component.scss',
 })
 export class CheckboxPageComponent {

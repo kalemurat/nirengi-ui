@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import {
   HeadingComponent,
@@ -14,6 +14,7 @@ import {
   standalone: true,
   imports: [HeadingComponent],
   templateUrl: './heading-page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './heading-page.scss',
 })
 export class HeadingPageComponent {

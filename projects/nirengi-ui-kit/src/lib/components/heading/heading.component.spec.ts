@@ -91,7 +91,9 @@ describe('HeadingComponent', () => {
         fixture.componentRef.setInput('level', level);
         fixture.detectChanges();
         const heading = (fixture.nativeElement as HTMLElement).querySelector('.nui-heading');
-        return Array.from(heading?.classList ?? []).find((cls) => /^nui-heading--(2xs|xs|sm|md|lg|xl)$/.test(cls));
+        return Array.from(heading?.classList ?? []).find((cls) =>
+          /^nui-heading--(2xs|xs|sm|md|lg|xl)$/.test(cls)
+        );
       };
 
       const h5Size = sizeClassForLevel(HeadingLevel.H5);

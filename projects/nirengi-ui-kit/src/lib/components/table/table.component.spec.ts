@@ -45,7 +45,10 @@ const SAMPLE_COLUMNS: ITableColumn[] = [
  */
 async function createFilterableComponent(
   overrides: Record<string, unknown> = {}
-): Promise<{ fixture: ComponentFixture<TableComponent<TestRow>>; component: TableComponent<TestRow> }> {
+): Promise<{
+  fixture: ComponentFixture<TableComponent<TestRow>>;
+  component: TableComponent<TestRow>;
+}> {
   const fixture = TestBed.createComponent<TableComponent<TestRow>>(TableComponent);
   const component = fixture.componentInstance;
 
@@ -73,9 +76,10 @@ async function applyFilterAndWait(
   fixture.detectChanges();
 }
 
-function createComponent(
-  overrides: Record<string, unknown> = {}
-): { fixture: ComponentFixture<TableComponent<TestRow>>; component: TableComponent<TestRow> } {
+function createComponent(overrides: Record<string, unknown> = {}): {
+  fixture: ComponentFixture<TableComponent<TestRow>>;
+  component: TableComponent<TestRow>;
+} {
   const fixture = TestBed.createComponent<TableComponent<TestRow>>(TableComponent);
   const component = fixture.componentInstance;
 
@@ -1398,9 +1402,7 @@ describe('table.component.ts', () => {
       fixture.componentRef.setInput('data', []);
       fixture.componentRef.setInput('emptyTitle', 'No Data Found');
       fixture.detectChanges();
-      const title = (fixture.nativeElement as HTMLElement).querySelector(
-        '.nui-table__empty-title'
-      );
+      const title = (fixture.nativeElement as HTMLElement).querySelector('.nui-table__empty-title');
       expect(title?.textContent?.trim()).toBe('No Data Found');
     });
 

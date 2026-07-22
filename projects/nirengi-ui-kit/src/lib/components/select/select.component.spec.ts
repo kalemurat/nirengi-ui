@@ -297,13 +297,15 @@ describe('select.component.ts', () => {
         expect(component.size()).toBe(Size.Medium);
       });
 
-      ([
-        [Size.XSmall, 'xs'],
-        [Size.Small, 'sm'],
-        [Size.Medium, 'md'],
-        [Size.Large, 'lg'],
-        [Size.XLarge, 'xl'],
-      ] as [Size, string][]).forEach(([size, cls]) => {
+      (
+        [
+          [Size.XSmall, 'xs'],
+          [Size.Small, 'sm'],
+          [Size.Medium, 'md'],
+          [Size.Large, 'lg'],
+          [Size.XLarge, 'xl'],
+        ] as [Size, string][]
+      ).forEach(([size, cls]) => {
         it(`should apply size class '${cls}' for Size.${size}`, () => {
           createComponent((f) => f.componentRef.setInput('size', size));
           fixture.detectChanges();
@@ -544,7 +546,10 @@ describe('select.component.ts', () => {
       });
 
       it('should find object option by object reference (no bindValue)', () => {
-        const opts = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];
+        const opts = [
+          { id: 1, name: 'Alice' },
+          { id: 2, name: 'Bob' },
+        ];
         createComponent((f) => {
           f.componentRef.setInput('options', opts);
         });

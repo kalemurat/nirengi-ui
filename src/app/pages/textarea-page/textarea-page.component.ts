@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -12,6 +12,7 @@ import {
   standalone: true,
   imports: [ReactiveFormsModule, TextareaComponent],
   templateUrl: './textarea-page.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './textarea-page.component.scss',
 })
 export class TextareaPageComponent {

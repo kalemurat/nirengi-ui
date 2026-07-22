@@ -13,6 +13,7 @@ import { ParagraphComponent } from '../paragraph/paragraph.component';
   selector: 'nui-modal-test-content',
   standalone: true,
   imports: [ButtonComponent, ParagraphComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-col gap-4">
       <nui-paragraph>

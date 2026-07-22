@@ -15,6 +15,7 @@ import { ButtonType } from '../button/button.component';
   selector: 'nui-popover-example-content',
   standalone: true,
   imports: [HeadingComponent, ParagraphComponent, ButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="w-64">
       <nui-heading [level]="HeadingLevel.H4" class="mb-2">
