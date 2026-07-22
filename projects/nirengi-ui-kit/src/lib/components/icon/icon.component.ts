@@ -1,14 +1,20 @@
 import { Component, input, ChangeDetectionStrategy, computed } from '@angular/core';
 
-import { ALL_ICONS, IconName } from './icon.types';
+import { IconName } from './icon.types';
 
 /**
- * Renders one of the bundled RemixIcon glyphs as an inline `<svg>`.
+ * Renders one of the bundled RemixIcon glyphs.
  *
- * Icons ship as raw path data generated from the upstream `remixicon` assets, so
- * the kit carries no runtime icon dependency and stays installable on every
- * supported Angular major. The path is bound through `[attr.d]`, never
- * `innerHTML`, so no sanitizer bypass is involved.
+ * The kit vendors RemixIcon's web font rather than wrapping a third-party Angular
+ * icon library, so it carries no runtime icon dependency and stays installable on
+ * every supported Angular major. An icon is a CSS class on an empty element —
+ * nothing about the set reaches your JavaScript bundle, and any name resolves,
+ * literal or computed.
+ *
+ * ⚠️ The stylesheet is a required one-time setup step; without it no icon renders:
+ * ```scss
+ * @use 'nirengi-ui-kit/icons';
+ * ```
  *
  * @see https://remixicon.com — browse names (drop the `ri-` prefix)
  *
@@ -46,9 +52,14 @@ export class IconComponent {
 
   class = input<string>('');
 
-  /** `undefined` for an unknown name, which renders an empty `<svg>` rather than throwing. */
-  protected readonly pathData = computed<string | undefined>(() => ALL_ICONS[this.name()]);
+  /**
+   * Carries the BEM hook as well, because a bound `[class]` and a static `class`
+   * attribute on the same element are two sources for one value. An unknown name
+   * yields a class no rule matches, which renders no glyph rather than throwing.
+   */
+  protected readonly iconClass = computed(() => `nui-icon ri-${this.name()}`);
 
+  /** Drives `font-size`: the glyph fills its em box, so this is the icon's box in px. */
   protected readonly numericSize = computed(() => {
     const size = this.size();
     if (typeof size === 'number') {

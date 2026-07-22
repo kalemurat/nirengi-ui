@@ -50,6 +50,9 @@ Thumbs.db
 # paralel task worktree'leri — asla commit'lenmemeli
 .claude/
 .worktrees/
+# Yerel Claude Code proje talimatlari (takipten cikarildi; her gelistirici kendi
+# kopyasini tutar)
+CLAUDE.md
 
 # npm publish — token'lar asla commit'lenmemeli
 # (.npmrc repoda takipli ve gerçek token içermez; sadece ${NPM_TOKEN} referansı)

@@ -11,7 +11,15 @@
  * ```
  */
 
-export type PropertyType = 'string' | 'number' | 'boolean' | 'enum' | 'array' | 'contentProjection';
+/** `icon` is `enum` whose options are every bundled icon name, fetched lazily. */
+export type PropertyType =
+  | 'string'
+  | 'number'
+  | 'boolean'
+  | 'enum'
+  | 'icon'
+  | 'array'
+  | 'contentProjection';
 
 export interface IPropertyOption {
   /** Kullanıcıya gösterilecek label */

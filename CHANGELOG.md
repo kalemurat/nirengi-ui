@@ -14,21 +14,38 @@ While the library is pre-1.0 the public API may change between minor versions.
   bundled [RemixIcon](https://remixicon.com) set (3229 glyphs) and every icon name
   changed: names are now upstream kebab-case without the `ri-` prefix
   (`House` → `home-line`, `Check` → `check-line`, `X` → `close-line`,
-  `ChevronDown` → `arrow-down-s-line`). `IconName`, `ALL_ICONS`, and `IconNames`
-  keep their shape, so the compiler flags every outdated name.
+  `ChevronDown` → `arrow-down-s-line`). `IconName` keeps its shape, so the compiler
+  flags every outdated name.
 - **BREAKING — `strokeWidth` and `absoluteStrokeWidth` inputs were removed** from
   `<nui-icon>`. RemixIcon is a filled/outlined set with no stroke-width concept;
   pick the `-line` or `-fill` variant of a glyph instead.
-- Icons render as an inline `<svg>` with the path bound through `[attr.d]` — no
-  `innerHTML` and no sanitizer bypass.
+- **BREAKING — the icon stylesheet is now a required setup step.** Icons render
+  from the vendored RemixIcon web font, so `<nui-icon>` needs its CSS. Consumers of
+  `nirengi-ui-kit/styles` get it automatically and need to do nothing. If you build
+  your own stylesheet on `nirengi-ui-kit/theme`, add `@import 'nirengi-ui-kit/icons';`
+  — without it nothing renders, including the icons inside `nui-select`,
+  `nui-datepicker` and `nui-toast`.
+- **Icons no longer cost anything in the JavaScript bundle.** The full set used to
+  be a single eager constant that could not be tree-shaken, adding ~1.27 MB raw
+  (163 kB transfer) to every consumer's initial bundle. An icon is now a CSS class,
+  which also means a name computed at runtime works exactly like a literal one. The
+  showcase's initial transfer went from 411.8 kB back down to 179.3 kB — below the
+  248.6 kB it measured before the RemixIcon switch.
+- `nui-icon` renders an `<i>` carrying the glyph rather than an inline `<svg>`;
+  `color` now drives CSS `color` and `size` drives `font-size`. `currentColor`
+  inheritance, the rendered box size, and `aria-hidden` are unchanged.
 
 ### Removed
 
+- **BREAKING — `ALL_ICONS` and `IconNames` exports.** The font carries the glyphs,
+  so there is no path-data map to expose and no reason to ship a 3229-entry array to
+  every consumer. For an icon picker, `loadNuiIconNames()` resolves the same list in
+  its own lazy chunk: `const names = await loadNuiIconNames();`.
 - **`lucide-angular` runtime dependency.** It declared `@angular/core: 13.x - 21.x`
   and was bundled into the package via `allowedNonPeerDependencies`, which forced
   consumers on Angular 22 to install with `--legacy-peer-deps`. The kit now has no
-  runtime icon dependency at all: path data is generated from the framework-agnostic
-  `remixicon` assets at development time (`npm run generate:icons`) and committed.
+  runtime icon dependency at all: the framework-agnostic `remixicon` CSS and font are
+  vendored at development time (`npm run generate:icons`) and committed.
   Angular 20 support (`^20.3.0 || ^21.0.0 || ^22.0.0`) is unaffected.
 
 ## [0.1.6] - 2026-06-07

@@ -6,6 +6,8 @@
   },
   "assets": [
     { "input": "src/lib/styles", "glob": "theme.css", "output": "." },
+    { "input": "src/lib/styles", "glob": "icons.css", "output": "." },
+    { "input": "src/lib/styles", "glob": "remixicon.woff2", "output": "." },
     { "input": ".", "glob": "tailwind.config.js", "output": "." }
   ],
   "deleteDestPath": true,

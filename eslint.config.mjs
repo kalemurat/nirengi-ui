@@ -10,8 +10,8 @@ export default tseslint.config(
       '**/*.spec.ts',
       'dist/**',
       'node_modules/**',
-      // Generated from the remixicon assets — see scripts/generate-icon-data.mjs
-      'projects/nirengi-ui-kit/src/lib/components/icon/icon-data.ts',
+      // Generated from the remixicon assets — see scripts/generate-icons.mjs
+      'projects/nirengi-ui-kit/src/lib/components/icon/icon-names.ts',
     ],
   },
   {
