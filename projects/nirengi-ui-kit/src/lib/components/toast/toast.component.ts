@@ -10,7 +10,6 @@ import { IconName } from '../icon/icon.types';
  */
 @Component({
   selector: 'nui-toast',
-  standalone: true,
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

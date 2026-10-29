@@ -53,7 +53,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  */
 @Component({
   selector: 'nui-checkbox',
-  standalone: true,
   imports: [],
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss',
@@ -70,7 +69,7 @@ export class CheckboxComponent extends ValueAccessorBase<boolean> {
   /**
    * Unique ID for accessibility.
    */
-  readonly inputId = `nui-checkbox-${Math.random().toString(36).substr(2, 9)}`;
+  readonly inputId = `nui-checkbox-${Math.random().toString(36).substring(2, 11)}`;
 
   /** @default ColorVariant.Primary */
   readonly variant = input<ColorVariant>(ColorVariant.Primary);

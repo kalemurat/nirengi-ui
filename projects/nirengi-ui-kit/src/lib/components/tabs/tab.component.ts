@@ -29,7 +29,6 @@ import { TabLabelDirective } from './tab-label.directive';
  */
 @Component({
   selector: 'nui-tab',
-  standalone: true,
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

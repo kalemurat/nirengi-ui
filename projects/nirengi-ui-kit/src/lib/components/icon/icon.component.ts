@@ -24,7 +24,6 @@ import { IconName } from './icon.types';
  */
 @Component({
   selector: 'nui-icon',
-  standalone: true,
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

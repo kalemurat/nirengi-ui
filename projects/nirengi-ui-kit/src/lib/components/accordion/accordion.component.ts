@@ -6,7 +6,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { Size } from '../../common/enums/size.enum';
 
@@ -36,8 +36,7 @@ export type AccordionStatus = 'default' | 'primary' | 'success' | 'warning' | 'd
  */
 @Component({
   selector: 'nui-accordion',
-  standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [NgTemplateOutlet, IconComponent],
   templateUrl: './accordion.component.html',
   styleUrl: './accordion.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

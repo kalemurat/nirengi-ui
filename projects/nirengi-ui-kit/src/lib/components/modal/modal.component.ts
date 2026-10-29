@@ -4,12 +4,11 @@ import {
   ChangeDetectionStrategy,
   computed,
   inject,
-  HostListener,
   Type,
   TemplateRef,
   effect,
 } from '@angular/core';
-import { CommonModule, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
+import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import { IModalData, ModalSize } from './modal.types';
 import { MODAL_SERVICE } from './modal.token';
 import { HeadingComponent, HeadingLevel, HeadingWeight } from '../heading/heading.component';
@@ -26,15 +25,7 @@ import { Size } from '../../common/enums/size.enum';
  */
 @Component({
   selector: 'nui-modal',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgComponentOutlet,
-    NgTemplateOutlet,
-    HeadingComponent,
-    IconComponent,
-    ButtonComponent,
-  ],
+  imports: [NgComponentOutlet, NgTemplateOutlet, HeadingComponent, IconComponent, ButtonComponent],
   template: `
     <div class="nui-modal" [attr.role]="'dialog'" [attr.aria-modal]="true">
       <!-- Backdrop: decorative click target; keyboard users dismiss via the ESC key (handled on the host). -->
@@ -122,6 +113,9 @@ import { Size } from '../../common/enums/size.enum';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(document:keydown.escape)': 'onEscKey()',
+  },
 })
 export class ModalComponent {
   readonly data = input.required<IModalData>();
@@ -179,7 +173,6 @@ export class ModalComponent {
   }
 
   /** Only closes if this is the top-most modal in the stack. */
-  @HostListener('document:keydown.escape')
   onEscKey(): void {
     if (this.data().options.escClose !== false) {
       // Only the top-most modal in the stack should respond to ESC

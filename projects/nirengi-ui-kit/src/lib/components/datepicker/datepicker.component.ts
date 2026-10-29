@@ -1,5 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -104,8 +104,7 @@ const RANGE_SEPARATOR = ' - ';
  */
 @Component({
   selector: 'nui-datepicker',
-  standalone: true,
-  imports: [CommonModule, OverlayModule, FormsModule, IconComponent],
+  imports: [DatePipe, DecimalPipe, OverlayModule, FormsModule, IconComponent],
   templateUrl: './datepicker.component.html',
   styleUrl: './datepicker.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -122,7 +121,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   readonly label = input<string>('');
   readonly placeholder = input<string>('Select date');
-  readonly id = input<string>(`datepicker-${Math.random().toString(36).substr(2, 9)}`);
+  readonly id = input<string>(`datepicker-${Math.random().toString(36).substring(2, 11)}`);
   readonly minDate = input<Date | null>(null);
   readonly maxDate = input<Date | null>(null);
   readonly disabled = input<boolean>(false);

@@ -66,7 +66,6 @@ export enum ParagraphWeight {
  */
 @Component({
   selector: 'nui-paragraph',
-  standalone: true,
   imports: [],
   templateUrl: './paragraph.component.html',
   styleUrl: './paragraph.component.scss',

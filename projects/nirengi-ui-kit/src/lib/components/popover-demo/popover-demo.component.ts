@@ -13,7 +13,6 @@ import { ButtonType } from '../button/button.component';
 
 @Component({
   selector: 'nui-popover-example-content',
-  standalone: true,
   imports: [HeadingComponent, ParagraphComponent, ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -75,7 +74,6 @@ export class PopoverExampleContentComponent {
 
 @Component({
   selector: 'nui-popover-demo',
-  standalone: true,
   imports: [PopoverDirective, ButtonComponent, JsonPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

@@ -6,7 +6,6 @@ import { ToastComponent } from './toast.component';
 /** Should be placed once in the application root. */
 @Component({
   selector: 'nui-toast-container',
-  standalone: true,
   imports: [ToastComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

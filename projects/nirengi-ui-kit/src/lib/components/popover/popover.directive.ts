@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  HostListener,
   inject,
   input,
   OnDestroy,
@@ -114,7 +113,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
  */
 @Directive({
   selector: '[nuiPopover]',
-  standalone: true,
+  host: {
+    '(click)': 'toggle($event)',
+  },
 })
 export class PopoverDirective implements OnDestroy {
   readonly nuiPopover = input.required<Type<unknown>>();
@@ -159,7 +160,6 @@ export class PopoverDirective implements OnDestroy {
     });
   }
 
-  @HostListener('click', ['$event'])
   toggle(event: MouseEvent): void {
     event.stopPropagation();
     if (this.isVisible) {

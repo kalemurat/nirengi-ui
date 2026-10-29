@@ -10,7 +10,6 @@ import { Size } from '../../common/enums/size.enum';
 
 @Component({
   selector: 'nui-tabs-demo',
-  standalone: true,
   imports: [TabsComponent, TabComponent, HeadingComponent, ParagraphComponent],
   template: `
     <div class="flex flex-col gap-8">

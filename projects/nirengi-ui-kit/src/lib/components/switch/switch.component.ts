@@ -20,7 +20,6 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
  */
 @Component({
   selector: 'nui-switch',
-  standalone: true,
   imports: [],
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss'],
@@ -47,7 +46,7 @@ export class SwitchComponent extends ValueAccessorBase<boolean> {
   readonly label = input<string>();
 
   /** @default auto-generated random id */
-  readonly id = input<string>(`nui-switch-${Math.random().toString(36).substr(2, 9)}`);
+  readonly id = input<string>(`nui-switch-${Math.random().toString(36).substring(2, 11)}`);
 
   /** Dumb/controlled-mode disabled binding. */
   // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias

@@ -6,7 +6,6 @@ import { ModalComponent } from './modal.component';
 /** Place once in app root (e.g. app.component.html) to enable modals. */
 @Component({
   selector: 'nui-modal-container',
-  standalone: true,
   imports: [ModalComponent],
   template: `
     @for (modal of modals(); track modal.id) {
