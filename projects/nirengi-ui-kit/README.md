@@ -269,7 +269,25 @@ const names = await loadNuiIconNames();
 also sets `aria-invalid`. The built-in texts are English by default; override them with `SELECT_INTL`:
 
 ```ts
-providers: [{ provide: SELECT_INTL, useValue: { searchPlaceholder: 'Ara...', noResults: 'Sonuç bulunamadı.' } }]
+providers: [{ provide: SELECT_INTL, useValue: { searchPlaceholder: 'Ara...', noResults: 'Sonuç bulunamadı.', loading: 'Yükleniyor...' } }]
+```
+
+For options loaded from a server, let the consumer do the searching: `searchChange` emits the trimmed
+term (not debounced, so debounce it yourself; it also emits `''` when the list closes with a term
+typed), `[filterLocally]="false"` makes the list show `options` exactly as given, and `[loading]`
+shows the loading text in the empty-state slot while you fetch. The selected label stays visible
+when a new `options` list no longer contains it.
+
+```html
+<nui-select
+  [options]="results()"
+  bindLabel="name"
+  bindValue="id"
+  [searchable]="true"
+  [filterLocally]="false"
+  [loading]="loading()"
+  (searchChange)="search$.next($event)"
+  [(ngModel)]="customerId" />
 ```
 
 **Datepicker** — `nirengi-ui-kit/components/datepicker/datepicker.component`

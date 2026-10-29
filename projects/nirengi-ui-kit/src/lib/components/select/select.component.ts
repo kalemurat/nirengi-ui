@@ -11,6 +11,8 @@ import {
   forwardRef,
   viewChild,
   effect,
+  output,
+  untracked,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -163,6 +165,27 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
   readonly searchTerm = signal<string>('');
 
   /**
+   * Whether `searchable` filters `options` inside the component. Turn it off when the consumer
+   * answers `searchChange` with options it loads itself (for example from a server): the list
+   * then shows `options` exactly as given.
+   * @default true
+   */
+  readonly filterLocally = input<boolean>(true);
+
+  /**
+   * Shows the loading text in the empty-state slot of the open list while the consumer fetches
+   * options. The list keeps showing any options it already has, marked `aria-busy`.
+   * @default false
+   */
+  readonly loading = input<boolean>(false);
+
+  /**
+   * Emits the trimmed search term whenever the user types in the search input, and an empty
+   * string when the list closes with a term still typed. Not debounced: debounce in the consumer.
+   */
+  readonly searchChange = output<string>();
+
+  /**
    * Index of the option currently referenced by `aria-activedescendant`.
    * `-1` means no option is active. DOM focus stays on the combobox element while this
    * moves (see `searchIsCombobox`), per the WAI-ARIA APG combobox pattern.
@@ -220,7 +243,7 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     const term = this.searchTerm().toLowerCase();
     const allOptions = this.options();
 
-    if (!term) return allOptions;
+    if (!term || !this.filterLocally()) return allOptions;
 
     return allOptions.filter((opt) => {
       const label = this.getLabel(opt).toString().toLowerCase();
@@ -236,10 +259,15 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     const opts = this.options();
     const bindVal = this.bindValue();
 
-    // Helper to find an option by its value
+    // Helper to find an option by its value. An option that a replaced `options` list no longer
+    // contains (a new server page) falls back to the object remembered while it was listed, so
+    // the selected label stays visible.
     const findOption = (val: unknown) => {
       if (!bindVal) return val; // Value is the object itself
-      return opts.find((o) => (o as Record<string, unknown>)[bindVal] === val);
+      return (
+        opts.find((o) => (o as Record<string, unknown>)[bindVal] === val) ??
+        this.rememberedSelection.get(val)
+      );
     };
 
     if (this.multiple()) {
@@ -250,6 +278,12 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
       return opt ? [opt] : [];
     }
   });
+
+  /**
+   * Option objects of the current selection by value, refreshed whenever the selection or
+   * `options` change. Rebuilt from the current selection only, so it never outgrows it.
+   */
+  private rememberedSelection = new Map<unknown, unknown>();
 
   /**
    * Value for the active combobox element's `aria-activedescendant`.
@@ -340,6 +374,25 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
       });
     });
 
+    // Remember the selected option objects so their labels survive an `options` replacement.
+    effect(() => {
+      this.rememberedSelection = new Map(
+        this.selectedItems().map((item) => [this.getValue(item), item])
+      );
+    });
+
+    // `options` were replaced while the list is open (a new server page): re-anchor the active
+    // option so aria-activedescendant never points past the end of the new list. The panel and
+    // the typed search text are left untouched.
+    effect(() => {
+      this.options();
+      untracked(() => {
+        if (this.isOpen()) {
+          this.activeIndex.set(this.filteredOptions().length > 0 ? 0 : -1);
+        }
+      });
+    });
+
     // Close dropdown when disabled changes to true
     effect(() => {
       if (this.isDisabled()) {
@@ -379,9 +432,16 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
       this.activeIndex.set(this.indexOfSelected());
     } else {
       this.onTouched();
-      this.searchTerm.set('');
+      this.resetSearch();
       this.activeIndex.set(-1);
     }
+  }
+
+  /** Clears the typed term; a consumer that searches remotely is told so it can reload its list. */
+  private resetSearch(): void {
+    if (this.searchTerm() === '') return;
+    this.searchTerm.set('');
+    this.searchChange.emit('');
   }
 
   /** Index of the first selected option within the filtered list, or 0 when none matches. */
@@ -506,7 +566,7 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     if (this.isOpen()) {
       this.isOpen.set(false);
       this.onTouched();
-      this.searchTerm.set('');
+      this.resetSearch();
       this.activeIndex.set(-1);
       if (restoreFocus) {
         this.triggerElement()?.nativeElement.focus();
@@ -578,6 +638,7 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
   onSearch(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
     this.searchTerm.set(val);
+    this.searchChange.emit(val.trim());
     // The filtered list just changed; re-anchor the active option so
     // aria-activedescendant never points past the end of the new list.
     this.activeIndex.set(this.filteredOptions().length > 0 ? 0 : -1);
