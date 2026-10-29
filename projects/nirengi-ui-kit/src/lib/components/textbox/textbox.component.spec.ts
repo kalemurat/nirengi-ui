@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TextboxComponent } from './textbox.component';
 import { DEFAULT_TEXTBOX_INTL, ITextboxIntl, TEXTBOX_INTL } from './textbox-intl.token';
 
@@ -27,6 +28,98 @@ describe('textbox.component.ts', () => {
   function clearButton(): HTMLButtonElement | null {
     return fixture.nativeElement.querySelector('.nui-textbox__clear');
   }
+
+  describe('value and state', () => {
+    function inputEl(): HTMLInputElement {
+      return fixture.nativeElement.querySelector('input');
+    }
+
+    it('should report typed text through the control value', async () => {
+      await setup();
+      const onChange = vi.fn();
+      component.registerOnChange(onChange);
+      inputEl().value = 'typed';
+      inputEl().dispatchEvent(new Event('input'));
+      expect(component.value()).toBe('typed');
+      expect(onChange).toHaveBeenCalledWith('typed');
+    });
+
+    it('should apply the size and variant classes to the wrapper and input', async () => {
+      await setup();
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.componentRef.setInput('variant', 'danger');
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.nui-textbox--lg.nui-textbox--danger')
+      ).not.toBeNull();
+      expect(inputEl().classList).toContain('nui-textbox__input--lg');
+    });
+
+    it('should scale the clear icon with the size', async () => {
+      await setup();
+      const sizes = { '2xs': 18, xs: 14, sm: 16, md: 18, lg: 20, xl: 24 } as const;
+      for (const [size, px] of Object.entries(sizes)) {
+        fixture.componentRef.setInput('size', size);
+        fixture.detectChanges();
+        expect((component as unknown as { iconSize(): number }).iconSize()).toBe(px);
+      }
+    });
+
+    it('should hide the clear button and ignore clearValue when disabled or readonly', async () => {
+      await setup();
+      fixture.componentRef.setInput('readonly', true);
+      fixture.detectChanges();
+      expect(clearButton()).toBeNull();
+      component.clearValue();
+      expect(component.value()).toBe('hello');
+
+      fixture.componentRef.setInput('readonly', false);
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      expect(clearButton()).toBeNull();
+      component.clearValue();
+      expect(component.value()).toBe('hello');
+    });
+
+    it('should take its value from the value input', async () => {
+      await setup();
+      fixture.componentRef.setInput('value', 'from input');
+      fixture.detectChanges();
+      expect(component.value()).toBe('from input');
+    });
+  });
+
+  describe('reactive forms', () => {
+    it('should read and write the value of a bound FormControl, including the clear button', async () => {
+      @Component({
+        imports: [TextboxComponent, ReactiveFormsModule],
+        template: `<nui-textbox [clearable]="true" [formControl]="control" />`,
+      })
+      class HostComponent {
+        readonly control = new FormControl('start');
+      }
+
+      TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [HostComponent],
+        providers: [provideZonelessChangeDetection()],
+      }).compileComponents();
+      const host = TestBed.createComponent(HostComponent);
+      host.detectChanges();
+      await host.whenStable();
+
+      const input = host.nativeElement.querySelector('input') as HTMLInputElement;
+      expect(input.value).toBe('start');
+
+      input.value = 'next';
+      input.dispatchEvent(new Event('input'));
+      expect(host.componentInstance.control.value).toBe('next');
+
+      host.detectChanges();
+      (host.nativeElement.querySelector('.nui-textbox__clear') as HTMLButtonElement).click();
+      expect(host.componentInstance.control.value).toBe('');
+    });
+  });
 
   describe('clear button', () => {
     it('should clear the value on click', async () => {
