@@ -14,7 +14,6 @@ import { Directive, inject, TemplateRef } from '@angular/core';
  */
 @Directive({
   selector: '[nuiTabLabel]',
-  standalone: true,
 })
 export class TabLabelDirective {
   readonly template = inject(TemplateRef);

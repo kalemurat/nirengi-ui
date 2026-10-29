@@ -8,7 +8,6 @@ import { TooltipPosition } from './tooltip.types';
  */
 @Component({
   selector: 'nui-tooltip',
-  standalone: true,
   imports: [],
   template: `
     <div [class]="containerClasses()">

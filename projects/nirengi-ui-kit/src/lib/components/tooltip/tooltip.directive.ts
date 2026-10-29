@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  HostListener,
   inject,
   input,
   OnDestroy,
@@ -27,7 +26,10 @@ import { TooltipPosition } from './tooltip.types';
  */
 @Directive({
   selector: '[nuiTooltip]',
-  standalone: true,
+  host: {
+    '(mouseenter)': 'show()',
+    '(mouseleave)': 'hide()',
+  },
 })
 export class TooltipDirective implements OnDestroy {
   readonly nuiTooltip = input.required<string>();
@@ -53,7 +55,6 @@ export class TooltipDirective implements OnDestroy {
     });
   }
 
-  @HostListener('mouseenter')
   show(): void {
     if (this.overlayRef) {
       // Don't show if already exists (or close and open)
@@ -80,7 +81,6 @@ export class TooltipDirective implements OnDestroy {
     });
   }
 
-  @HostListener('mouseleave')
   hide(): void {
     if (this.tooltipRef) {
       this.tooltipRef.setInput('visible', false);

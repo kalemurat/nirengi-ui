@@ -6,7 +6,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { TabComponent } from './tab.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -24,8 +24,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  */
 @Component({
   selector: 'nui-tabs',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [NgTemplateOutlet],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

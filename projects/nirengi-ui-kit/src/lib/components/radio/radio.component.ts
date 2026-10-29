@@ -50,7 +50,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  */
 @Component({
   selector: 'nui-radio',
-  standalone: true,
   imports: [],
   templateUrl: './radio.component.html',
   styleUrl: './radio.component.scss',
@@ -65,7 +64,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 })
 export class RadioComponent extends ValueAccessorBase<unknown> {
   /** Unique ID for accessibility. */
-  readonly inputId = `nui-radio-${Math.random().toString(36).substr(2, 9)}`;
+  readonly inputId = `nui-radio-${Math.random().toString(36).substring(2, 11)}`;
 
   /** When the model value matches this value, the radio becomes checked. */
   // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias

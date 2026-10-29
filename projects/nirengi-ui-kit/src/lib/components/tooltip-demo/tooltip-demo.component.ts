@@ -7,7 +7,6 @@ import { ButtonComponent, ButtonType } from '../button/button.component';
 /** Demo component that showcases TooltipDirective inside the nirengi-ui-kit showcase system. */
 @Component({
   selector: 'nui-tooltip-demo',
-  standalone: true,
   imports: [TooltipDirective, ButtonComponent],
   template: `
     <div

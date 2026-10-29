@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, provideZonelessChangeDetection, ViewEncapsulation } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { SelectComponent } from './select.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
@@ -366,6 +367,16 @@ describe('select.component.ts', () => {
       it('should accept false', () => {
         createComponent((f) => f.componentRef.setInput('appendToBody', false));
         expect(component.appendToBody()).toBe(false);
+      });
+
+      it('should render the panel as an inline popover so it works inside a modal dialog', () => {
+        createComponent();
+        component.toggleDropdown();
+        fixture.detectChanges();
+        const overlay = fixture.debugElement
+          .queryAllNodes(By.directive(CdkConnectedOverlay))[0]
+          .injector.get(CdkConnectedOverlay);
+        expect(overlay.usePopover).toBe('inline');
       });
     });
   });

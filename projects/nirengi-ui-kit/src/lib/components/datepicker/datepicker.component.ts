@@ -1,5 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -104,8 +104,7 @@ const RANGE_SEPARATOR = ' - ';
  */
 @Component({
   selector: 'nui-datepicker',
-  standalone: true,
-  imports: [CommonModule, OverlayModule, FormsModule, IconComponent],
+  imports: [DatePipe, DecimalPipe, OverlayModule, FormsModule, IconComponent],
   templateUrl: './datepicker.component.html',
   styleUrl: './datepicker.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -122,11 +121,19 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   readonly label = input<string>('');
   readonly placeholder = input<string>('Select date');
-  readonly id = input<string>(`datepicker-${Math.random().toString(36).substr(2, 9)}`);
+  readonly id = input<string>(`datepicker-${Math.random().toString(36).substring(2, 11)}`);
   readonly minDate = input<Date | null>(null);
   readonly maxDate = input<Date | null>(null);
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
+
+  /**
+   * Marks the field as mandatory for assistive technology via `aria-required`. The native
+   * `required` attribute is deliberately not used, so the browser's own constraint-validation
+   * bubble never appears on a field whose typed text the component parses itself.
+   * @default false
+   */
+  readonly required = input<boolean>(false);
 
   /** Shows a clear button when a value is selected. @default false */
   readonly clearable = input<boolean>(false);
@@ -245,6 +252,20 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly weekDayLabels = computed(() => this.formatWeekDays('EEEE'));
 
   readonly titleId = computed(() => `${this.id()}-calendar-title`);
+
+  /** Id of the hint text, referenced by the input's `aria-describedby`. */
+  readonly hintId = computed(() => `${this.id()}-hint`);
+
+  /** Id of the error text, referenced by the input's `aria-describedby`. */
+  readonly errorId = computed(() => `${this.id()}-error`);
+
+  /**
+   * Id of the text currently shown under the field (the error wins over the hint, mirroring the
+   * template), or null when none is rendered so the attribute never references a missing element.
+   */
+  readonly describedBy = computed(() =>
+    this.error() ? this.errorId() : this.hint() ? this.hintId() : null
+  );
 
   /** Safely typed range value for template access. */
   readonly rangeValue = computed(() => {

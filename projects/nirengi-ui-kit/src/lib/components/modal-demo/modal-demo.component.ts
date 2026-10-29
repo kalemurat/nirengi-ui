@@ -11,7 +11,6 @@ import { ParagraphComponent } from '../paragraph/paragraph.component';
 
 @Component({
   selector: 'nui-modal-test-content',
-  standalone: true,
   imports: [ButtonComponent, ParagraphComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -43,7 +42,6 @@ export class ModalTestContentComponent {
 
 @Component({
   selector: 'nui-modal-demo',
-  standalone: true,
   imports: [ButtonComponent, ModalContainerComponent, HeadingComponent, JsonPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

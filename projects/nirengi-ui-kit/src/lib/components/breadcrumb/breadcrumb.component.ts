@@ -1,5 +1,5 @@
 import { Component, input, computed, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Size } from '../../common/enums/size.enum';
 
@@ -41,8 +41,7 @@ export interface IBreadcrumbItem {
  */
 @Component({
   selector: 'nui-breadcrumb',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [NgTemplateOutlet, RouterLink],
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

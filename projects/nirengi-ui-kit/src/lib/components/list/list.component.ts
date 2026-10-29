@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, TemplateRef } from '@angular/core';
 
 /** Requires a unique `id` on every list item for efficient tracking. */
@@ -22,8 +22,7 @@ export interface IListItem {
  */
 @Component({
   selector: 'nui-list',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [NgTemplateOutlet],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -324,6 +324,38 @@ describe('datepicker.component.ts', () => {
   });
 
   describe('Accessibility semantics', () => {
+    it('should expose no required, invalid or description state by default', async () => {
+      await createComponent();
+
+      expect(inputEl().hasAttribute('aria-required')).toBe(false);
+      expect(inputEl().hasAttribute('aria-invalid')).toBe(false);
+      expect(inputEl().hasAttribute('aria-describedby')).toBe(false);
+    });
+
+    it('should expose aria-required without the native required attribute', async () => {
+      await createComponent({ required: true });
+
+      expect(inputEl().getAttribute('aria-required')).toBe('true');
+      expect(inputEl().required).toBe(false);
+    });
+
+    it('should describe the input by the hint while only a hint is shown', async () => {
+      await createComponent({ id: 'due', hint: 'dd.MM.yyyy' });
+
+      expect(inputEl().getAttribute('aria-describedby')).toBe('due-hint');
+      expect(document.getElementById('due-hint')!.textContent).toContain('dd.MM.yyyy');
+      expect(inputEl().hasAttribute('aria-invalid')).toBe(false);
+    });
+
+    it('should mark the input invalid and describe it by the error while an error is shown', async () => {
+      await createComponent({ id: 'due', hint: 'dd.MM.yyyy', error: 'Enter a date.' });
+
+      expect(inputEl().getAttribute('aria-invalid')).toBe('true');
+      expect(inputEl().getAttribute('aria-describedby')).toBe('due-error');
+      expect(document.getElementById('due-error')!.textContent).toContain('Enter a date.');
+      expect(document.getElementById('due-hint')).toBeNull();
+    });
+
     it('should expose a labelled grid with full-date gridcells and roving tabindex', async () => {
       await createComponent();
       component.writeValue(new Date(2026, 9, 29));

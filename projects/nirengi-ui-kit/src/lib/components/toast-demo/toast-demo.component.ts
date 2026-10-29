@@ -11,7 +11,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 
 @Component({
   selector: 'nui-toast-demo',
-  standalone: true,
   imports: [ButtonComponent, ToastComponent, ToastContainerComponent],
   providers: [{ provide: TOAST, useExisting: ToastService }],
   changeDetection: ChangeDetectionStrategy.OnPush,

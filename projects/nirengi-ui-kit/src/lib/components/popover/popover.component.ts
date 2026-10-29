@@ -1,13 +1,12 @@
 import { Component, ChangeDetectionStrategy, input, Type, computed, Injector } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgComponentOutlet } from '@angular/common';
 import { PopoverPosition } from './popover.types';
 import { PopoverRef } from './popover.ref';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'nui-popover',
-  standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [NgComponentOutlet, IconComponent],
   template: `
     <div [class]="containerClasses()">
       <button class="popover__close" (click)="closePopover()" title="Kapat">
