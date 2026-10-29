@@ -30,6 +30,9 @@
       autocomplete="off"
       [readonly]="readonly()"
       [disabled]="isDisabled()"
+      [attr.aria-required]="required() ? 'true' : null"
+      [attr.aria-invalid]="error() ? 'true' : null"
+      [attr.aria-describedby]="describedBy()"
       [value]="formattedValue()"
       [placeholder]="placeholder()"
       [class]="inputClasses()"
@@ -60,11 +63,11 @@
   </div>
 
   @if (hint() && !error()) {
-    <div class="datepicker__hint" [title]="hint()">{{ hint() }}</div>
+    <div class="datepicker__hint" [id]="hintId()" [title]="hint()">{{ hint() }}</div>
   }
 
   @if (error()) {
-    <div class="datepicker__error" [title]="error()">
+    <div class="datepicker__error" [id]="errorId()" [title]="error()">
       {{ error() }}
     </div>
   }
