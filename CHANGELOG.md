@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Since `1.0.0` the public API is stable: breaking changes only ship in a new major
 version. Before `1.0.0` the API could change between minor versions.
 
+## [1.0.1] - 2026-10-29
+
+### Added
+
+- `nui-datepicker` accepts a `required` input that sets `aria-required` on the text
+  input. The native `required` attribute is deliberately not used, so the browser's
+  own validation bubble never appears on a field whose typed text the component
+  parses itself.
+
+### Fixed
+
+- `nui-datepicker` input now reports its invalid state with `aria-invalid` and
+  references the visible hint or error text through `aria-describedby`, so screen
+  readers announce them.
+- `nui-select` options can be picked inside a modal `<dialog>`. The panel is now
+  rendered as an inline popover in the top layer instead of an overlay behind the
+  dialog.
+
+### Changed
+
+- Library code is aligned with Angular 22: redundant `standalone: true` flags and
+  `CommonModule` imports are removed and host listeners are declared in the `host`
+  metadata. There is no change to the public API, and the peer range stays
+  `^21.0.0 || ^22.0.0`.
+
 ## [1.0.0] - 2026-10-29
 
 First stable release. The public API is now covered by Semantic Versioning, so
@@ -181,6 +206,7 @@ component library (selector prefix `nui`), built with `ng-packagr`.
 - Prevented the popover from immediately closing on open in production builds and
   fixed a popover directive memory leak.
 
+[1.0.1]: https://github.com/kalemurat/nirengi-ui/releases/tag/v1.0.1
 [1.0.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v1.0.0
 [0.2.1]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.1
 [0.2.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.0
