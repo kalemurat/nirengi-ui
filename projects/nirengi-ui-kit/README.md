@@ -321,6 +321,18 @@ providers: [{ provide: DATEPICKER_INTL, useValue: { toggleCalendar: 'Takvimi aç
 </nui-tabs>
 ```
 
+The active tab is controllable: `[activeIndex]` opens a given tab (for example one read from the URL),
+`[(activeIndex)]` also follows the user's clicks, and `(activeIndexChange)` emits the clicked tab's
+index. A disabled or out-of-range index never activates that tab; the first enabled tab is shown
+instead and the bound value is left as given.
+
+```html
+<nui-tabs [(activeIndex)]="tabIndex">
+  <nui-tab label="Profile">Profile content</nui-tab>
+  <nui-tab label="Security">Security content</nui-tab>
+</nui-tabs>
+```
+
 **Tooltip** — `nirengi-ui-kit/components/tooltip` (directive)
 
 ```html
