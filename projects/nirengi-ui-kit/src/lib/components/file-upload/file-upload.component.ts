@@ -26,7 +26,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  */
 @Component({
   selector: 'nui-file-upload',
-  standalone: true,
   imports: [ButtonComponent],
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],

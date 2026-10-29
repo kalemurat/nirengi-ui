@@ -10,7 +10,7 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet, JsonPipe } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs/operators';
@@ -40,8 +40,7 @@ export interface ITableColumn {
  */
 @Component({
   selector: 'nui-table',
-  standalone: true,
-  imports: [CommonModule, ScrollingModule, FormsModule, SelectComponent],
+  imports: [NgTemplateOutlet, JsonPipe, ScrollingModule, FormsModule, SelectComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -175,12 +175,17 @@
 
     <!-- Overlay Mode -->
     @if (appendToBody() && isOpen() && !isDisabled()) {
+      <!--
+        'inline' renders the panel as a native popover next to the trigger: the top layer keeps it
+        above a modal <dialog>, and staying inside the dialog's subtree keeps it out of the inert area.
+      -->
       <ng-template
         cdkConnectedOverlay
         [cdkConnectedOverlayOrigin]="trigger"
         [cdkConnectedOverlayOpen]="isOpen()"
         [cdkConnectedOverlayWidth]="triggerWidth() || '100%'"
         [cdkConnectedOverlayPanelClass]="overlayPanelClasses()"
+        [cdkConnectedOverlayUsePopover]="'inline'"
         (backdropClick)="close()"
         [cdkConnectedOverlayHasBackdrop]="true"
         [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"

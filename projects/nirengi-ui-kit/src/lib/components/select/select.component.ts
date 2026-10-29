@@ -6,14 +6,13 @@ import {
   contentChild,
   TemplateRef,
   ElementRef,
-  HostListener,
   inject,
   ChangeDetectionStrategy,
   forwardRef,
   viewChild,
   effect,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
@@ -56,8 +55,7 @@ import { DEFAULT_SELECT_INTL, ISelectIntl, SELECT_INTL } from './select-intl.tok
  */
 @Component({
   selector: 'nui-select',
-  standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent, OverlayModule],
+  imports: [NgTemplateOutlet, FormsModule, IconComponent, OverlayModule],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,6 +66,9 @@ import { DEFAULT_SELECT_INTL, ISelectIntl, SELECT_INTL } from './select-intl.tok
       multi: true,
     },
   ],
+  host: {
+    '(document:click)': 'onClickOutside($event)',
+  },
 })
 export class SelectComponent extends ValueAccessorBase<unknown> {
   private elementRef = inject(ElementRef);
@@ -76,7 +77,7 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
    * Unique ID for accessibility.
    * Randomly generated, but care must be taken during hydration for SSR compatibility.
    */
-  readonly inputId = `nui-select-${Math.random().toString(36).substr(2, 9)}`;
+  readonly inputId = `nui-select-${Math.random().toString(36).substring(2, 11)}`;
 
   /**
    * Id of the visible label element.
@@ -486,7 +487,6 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     }
   }
 
-  @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.close();

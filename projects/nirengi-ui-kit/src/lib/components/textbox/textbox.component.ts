@@ -34,7 +34,6 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
 
 @Component({
   selector: 'nui-textbox',
-  standalone: true,
   imports: [FormsModule, IconComponent],
   templateUrl: './textbox.component.html',
   styleUrl: './textbox.component.scss',
@@ -51,7 +50,7 @@ export class TextboxComponent extends ValueAccessorBase<string> {
   /**
    * Unique ID for accessibility.
    */
-  readonly inputId = `nui-textbox-${Math.random().toString(36).substr(2, 9)}`;
+  readonly inputId = `nui-textbox-${Math.random().toString(36).substring(2, 11)}`;
 
   readonly label = input<string>();
 

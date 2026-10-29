@@ -53,7 +53,6 @@ export enum ButtonType {
  */
 @Component({
   selector: 'nui-button',
-  standalone: true,
   imports: [],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',

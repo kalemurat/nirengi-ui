@@ -38,7 +38,6 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
  */
 @Component({
   selector: 'nui-textarea',
-  standalone: true,
   imports: [FormsModule, IconComponent],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss',
@@ -53,7 +52,7 @@ import { ColorVariant } from '../../common/enums/color-variant.enum';
 })
 export class TextareaComponent extends ValueAccessorBase<string> {
   /** Unique ID auto-generated per instance; used to link label and textarea for accessibility. */
-  readonly textareaId = `nui-textarea-${Math.random().toString(36).substr(2, 9)}`;
+  readonly textareaId = `nui-textarea-${Math.random().toString(36).substring(2, 11)}`;
 
   readonly label = input<string>();
 

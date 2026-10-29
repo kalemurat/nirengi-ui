@@ -76,7 +76,6 @@ export enum HeadingWeight {
  */
 @Component({
   selector: 'nui-heading',
-  standalone: true,
   imports: [],
   templateUrl: './heading.component.html',
   styleUrl: './heading.component.scss',
