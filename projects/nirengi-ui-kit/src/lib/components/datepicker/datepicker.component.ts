@@ -1,18 +1,25 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
+  ElementRef,
   forwardRef,
+  inject,
+  Injector,
   input,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
+  addDays,
   addMonths,
+  addYears,
   eachDayOfInterval,
   endOfMonth,
   endOfWeek,
@@ -23,12 +30,15 @@ import {
   isToday,
   isValid,
   isWithinInterval,
+  parse,
   parseISO,
   setHours,
   setMinutes,
+  startOfDay,
   startOfMonth,
   startOfWeek,
   subMonths,
+  subYears,
 } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { IconComponent } from '../icon/icon.component';
@@ -36,10 +46,23 @@ import { IconName } from '../icon/icon.types';
 import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
 import { Size } from '../../common/enums/size.enum';
+import { DATEPICKER_INTL, IDatepickerIntl, DEFAULT_DATEPICKER_INTL } from './datepicker-intl.token';
 
 export type DateValues = Date | { start: Date | null; end: Date | null };
 
 export type DatepickerSelectionMode = 'single' | 'range';
+
+/** `'date'` reports `Date` objects to the form control; `'iso-date'` reports local ISO strings. */
+export type DatepickerValueFormat = 'date' | 'iso-date';
+
+/** Value reported to the bound form control, shaped by `valueFormat`. */
+export type DatepickerModelValue =
+  | DateValues
+  | string
+  | { start: string | null; end: string | null };
+
+/** Separator between start and end in the displayed (and typed) range text. */
+const RANGE_SEPARATOR = ' - ';
 
 /**
  * @example
@@ -64,6 +87,16 @@ export type DatepickerSelectionMode = 'single' | 'range';
  *   [variant]="ColorVariant.Success"
  *   [size]="Size.Large"
  *   label="Start Date"></nui-datepicker>
+ *
+ * @example
+ * // Store the value as a 'yyyy-MM-dd' string
+ * <nui-datepicker [formControl]="dueDateControl" valueFormat="iso-date"></nui-datepicker>
+ *
+ * Dates can be typed into the input in the display format (`dd.MM.yyyy` by default) and committed
+ * with Enter or on blur. ArrowDown opens the calendar; inside it the arrow keys, Home/End and
+ * PageUp/PageDown (Shift for years) move between days, Enter selects and Escape closes, returning
+ * focus to the input (WAI-ARIA APG date picker pattern). Accessible names are overridable via
+ * {@link DATEPICKER_INTL}.
  *
  * @see {@link ValueAccessorBase}
  * @see {@link Size}
@@ -131,6 +164,14 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   readonly withTime = input<boolean>(false);
 
+  /**
+   * Shape of the value reported to the bound form control. `'iso-date'` reports local
+   * `yyyy-MM-dd` strings (`yyyy-MM-dd'T'HH:mm` with `withTime`) formatted without a UTC
+   * conversion, so the calendar day never shifts. `dateChange` always emits `Date`s.
+   * @default 'date'
+   */
+  readonly valueFormat = input<DatepickerValueFormat>('date');
+
   // --- Outputs ---
 
   /** Emitted when date selection is complete or changed by user. */
@@ -152,7 +193,7 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     if (this.isRange(val)) {
       const start = val.start ? format(val.start, fmt, { locale: tr }) : '';
       const end = val.end ? format(val.end, fmt, { locale: tr }) : '';
-      return start && end ? `${start} - ${end}` : start;
+      return start && end ? `${start}${RANGE_SEPARATOR}${end}` : start;
     } else if (isValid(val)) {
       return format(val as Date, fmt, { locale: tr });
     }
@@ -188,16 +229,22 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return eachDayOfInterval({ start, end });
   });
 
-  readonly weekDays = computed(() => {
-    const start = startOfWeek(new Date(), { locale: tr });
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(start);
-      d.setDate(d.getDate() + i);
-      days.push(format(d, 'EEEEEE', { locale: tr }));
+  /** `calendarDays` split into rows of seven for the grid's `row` elements. */
+  readonly calendarWeeks = computed(() => {
+    const days = this.calendarDays();
+    const weeks: Date[][] = [];
+    for (let i = 0; i < days.length; i += 7) {
+      weeks.push(days.slice(i, i + 7));
     }
-    return days;
+    return weeks;
   });
+
+  readonly weekDays = computed(() => this.formatWeekDays('EEEEEE'));
+
+  /** Full weekday names used as the accessible names of the abbreviated column headers. */
+  readonly weekDayLabels = computed(() => this.formatWeekDays('EEEE'));
+
+  readonly titleId = computed(() => `${this.id()}-calendar-title`);
 
   /** Safely typed range value for template access. */
   readonly rangeValue = computed(() => {
@@ -214,6 +261,9 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   readonly viewDate = signal<Date>(new Date());
 
   readonly isOpen = signal<boolean>(false);
+
+  /** The day that holds the grid's single tab stop (roving tabindex) and keyboard focus. */
+  readonly activeDate = signal<Date>(new Date());
 
   // Time state (for internal UI binding)
   readonly selectedHour = signal<number>(0);
@@ -239,6 +289,17 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     next: 'arrow-right-s-line',
     clear: 'close-line',
   };
+
+  protected readonly intl: IDatepickerIntl = {
+    ...DEFAULT_DATEPICKER_INTL,
+    ...inject(DATEPICKER_INTL, { optional: true }),
+  };
+
+  private readonly injector = inject(Injector);
+
+  private readonly inputElement = viewChild.required<ElementRef<HTMLInputElement>>('inputElement');
+
+  private readonly calendarElement = viewChild<ElementRef<HTMLElement>>('calendar');
 
   constructor() {
     super();
@@ -267,35 +328,150 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   // --- Actions ---
 
-  /** Syncs the view date to the current value when opening. */
-  toggleOpen(): void {
-    if (this.isDisabled() || this.readonly()) return;
-    this.isOpen.update((v) => !v);
+  /**
+   * Opens or closes the calendar. `moveFocus` puts keyboard focus on the active day (calendar
+   * button, ArrowDown); a click on the input leaves focus there so the user can keep typing.
+   */
+  toggleOpen(moveFocus = false): void {
     if (this.isOpen()) {
-      // Sync view date to current value if exists
-      const val = this.value();
-      if (this.selectionMode() === 'single' && val instanceof Date) {
-        this.viewDate.set(val);
-      } else if (this.isRange(val) && val.start) {
-        this.viewDate.set(val.start);
-      } else {
-        this.viewDate.set(new Date());
-      }
+      this.close();
+    } else {
+      this.open(moveFocus);
     }
   }
 
-  /** Closes the popup and marks the control as touched. */
+  /** Syncs the view and active day to the current value (or today) and shows the calendar. */
+  open(moveFocus = false): void {
+    if (this.isDisabled() || this.readonly()) return;
+    const val = this.value();
+    let anchor = new Date();
+    if (this.selectionMode() === 'single' && val instanceof Date) {
+      anchor = val;
+    } else if (this.isRange(val) && val.start) {
+      anchor = val.start;
+    }
+    this.viewDate.set(anchor);
+    this.activeDate.set(startOfDay(anchor));
+    this.isOpen.set(true);
+    if (moveFocus) {
+      this.focusActiveDay();
+    }
+  }
+
+  /** Closes the popup, marks the control as touched and returns focus to the input. */
   close(): void {
     this.isOpen.set(false);
+    this.showHourPicker.set(false);
+    this.showMinutePicker.set(false);
     this.markAsTouched();
+    this.inputElement().nativeElement.focus();
+  }
+
+  /** Keeps `isOpen` in sync when the CDK overlay detaches itself (e.g. on Escape). */
+  onOverlayDetach(): void {
+    if (this.isOpen()) {
+      this.close();
+    }
   }
 
   prevMonth(): void {
     this.viewDate.update((d) => subMonths(d, 1));
+    this.activeDate.update((d) => subMonths(d, 1));
   }
 
   nextMonth(): void {
     this.viewDate.update((d) => addMonths(d, 1));
+    this.activeDate.update((d) => addMonths(d, 1));
+  }
+
+  /** ArrowDown opens the calendar and focuses the active day; Enter commits the typed text. */
+  onInputKeydown(event: KeyboardEvent): void {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (this.isOpen()) {
+        this.focusActiveDay();
+      } else {
+        this.open(true);
+      }
+    } else if (event.key === 'Enter') {
+      // Not prevented: committing first lets an enclosing form submit the parsed value.
+      this.commitTypedValue();
+      if (this.isOpen()) {
+        this.close();
+      }
+    }
+  }
+
+  onInputBlur(): void {
+    this.commitTypedValue();
+    this.markAsTouched();
+  }
+
+  /**
+   * Grid keyboard navigation per the WAI-ARIA APG date picker dialog. Enter/Space are left to
+   * the day buttons' native click; Escape is handled by the CDK overlay.
+   */
+  onDayKeydown(event: KeyboardEvent): void {
+    const active = this.activeDate();
+    let next: Date;
+    switch (event.key) {
+      case 'ArrowLeft':
+        next = addDays(active, -1);
+        break;
+      case 'ArrowRight':
+        next = addDays(active, 1);
+        break;
+      case 'ArrowUp':
+        next = addDays(active, -7);
+        break;
+      case 'ArrowDown':
+        next = addDays(active, 7);
+        break;
+      case 'Home':
+        next = startOfWeek(active, { locale: tr });
+        break;
+      case 'End':
+        next = startOfDay(endOfWeek(active, { locale: tr }));
+        break;
+      case 'PageUp':
+        next = event.shiftKey ? subYears(active, 1) : subMonths(active, 1);
+        break;
+      case 'PageDown':
+        next = event.shiftKey ? addYears(active, 1) : addMonths(active, 1);
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    this.activeDate.set(next);
+    if (!isSameMonth(next, this.viewDate())) {
+      this.viewDate.set(next);
+    }
+    this.focusActiveDay();
+  }
+
+  /**
+   * Parses the input text in `resolvedFormat` (a range as `start - end`) and applies it. Empty
+   * text clears the value; unparseable text is reverted to the current value.
+   */
+  commitTypedValue(): void {
+    if (this.isDisabled() || this.readonly()) return;
+    const inputEl = this.inputElement().nativeElement;
+    const text = inputEl.value.trim();
+    if (text === this.formattedValue()) return;
+
+    if (!text) {
+      this.updateValue(null);
+      this.dateChange.emit(null!);
+    } else {
+      const parsed = this.parseTypedValue(text);
+      if (parsed) {
+        this.updateValue(parsed);
+        this.dateChange.emit(parsed);
+      }
+    }
+    // Normalises e.g. "1.1.2026" to "01.01.2026", or restores the text after a failed parse.
+    inputEl.value = this.formattedValue();
   }
 
   /** Applies time if `withTime` is enabled; swaps start/end when end is before start in range mode. */
@@ -378,32 +554,33 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     this.showMinutePicker.set(false);
   }
 
-  /** Also accepts ISO date strings; validates before setting. */
-  override writeValue(obj: DateValues | null): void {
-    // Basic type checking and safe setting
-    if (!obj) {
-      super.writeValue(null);
+  /** Accepts `Date`s or ISO date strings (also inside a range); invalid input clears the value. */
+  override writeValue(obj: DatepickerModelValue | null): void {
+    if (this.selectionMode() === 'single') {
+      const date = obj instanceof Date || typeof obj === 'string' ? this.toDate(obj) : null;
+      super.writeValue(date);
+      if (date) this.viewDate.set(date);
       return;
     }
 
-    if (this.selectionMode() === 'single') {
-      if (obj instanceof Date) {
-        super.writeValue(isValid(obj) ? obj : null);
-        if (isValid(obj)) this.viewDate.set(obj);
-      } else if (typeof obj === 'string') {
-        const parsed = parseISO(obj);
-        super.writeValue(isValid(parsed) ? parsed : null);
-        if (isValid(parsed)) this.viewDate.set(parsed);
-      }
+    const range = this.isRange(obj)
+      ? { start: this.toDate(obj.start), end: this.toDate(obj.end) }
+      : null;
+    if (range && (range.start || range.end)) {
+      super.writeValue(range);
+      if (range.start) this.viewDate.set(range.start);
     } else {
-      const range = obj as { start: Date | null; end: Date | null };
-      if (typeof range === 'object' && (range.start || range.end)) {
-        super.writeValue(range);
-        if (range.start) this.viewDate.set(range.start);
-      } else {
-        super.writeValue(null);
-      }
+      super.writeValue(null);
     }
+  }
+
+  /**
+   * Converts outgoing values to the shape selected by `valueFormat` before the form sees them.
+   * The forms API callback accepts any value; the cast only widens it to {@link DatepickerModelValue}.
+   */
+  override registerOnChange(fn: (value: DateValues | null) => void): void {
+    const report = fn as (value: DatepickerModelValue | null) => void;
+    super.registerOnChange((value) => report(this.toModelValue(value)));
   }
 
   // --- Helper Predicates ---
@@ -445,7 +622,71 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     return isSameDay(d1, d2);
   }
 
+  /** Full date announced for a day button, e.g. "29 Ekim 2026 Perşembe". */
+  dayLabel(date: Date): string {
+    return format(date, 'd MMMM yyyy EEEE', { locale: tr });
+  }
+
   // --- Private Methods ---
+
+  private formatWeekDays(pattern: string): string[] {
+    const start = startOfWeek(new Date(), { locale: tr });
+    return Array.from({ length: 7 }, (_, i) => format(addDays(start, i), pattern, { locale: tr }));
+  }
+
+  /** Focuses the roving-tabindex day once the calendar has rendered the active date. */
+  private focusActiveDay(): void {
+    afterNextRender(
+      () => {
+        this.calendarElement()
+          ?.nativeElement.querySelector<HTMLElement>('.datepicker__day[tabindex="0"]')
+          ?.focus();
+      },
+      { injector: this.injector }
+    );
+  }
+
+  private parseTypedValue(text: string): DateValues | null {
+    if (this.selectionMode() === 'single') {
+      return this.parseDate(text);
+    }
+
+    // Split on the exact display separator so formats containing '-' (e.g. yyyy-MM-dd) still parse.
+    const parts = text.split(RANGE_SEPARATOR).map((part) => part.trim());
+    if (parts.length > 2) return null;
+    const start = this.parseDate(parts[0]);
+    if (!start) return null;
+    if (parts.length === 1) return { start, end: null };
+    const end = this.parseDate(parts[1]);
+    if (!end) return null;
+    return isBefore(end, start) ? { start: end, end: start } : { start, end };
+  }
+
+  /** Strict enough to reject two-digit years, which date-fns would read as the first century. */
+  private parseDate(text: string): Date | null {
+    const parsed = parse(text, this.resolvedFormat(), new Date(), { locale: tr });
+    return isValid(parsed) && parsed.getFullYear() >= 1000 ? parsed : null;
+  }
+
+  private toDate(value: Date | string | null): Date | null {
+    if (!value) return null;
+    const date = typeof value === 'string' ? parseISO(value) : value;
+    return isValid(date) ? date : null;
+  }
+
+  private toModelValue(value: DateValues | null): DatepickerModelValue | null {
+    if (!value || this.valueFormat() === 'date') return value;
+    if (this.isRange(value)) {
+      return { start: this.toIsoString(value.start), end: this.toIsoString(value.end) };
+    }
+    return this.toIsoString(value);
+  }
+
+  /** Local-time ISO formatting; `toISOString()` would convert to UTC and can shift the day. */
+  private toIsoString(date: Date | null): string | null {
+    if (!date) return null;
+    return format(date, this.withTime() ? "yyyy-MM-dd'T'HH:mm" : 'yyyy-MM-dd');
+  }
 
   /** In range mode applies time to end if complete, otherwise to start. */
   private updateTime(): void {

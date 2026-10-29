@@ -24,19 +24,23 @@
 
   <div class="datepicker__input-wrapper" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
     <input
+      #inputElement
       [id]="id()"
       type="text"
-      readonly
+      autocomplete="off"
+      [readonly]="readonly()"
+      [disabled]="isDisabled()"
       [value]="formattedValue()"
       [placeholder]="placeholder()"
       [class]="inputClasses()"
       [class.datepicker__input--clearable]="clearable() && value()"
       (click)="toggleOpen()"
-      (blur)="markAsTouched()"
+      (keydown)="onInputKeydown($event)"
+      (blur)="onInputBlur()"
     />
 
     @if (clearable() && value() && !isDisabled() && !readonly()) {
-      <button type="button" class="datepicker__clear" (click)="clearValue($event)" aria-label="Clear date">
+      <button type="button" class="datepicker__clear" (click)="clearValue($event)" [attr.aria-label]="intl.clearDate">
         <nui-icon [name]="icons.clear" [size]="iconSize()"></nui-icon>
       </button>
     }
@@ -45,9 +49,11 @@
       type="button"
       class="datepicker__icon-wrapper"
       [class.datepicker__icon--active]="isOpen()"
-      (click)="toggleOpen()"
+      (click)="toggleOpen(true)"
       [disabled]="isDisabled() || readonly()"
-      aria-label="Toggle calendar"
+      aria-haspopup="dialog"
+      [attr.aria-expanded]="isOpen()"
+      [attr.aria-label]="intl.toggleCalendar"
     >
       <nui-icon [name]="icons.calendar" class="datepicker__icon"></nui-icon>
     </button>
@@ -63,60 +69,80 @@
     </div>
   }
 
+  <!--
+    'inline' renders the calendar as a native popover next to the trigger: the top layer keeps it
+    above a modal <dialog>, and staying inside the dialog's subtree keeps it out of the inert area.
+  -->
   <ng-template
     cdkConnectedOverlay
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayUsePopover]="'inline'"
     [cdkConnectedOverlayHasBackdrop]="true"
     [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
     (backdropClick)="close()"
+    (detach)="onOverlayDetach()"
   >
     <!-- Calendar Popup -->
-    <div class="datepicker__calendar">
+    <div #calendar class="datepicker__calendar" role="dialog" [attr.aria-label]="intl.calendarLabel">
       <!-- Header: Month/Year & Nav -->
       <div class="datepicker__header">
-        <button type="button" class="datepicker__nav-btn" (click)="prevMonth()" aria-label="Previous month">
+        <button type="button" class="datepicker__nav-btn" (click)="prevMonth()" [attr.aria-label]="intl.previousMonth">
           <nui-icon [name]="icons.prev" class="datepicker__nav-icon" size="16"></nui-icon>
         </button>
 
-        <span class="datepicker__title">
+        <span class="datepicker__title" [id]="titleId()" aria-live="polite">
           {{ currentMonthYear() }}
         </span>
 
-        <button type="button" class="datepicker__nav-btn" (click)="nextMonth()" aria-label="Next month">
+        <button type="button" class="datepicker__nav-btn" (click)="nextMonth()" [attr.aria-label]="intl.nextMonth">
           <nui-icon [name]="icons.next" class="datepicker__nav-icon" size="16"></nui-icon>
         </button>
       </div>
 
-      <!-- Weekday Headers -->
-      <div class="datepicker__weekdays">
-        @for (day of weekDays(); track $index) {
-          <span class="datepicker__weekday">
-            {{ day }}
-          </span>
-        }
-      </div>
+      <div role="grid" [attr.aria-labelledby]="titleId()">
+        <!-- Weekday Headers -->
+        <div class="datepicker__weekdays" role="row">
+          @for (day of weekDays(); track $index) {
+            <span class="datepicker__weekday" role="columnheader" [attr.aria-label]="weekDayLabels()[$index]">
+              {{ day }}
+            </span>
+          }
+        </div>
 
-      <!-- Days Grid -->
-      <div class="datepicker__days">
-        @for (date of calendarDays(); track date) {
-          <button
-            type="button"
-            class="datepicker__day"
-            [class.datepicker__day--selected]="isSelected(date)"
-            [class.datepicker__day--in-range]="isInRange(date)"
-            [class.datepicker__day--range-start]="
-              rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.start!)
-            "
-            [class.datepicker__day--range-end]="rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.end!)"
-            [class.datepicker__day--today]="isDateToday(date) && !isSelected(date) && !isInRange(date)"
-            [class.datepicker__day--current]="isCurrentMonth(date) && !isSelected(date) && !isInRange(date)"
-            [class.datepicker__day--other]="!isCurrentMonth(date) && !isSelected(date) && !isInRange(date)"
-            (click)="selectDate(date)"
-          >
-            {{ date | date: 'd' }}
-          </button>
-        }
+        <!-- Days Grid -->
+        <div class="datepicker__days">
+          @for (week of calendarWeeks(); track week[0].getTime()) {
+            <div class="datepicker__week" role="row">
+              @for (date of week; track date.getTime()) {
+                <button
+                  type="button"
+                  role="gridcell"
+                  class="datepicker__day"
+                  [tabIndex]="isSameDay(date, activeDate()) ? 0 : -1"
+                  [attr.aria-label]="dayLabel(date)"
+                  [attr.aria-selected]="isSelected(date) || isInRange(date)"
+                  [attr.aria-current]="isDateToday(date) ? 'date' : null"
+                  [class.datepicker__day--selected]="isSelected(date)"
+                  [class.datepicker__day--in-range]="isInRange(date)"
+                  [class.datepicker__day--range-start]="
+                    rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.start!)
+                  "
+                  [class.datepicker__day--range-end]="
+                    rangeValue() && isSelected(date) && isSameDay(date, rangeValue()!.end!)
+                  "
+                  [class.datepicker__day--today]="isDateToday(date) && !isSelected(date) && !isInRange(date)"
+                  [class.datepicker__day--current]="isCurrentMonth(date) && !isSelected(date) && !isInRange(date)"
+                  [class.datepicker__day--other]="!isCurrentMonth(date) && !isSelected(date) && !isInRange(date)"
+                  (click)="selectDate(date)"
+                  (keydown)="onDayKeydown($event)"
+                >
+                  {{ date | date: 'd' }}
+                </button>
+              }
+            </div>
+          }
+        </div>
       </div>
 
       <!-- Time Picker Footer -->

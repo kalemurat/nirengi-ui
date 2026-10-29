@@ -262,7 +262,14 @@ const names = await loadNuiIconNames();
 
 ```html
 <nui-datepicker label="Date" selectionMode="single" [(ngModel)]="date" (dateChange)="onDate($event)" />
-<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable -->
+<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable, valueFormat ("date" | "iso-date") -->
+```
+
+Dates can also be typed (`dd.MM.yyyy`) and the calendar is fully keyboard operable. Its accessible
+names are English by default; override them app-wide with `DATEPICKER_INTL`:
+
+```ts
+providers: [{ provide: DATEPICKER_INTL, useValue: { toggleCalendar: 'Takvimi aç', clearDate: 'Tarihi temizle' } }]
 ```
 
 **File upload** — `nirengi-ui-kit/components/file-upload/file-upload.component`
