@@ -2237,7 +2237,14 @@ describe('select.component.ts', () => {
         searchPlaceholder: 'Ara...',
         searchLabel: 'Seçeneklerde ara',
         noResults: 'Sonuç bulunamadı.',
+        loading: 'Yükleniyor...',
       };
+
+      /** `texts()` reads the empty-result message, which the loading message replaces. */
+      function withoutLoading(intl: ISelectIntl): Omit<ISelectIntl, 'loading'> {
+        const { loading: _loading, ...rest } = intl;
+        return rest;
+      }
 
       async function useIntl(intl: Partial<ISelectIntl>): Promise<void> {
         TestBed.resetTestingModule();
@@ -2271,19 +2278,209 @@ describe('select.component.ts', () => {
 
       it('should render the English defaults without a provider', () => {
         renderAllTexts();
-        expect(texts()).toEqual(DEFAULT_SELECT_INTL);
+        expect(texts()).toEqual(withoutLoading(DEFAULT_SELECT_INTL));
       });
 
       it('should render every text from a full SELECT_INTL override', async () => {
         await useIntl(TURKISH);
         renderAllTexts();
-        expect(texts()).toEqual(TURKISH);
+        expect(texts()).toEqual(withoutLoading(TURKISH));
       });
 
       it('should fall back to the defaults for keys a partial override leaves out', async () => {
         await useIntl({ noResults: 'Sonuç bulunamadı.' });
         renderAllTexts();
-        expect(texts()).toEqual({ ...DEFAULT_SELECT_INTL, noResults: 'Sonuç bulunamadı.' });
+        expect(texts()).toEqual({
+          ...withoutLoading(DEFAULT_SELECT_INTL),
+          noResults: 'Sonuç bulunamadı.',
+        });
+      });
+
+      it('should render the loading text from a SELECT_INTL override', async () => {
+        await useIntl({ loading: TURKISH.loading });
+        createOpenInline((f) => {
+          f.componentRef.setInput('options', []);
+          f.componentRef.setInput('loading', true);
+        });
+        expect(fixture.nativeElement.querySelector('.nui-select__empty').textContent.trim()).toBe(
+          'Yükleniyor...'
+        );
+      });
+    });
+
+    describe('Delegated search (searchChange, filterLocally, loading)', () => {
+      function searchInput(): HTMLInputElement {
+        return fixture.nativeElement.querySelector('.nui-select__search-input');
+      }
+
+      function type(text: string): void {
+        searchInput().value = text;
+        searchInput().dispatchEvent(new Event('input'));
+        fixture.detectChanges();
+      }
+
+      function optionLabels(): string[] {
+        return Array.from(
+          fixture.nativeElement.querySelectorAll('.nui-select__option') as NodeListOf<HTMLElement>
+        ).map((el) => el.textContent!.trim());
+      }
+
+      function displayedValue(): string {
+        return fixture.nativeElement.querySelector('.nui-select__value').textContent.trim();
+      }
+
+      it('should emit the trimmed term as the user types', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        const emitted: string[] = [];
+        component.searchChange.subscribe((term) => emitted.push(term));
+
+        type('  alp ');
+        type('alph');
+
+        expect(emitted).toEqual(['alp', 'alph']);
+      });
+
+      it('should keep filtering locally by default', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        type('alp');
+        expect(optionLabels()).toEqual(['Alpha']);
+      });
+
+      it('should show options exactly as given when filterLocally is off', () => {
+        createOpenInline((f) => {
+          f.componentRef.setInput('searchable', true);
+          f.componentRef.setInput('filterLocally', false);
+        });
+        type('zzz');
+        expect(optionLabels()).toEqual(SIMPLE_OPTIONS);
+        expect(component.filteredOptions()).toBe(component.options());
+      });
+
+      it('should emit an empty term when the list closes with a term typed', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        type('alp');
+        const emitted: string[] = [];
+        component.searchChange.subscribe((term) => emitted.push(term));
+
+        component.close();
+
+        expect(component.searchTerm()).toBe('');
+        expect(emitted).toEqual(['']);
+      });
+
+      it('should not emit when the list closes with no term typed', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        const emitted: string[] = [];
+        component.searchChange.subscribe((term) => emitted.push(term));
+
+        component.toggleDropdown();
+
+        expect(emitted).toEqual([]);
+      });
+
+      it('should stay open, keep the search text and reset the active option when options are replaced', () => {
+        createOpenInline((f) => {
+          f.componentRef.setInput('searchable', true);
+          f.componentRef.setInput('filterLocally', false);
+        });
+        type('al');
+        component.activeIndex.set(2);
+
+        fixture.componentRef.setInput('options', ['Alpha', 'Alphabet']);
+        fixture.detectChanges();
+
+        expect(component.isOpen()).toBe(true);
+        expect(searchInput().value).toBe('al');
+        expect(component.searchTerm()).toBe('al');
+        expect(component.activeIndex()).toBe(0);
+        expect(optionLabels()).toEqual(['Alpha', 'Alphabet']);
+
+        fixture.componentRef.setInput('options', []);
+        fixture.detectChanges();
+        expect(component.isOpen()).toBe(true);
+        expect(component.activeIndex()).toBe(-1);
+      });
+
+      it('should not touch the active option when options are replaced while closed', () => {
+        createComponent();
+        component.activeIndex.set(2);
+        fixture.componentRef.setInput('options', ['Alpha']);
+        fixture.detectChanges();
+        expect(component.activeIndex()).toBe(2);
+      });
+
+      it('should keep the selected label after options are replaced by a list without it', () => {
+        createComponent((f) => {
+          f.componentRef.setInput('options', OBJECT_OPTIONS);
+          f.componentRef.setInput('bindLabel', 'name');
+          f.componentRef.setInput('bindValue', 'id');
+        });
+        component.writeValue(2);
+        fixture.detectChanges();
+        expect(displayedValue()).toBe('Bob');
+
+        fixture.componentRef.setInput('options', [{ id: 9, name: 'Zed' }]);
+        fixture.detectChanges();
+
+        expect(displayedValue()).toBe('Bob');
+        expect(component.value()).toBe(2);
+        expect(component.selectedItems()).toEqual([{ id: 2, name: 'Bob' }]);
+      });
+
+      it('should keep every selected label in multiple mode and drop an unselected one', () => {
+        createComponent((f) => {
+          f.componentRef.setInput('options', OBJECT_OPTIONS);
+          f.componentRef.setInput('bindLabel', 'name');
+          f.componentRef.setInput('bindValue', 'id');
+          f.componentRef.setInput('multiple', true);
+        });
+        component.writeValue([1, 3]);
+        fixture.detectChanges();
+
+        fixture.componentRef.setInput('options', [{ id: 9, name: 'Zed' }]);
+        fixture.detectChanges();
+        expect(component.selectedItems().map((o) => (o as { name: string }).name)).toEqual([
+          'Alice',
+          'Charlie',
+        ]);
+
+        component.writeValue([1]);
+        fixture.detectChanges();
+        fixture.componentRef.setInput('options', [{ id: 8, name: 'Yan' }]);
+        fixture.detectChanges();
+        expect(component.selectedItems().map((o) => (o as { name: string }).name)).toEqual([
+          'Alice',
+        ]);
+      });
+
+      it('should show the loading text in the empty-state slot and mark the list busy', () => {
+        createOpenInline((f) => {
+          f.componentRef.setInput('options', []);
+          f.componentRef.setInput('loading', true);
+        });
+        const listbox = fixture.nativeElement.querySelector('[role="listbox"]') as HTMLElement;
+        expect(fixture.nativeElement.querySelector('.nui-select__empty').textContent.trim()).toBe(
+          DEFAULT_SELECT_INTL.loading
+        );
+        expect(listbox.getAttribute('aria-busy')).toBe('true');
+      });
+
+      it('should keep listing the options it has while loading', () => {
+        createOpenInline((f) => f.componentRef.setInput('loading', true));
+        expect(optionLabels()).toEqual(SIMPLE_OPTIONS);
+        expect(
+          fixture.nativeElement.querySelector('[role="listbox"]').getAttribute('aria-busy')
+        ).toBe('true');
+        expect(fixture.nativeElement.querySelector('.nui-select__empty')).toBeNull();
+      });
+
+      it('should show the no-results text and no aria-busy when not loading', () => {
+        createOpenInline((f) => f.componentRef.setInput('options', []));
+        const listbox = fixture.nativeElement.querySelector('[role="listbox"]') as HTMLElement;
+        expect(fixture.nativeElement.querySelector('.nui-select__empty').textContent.trim()).toBe(
+          DEFAULT_SELECT_INTL.noResults
+        );
+        expect(listbox.hasAttribute('aria-busy')).toBe(false);
       });
     });
   });

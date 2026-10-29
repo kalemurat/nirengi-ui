@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-/** Built-in texts of `nui-select`: accessible names plus the search placeholder and empty-result message. */
+/** Built-in texts of `nui-select`: accessible names plus the search placeholder, empty-result and loading messages. */
 export interface ISelectIntl {
   /** Name of the button that clears the selection. */
   clearSelection: string;
@@ -12,6 +12,8 @@ export interface ISelectIntl {
   searchLabel: string;
   /** Message shown when no option matches the search term. */
   noResults: string;
+  /** Message shown in place of the empty-result message while `loading` is on. */
+  loading: string;
 }
 
 export const DEFAULT_SELECT_INTL: ISelectIntl = {
@@ -20,6 +22,7 @@ export const DEFAULT_SELECT_INTL: ISelectIntl = {
   searchPlaceholder: 'Search...',
   searchLabel: 'Search options',
   noResults: 'No results found.',
+  loading: 'Loading...',
 };
 
 /**

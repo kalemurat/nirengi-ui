@@ -129,6 +129,7 @@
           role="listbox"
           [attr.aria-labelledby]="label() ? labelId : null"
           [attr.aria-multiselectable]="multiple() ? true : null"
+          [attr.aria-busy]="loading() ? true : null"
         >
           @for (option of filteredOptions(); track trackByFn($index, option)) {
             <!--
@@ -167,7 +168,7 @@
               }
             </div>
           } @empty {
-            <div class="nui-select__empty">{{ intl.noResults }}</div>
+            <div class="nui-select__empty">{{ loading() ? intl.loading : intl.noResults }}</div>
           }
         </div>
       </div>
