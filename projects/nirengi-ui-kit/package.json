@@ -1,6 +1,6 @@
 {
   "name": "nirengi-ui-kit",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/cdk": "^21.0.0 || ^22.0.0",
     "@angular/common": "^21.0.0 || ^22.0.0",
