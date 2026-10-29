@@ -226,6 +226,13 @@ const names = await loadNuiIconNames();
 <!-- also: icon, hint, clearable, readonly, variant, size -->
 ```
 
+The clear button's accessible name ("Clear input") can be overridden app-wide, or in a component's
+`providers` for one subtree, with `TEXTBOX_INTL`:
+
+```ts
+providers: [{ provide: TEXTBOX_INTL, useValue: { clearInput: 'Girdiyi temizle' } }]
+```
+
 **Textarea** — `nirengi-ui-kit/components/textarea/textarea.component`
 
 ```html
@@ -294,7 +301,7 @@ when a new `options` list no longer contains it.
 
 ```html
 <nui-datepicker label="Date" selectionMode="single" [(ngModel)]="date" (dateChange)="onDate($event)" />
-<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable, valueFormat ("date" | "iso-date") -->
+<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable, valueFormat ("date" | "iso-date"), variant (neutral by default) -->
 ```
 
 Dates can also be typed (`dd.MM.yyyy`) and the calendar is fully keyboard operable. Its accessible
