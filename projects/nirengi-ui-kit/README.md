@@ -1,6 +1,6 @@
 # Nirengi UI Kit
 
-A modern, themeable component library for **Angular 20, 21 and 22**. Standalone, signal-based,
+A modern, themeable component library for **Angular 21 and 22**. Standalone, signal-based,
 and **zoneless-friendly** — every component is a standalone Angular component with
 the `nui` selector prefix. It ships its **own precompiled CSS**, so you do **not**
 need Tailwind in your app.
@@ -24,19 +24,26 @@ npm install nirengi-ui-kit
 
 | Requirement | Supported versions                                            |
 | ----------- | ------------------------------------------------------------- |
-| Angular     | `20.3+`, `21.x` or `22.x`                                     |
+| Angular     | `21.x` or `22.x`                                              |
 | Node.js     | whatever your Angular version requires (Angular 22 needs `^22.22.3 \|\| ^24.15.0 \|\| >=26.0.0`) |
 
-Peer dependencies — install the Angular major you are already on:
+Peer dependencies: `@angular/core`, `@angular/common`, `@angular/forms`,
+`@angular/router` and `@angular/cdk`, all on the same major (21 or 22).
+`@angular/cdk` must be 21+, because the datepicker's overlay relies on the CDK's
+inline popover support. npm 7+ and pnpm install missing peer dependencies
+automatically. On Yarn, or to pin them yourself, install them on the Angular
+major you are already on:
 
 ```bash
 # Angular 22
-npm install @angular/core@^22 @angular/common@^22
+npm install @angular/core@^22 @angular/common@^22 @angular/forms@^22 @angular/router@^22 @angular/cdk@^22
 
-# …or Angular 21 / Angular 20
-npm install @angular/core@^21 @angular/common@^21
-npm install @angular/core@^20 @angular/common@^20
+# …or Angular 21
+npm install @angular/core@^21 @angular/common@^21 @angular/forms@^21 @angular/router@^21 @angular/cdk@^21
 ```
+
+`date-fns` (`^4.1.0`) is a regular dependency and is installed together with
+`nirengi-ui-kit`.
 
 ---
 
@@ -262,7 +269,14 @@ const names = await loadNuiIconNames();
 
 ```html
 <nui-datepicker label="Date" selectionMode="single" [(ngModel)]="date" (dateChange)="onDate($event)" />
-<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable -->
+<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable, valueFormat ("date" | "iso-date") -->
+```
+
+Dates can also be typed (`dd.MM.yyyy`) and the calendar is fully keyboard operable. Its accessible
+names are English by default; override them app-wide with `DATEPICKER_INTL`:
+
+```ts
+providers: [{ provide: DATEPICKER_INTL, useValue: { toggleCalendar: 'Takvimi aç', clearDate: 'Tarihi temizle' } }]
 ```
 
 **File upload** — `nirengi-ui-kit/components/file-upload/file-upload.component`

@@ -1,7 +1,4 @@
 import { Routes } from '@angular/router';
-import { HeadingPageComponent } from './pages/heading-page/heading-page.component';
-import { ButtonPageComponent } from './pages/button-page/button-page.component';
-import { ShowcaseLayoutComponent } from './components/showcase-layout/showcase-layout.component';
 
 export const routes: Routes = [
   {
@@ -11,15 +8,20 @@ export const routes: Routes = [
   },
   {
     path: 'showcase/:id',
-    component: ShowcaseLayoutComponent,
+    loadComponent: () =>
+      import('./components/showcase-layout/showcase-layout.component').then(
+        (m) => m.ShowcaseLayoutComponent
+      ),
   },
   {
     path: 'heading',
-    component: HeadingPageComponent,
+    loadComponent: () =>
+      import('./pages/heading-page/heading-page.component').then((m) => m.HeadingPageComponent),
   },
   {
     path: 'button',
-    component: ButtonPageComponent,
+    loadComponent: () =>
+      import('./pages/button-page/button-page.component').then((m) => m.ButtonPageComponent),
   },
   {
     path: 'icon',

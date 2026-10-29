@@ -353,10 +353,22 @@ export { AccordionComponent } from './lib/components/accordion/accordion.compone
 export type { AccordionStatus } from './lib/components/accordion/accordion.component';
 
 /**
- * Datepicker component.
+ * Datepicker component, types and accessible-name overrides.
  * @see {@link DatepickerComponent}
+ * @see {@link DATEPICKER_INTL}
  */
 export { DatepickerComponent } from './lib/components/datepicker/datepicker.component';
+export type {
+  DateValues,
+  DatepickerModelValue,
+  DatepickerSelectionMode,
+  DatepickerValueFormat,
+} from './lib/components/datepicker/datepicker.component';
+export {
+  DATEPICKER_INTL,
+  DEFAULT_DATEPICKER_INTL,
+} from './lib/components/datepicker/datepicker-intl.token';
+export type { IDatepickerIntl } from './lib/components/datepicker/datepicker-intl.token';
 
 export * from './lib/components/toast';
 export * from './lib/components/toast-demo';
