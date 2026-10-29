@@ -70,6 +70,32 @@ describe('datepicker.component.ts', () => {
     fixture?.destroy();
   });
 
+  describe('Variant', () => {
+    function host(): HTMLElement {
+      return fixture.nativeElement.querySelector('.datepicker');
+    }
+
+    it('should default to the neutral variant, like nui-textbox', async () => {
+      await createComponent({ label: 'Date' });
+      expect(host().classList).toContain('datepicker--neutral');
+      expect(host().classList).not.toContain('datepicker--primary');
+      expect(inputEl().classList).toContain('datepicker__input--neutral');
+    });
+
+    it('should still apply the primary variant when requested', async () => {
+      await createComponent({ label: 'Date', variant: 'primary' });
+      expect(host().classList).toContain('datepicker--primary');
+      expect(host().classList).not.toContain('datepicker--neutral');
+      expect(inputEl().classList).toContain('datepicker__input--primary');
+    });
+
+    it('should keep the error state on top of the default variant', async () => {
+      await createComponent({ label: 'Date', error: 'Required' });
+      expect(host().classList).toContain('datepicker--error');
+      expect(inputEl().classList).toContain('datepicker__input--error');
+    });
+  });
+
   describe('Typed entry', () => {
     it('should accept a typed dd.MM.yyyy date on blur and report it', async () => {
       await createComponent();

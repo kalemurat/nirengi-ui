@@ -55,7 +55,7 @@
       "name": "variant",
       "type": "enum",
       "label": "Variant",
-      "defaultValue": "primary",
+      "defaultValue": "neutral",
       "options": [
         { "label": "Primary", "value": "primary" },
         { "label": "Secondary", "value": "secondary" },

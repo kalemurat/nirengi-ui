@@ -138,8 +138,8 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
   /** Shows a clear button when a value is selected. @default false */
   readonly clearable = input<boolean>(false);
 
-  /** @default ColorVariant.Primary */
-  readonly variant = input<ColorVariant>(ColorVariant.Primary);
+  /** @default ColorVariant.Neutral */
+  readonly variant = input<ColorVariant>(ColorVariant.Neutral);
 
   readonly size = input<Size>(Size.Medium);
 
