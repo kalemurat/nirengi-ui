@@ -21,9 +21,13 @@
 .nui-select__dropdown {
   @apply absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-md border border-default bg-primary shadow-lg;
 
-  /* If appended to body, reset positioning as the overlay handles it */
+  /*
+   * If appended to body, reset positioning as the overlay handles it. `static`
+   * drops the left/right stretch and the popover pane is a flex container, so the
+   * panel needs an explicit full width to match the trigger-width pane.
+   */
   &--overlay {
-    @apply static mt-0 border border-default;
+    @apply static mt-0 w-full min-w-0 border border-default;
   }
 }
 
