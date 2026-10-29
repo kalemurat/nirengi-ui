@@ -322,6 +322,8 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
 
   private readonly calendarElement = viewChild<ElementRef<HTMLElement>>('calendar');
 
+  private readonly triggerElement = viewChild.required('trigger', { read: ElementRef });
+
   constructor() {
     super();
 
@@ -379,13 +381,32 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     }
   }
 
-  /** Closes the popup, marks the control as touched and returns focus to the input. */
-  close(): void {
+  /**
+   * Closes the popup and marks the control as touched. Focus returns to the input unless
+   * `restoreFocus` is false, which the Tab and outside-click paths use so the focus move the user
+   * just made is not undone.
+   */
+  close(restoreFocus = true): void {
     this.isOpen.set(false);
     this.showHourPicker.set(false);
     this.showMinutePicker.set(false);
     this.markAsTouched();
-    this.inputElement().nativeElement.focus();
+    if (restoreFocus) {
+      this.inputElement().nativeElement.focus();
+    }
+  }
+
+  /**
+   * Closes the calendar on a click outside it. A click on the input, the clear button or the
+   * calendar button is left to their own handlers, otherwise the click would close the calendar
+   * here and reopen it there. The event is not cancelled, so the clicked element still acts on it.
+   */
+  onOutsideClick(event: MouseEvent): void {
+    const target = event.target;
+    if (target instanceof Node && this.triggerElement().nativeElement.contains(target)) {
+      return;
+    }
+    this.close(false);
   }
 
   /** Keeps `isOpen` in sync when the CDK overlay detaches itself (e.g. on Escape). */
@@ -405,7 +426,11 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
     this.activeDate.update((d) => addMonths(d, 1));
   }
 
-  /** ArrowDown opens the calendar and focuses the active day; Enter commits the typed text. */
+  /**
+   * ArrowDown opens the calendar and focuses the active day; Enter commits the typed text; Tab
+   * closes the calendar without cancelling the focus move, as the non-modal popup must not
+   * outlive the focus leaving the field.
+   */
   onInputKeydown(event: KeyboardEvent): void {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
@@ -420,6 +445,9 @@ export class DatepickerComponent extends ValueAccessorBase<DateValues> {
       if (this.isOpen()) {
         this.close();
       }
+    } else if (event.key === 'Tab' && this.isOpen()) {
+      // Not prevented: focus moves on naturally; the blur handler commits the typed text.
+      this.close(false);
     }
   }
 
