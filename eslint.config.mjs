@@ -74,5 +74,26 @@ export default tseslint.config(
   },
   ...angular.configs.templateRecommended.map((c) => ({ ...c, files: ['**/*.html'] })),
   ...angular.configs.templateAccessibility.map((c) => ({ ...c, files: ['**/*.html'] })),
+  {
+    /*
+     * Select implements the WAI-ARIA APG combobox pattern. Which element is the combobox
+     * follows DOM focus, because `aria-activedescendant` is only honoured on the focused
+     * element: the search input while `searchable` and open (APG editable/autocomplete-list
+     * combobox), otherwise the trigger (APG select-only combobox).
+     *   https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/
+     *   https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/
+     * Either way the listbox options must NOT be focusable and must NOT carry their own key
+     * handlers — all keyboard interaction lives on the focused combobox element
+     * (SelectComponent.onTriggerKeydown / onSearchKeydown). These two rules cannot express
+     * "focus is managed on another element", so they would force a structure that breaks the
+     * pattern. Angular template ESLint has no inline-comment disables, hence this
+     * file-scoped override.
+     */
+    files: ['projects/nirengi-ui-kit/src/lib/components/select/select.component.html'],
+    rules: {
+      '@angular-eslint/template/click-events-have-key-events': 'off',
+      '@angular-eslint/template/interactive-supports-focus': 'off',
+    },
+  },
   eslintPluginPrettierRecommended
 );

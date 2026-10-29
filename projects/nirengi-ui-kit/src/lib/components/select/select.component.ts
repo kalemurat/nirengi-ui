@@ -73,6 +73,21 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
    */
   readonly inputId = `nui-select-${Math.random().toString(36).substr(2, 9)}`;
 
+  /**
+   * Id of the visible label element.
+   * The trigger is a `div` (not a labelable element), so `<label for>` has no effect on it
+   * and the accessible name is wired via `aria-labelledby` instead — per the WAI-ARIA APG
+   * select-only combobox pattern. The search input reuses the same id so the combobox keeps
+   * one stable accessible name in both modes.
+   */
+  readonly labelId = `${this.inputId}-label`;
+
+  /** Id of the popup listbox, referenced by the combobox element's `aria-controls`. */
+  readonly listboxId = `${this.inputId}-listbox`;
+
+  /** Id of the in-dropdown search input, satisfying the "form field needs an id" requirement. */
+  readonly searchInputId = `${this.inputId}-search`;
+
   readonly options = input.required<unknown[]>();
 
   /**
@@ -128,8 +143,18 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
 
   readonly searchTerm = signal<string>('');
 
+  /**
+   * Index of the option currently referenced by `aria-activedescendant`.
+   * `-1` means no option is active. DOM focus stays on the combobox element while this
+   * moves (see `searchIsCombobox`), per the WAI-ARIA APG combobox pattern.
+   */
+  readonly activeIndex = signal<number>(-1);
+
   /** Auto-focused when the dropdown opens with `searchable` enabled. */
   readonly searchInputElement = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+
+  /** Receives focus back when the listbox closes via keyboard or option selection. */
+  readonly triggerElement = viewChild<ElementRef<HTMLElement>>('triggerElement');
 
   /** Kept in sync with the form control's disabled state via `setDisabledState`. */
   // eslint-disable-next-line @angular-eslint/no-input-rename -- intentional public API alias
@@ -207,6 +232,35 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     }
   });
 
+  /**
+   * Value for the active combobox element's `aria-activedescendant`.
+   * Null unless the popup is open with a valid active option, since the attribute
+   * must only reference an element that actually exists in the DOM.
+   */
+  readonly activeDescendantId = computed(() => {
+    if (!this.isOpen()) return null;
+    const index = this.activeIndex();
+    if (index < 0 || index >= this.filteredOptions().length) return null;
+    return this.getOptionId(index);
+  });
+
+  /**
+   * Which element plays the `combobox` role depends on where DOM focus actually lives.
+   *
+   * `aria-activedescendant` is only honoured on the element that holds DOM focus — the
+   * WAI-ARIA spec keeps DOM focus "on the container element or on an input element that
+   * controls the container element" and reports the referenced option as focused from
+   * there. So the role and the attribute must sit on whatever is focused, or a screen
+   * reader announces nothing while arrowing through options.
+   *
+   * - `searchable()` = true: opening auto-focuses the search input, so that input is the
+   *   combobox (WAI-ARIA APG editable/autocomplete-list combobox: the `input` carries
+   *   `role="combobox"` and `aria-activedescendant` while DOM focus remains on it).
+   * - `searchable()` = false: there is no search input, focus stays on the trigger, so the
+   *   trigger is the combobox (WAI-ARIA APG select-only combobox).
+   */
+  readonly searchIsCombobox = computed(() => this.searchable() && this.isOpen());
+
   readonly iconSize = computed(() => {
     switch (this.size()) {
       case Size.XSmall:
@@ -236,6 +290,20 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
       }
     });
 
+    // Keep the aria-activedescendant option in view. Options never receive DOM focus
+    // (it stays on the combobox — the search input when searchable, otherwise the
+    // trigger), so the browser does not scroll them into view on its own.
+    effect(() => {
+      const activeId = this.activeDescendantId();
+      if (!activeId) return;
+      setTimeout(() => {
+        const el = document.getElementById(activeId);
+        // Guarded: scrollIntoView is absent in some non-browser/test DOM implementations,
+        // and scrolling is a progressive enhancement — it must never break the component.
+        el?.scrollIntoView?.({ block: 'nearest' });
+      });
+    });
+
     // Close dropdown when disabled changes to true
     effect(() => {
       if (this.isDisabled()) {
@@ -255,6 +323,11 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     return val !== null && val !== undefined;
   }
 
+  /** Stable per-option element id, referenced by `aria-activedescendant`. */
+  getOptionId(index: number): string {
+    return `${this.inputId}-option-${index}`;
+  }
+
   /** No-op when disabled. */
   toggleDropdown(): void {
     if (this.isDisabled()) return;
@@ -265,10 +338,108 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     }
 
     this.isOpen.update((v) => !v);
-    if (!this.isOpen()) {
+    if (this.isOpen()) {
+      // Start navigation from the current selection, or the first option when nothing is selected.
+      this.activeIndex.set(this.indexOfSelected());
+    } else {
       this.onTouched();
       this.searchTerm.set('');
+      this.activeIndex.set(-1);
     }
+  }
+
+  /** Index of the first selected option within the filtered list, or 0 when none matches. */
+  private indexOfSelected(): number {
+    const index = this.filteredOptions().findIndex((opt) => this.isSelected(opt));
+    return index > -1 ? index : 0;
+  }
+
+  /**
+   * Combobox keyboard handling per the WAI-ARIA APG combobox pattern. Shared by the trigger
+   * and (via `onSearchKeydown`) the search input, so both modes behave identically.
+   *
+   * DOM focus never moves onto an option: it stays on whichever element is currently the
+   * combobox, and the active option is conveyed via `aria-activedescendant`.
+   */
+  onTriggerKeydown(event: KeyboardEvent): void {
+    if (this.isDisabled()) return;
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        if (!this.isOpen()) {
+          this.toggleDropdown();
+        } else {
+          this.moveActive(1);
+        }
+        break;
+
+      case 'ArrowUp':
+        event.preventDefault();
+        if (!this.isOpen()) {
+          this.toggleDropdown();
+        } else {
+          this.moveActive(-1);
+        }
+        break;
+
+      case 'Home':
+        if (this.isOpen()) {
+          event.preventDefault();
+          this.activeIndex.set(0);
+        }
+        break;
+
+      case 'End':
+        if (this.isOpen()) {
+          event.preventDefault();
+          this.activeIndex.set(this.filteredOptions().length - 1);
+        }
+        break;
+
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        if (this.isOpen()) {
+          this.selectActiveOption();
+        } else {
+          this.toggleDropdown();
+        }
+        break;
+
+      case 'Escape':
+        if (this.isOpen()) {
+          event.preventDefault();
+          this.close(true);
+        }
+        break;
+
+      case 'Tab':
+        // Tab moves focus away: close without blocking the natural focus move. Focus is put
+        // back on the trigger first so the default Tab action continues from the trigger's
+        // position, not from the portalled search input at the end of <body>.
+        this.close(true);
+        break;
+    }
+  }
+
+  /** Moves the active option by `delta`, wrapping around the ends. */
+  private moveActive(delta: number): void {
+    const count = this.filteredOptions().length;
+    if (count === 0) {
+      this.activeIndex.set(-1);
+      return;
+    }
+    const current = this.activeIndex();
+    const next = current < 0 ? (delta > 0 ? 0 : count - 1) : (current + delta + count) % count;
+    this.activeIndex.set(next);
+  }
+
+  /** Commits the option currently referenced by `aria-activedescendant`. */
+  private selectActiveOption(): void {
+    const option = this.filteredOptions()[this.activeIndex()];
+    if (option === undefined) return;
+    this.selectOption(option);
   }
 
   private updateTriggerWidth() {
@@ -287,11 +458,24 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
     }
   }
 
-  close(): void {
+  /**
+   * Closes the listbox.
+   *
+   * @param restoreFocus Moves DOM focus back to the trigger. Used for Escape, Tab and option
+   * selection, mirroring the WAI-ARIA APG select-only combobox ("Closes the listbox. Sets
+   * visual focus on the combobox."). Without it, closing in searchable mode removes the
+   * focused search input and focus falls to `<body>`. Outside/backdrop clicks pass `false`
+   * so focus is not pulled away from wherever the user clicked.
+   */
+  close(restoreFocus = false): void {
     if (this.isOpen()) {
       this.isOpen.set(false);
       this.onTouched();
       this.searchTerm.set('');
+      this.activeIndex.set(-1);
+      if (restoreFocus) {
+        this.triggerElement()?.nativeElement.focus();
+      }
     }
   }
 
@@ -342,7 +526,7 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
       // User didn't specify, but usually multi-select keeps open.
     } else {
       this.updateValue(optVal);
-      this.close();
+      this.close(true);
     }
   }
 
@@ -359,6 +543,29 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
   onSearch(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
     this.searchTerm.set(val);
+    // The filtered list just changed; re-anchor the active option so
+    // aria-activedescendant never points past the end of the new list.
+    this.activeIndex.set(this.filteredOptions().length > 0 ? 0 : -1);
+  }
+
+  /**
+   * Keyboard handling while focus is inside the search input, which is the combobox in
+   * searchable mode. Only keys that drive the listbox are delegated; text-editing keys are
+   * left to the input so it behaves like a normal textbox:
+   * - Space types a space instead of selecting.
+   * - Home/End move the caret within the query rather than jumping the option list, per the
+   *   APG editable combobox (they are listbox-navigation keys only when focus is elsewhere).
+   */
+  onSearchKeydown(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'ArrowDown':
+      case 'ArrowUp':
+      case 'Enter':
+      case 'Escape':
+      case 'Tab':
+        this.onTriggerKeydown(event);
+        break;
+    }
   }
 
   clearValue(event: Event): void {
