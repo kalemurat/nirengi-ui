@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { SelectComponent } from './select.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
+import { DEFAULT_SELECT_INTL, ISelectIntl, SELECT_INTL } from './select-intl.token';
 
 const SIMPLE_OPTIONS = ['Alpha', 'Beta', 'Gamma'];
 
@@ -2154,6 +2155,124 @@ describe('select.component.ts', () => {
         const mousedown = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
         option.dispatchEvent(mousedown);
         expect(mousedown.defaultPrevented).toBe(true);
+      });
+    });
+
+    describe('Hint / warning association', () => {
+      it('should give the rendered hint the messageId', () => {
+        createComponent((f) => f.componentRef.setInput('hint', 'Pick one'));
+        expect(component.messageId).toBe(`${component.inputId}-message`);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Pick one');
+      });
+
+      it('should reference the hint from the trigger via aria-describedby', () => {
+        createComponent((f) => f.componentRef.setInput('hint', 'Pick one'));
+        expect(trigger().getAttribute('aria-describedby')).toBe(component.messageId);
+      });
+
+      it('should reference the warning text and set aria-invalid', () => {
+        createComponent((f) => f.componentRef.setInput('warning', 'Required'));
+        expect(trigger().getAttribute('aria-describedby')).toBe(component.messageId);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Required');
+        expect(trigger().getAttribute('aria-invalid')).toBe('true');
+      });
+
+      it('should reference the success text without setting aria-invalid', () => {
+        createComponent((f) => f.componentRef.setInput('success', 'Looks good'));
+        expect(trigger().getAttribute('aria-describedby')).toBe(component.messageId);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Looks good');
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+      });
+
+      it('should not set aria-invalid when success overrides a warning', () => {
+        createComponent((f) => {
+          f.componentRef.setInput('warning', 'Required');
+          f.componentRef.setInput('success', 'Looks good');
+        });
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Looks good');
+      });
+
+      it('should omit aria-describedby and aria-invalid when no text is shown', () => {
+        createComponent();
+        expect(trigger().hasAttribute('aria-describedby')).toBe(false);
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+        expect(findById(component.messageId)).toBeNull();
+      });
+
+      it('should drop aria-invalid once the warning is cleared', () => {
+        createComponent((f) => f.componentRef.setInput('warning', 'Required'));
+        fixture.componentRef.setInput('warning', undefined);
+        fixture.detectChanges();
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+        expect(trigger().hasAttribute('aria-describedby')).toBe(false);
+      });
+
+      it('should mirror aria-describedby and aria-invalid on the search input', () => {
+        createOpenInline((f) => {
+          f.componentRef.setInput('searchable', true);
+          f.componentRef.setInput('warning', 'Required');
+        });
+        const input = fixture.nativeElement.querySelector('.nui-select__search-input');
+        expect(input.getAttribute('aria-describedby')).toBe(component.messageId);
+        expect(input.getAttribute('aria-invalid')).toBe('true');
+      });
+    });
+
+    describe('Built-in texts (SELECT_INTL)', () => {
+      const TURKISH: ISelectIntl = {
+        clearSelection: 'Seçimi temizle',
+        removeItem: 'Öğeyi kaldır',
+        searchPlaceholder: 'Ara...',
+        searchLabel: 'Seçeneklerde ara',
+        noResults: 'Sonuç bulunamadı.',
+      };
+
+      async function useIntl(intl: Partial<ISelectIntl>): Promise<void> {
+        TestBed.resetTestingModule();
+        await TestBed.configureTestingModule({
+          imports: [SelectComponent],
+          providers: [provideZonelessChangeDetection(), { provide: SELECT_INTL, useValue: intl }],
+        }).compileComponents();
+      }
+
+      function renderAllTexts(): void {
+        createOpenInline((f) => {
+          f.componentRef.setInput('searchable', true);
+          f.componentRef.setInput('multiple', true);
+        });
+        component.writeValue(['Alpha']);
+        component.searchTerm.set('zzz');
+        fixture.detectChanges();
+      }
+
+      function texts() {
+        const host = fixture.nativeElement as HTMLElement;
+        const input = host.querySelector('.nui-select__search-input') as HTMLInputElement;
+        return {
+          clearSelection: host.querySelector('.nui-select__clear')?.getAttribute('aria-label'),
+          removeItem: host.querySelector('.nui-select__chip-remove')?.getAttribute('aria-label'),
+          searchPlaceholder: input.placeholder,
+          searchLabel: input.getAttribute('aria-label'),
+          noResults: host.querySelector('.nui-select__empty')?.textContent?.trim(),
+        };
+      }
+
+      it('should render the English defaults without a provider', () => {
+        renderAllTexts();
+        expect(texts()).toEqual(DEFAULT_SELECT_INTL);
+      });
+
+      it('should render every text from a full SELECT_INTL override', async () => {
+        await useIntl(TURKISH);
+        renderAllTexts();
+        expect(texts()).toEqual(TURKISH);
+      });
+
+      it('should fall back to the defaults for keys a partial override leaves out', async () => {
+        await useIntl({ noResults: 'Sonuç bulunamadı.' });
+        renderAllTexts();
+        expect(texts()).toEqual({ ...DEFAULT_SELECT_INTL, noResults: 'Sonuç bulunamadı.' });
       });
     });
   });
