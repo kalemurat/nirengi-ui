@@ -31,6 +31,8 @@
       [attr.aria-controls]="listboxId"
       [attr.aria-haspopup]="'listbox'"
       [attr.aria-activedescendant]="searchIsCombobox() ? null : activeDescendantId()"
+      [attr.aria-describedby]="describedBy()"
+      [attr.aria-invalid]="ariaInvalid()"
       [attr.aria-disabled]="isDisabled()"
       [attr.tabindex]="isDisabled() ? -1 : 0"
       (click)="toggleDropdown()"
@@ -47,7 +49,7 @@
                   class="nui-select__chip-remove"
                   role="button"
                   tabindex="0"
-                  aria-label="Remove item"
+                  [attr.aria-label]="intl.removeItem"
                   (click)="removeItem(item, $event)"
                   (keydown.enter)="removeItem(item, $event)"
                   (keydown.space)="removeItem(item, $event)"
@@ -66,7 +68,12 @@
 
       <!-- Clear Button -->
       @if (hasValue() && clearable() && !isDisabled()) {
-        <button type="button" class="nui-select__clear" (click)="clearValue($event)" aria-label="Clear selection">
+        <button
+          type="button"
+          class="nui-select__clear"
+          (click)="clearValue($event)"
+          [attr.aria-label]="intl.clearSelection"
+        >
           <nui-icon name="close-line" [size]="iconSize()" />
         </button>
       }
@@ -99,13 +106,15 @@
               autocomplete="off"
               role="combobox"
               [attr.aria-labelledby]="label() ? labelId : null"
-              [attr.aria-label]="label() ? null : 'Search options'"
+              [attr.aria-label]="label() ? null : intl.searchLabel"
+              [attr.aria-describedby]="describedBy()"
+              [attr.aria-invalid]="ariaInvalid()"
               [attr.aria-expanded]="isOpen()"
               [attr.aria-controls]="listboxId"
               [attr.aria-haspopup]="'listbox'"
               [attr.aria-autocomplete]="'list'"
               [attr.aria-activedescendant]="activeDescendantId()"
-              [placeholder]="'Search...'"
+              [placeholder]="intl.searchPlaceholder"
               (input)="onSearch($event)"
               (keydown)="onSearchKeydown($event)"
               (click)="$event.stopPropagation()"
@@ -158,7 +167,7 @@
               }
             </div>
           } @empty {
-            <div class="nui-select__empty">No results found.</div>
+            <div class="nui-select__empty">{{ intl.noResults }}</div>
           }
         </div>
       </div>
@@ -186,13 +195,13 @@
     }
   </div>
 
-  <!-- Hint & Status Messages -->
+  <!-- Hint & Status Messages (one at a time; referenced by the combobox's aria-describedby) -->
   @if (success()) {
-    <p class="nui-select__success">{{ success() }}</p>
+    <p [id]="messageId" class="nui-select__success">{{ success() }}</p>
   } @else if (warning()) {
-    <p class="nui-select__warning">{{ warning() }}</p>
+    <p [id]="messageId" class="nui-select__warning">{{ warning() }}</p>
   } @else if (hint()) {
-    <p class="nui-select__hint">{{ hint() }}</p>
+    <p [id]="messageId" class="nui-select__hint">{{ hint() }}</p>
   }
 
   <!-- Default Item Template -->

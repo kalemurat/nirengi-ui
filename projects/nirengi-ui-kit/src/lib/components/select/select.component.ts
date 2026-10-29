@@ -20,12 +20,17 @@ import { ValueAccessorBase } from '../../common/base/value-accessor.base';
 import { IconComponent } from '../icon/icon.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
+import { DEFAULT_SELECT_INTL, ISelectIntl, SELECT_INTL } from './select-intl.token';
 
 /**
  * Select/Dropdown component with single/multiple selection, search, and custom item templates.
  *
+ * Built-in texts (clear/remove button names, search placeholder, empty-result message) are
+ * English by default and overridable through {@link SELECT_INTL}.
+ *
  * @see {@link IconComponent}
  * @see {@link ValueAccessorBase}
+ * @see {@link SELECT_INTL}
  *
  * @example
  * <!-- Basic Usage -->
@@ -88,6 +93,15 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
   /** Id of the in-dropdown search input, satisfying the "form field needs an id" requirement. */
   readonly searchInputId = `${this.inputId}-search`;
 
+  /** Id of the hint / warning / success text, referenced by the combobox's `aria-describedby`. */
+  readonly messageId = `${this.inputId}-message`;
+
+  /** Built-in texts: {@link DEFAULT_SELECT_INTL} merged with any {@link SELECT_INTL} override. */
+  protected readonly intl: ISelectIntl = {
+    ...DEFAULT_SELECT_INTL,
+    ...inject(SELECT_INTL, { optional: true }),
+  };
+
   readonly options = input.required<unknown[]>();
 
   /**
@@ -121,7 +135,11 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
   /** Displayed below the component in a success state (green border). */
   readonly success = input<string>();
 
-  /** Displayed below the component in a warning state (yellow border). */
+  /**
+   * Displayed below the component in a warning state (yellow border).
+   * This is the select's validation-message slot, so a non-empty value also sets
+   * `aria-invalid="true"` on the combobox (WCAG technique ARIA21).
+   */
   readonly warning = input<string>();
 
   /** @default Size.Medium */
@@ -260,6 +278,23 @@ export class SelectComponent extends ValueAccessorBase<unknown> {
    *   trigger is the combobox (WAI-ARIA APG select-only combobox).
    */
   readonly searchIsCombobox = computed(() => this.searchable() && this.isOpen());
+
+  /**
+   * Value for the combobox's `aria-describedby`: the id of the hint / warning / success text
+   * when one is rendered (only one is shown at a time), so assistive technology announces it
+   * together with the field (WCAG technique ARIA21). Null when no text is shown, so the
+   * attribute never references a missing element.
+   */
+  readonly describedBy = computed(() =>
+    this.success() || this.warning() || this.hint() ? this.messageId : null
+  );
+
+  /**
+   * Value for the combobox's `aria-invalid`. `true` only while a warning (the validation
+   * message) is shown; otherwise the attribute is omitted, since `aria-invalid="false"` is
+   * the same as leaving it out. A success message takes precedence, mirroring the template.
+   */
+  readonly ariaInvalid = computed(() => (!this.success() && this.warning() ? true : null));
 
   readonly iconSize = computed(() => {
     switch (this.size()) {

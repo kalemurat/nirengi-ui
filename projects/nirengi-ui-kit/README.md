@@ -258,6 +258,13 @@ const names = await loadNuiIconNames();
 <!-- also: multiple, clearable, itemTemplate -->
 ```
 
+`hint` / `warning` / `success` text is linked to the field via `aria-describedby`, and `warning`
+also sets `aria-invalid`. The built-in texts are English by default; override them with `SELECT_INTL`:
+
+```ts
+providers: [{ provide: SELECT_INTL, useValue: { searchPlaceholder: 'Ara...', noResults: 'Sonuç bulunamadı.' } }]
+```
+
 **Datepicker** — `nirengi-ui-kit/components/datepicker/datepicker.component`
 
 ```html

@@ -304,10 +304,13 @@ export * from './lib/components/tooltip-demo';
 // export { TruncatePipe } from './lib/pipes/truncate/truncate.pipe';
 
 /**
- * Select component.
+ * Select component and its built-in text overrides.
  * @see {@link SelectComponent}
+ * @see {@link SELECT_INTL}
  */
 export { SelectComponent } from './lib/components/select/select.component';
+export { SELECT_INTL, DEFAULT_SELECT_INTL } from './lib/components/select/select-intl.token';
+export type { ISelectIntl } from './lib/components/select/select-intl.token';
 
 /**
  * Radio component.
