@@ -4,7 +4,55 @@ All notable changes to **nirengi-ui-kit** are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-While the library is pre-1.0 the public API may change between minor versions.
+Since `1.0.0` the public API is stable: breaking changes only ship in a new major
+version. Before `1.0.0` the API could change between minor versions.
+
+## [1.0.0] - 2026-10-29
+
+First stable release. The public API is now covered by Semantic Versioning, so
+breaking changes will only ship in a new major version.
+
+### Added
+
+- `DATEPICKER_INTL` and `SELECT_INTL` injection tokens make the built-in texts of
+  `nui-datepicker` and `nui-select` (button names, search placeholder, empty-result
+  message, calendar labels) overridable app-wide or per subtree. Both default to
+  English.
+- `nui-datepicker` accepts `valueFormat="iso-date"` to report local `yyyy-MM-dd`
+  strings to the form control without a UTC shift. ISO strings are read back as
+  local dates, also inside ranges.
+- `nui-datepicker` input is editable: dates typed in the display format are parsed
+  on Enter or blur, empty text clears the value and unparseable text is reverted.
+- Full keyboard support for `nui-datepicker` (ArrowDown opens the calendar;
+  arrows, Home/End and PageUp/PageDown, with Shift for years, move the active day;
+  Escape closes and returns focus to the input) and `nui-select` (arrows,
+  Home/End, Enter, Escape, Tab, with a visible active-option ring).
+
+### Changed
+
+- **BREAKING — Angular 20 is no longer supported.** The peer range is now
+  `^21.0.0 || ^22.0.0`. The datepicker's inline popover needs `@angular/cdk` 21+,
+  and the CDK major must match the Angular major.
+- **BREAKING — new peer dependencies.** `@angular/cdk`, `@angular/forms` and
+  `@angular/router` are now declared peer dependencies, as the kit already imported
+  them. npm 7+ and pnpm install them automatically. `date-fns` is a regular
+  dependency and is installed with the kit.
+- `nui-datepicker` renders its calendar as an inline CDK popover, with grid
+  semantics (`role="grid"`, full-date labels, `aria-selected`,
+  `aria-current="date"`, a labelled dialog and a live month title).
+- `nui-select` follows the WAI-ARIA select-only combobox pattern: the trigger has
+  `role="combobox"` with `aria-expanded`, `aria-controls` and
+  `aria-activedescendant`, and the popup is a `listbox`. In searchable mode the
+  search input becomes the combobox.
+
+### Fixed
+
+- `nui-datepicker` stays visible and clickable inside a modal `<dialog>`.
+- `nui-select` has a programmatic name: the dangling `<label for>` is replaced by
+  `aria-labelledby`. Its hint, warning and success text is linked with
+  `aria-describedby`, and `aria-invalid="true"` is set while a warning is shown.
+- Focus returns to the `nui-select` trigger when the listbox closes, instead of
+  falling to `<body>`.
 
 ## [0.2.1] - 2026-07-23
 
@@ -133,6 +181,7 @@ component library (selector prefix `nui`), built with `ng-packagr`.
 - Prevented the popover from immediately closing on open in production builds and
   fixed a popover directive memory leak.
 
+[1.0.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v1.0.0
 [0.2.1]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.1
 [0.2.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.0
 [0.1.6]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.1.6
