@@ -247,12 +247,15 @@ export type { IconName, BundledIconName } from './lib/components/icon/icon.types
 export { BadgeComponent, BadgeType, BadgeShape } from './lib/components/badge/badge.component';
 
 /**
- * Textbox component and types.
+ * Textbox component, types and its built-in text overrides.
  * @see {@link TextboxComponent}
  * @see {@link TextboxType}
+ * @see {@link TEXTBOX_INTL}
  */
 export { TextboxComponent } from './lib/components/textbox/textbox.component';
 export type { TextboxType } from './lib/components/textbox/textbox.component';
+export { TEXTBOX_INTL, DEFAULT_TEXTBOX_INTL } from './lib/components/textbox/textbox-intl.token';
+export type { ITextboxIntl } from './lib/components/textbox/textbox-intl.token';
 
 /**
  * Textarea component.

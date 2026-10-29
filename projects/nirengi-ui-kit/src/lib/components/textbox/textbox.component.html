@@ -27,7 +27,7 @@
     />
 
     @if (clearable() && value() && !isDisabled() && !readonly()) {
-      <button type="button" class="nui-textbox__clear" (click)="clearValue()" aria-label="Clear input">
+      <button type="button" class="nui-textbox__clear" (click)="clearValue()" [attr.aria-label]="intl.clearInput">
         <nui-icon name="close-line" [size]="iconSize()" />
       </button>
     }
