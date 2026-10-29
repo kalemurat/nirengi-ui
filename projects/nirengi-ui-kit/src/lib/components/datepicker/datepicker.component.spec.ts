@@ -70,6 +70,32 @@ describe('datepicker.component.ts', () => {
     fixture?.destroy();
   });
 
+  describe('Variant', () => {
+    function host(): HTMLElement {
+      return fixture.nativeElement.querySelector('.datepicker');
+    }
+
+    it('should default to the neutral variant, like nui-textbox', async () => {
+      await createComponent({ label: 'Date' });
+      expect(host().classList).toContain('datepicker--neutral');
+      expect(host().classList).not.toContain('datepicker--primary');
+      expect(inputEl().classList).toContain('datepicker__input--neutral');
+    });
+
+    it('should still apply the primary variant when requested', async () => {
+      await createComponent({ label: 'Date', variant: 'primary' });
+      expect(host().classList).toContain('datepicker--primary');
+      expect(host().classList).not.toContain('datepicker--neutral');
+      expect(inputEl().classList).toContain('datepicker__input--primary');
+    });
+
+    it('should keep the error state on top of the default variant', async () => {
+      await createComponent({ label: 'Date', error: 'Required' });
+      expect(host().classList).toContain('datepicker--error');
+      expect(inputEl().classList).toContain('datepicker__input--error');
+    });
+  });
+
   describe('Typed entry', () => {
     it('should accept a typed dd.MM.yyyy date on blur and report it', async () => {
       await createComponent();
@@ -277,6 +303,94 @@ describe('datepicker.component.ts', () => {
       await render();
       expect(component.isOpen()).toBe(false);
       expect(document.activeElement).toBe(inputEl());
+    });
+
+    describe('leaving the field while the calendar is open', () => {
+      let outside: HTMLButtonElement;
+
+      beforeEach(() => {
+        outside = document.createElement('button');
+        document.body.appendChild(outside);
+      });
+
+      afterEach(() => {
+        outside.remove();
+      });
+
+      /** Pointer sequence of a real click: the browser moves focus on mousedown, then fires click. */
+      function clickOutside(): void {
+        outside.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+        outside.focus();
+        outside.click();
+      }
+
+      it('should close on Tab without cancelling the focus move', async () => {
+        await createComponent();
+        inputEl().click();
+        await render();
+        expect(component.isOpen()).toBe(true);
+
+        const tab = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+        inputEl().dispatchEvent(tab);
+        await render();
+
+        expect(component.isOpen()).toBe(false);
+        expect(tab.defaultPrevented).toBe(false);
+      });
+
+      it('should not close on Tab when the calendar is already closed', async () => {
+        await createComponent();
+        const onTouched = vi.fn();
+        component.registerOnTouched(onTouched);
+        inputEl().dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+        await render();
+        expect(component.isOpen()).toBe(false);
+        expect(onTouched).not.toHaveBeenCalled();
+      });
+
+      it('should render no backdrop that could swallow the next click', async () => {
+        await createComponent();
+        inputEl().click();
+        await render();
+        expect(component.isOpen()).toBe(true);
+        expect(document.querySelector('.cdk-overlay-backdrop')).toBeNull();
+      });
+
+      it('should close on an outside click and leave focus on the clicked element', async () => {
+        await createComponent();
+        inputEl().click();
+        await render();
+
+        const clicked = vi.fn();
+        outside.addEventListener('click', clicked);
+        clickOutside();
+        await render();
+
+        expect(component.isOpen()).toBe(false);
+        expect(clicked).toHaveBeenCalledTimes(1);
+        expect(document.activeElement).toBe(outside);
+      });
+
+      it('should keep the calendar open on a click inside it', async () => {
+        await createComponent();
+        component.open(true);
+        await render();
+        document.querySelector<HTMLElement>('.datepicker__nav-btn')!.click();
+        await render();
+        expect(component.isOpen()).toBe(true);
+      });
+
+      it('should let a click on the input toggle the calendar once, not close and reopen it', async () => {
+        await createComponent();
+        inputEl().click();
+        await render();
+        expect(component.isOpen()).toBe(true);
+
+        inputEl().dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+        inputEl().click();
+        await render();
+        expect(component.isOpen()).toBe(false);
+      });
     });
 
     it('should close when Enter commits while open', async () => {

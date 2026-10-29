@@ -75,15 +75,16 @@
   <!--
     'inline' renders the calendar as a native popover next to the trigger: the top layer keeps it
     above a modal <dialog>, and staying inside the dialog's subtree keeps it out of the inert area.
+    The calendar is non-modal (focus stays in the input while typing), so it has no backdrop: a
+    backdrop would swallow the next click on the page. An outside click closes it and still
+    reaches its target; Tab closes it from the input.
   -->
   <ng-template
     cdkConnectedOverlay
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="isOpen()"
     [cdkConnectedOverlayUsePopover]="'inline'"
-    [cdkConnectedOverlayHasBackdrop]="true"
-    [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
-    (backdropClick)="close()"
+    (overlayOutsideClick)="onOutsideClick($event)"
     (detach)="onOverlayDetach()"
   >
     <!-- Calendar Popup -->

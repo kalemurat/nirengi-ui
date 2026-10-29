@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Since `1.0.0` the public API is stable: breaking changes only ship in a new major
 version. Before `1.0.0` the API could change between minor versions.
 
+## [1.1.0] - 2026-10-29
+
+### Added
+
+- `nui-select` can hand searching to the consumer, for options loaded from a server:
+  the `searchChange` output emits the trimmed term, `[filterLocally]="false"` makes the
+  list show `options` exactly as given, and `[loading]` shows a loading message in the
+  empty-state slot and marks the list `aria-busy`. Replacing `options` while the list is
+  open keeps it open with the typed text, resets the active option, and the selected
+  label stays visible even when the new options no longer contain it.
+- `nui-select` has a new `loading` text in `SELECT_INTL` (default "Loading...").
+  `ISelectIntl` gained a matching required `loading` member, so code that builds a full
+  `ISelectIntl` object needs to add it; `SELECT_INTL` overrides stay partial and are
+  unaffected.
+- `nui-tabs` active tab is controllable: `[activeIndex]` opens a given tab,
+  `[(activeIndex)]` follows the user's clicks and `(activeIndexChange)` emits the
+  clicked tab's index. A disabled or out-of-range index never activates that tab.
+- `nui-textbox` clear button label is overridable app-wide or per subtree through the
+  new `TEXTBOX_INTL` token (`DEFAULT_TEXTBOX_INTL` and `ITextboxIntl` are exported). The
+  default stays "Clear input".
+
+### Changed
+
+- `nui-datepicker` defaults to the neutral variant, like `nui-textbox` and
+  `nui-textarea`, so an untouched field is no longer blue. Use `variant="primary"` to
+  keep the previous look.
+- `nui-tabs` shows the first enabled tab when the first tab is disabled and no index is
+  bound; previously the disabled first tab was shown.
+
+### Fixed
+
+- `nui-select` options panel is as wide as its trigger again when rendered as a popover,
+  instead of shrinking to its widest option.
+- `nui-datepicker` calendar closes when focus leaves the input with Tab, and an outside
+  click both closes it and reaches its target. The calendar no longer renders a
+  backdrop that swallowed the next click on the page.
+- `nui-tabs` `selectTab()` no longer treats a negative index as counting from the end.
+
 ## [1.0.1] - 2026-10-29
 
 ### Added
@@ -206,6 +244,7 @@ component library (selector prefix `nui`), built with `ng-packagr`.
 - Prevented the popover from immediately closing on open in production builds and
   fixed a popover directive memory leak.
 
+[1.1.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v1.1.0
 [1.0.1]: https://github.com/kalemurat/nirengi-ui/releases/tag/v1.0.1
 [1.0.0]: https://github.com/kalemurat/nirengi-ui/releases/tag/v1.0.0
 [0.2.1]: https://github.com/kalemurat/nirengi-ui/releases/tag/v0.2.1

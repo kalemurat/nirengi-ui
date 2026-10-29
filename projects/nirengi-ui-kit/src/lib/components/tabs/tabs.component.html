@@ -4,12 +4,12 @@
       <button
         type="button"
         role="tab"
-        [attr.aria-selected]="activeIndex() === $index"
+        [attr.aria-selected]="currentIndex() === $index"
         [attr.aria-disabled]="tab.disabled()"
         [attr.aria-controls]="'tab-panel-' + $index"
         [id]="'tab-' + $index"
         class="nui-tabs__header-item"
-        [class.nui-tabs__header-item--active]="activeIndex() === $index"
+        [class.nui-tabs__header-item--active]="currentIndex() === $index"
         [class.nui-tabs__header-item--disabled]="tab.disabled()"
         (click)="selectTab($index)"
         [disabled]="tab.disabled()"
@@ -25,7 +25,7 @@
 
   <div class="nui-tabs__content">
     @for (tab of tabs(); track $index) {
-      @if (activeIndex() === $index) {
+      @if (currentIndex() === $index) {
         <div
           role="tabpanel"
           [id]="'tab-panel-' + $index"

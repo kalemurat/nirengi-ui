@@ -226,6 +226,13 @@ const names = await loadNuiIconNames();
 <!-- also: icon, hint, clearable, readonly, variant, size -->
 ```
 
+The clear button's accessible name ("Clear input") can be overridden app-wide, or in a component's
+`providers` for one subtree, with `TEXTBOX_INTL`:
+
+```ts
+providers: [{ provide: TEXTBOX_INTL, useValue: { clearInput: 'Girdiyi temizle' } }]
+```
+
 **Textarea** — `nirengi-ui-kit/components/textarea/textarea.component`
 
 ```html
@@ -269,14 +276,32 @@ const names = await loadNuiIconNames();
 also sets `aria-invalid`. The built-in texts are English by default; override them with `SELECT_INTL`:
 
 ```ts
-providers: [{ provide: SELECT_INTL, useValue: { searchPlaceholder: 'Ara...', noResults: 'Sonuç bulunamadı.' } }]
+providers: [{ provide: SELECT_INTL, useValue: { searchPlaceholder: 'Ara...', noResults: 'Sonuç bulunamadı.', loading: 'Yükleniyor...' } }]
+```
+
+For options loaded from a server, let the consumer do the searching: `searchChange` emits the trimmed
+term (not debounced, so debounce it yourself; it also emits `''` when the list closes with a term
+typed), `[filterLocally]="false"` makes the list show `options` exactly as given, and `[loading]`
+shows the loading text in the empty-state slot while you fetch. The selected label stays visible
+when a new `options` list no longer contains it.
+
+```html
+<nui-select
+  [options]="results()"
+  bindLabel="name"
+  bindValue="id"
+  [searchable]="true"
+  [filterLocally]="false"
+  [loading]="loading()"
+  (searchChange)="search$.next($event)"
+  [(ngModel)]="customerId" />
 ```
 
 **Datepicker** — `nirengi-ui-kit/components/datepicker/datepicker.component`
 
 ```html
 <nui-datepicker label="Date" selectionMode="single" [(ngModel)]="date" (dateChange)="onDate($event)" />
-<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable, valueFormat ("date" | "iso-date") -->
+<!-- selectionMode: single | range · also: minDate, maxDate, withTime, clearable, valueFormat ("date" | "iso-date"), variant (neutral by default) -->
 ```
 
 Dates can also be typed (`dd.MM.yyyy`) and the calendar is fully keyboard operable. Its accessible
@@ -298,6 +323,18 @@ providers: [{ provide: DATEPICKER_INTL, useValue: { toggleCalendar: 'Takvimi aç
 
 ```html
 <nui-tabs variant="primary" size="md">
+  <nui-tab label="Profile">Profile content</nui-tab>
+  <nui-tab label="Security">Security content</nui-tab>
+</nui-tabs>
+```
+
+The active tab is controllable: `[activeIndex]` opens a given tab (for example one read from the URL),
+`[(activeIndex)]` also follows the user's clicks, and `(activeIndexChange)` emits the clicked tab's
+index. A disabled or out-of-range index never activates that tab; the first enabled tab is shown
+instead and the bound value is left as given.
+
+```html
+<nui-tabs [(activeIndex)]="tabIndex">
   <nui-tab label="Profile">Profile content</nui-tab>
   <nui-tab label="Security">Security content</nui-tab>
 </nui-tabs>

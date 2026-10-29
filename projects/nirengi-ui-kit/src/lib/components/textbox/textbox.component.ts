@@ -4,6 +4,7 @@ import {
   forwardRef,
   computed,
   effect,
+  inject,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -13,6 +14,7 @@ import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../icon/icon.types';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
+import { DEFAULT_TEXTBOX_INTL, ITextboxIntl, TEXTBOX_INTL } from './textbox-intl.token';
 
 export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 'tel' | 'url';
 
@@ -47,6 +49,12 @@ export type TextboxType = 'text' | 'password' | 'email' | 'number' | 'search' | 
   ],
 })
 export class TextboxComponent extends ValueAccessorBase<string> {
+  /** Built-in texts: {@link DEFAULT_TEXTBOX_INTL} merged with any {@link TEXTBOX_INTL} override. */
+  protected readonly intl: ITextboxIntl = {
+    ...DEFAULT_TEXTBOX_INTL,
+    ...inject(TEXTBOX_INTL, { optional: true }),
+  };
+
   /**
    * Unique ID for accessibility.
    */
