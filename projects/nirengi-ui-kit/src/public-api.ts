@@ -304,10 +304,13 @@ export * from './lib/components/tooltip-demo';
 // export { TruncatePipe } from './lib/pipes/truncate/truncate.pipe';
 
 /**
- * Select component.
+ * Select component and its built-in text overrides.
  * @see {@link SelectComponent}
+ * @see {@link SELECT_INTL}
  */
 export { SelectComponent } from './lib/components/select/select.component';
+export { SELECT_INTL, DEFAULT_SELECT_INTL } from './lib/components/select/select-intl.token';
+export type { ISelectIntl } from './lib/components/select/select-intl.token';
 
 /**
  * Radio component.
@@ -353,10 +356,22 @@ export { AccordionComponent } from './lib/components/accordion/accordion.compone
 export type { AccordionStatus } from './lib/components/accordion/accordion.component';
 
 /**
- * Datepicker component.
+ * Datepicker component, types and accessible-name overrides.
  * @see {@link DatepickerComponent}
+ * @see {@link DATEPICKER_INTL}
  */
 export { DatepickerComponent } from './lib/components/datepicker/datepicker.component';
+export type {
+  DateValues,
+  DatepickerModelValue,
+  DatepickerSelectionMode,
+  DatepickerValueFormat,
+} from './lib/components/datepicker/datepicker.component';
+export {
+  DATEPICKER_INTL,
+  DEFAULT_DATEPICKER_INTL,
+} from './lib/components/datepicker/datepicker-intl.token';
+export type { IDatepickerIntl } from './lib/components/datepicker/datepicker-intl.token';
 
 export * from './lib/components/toast';
 export * from './lib/components/toast-demo';

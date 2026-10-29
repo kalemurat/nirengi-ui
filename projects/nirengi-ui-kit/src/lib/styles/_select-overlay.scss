@@ -80,6 +80,18 @@
     }
   }
 
+  /*
+   * Keyboard-active option (aria-activedescendant target). DOM focus stays on the
+   * combobox (the trigger, or the search input when searchable), so the browser
+   * draws no focus ring here — this inset ring is
+   * the visible substitute, required so keyboard users can see where they are
+   * (WCAG 2.4.7 Focus Visible). Uses a ring rather than colour alone so it does not
+   * rely on colour perception (WCAG 1.4.1).
+   */
+  &--active {
+    @apply bg-secondary ring-2 ring-inset ring-primary-500;
+  }
+
   &--disabled {
     @apply cursor-not-allowed bg-transparent opacity-50 hover:bg-transparent;
   }

@@ -42,7 +42,7 @@ Key features:
 | ---------- | ---------------------------------------------------------------------- |
 | Node.js    | `^22.22.3 \|\| ^24.15.0 \|\| >=26.0.0` — required by Angular 22          |
 | npm        | `>=8.0.0`                                                              |
-| Angular    | `20.3+`, `21.x` or `22.x` (the library supports all three)              |
+| Angular    | `21.x` or `22.x` (the library supports both)                            |
 | TypeScript | `>=6.0 <6.1` — required to build this workspace                         |
 
 > Developing in this repository requires Node.js **22.22.3 or newer** (or 24.15+/26+).

@@ -1,25 +1,42 @@
 <div [class]="'nui-select ' + containerClasses()">
   <!-- Label -->
+  <!--
+    The trigger is a `div`, which is not a labelable element, so `<label for>` would have
+    no effect on it (MDN: "If it is not a labelable element, then the for attribute has no
+    effect"). The accessible name is provided via `aria-labelledby` on the trigger instead,
+    following the WAI-ARIA APG select-only combobox pattern.
+  -->
   @if (label()) {
-    <label [for]="inputId" class="nui-select__label">
+    <span [id]="labelId" class="nui-select__label">
       {{ label() }}
-    </label>
+    </span>
   }
 
   <div class="nui-select__container" #container>
     <!-- Trigger Button -->
     <div
+      [id]="inputId"
       [class]="'nui-select__trigger ' + triggerClasses()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
+      #triggerElement
       [class.nui-select__trigger--disabled]="isDisabled()"
       [class.nui-select__trigger--success]="success()"
       [class.nui-select__trigger--warning]="warning()"
       [class.nui-select__trigger--open]="isOpen()"
+      [attr.role]="searchIsCombobox() ? 'button' : 'combobox'"
+      [attr.aria-labelledby]="label() ? labelId : null"
+      [attr.aria-label]="label() ? null : placeholder()"
+      [attr.aria-expanded]="isOpen()"
+      [attr.aria-controls]="listboxId"
+      [attr.aria-haspopup]="'listbox'"
+      [attr.aria-activedescendant]="searchIsCombobox() ? null : activeDescendantId()"
+      [attr.aria-describedby]="describedBy()"
+      [attr.aria-invalid]="ariaInvalid()"
+      [attr.aria-disabled]="isDisabled()"
+      [attr.tabindex]="isDisabled() ? -1 : 0"
       (click)="toggleDropdown()"
-      tabindex="0"
-      (keydown.enter)="toggleDropdown()"
-      (keydown.space)="toggleDropdown()"
+      (keydown)="onTriggerKeydown($event)"
     >
       <!-- Value Display -->
       <div class="nui-select__value" [class.nui-select__value--placeholder]="!hasValue()">
@@ -32,7 +49,7 @@
                   class="nui-select__chip-remove"
                   role="button"
                   tabindex="0"
-                  aria-label="Remove item"
+                  [attr.aria-label]="intl.removeItem"
                   (click)="removeItem(item, $event)"
                   (keydown.enter)="removeItem(item, $event)"
                   (keydown.space)="removeItem(item, $event)"
@@ -51,7 +68,12 @@
 
       <!-- Clear Button -->
       @if (hasValue() && clearable() && !isDisabled()) {
-        <button type="button" class="nui-select__clear" (click)="clearValue($event)" aria-label="Clear selection">
+        <button
+          type="button"
+          class="nui-select__clear"
+          (click)="clearValue($event)"
+          [attr.aria-label]="intl.clearSelection"
+        >
           <nui-icon name="close-line" [size]="iconSize()" />
         </button>
       }
@@ -68,29 +90,68 @@
         <!-- Search Input -->
         @if (searchable()) {
           <div class="nui-select__search">
+            <!--
+              While the dropdown is open this input holds DOM focus (auto-focused below),
+              so IT is the combobox: aria-activedescendant is only honoured on the focused
+              element. Mirrors the WAI-ARIA APG editable (autocomplete-list) combobox, where
+              the input carries role="combobox" and aria-activedescendant while DOM focus
+              stays on it. The trigger drops to role="button" for this duration.
+            -->
             <input
               #searchInput
+              [id]="searchInputId"
+              [name]="searchInputId"
               type="text"
               class="nui-select__search-input"
-              [placeholder]="'Search...'"
+              autocomplete="off"
+              role="combobox"
+              [attr.aria-labelledby]="label() ? labelId : null"
+              [attr.aria-label]="label() ? null : intl.searchLabel"
+              [attr.aria-describedby]="describedBy()"
+              [attr.aria-invalid]="ariaInvalid()"
+              [attr.aria-expanded]="isOpen()"
+              [attr.aria-controls]="listboxId"
+              [attr.aria-haspopup]="'listbox'"
+              [attr.aria-autocomplete]="'list'"
+              [attr.aria-activedescendant]="activeDescendantId()"
+              [placeholder]="intl.searchPlaceholder"
               (input)="onSearch($event)"
+              (keydown)="onSearchKeydown($event)"
               (click)="$event.stopPropagation()"
             />
           </div>
         }
 
         <!-- Options List -->
-        <div class="nui-select__options">
+        <div
+          [id]="listboxId"
+          class="nui-select__options"
+          role="listbox"
+          [attr.aria-labelledby]="label() ? labelId : null"
+          [attr.aria-multiselectable]="multiple() ? true : null"
+        >
           @for (option of filteredOptions(); track trackByFn($index, option)) {
+            <!--
+              Options are deliberately NOT focusable and carry no key handlers: per the
+              WAI-ARIA APG combobox pattern, DOM focus stays on the combobox element — the
+              search input while searchable and open, otherwise the trigger — and the active
+              option is conveyed via aria-activedescendant. All keyboard interaction is
+              handled by onTriggerKeydown / onSearchKeydown. Giving these options tabindex or
+              their own key handlers would break that pattern, so the two a11y rules are
+              turned off for this file in eslint.config.mjs.
+              The mousedown default is prevented so a mouse click does not blur the combobox
+              either (APG onOptionMouseDown), which keeps keyboard navigation working while a
+              multiple-mode listbox stays open.
+            -->
             <div
+              [id]="getOptionId($index)"
               class="nui-select__option"
               role="option"
-              tabindex="0"
               [attr.aria-selected]="isSelected(option)"
               [class.nui-select__option--selected]="isSelected(option)"
+              [class.nui-select__option--active]="activeIndex() === $index"
+              (mousedown)="$event.preventDefault()"
               (click)="selectOption(option)"
-              (keydown.enter)="selectOption(option)"
-              (keydown.space)="selectOption(option)"
             >
               <!-- Content -->
               <ng-container
@@ -106,7 +167,7 @@
               }
             </div>
           } @empty {
-            <div class="nui-select__empty">No results found.</div>
+            <div class="nui-select__empty">{{ intl.noResults }}</div>
           }
         </div>
       </div>
@@ -134,13 +195,13 @@
     }
   </div>
 
-  <!-- Hint & Status Messages -->
+  <!-- Hint & Status Messages (one at a time; referenced by the combobox's aria-describedby) -->
   @if (success()) {
-    <p class="nui-select__success">{{ success() }}</p>
+    <p [id]="messageId" class="nui-select__success">{{ success() }}</p>
   } @else if (warning()) {
-    <p class="nui-select__warning">{{ warning() }}</p>
+    <p [id]="messageId" class="nui-select__warning">{{ warning() }}</p>
   } @else if (hint()) {
-    <p class="nui-select__hint">{{ hint() }}</p>
+    <p [id]="messageId" class="nui-select__hint">{{ hint() }}</p>
   }
 
   <!-- Default Item Template -->

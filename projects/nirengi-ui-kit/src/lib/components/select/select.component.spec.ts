@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { SelectComponent } from './select.component';
 import { Size } from '../../common/enums/size.enum';
 import { ColorVariant } from '../../common/enums/color-variant.enum';
+import { DEFAULT_SELECT_INTL, ISelectIntl, SELECT_INTL } from './select-intl.token';
 
 const SIMPLE_OPTIONS = ['Alpha', 'Beta', 'Gamma'];
 
@@ -1406,6 +1407,872 @@ describe('select.component.ts', () => {
         trigger.click();
         fixture.detectChanges();
         expect(component.isOpen()).toBe(true);
+      });
+    });
+  });
+
+  // ─── Accessibility (WAI-ARIA APG select-only combobox) ────────────────────
+
+  describe('Accessibility', () => {
+    /** Opens the dropdown inline so the popup is queryable from the component's own DOM. */
+    function createOpenInline(extraSetup?: (f: ComponentFixture<SelectComponent>) => void): void {
+      createComponent((f) => {
+        f.componentRef.setInput('appendToBody', false);
+        if (extraSetup) extraSetup(f);
+      });
+      component.toggleDropdown();
+      fixture.detectChanges();
+    }
+
+    function trigger(): HTMLElement {
+      return fixture.nativeElement.querySelector('.nui-select__trigger') as HTMLElement;
+    }
+
+    /**
+     * Resolves an IDREF the way an assistive technology would.
+     * Walks the fixture's own elements rather than using a `#id` selector, so the
+     * assertion does not depend on `CSS.escape` being present in the test environment.
+     */
+    function findById(id: string): HTMLElement | null {
+      const host = fixture.nativeElement as HTMLElement;
+      return (
+        Array.from(host.querySelectorAll<HTMLElement>('[id]')).find((el) => el.id === id) ?? null
+      );
+    }
+
+    describe('Generated ids', () => {
+      it('should derive labelId, listboxId and searchInputId from inputId', () => {
+        createComponent();
+        expect(component.labelId).toBe(`${component.inputId}-label`);
+        expect(component.listboxId).toBe(`${component.inputId}-listbox`);
+        expect(component.searchInputId).toBe(`${component.inputId}-search`);
+      });
+
+      it('should generate unique ids per instance', () => {
+        createComponent();
+        const first = component.inputId;
+        const second = TestBed.createComponent(SelectComponent);
+        second.componentRef.setInput('options', SIMPLE_OPTIONS);
+        second.detectChanges();
+        expect(second.componentInstance.inputId).not.toBe(first);
+      });
+
+      it('should build option ids from the inputId and index', () => {
+        createComponent();
+        expect(component.getOptionId(2)).toBe(`${component.inputId}-option-2`);
+      });
+    });
+
+    describe('Label association', () => {
+      it('should not render a label[for] pointing at a non-labelable element', () => {
+        createComponent((f) => f.componentRef.setInput('label', 'Country'));
+        fixture.detectChanges();
+        const labelWithFor = fixture.nativeElement.querySelector('label[for]');
+        expect(labelWithFor).toBeNull();
+      });
+
+      it('should render the visible label with the generated labelId', () => {
+        createComponent((f) => f.componentRef.setInput('label', 'Country'));
+        fixture.detectChanges();
+        const label = fixture.nativeElement.querySelector('.nui-select__label');
+        expect(label.id).toBe(component.labelId);
+      });
+
+      it('should point aria-labelledby at the visible label when a label is provided', () => {
+        createComponent((f) => f.componentRef.setInput('label', 'Country'));
+        fixture.detectChanges();
+        expect(trigger().getAttribute('aria-labelledby')).toBe(component.labelId);
+      });
+
+      it('should resolve aria-labelledby to an element that exists in the DOM', () => {
+        createComponent((f) => f.componentRef.setInput('label', 'Country'));
+        fixture.detectChanges();
+        const id = trigger().getAttribute('aria-labelledby')!;
+        const referenced = findById(id);
+        expect(referenced).toBeTruthy();
+        expect(referenced!.textContent!.trim()).toBe('Country');
+      });
+
+      it('should fall back to aria-label with the placeholder when no label is provided', () => {
+        createComponent((f) => f.componentRef.setInput('placeholder', 'Pick a country'));
+        fixture.detectChanges();
+        expect(trigger().getAttribute('aria-labelledby')).toBeNull();
+        expect(trigger().getAttribute('aria-label')).toBe('Pick a country');
+      });
+
+      it('should not set aria-label when a visible label is present', () => {
+        createComponent((f) => f.componentRef.setInput('label', 'Country'));
+        fixture.detectChanges();
+        expect(trigger().getAttribute('aria-label')).toBeNull();
+      });
+    });
+
+    describe('Trigger combobox semantics', () => {
+      it('should expose role="combobox" on the trigger', () => {
+        createComponent();
+        expect(trigger().getAttribute('role')).toBe('combobox');
+      });
+
+      it('should carry the inputId on the trigger', () => {
+        createComponent();
+        expect(trigger().id).toBe(component.inputId);
+      });
+
+      it('should expose aria-haspopup="listbox"', () => {
+        createComponent();
+        expect(trigger().getAttribute('aria-haspopup')).toBe('listbox');
+      });
+
+      it('should report aria-expanded="false" when closed', () => {
+        createComponent();
+        expect(trigger().getAttribute('aria-expanded')).toBe('false');
+      });
+
+      it('should report aria-expanded="true" when open', () => {
+        createOpenInline();
+        expect(trigger().getAttribute('aria-expanded')).toBe('true');
+      });
+
+      it('should reference the popup via aria-controls', () => {
+        createComponent();
+        expect(trigger().getAttribute('aria-controls')).toBe(component.listboxId);
+      });
+
+      it('should expose aria-disabled and remove it from the tab order when disabled', () => {
+        createComponent((f) => f.componentRef.setInput('disabled', true));
+        fixture.detectChanges();
+        expect(trigger().getAttribute('aria-disabled')).toBe('true');
+        expect(trigger().getAttribute('tabindex')).toBe('-1');
+      });
+
+      it('should be focusable when enabled', () => {
+        createComponent();
+        expect(trigger().getAttribute('tabindex')).toBe('0');
+      });
+    });
+
+    describe('Listbox popup semantics', () => {
+      it('should expose role="listbox" on the options container', () => {
+        createOpenInline();
+        const listbox = fixture.nativeElement.querySelector('.nui-select__options');
+        expect(listbox.getAttribute('role')).toBe('listbox');
+      });
+
+      it('should give the listbox the id referenced by aria-controls', () => {
+        createOpenInline();
+        const listbox = fixture.nativeElement.querySelector('.nui-select__options');
+        expect(listbox.id).toBe(trigger().getAttribute('aria-controls'));
+      });
+
+      it('should set aria-multiselectable in multiple mode', () => {
+        createOpenInline((f) => f.componentRef.setInput('multiple', true));
+        const listbox = fixture.nativeElement.querySelector('.nui-select__options');
+        expect(listbox.getAttribute('aria-multiselectable')).toBe('true');
+      });
+
+      it('should not set aria-multiselectable in single mode', () => {
+        createOpenInline();
+        const listbox = fixture.nativeElement.querySelector('.nui-select__options');
+        expect(listbox.getAttribute('aria-multiselectable')).toBeNull();
+      });
+
+      it('should give each option a unique id matching getOptionId', () => {
+        createOpenInline();
+        const options = fixture.nativeElement.querySelectorAll('.nui-select__option');
+        options.forEach((opt: HTMLElement, i: number) => {
+          expect(opt.id).toBe(component.getOptionId(i));
+        });
+      });
+
+      it('should not make options focusable (focus stays on the combobox)', () => {
+        createOpenInline();
+        const options = fixture.nativeElement.querySelectorAll('.nui-select__option');
+        options.forEach((opt: HTMLElement) => {
+          expect(opt.getAttribute('tabindex')).toBeNull();
+        });
+      });
+
+      it('should mark the selected option with aria-selected="true"', () => {
+        createComponent((f) => f.componentRef.setInput('appendToBody', false));
+        component.writeValue('Beta');
+        component.toggleDropdown();
+        fixture.detectChanges();
+        const options = fixture.nativeElement.querySelectorAll('.nui-select__option');
+        expect(options[1].getAttribute('aria-selected')).toBe('true');
+        expect(options[0].getAttribute('aria-selected')).toBe('false');
+      });
+    });
+
+    describe('Search input identity', () => {
+      it('should give the search input an id and a name', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        const input = fixture.nativeElement.querySelector('.nui-select__search-input');
+        expect(input.id).toBe(component.searchInputId);
+        expect(input.getAttribute('name')).toBe(component.searchInputId);
+      });
+
+      it('should give the search input an accessible name', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        const input = fixture.nativeElement.querySelector('.nui-select__search-input');
+        expect(input.getAttribute('aria-label')).toBe('Search options');
+      });
+
+      it('should disable browser autocomplete on the search input', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        const input = fixture.nativeElement.querySelector('.nui-select__search-input');
+        expect(input.getAttribute('autocomplete')).toBe('off');
+      });
+    });
+
+    describe('aria-activedescendant', () => {
+      it('should be null while the dropdown is closed', () => {
+        createComponent();
+        expect(component.activeDescendantId()).toBeNull();
+        expect(trigger().getAttribute('aria-activedescendant')).toBeNull();
+      });
+
+      it('should point at the first option when opened with no selection', () => {
+        createOpenInline();
+        expect(component.activeIndex()).toBe(0);
+        expect(trigger().getAttribute('aria-activedescendant')).toBe(component.getOptionId(0));
+      });
+
+      it('should point at the selected option when opened with a selection', () => {
+        createComponent((f) => f.componentRef.setInput('appendToBody', false));
+        component.writeValue('Gamma');
+        component.toggleDropdown();
+        fixture.detectChanges();
+        expect(component.activeIndex()).toBe(2);
+        expect(trigger().getAttribute('aria-activedescendant')).toBe(component.getOptionId(2));
+      });
+
+      it('should reference an element that actually exists in the DOM', () => {
+        createOpenInline();
+        const id = trigger().getAttribute('aria-activedescendant')!;
+        expect(findById(id)).toBeTruthy();
+      });
+
+      it('should reset when the dropdown closes', () => {
+        createOpenInline();
+        component.close();
+        fixture.detectChanges();
+        expect(component.activeIndex()).toBe(-1);
+        expect(component.activeDescendantId()).toBeNull();
+      });
+
+      it('should be null when the filtered list is empty', () => {
+        createOpenInline();
+        component.searchTerm.set('zzz');
+        component.activeIndex.set(-1);
+        fixture.detectChanges();
+        expect(component.activeDescendantId()).toBeNull();
+      });
+
+      it('should apply the active class to the active option', () => {
+        createOpenInline();
+        const options = fixture.nativeElement.querySelectorAll('.nui-select__option');
+        expect(options[0].classList).toContain('nui-select__option--active');
+        expect(options[1].classList).not.toContain('nui-select__option--active');
+      });
+    });
+
+    describe('Keyboard navigation (APG combobox)', () => {
+      function press(key: string): KeyboardEvent {
+        const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
+        trigger().dispatchEvent(event);
+        fixture.detectChanges();
+        return event;
+      }
+
+      it('should open the dropdown on ArrowDown when closed', () => {
+        createComponent((f) => f.componentRef.setInput('appendToBody', false));
+        press('ArrowDown');
+        expect(component.isOpen()).toBe(true);
+      });
+
+      it('should open the dropdown on ArrowUp when closed', () => {
+        createComponent((f) => f.componentRef.setInput('appendToBody', false));
+        press('ArrowUp');
+        expect(component.isOpen()).toBe(true);
+      });
+
+      it('should move the active option down with ArrowDown', () => {
+        createOpenInline();
+        expect(component.activeIndex()).toBe(0);
+        press('ArrowDown');
+        expect(component.activeIndex()).toBe(1);
+      });
+
+      it('should move the active option up with ArrowUp', () => {
+        createOpenInline();
+        press('ArrowDown');
+        press('ArrowUp');
+        expect(component.activeIndex()).toBe(0);
+      });
+
+      it('should wrap from the last option to the first with ArrowDown', () => {
+        createOpenInline();
+        component.activeIndex.set(SIMPLE_OPTIONS.length - 1);
+        press('ArrowDown');
+        expect(component.activeIndex()).toBe(0);
+      });
+
+      it('should wrap from the first option to the last with ArrowUp', () => {
+        createOpenInline();
+        component.activeIndex.set(0);
+        press('ArrowUp');
+        expect(component.activeIndex()).toBe(SIMPLE_OPTIONS.length - 1);
+      });
+
+      it('should jump to the first option with Home', () => {
+        createOpenInline();
+        component.activeIndex.set(2);
+        press('Home');
+        expect(component.activeIndex()).toBe(0);
+      });
+
+      it('should jump to the last option with End', () => {
+        createOpenInline();
+        press('End');
+        expect(component.activeIndex()).toBe(SIMPLE_OPTIONS.length - 1);
+      });
+
+      it('should select the active option with Enter and close', () => {
+        createOpenInline();
+        press('ArrowDown'); // → Beta
+        press('Enter');
+        expect(component.value()).toBe('Beta');
+        expect(component.isOpen()).toBe(false);
+      });
+
+      it('should select the active option with Space and close', () => {
+        createOpenInline();
+        press(' ');
+        expect(component.value()).toBe('Alpha');
+        expect(component.isOpen()).toBe(false);
+      });
+
+      it('should open on Enter when closed', () => {
+        createComponent((f) => f.componentRef.setInput('appendToBody', false));
+        press('Enter');
+        expect(component.isOpen()).toBe(true);
+      });
+
+      it('should open on Space when closed', () => {
+        createComponent((f) => f.componentRef.setInput('appendToBody', false));
+        press(' ');
+        expect(component.isOpen()).toBe(true);
+      });
+
+      it('should close on Escape without changing the value', () => {
+        createOpenInline();
+        press('Escape');
+        expect(component.isOpen()).toBe(false);
+        expect(component.value()).toBeNull();
+      });
+
+      it('should close on Tab and let focus move naturally', () => {
+        createOpenInline();
+        const event = press('Tab');
+        expect(component.isOpen()).toBe(false);
+        expect(event.defaultPrevented).toBe(false);
+      });
+
+      it('should preventDefault on ArrowDown so the page does not scroll', () => {
+        createOpenInline();
+        const event = press('ArrowDown');
+        expect(event.defaultPrevented).toBe(true);
+      });
+
+      it('should do nothing when disabled', () => {
+        createComponent((f) => {
+          f.componentRef.setInput('appendToBody', false);
+          f.componentRef.setInput('disabled', true);
+        });
+        fixture.detectChanges();
+        press('ArrowDown');
+        expect(component.isOpen()).toBe(false);
+      });
+
+      it('should not select anything with Enter when the filtered list is empty', () => {
+        createOpenInline();
+        component.searchTerm.set('zzz');
+        component.activeIndex.set(-1);
+        fixture.detectChanges();
+        press('Enter');
+        expect(component.value()).toBeNull();
+      });
+
+      it('should keep the dropdown open after Enter in multiple mode', () => {
+        createOpenInline((f) => f.componentRef.setInput('multiple', true));
+        press('Enter');
+        expect(component.value()).toEqual(['Alpha']);
+        expect(component.isOpen()).toBe(true);
+      });
+    });
+
+    /*
+     * The combobox role and aria-activedescendant MUST live on whichever element holds DOM
+     * focus, because aria-activedescendant is only honoured on the focused element. Opening a
+     * searchable select auto-focuses the search input, so the roles swap between modes.
+     */
+    describe('Combobox follows DOM focus', () => {
+      function searchInput(): HTMLInputElement {
+        return fixture.nativeElement.querySelector('.nui-select__search-input');
+      }
+
+      describe('searchable = false (APG select-only)', () => {
+        it('should keep role="combobox" on the trigger when open', () => {
+          createOpenInline();
+          expect(trigger().getAttribute('role')).toBe('combobox');
+        });
+
+        it('should keep aria-activedescendant on the trigger', () => {
+          createOpenInline();
+          expect(trigger().getAttribute('aria-activedescendant')).toBe(component.getOptionId(0));
+        });
+
+        it('should report the trigger as the combobox element', () => {
+          createOpenInline();
+          expect(component.searchIsCombobox()).toBe(false);
+        });
+
+        it('should render no search input to compete for focus', () => {
+          createOpenInline();
+          expect(searchInput()).toBeNull();
+        });
+      });
+
+      describe('searchable = true (APG editable / autocomplete-list)', () => {
+        it('should move role="combobox" onto the search input while open', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          expect(searchInput().getAttribute('role')).toBe('combobox');
+        });
+
+        it('should put aria-activedescendant on the search input, not the trigger', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          expect(searchInput().getAttribute('aria-activedescendant')).toBe(
+            component.getOptionId(0)
+          );
+          expect(trigger().getAttribute('aria-activedescendant')).toBeNull();
+        });
+
+        it('should demote the trigger so there is exactly one combobox', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          expect(trigger().getAttribute('role')).not.toBe('combobox');
+          const comboboxes = fixture.nativeElement.querySelectorAll('[role="combobox"]');
+          expect(comboboxes.length).toBe(1);
+          expect(comboboxes[0]).toBe(searchInput());
+        });
+
+        it('should expose aria-expanded and aria-controls on the search input', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          expect(searchInput().getAttribute('aria-expanded')).toBe('true');
+          expect(searchInput().getAttribute('aria-controls')).toBe(component.listboxId);
+        });
+
+        it('should expose aria-autocomplete="list" on the search input', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          expect(searchInput().getAttribute('aria-autocomplete')).toBe('list');
+        });
+
+        it('should name the search combobox from the visible label', () => {
+          createOpenInline((f) => {
+            f.componentRef.setInput('searchable', true);
+            f.componentRef.setInput('label', 'Country');
+          });
+          expect(searchInput().getAttribute('aria-labelledby')).toBe(component.labelId);
+          expect(findById(component.labelId)!.textContent!.trim()).toBe('Country');
+        });
+
+        it('should fall back to aria-label when there is no visible label', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          expect(searchInput().getAttribute('aria-labelledby')).toBeNull();
+          expect(searchInput().getAttribute('aria-label')).toBe('Search options');
+        });
+
+        it('should keep aria-activedescendant on the search input as it moves', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          searchInput().dispatchEvent(
+            new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
+          );
+          fixture.detectChanges();
+          expect(component.activeIndex()).toBe(1);
+          expect(searchInput().getAttribute('aria-activedescendant')).toBe(
+            component.getOptionId(1)
+          );
+          expect(trigger().getAttribute('aria-activedescendant')).toBeNull();
+        });
+
+        it('should return the combobox role to the trigger once closed', () => {
+          createOpenInline((f) => f.componentRef.setInput('searchable', true));
+          component.close();
+          fixture.detectChanges();
+          expect(component.searchIsCombobox()).toBe(false);
+          expect(trigger().getAttribute('role')).toBe('combobox');
+        });
+      });
+
+      /*
+       * The assertion that actually binds focus to the ARIA: it is not enough that the role
+       * and aria-activedescendant exist somewhere — they must be on the element that holds
+       * DOM focus, because assistive tech only reads aria-activedescendant from there.
+       * These attach the fixture to the document so focus() genuinely takes effect.
+       */
+      describe('INVARIANT: document.activeElement carries role and aria-activedescendant', () => {
+        /** Attaches the fixture to the document so focus actually lands on elements. */
+        function createAttachedOpen(searchable: boolean): void {
+          fixture = TestBed.createComponent(SelectComponent);
+          component = fixture.componentInstance;
+          fixture.componentRef.setInput('options', SIMPLE_OPTIONS);
+          fixture.componentRef.setInput('appendToBody', false);
+          fixture.componentRef.setInput('searchable', searchable);
+          document.body.appendChild(fixture.nativeElement);
+          fixture.detectChanges();
+          trigger().focus();
+          component.toggleDropdown();
+          fixture.detectChanges();
+        }
+
+        function detachFixture(): void {
+          fixture.nativeElement.remove();
+        }
+
+        it('should hold in non-searchable mode: focused element is the combobox', () => {
+          createAttachedOpen(false);
+          const focused = document.activeElement as HTMLElement;
+          expect(focused).toBe(trigger());
+          expect(focused.getAttribute('role')).toBe('combobox');
+          expect(focused.getAttribute('aria-activedescendant')).toBe(component.getOptionId(0));
+          detachFixture();
+        });
+
+        it('should hold in searchable mode: focused search input is the combobox', async () => {
+          createAttachedOpen(true);
+          // The component auto-focuses the search input inside a setTimeout.
+          await new Promise((resolve) => setTimeout(resolve));
+          fixture.detectChanges();
+
+          const focused = document.activeElement as HTMLElement;
+          const searchEl = fixture.nativeElement.querySelector('.nui-select__search-input');
+
+          // Guard: the premise of this test is that focus really moved to the search input.
+          expect(focused).toBe(searchEl);
+          expect(focused.getAttribute('role')).toBe('combobox');
+          expect(focused.getAttribute('aria-activedescendant')).toBe(component.getOptionId(0));
+          // ...and the unfocused trigger must NOT claim the role or the attribute.
+          expect(trigger().getAttribute('aria-activedescendant')).toBeNull();
+          expect(trigger().getAttribute('role')).not.toBe('combobox');
+          detachFixture();
+        });
+
+        it('should keep the invariant while arrowing in searchable mode', async () => {
+          createAttachedOpen(true);
+          await new Promise((resolve) => setTimeout(resolve));
+          fixture.detectChanges();
+
+          (document.activeElement as HTMLElement).dispatchEvent(
+            new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
+          );
+          fixture.detectChanges();
+
+          const focused = document.activeElement as HTMLElement;
+          expect(focused.getAttribute('role')).toBe('combobox');
+          expect(focused.getAttribute('aria-activedescendant')).toBe(component.getOptionId(1));
+          detachFixture();
+        });
+
+        it('should never leave aria-activedescendant on an unfocused element', async () => {
+          for (const searchable of [false, true]) {
+            createAttachedOpen(searchable);
+            await new Promise((resolve) => setTimeout(resolve));
+            fixture.detectChanges();
+
+            const offenders = [
+              ...fixture.nativeElement.querySelectorAll('[aria-activedescendant]'),
+            ].filter((el: Element) => el !== document.activeElement);
+            expect(offenders).toEqual([]);
+            detachFixture();
+          }
+        });
+      });
+    });
+
+    describe('Search keyboard delegation', () => {
+      function pressOnSearch(key: string): void {
+        const input = fixture.nativeElement.querySelector(
+          '.nui-select__search-input'
+        ) as HTMLElement;
+        input.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+        fixture.detectChanges();
+      }
+
+      it('should move the active option with ArrowDown from the search input', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        expect(component.activeIndex()).toBe(0);
+        pressOnSearch('ArrowDown');
+        expect(component.activeIndex()).toBe(1);
+      });
+
+      it('should select the active option with Enter from the search input', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        pressOnSearch('Enter');
+        expect(component.value()).toBe('Alpha');
+      });
+
+      it('should close on Escape from the search input', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        pressOnSearch('Escape');
+        expect(component.isOpen()).toBe(false);
+      });
+
+      it('should not treat Space as a selection so it can be typed', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        pressOnSearch(' ');
+        expect(component.value()).toBeNull();
+        expect(component.isOpen()).toBe(true);
+      });
+
+      it('should leave Home/End to the input so they move the caret, not the option list', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        component.activeIndex.set(1);
+        pressOnSearch('End');
+        expect(component.activeIndex()).toBe(1);
+        pressOnSearch('Home');
+        expect(component.activeIndex()).toBe(1);
+      });
+
+      it('should re-anchor the active option to the first result when searching', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        component.activeIndex.set(2);
+        const input = document.createElement('input');
+        input.value = 'bet';
+        const event = new Event('input');
+        Object.defineProperty(event, 'target', { value: input });
+        component.onSearch(event);
+        expect(component.activeIndex()).toBe(0);
+        expect(component.activeDescendantId()).toBe(component.getOptionId(0));
+      });
+
+      it('should clear the active option when a search yields no results', () => {
+        createOpenInline((f) => f.componentRef.setInput('searchable', true));
+        const input = document.createElement('input');
+        input.value = 'zzz';
+        const event = new Event('input');
+        Object.defineProperty(event, 'target', { value: input });
+        component.onSearch(event);
+        expect(component.activeIndex()).toBe(-1);
+        expect(component.activeDescendantId()).toBeNull();
+      });
+    });
+
+    /*
+     * APG select-only combobox: Enter / Escape / option click "Closes the listbox. Sets visual
+     * focus on the combobox." In searchable mode the focused search input is removed on close,
+     * so without restoring focus it would fall to <body>.
+     */
+    describe('Focus return on close', () => {
+      /** Attaches the fixture so focus() takes effect, opens it and waits for the auto-focus. */
+      async function createAttachedOpen(
+        extraSetup?: (f: ComponentFixture<SelectComponent>) => void
+      ): Promise<void> {
+        fixture = TestBed.createComponent(SelectComponent);
+        component = fixture.componentInstance;
+        fixture.componentRef.setInput('options', SIMPLE_OPTIONS);
+        fixture.componentRef.setInput('appendToBody', false);
+        fixture.componentRef.setInput('searchable', true);
+        if (extraSetup) extraSetup(fixture);
+        document.body.appendChild(fixture.nativeElement);
+        fixture.detectChanges();
+        trigger().focus();
+        component.toggleDropdown();
+        fixture.detectChanges();
+        await new Promise((resolve) => setTimeout(resolve));
+        fixture.detectChanges();
+      }
+
+      function pressOnFocused(key: string): void {
+        (document.activeElement as HTMLElement).dispatchEvent(
+          new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
+        );
+        fixture.detectChanges();
+      }
+
+      function searchEl(): HTMLElement | null {
+        return fixture.nativeElement.querySelector('.nui-select__search-input');
+      }
+
+      afterEach(() => fixture.nativeElement.remove());
+
+      it('should return focus to the trigger after selecting with Enter from the search input', async () => {
+        await createAttachedOpen();
+        expect(document.activeElement).toBe(searchEl());
+        pressOnFocused('Enter');
+        expect(component.value()).toBe('Alpha');
+        expect(searchEl()).toBeNull();
+        expect(document.activeElement).toBe(trigger());
+      });
+
+      it('should return focus to the trigger after Escape from the search input', async () => {
+        await createAttachedOpen();
+        pressOnFocused('Escape');
+        expect(component.isOpen()).toBe(false);
+        expect(document.activeElement).toBe(trigger());
+      });
+
+      it('should return focus to the trigger before Tab moves on from the search input', async () => {
+        await createAttachedOpen();
+        pressOnFocused('Tab');
+        expect(component.isOpen()).toBe(false);
+        expect(document.activeElement).toBe(trigger());
+      });
+
+      it('should return focus to the trigger after a mouse click selects an option', async () => {
+        await createAttachedOpen();
+        const option = fixture.nativeElement.querySelector('.nui-select__option') as HTMLElement;
+        option.click();
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(trigger());
+      });
+
+      it('should not move focus when closed by an outside click', async () => {
+        await createAttachedOpen();
+        const outside = document.createElement('button');
+        document.body.appendChild(outside);
+        outside.focus();
+        const event = new MouseEvent('click');
+        Object.defineProperty(event, 'target', { value: outside });
+        component.onClickOutside(event);
+        fixture.detectChanges();
+        expect(component.isOpen()).toBe(false);
+        expect(document.activeElement).toBe(outside);
+        outside.remove();
+      });
+
+      it('should prevent option mousedown so the combobox keeps DOM focus', async () => {
+        await createAttachedOpen((f) => f.componentRef.setInput('multiple', true));
+        const option = fixture.nativeElement.querySelector('.nui-select__option') as HTMLElement;
+        const mousedown = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+        option.dispatchEvent(mousedown);
+        expect(mousedown.defaultPrevented).toBe(true);
+      });
+    });
+
+    describe('Hint / warning association', () => {
+      it('should give the rendered hint the messageId', () => {
+        createComponent((f) => f.componentRef.setInput('hint', 'Pick one'));
+        expect(component.messageId).toBe(`${component.inputId}-message`);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Pick one');
+      });
+
+      it('should reference the hint from the trigger via aria-describedby', () => {
+        createComponent((f) => f.componentRef.setInput('hint', 'Pick one'));
+        expect(trigger().getAttribute('aria-describedby')).toBe(component.messageId);
+      });
+
+      it('should reference the warning text and set aria-invalid', () => {
+        createComponent((f) => f.componentRef.setInput('warning', 'Required'));
+        expect(trigger().getAttribute('aria-describedby')).toBe(component.messageId);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Required');
+        expect(trigger().getAttribute('aria-invalid')).toBe('true');
+      });
+
+      it('should reference the success text without setting aria-invalid', () => {
+        createComponent((f) => f.componentRef.setInput('success', 'Looks good'));
+        expect(trigger().getAttribute('aria-describedby')).toBe(component.messageId);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Looks good');
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+      });
+
+      it('should not set aria-invalid when success overrides a warning', () => {
+        createComponent((f) => {
+          f.componentRef.setInput('warning', 'Required');
+          f.componentRef.setInput('success', 'Looks good');
+        });
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+        expect(findById(component.messageId)?.textContent?.trim()).toBe('Looks good');
+      });
+
+      it('should omit aria-describedby and aria-invalid when no text is shown', () => {
+        createComponent();
+        expect(trigger().hasAttribute('aria-describedby')).toBe(false);
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+        expect(findById(component.messageId)).toBeNull();
+      });
+
+      it('should drop aria-invalid once the warning is cleared', () => {
+        createComponent((f) => f.componentRef.setInput('warning', 'Required'));
+        fixture.componentRef.setInput('warning', undefined);
+        fixture.detectChanges();
+        expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+        expect(trigger().hasAttribute('aria-describedby')).toBe(false);
+      });
+
+      it('should mirror aria-describedby and aria-invalid on the search input', () => {
+        createOpenInline((f) => {
+          f.componentRef.setInput('searchable', true);
+          f.componentRef.setInput('warning', 'Required');
+        });
+        const input = fixture.nativeElement.querySelector('.nui-select__search-input');
+        expect(input.getAttribute('aria-describedby')).toBe(component.messageId);
+        expect(input.getAttribute('aria-invalid')).toBe('true');
+      });
+    });
+
+    describe('Built-in texts (SELECT_INTL)', () => {
+      const TURKISH: ISelectIntl = {
+        clearSelection: 'Seçimi temizle',
+        removeItem: 'Öğeyi kaldır',
+        searchPlaceholder: 'Ara...',
+        searchLabel: 'Seçeneklerde ara',
+        noResults: 'Sonuç bulunamadı.',
+      };
+
+      async function useIntl(intl: Partial<ISelectIntl>): Promise<void> {
+        TestBed.resetTestingModule();
+        await TestBed.configureTestingModule({
+          imports: [SelectComponent],
+          providers: [provideZonelessChangeDetection(), { provide: SELECT_INTL, useValue: intl }],
+        }).compileComponents();
+      }
+
+      function renderAllTexts(): void {
+        createOpenInline((f) => {
+          f.componentRef.setInput('searchable', true);
+          f.componentRef.setInput('multiple', true);
+        });
+        component.writeValue(['Alpha']);
+        component.searchTerm.set('zzz');
+        fixture.detectChanges();
+      }
+
+      function texts() {
+        const host = fixture.nativeElement as HTMLElement;
+        const input = host.querySelector('.nui-select__search-input') as HTMLInputElement;
+        return {
+          clearSelection: host.querySelector('.nui-select__clear')?.getAttribute('aria-label'),
+          removeItem: host.querySelector('.nui-select__chip-remove')?.getAttribute('aria-label'),
+          searchPlaceholder: input.placeholder,
+          searchLabel: input.getAttribute('aria-label'),
+          noResults: host.querySelector('.nui-select__empty')?.textContent?.trim(),
+        };
+      }
+
+      it('should render the English defaults without a provider', () => {
+        renderAllTexts();
+        expect(texts()).toEqual(DEFAULT_SELECT_INTL);
+      });
+
+      it('should render every text from a full SELECT_INTL override', async () => {
+        await useIntl(TURKISH);
+        renderAllTexts();
+        expect(texts()).toEqual(TURKISH);
+      });
+
+      it('should fall back to the defaults for keys a partial override leaves out', async () => {
+        await useIntl({ noResults: 'Sonuç bulunamadı.' });
+        renderAllTexts();
+        expect(texts()).toEqual({ ...DEFAULT_SELECT_INTL, noResults: 'Sonuç bulunamadı.' });
       });
     });
   });
