@@ -4,7 +4,7 @@ import {
   computed,
   contentChildren,
   input,
-  signal,
+  model,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { TabComponent } from './tab.component';
@@ -45,7 +45,25 @@ export class TabsComponent {
 
   readonly tabs = contentChildren(TabComponent);
 
-  readonly activeIndex = signal<number>(0);
+  /**
+   * Index of the active tab. Bind `[activeIndex]` to open a given tab (for example one taken
+   * from the URL), or `[(activeIndex)]` to also follow the user's clicks; `(activeIndexChange)`
+   * emits the clicked tab's index. A disabled or out-of-range index never activates that tab:
+   * the first enabled tab is shown instead, and the bound value is left as given.
+   *
+   * @default 0
+   */
+  readonly activeIndex = model<number>(0);
+
+  /** The tab actually shown: `activeIndex` when it names an enabled tab, else the first enabled one. */
+  protected readonly currentIndex = computed(() => {
+    const tabs = this.tabs();
+    const index = this.activeIndex();
+    // `Array.at` counts a negative index from the end, so the range is checked explicitly.
+    const inRange = Number.isInteger(index) && index >= 0 && index < tabs.length;
+    if (inRange && !tabs[index].disabled()) return index;
+    return tabs.findIndex((tab) => !tab.disabled());
+  });
 
   protected readonly containerClasses = computed(() => {
     const classes = ['nui-tabs'];
@@ -66,7 +84,7 @@ export class TabsComponent {
 
   /** Does not select the tab if it is disabled. */
   selectTab(index: number): void {
-    const tab = this.tabs().at(index);
+    const tab = index >= 0 ? this.tabs()[index] : undefined;
     if (tab && !tab.disabled()) {
       this.activeIndex.set(index);
     }
