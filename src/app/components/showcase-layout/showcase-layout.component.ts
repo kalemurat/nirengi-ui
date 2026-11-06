@@ -32,6 +32,7 @@ import tooltipConfig from '../../configs/tooltip.showcase.json';
 import switchConfig from '../../configs/switch.showcase.json';
 import popoverConfig from '../../configs/popover.showcase.json';
 import fileUploadConfig from '../../configs/file-upload.showcase.json';
+import treeConfig from '../../configs/tree.showcase.json';
 
 // Component imports
 import {
@@ -57,6 +58,7 @@ import {
   SwitchComponent,
   PopoverDemoComponent,
   FileUploadComponent,
+  TreeDemoComponent,
 } from 'nirengi-ui-kit';
 
 /**
@@ -198,6 +200,11 @@ export class ShowcaseLayoutComponent {
     // File Upload Component
     this.registry.registerComponent(fileUploadConfig as IComponentShowcaseConfig, () =>
       Promise.resolve(FileUploadComponent)
+    );
+
+    // Tree Component
+    this.registry.registerComponent(treeConfig as IComponentShowcaseConfig, () =>
+      Promise.resolve(TreeDemoComponent)
     );
   }
 }
