@@ -1,0 +1,52 @@
+{
+  "id": "tree",
+  "name": "Tree",
+  "description": "Hierarchical tree view following the WAI-ARIA tree view pattern, with controllable expansion and selection.",
+  "category": "Data Display",
+  "selector": "nui-tree-demo",
+  "properties": [
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" }
+      ],
+      "description": "Row size of the tree."
+    },
+    {
+      "name": "multi",
+      "type": "boolean",
+      "label": "Multi Select",
+      "defaultValue": false,
+      "description": "Allow selecting more than one node."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable the whole tree."
+    }
+  ],
+  "events": [
+    {
+      "name": "expandedIdsChange",
+      "label": "Expanded Ids Change",
+      "payloadDescription": "Ids of the expanded nodes (string[])"
+    },
+    {
+      "name": "selectedIdsChange",
+      "label": "Selected Ids Change",
+      "payloadDescription": "Ids of the selected nodes (string[])"
+    },
+    {
+      "name": "nodeAction",
+      "label": "Node Action",
+      "payloadDescription": "Id of the row whose action button was pressed"
+    }
+  ]
+}

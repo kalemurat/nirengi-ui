@@ -28,18 +28,20 @@ npm install nirengi-ui-kit
 | Node.js     | whatever your Angular version requires (Angular 22 needs `^22.22.3 \|\| ^24.15.0 \|\| >=26.0.0`) |
 
 Peer dependencies: `@angular/core`, `@angular/common`, `@angular/forms`,
-`@angular/router` and `@angular/cdk`, all on the same major (21 or 22).
+`@angular/router`, `@angular/cdk` and `@angular/aria`, all on the same major (21 or 22).
 `@angular/cdk` must be 21+, because the datepicker's overlay relies on the CDK's
-inline popover support. npm 7+ and pnpm install missing peer dependencies
+inline popover support. `@angular/aria` powers the tree's accessibility and keyboard
+model and pins the exact `@angular/cdk` version it was released with, so keep the two
+packages on the same version. npm 7+ and pnpm install missing peer dependencies
 automatically. On Yarn, or to pin them yourself, install them on the Angular
 major you are already on:
 
 ```bash
 # Angular 22
-npm install @angular/core@^22 @angular/common@^22 @angular/forms@^22 @angular/router@^22 @angular/cdk@^22
+npm install @angular/core@^22 @angular/common@^22 @angular/forms@^22 @angular/router@^22 @angular/cdk@^22 @angular/aria@^22
 
 # …or Angular 21
-npm install @angular/core@^21 @angular/common@^21 @angular/forms@^21 @angular/router@^21 @angular/cdk@^21
+npm install @angular/core@^21 @angular/common@^21 @angular/forms@^21 @angular/router@^21 @angular/cdk@^21 @angular/aria@^21
 ```
 
 `date-fns` (`^4.1.0`) is a regular dependency and is installed together with
@@ -197,6 +199,27 @@ const names = await loadNuiIconNames();
 ```html
 <nui-accordion title="Section" content="Panel body" [(expanded)]="isOpen" />
 ```
+
+**Tree** — `nirengi-ui-kit/components/tree/tree.component` (`TreeComponent` + `TreeNodeTrailingDirective`)
+
+```html
+<nui-tree
+  [nodes]="categories"
+  ariaLabel="Product categories"
+  [(expandedIds)]="expanded"
+  [(selectedIds)]="selected">
+  <ng-template nuiTreeNodeTrailing let-node let-level="level">
+    <span>{{ node.data.count }}</span>
+  </ng-template>
+</nui-tree>
+<!-- also: multi, disabled, size ('sm' | 'md' | 'lg'), ariaLabelledby -->
+```
+
+`nodes` is an `ITreeNode[]` (`id`, `label`, optional `children`, `disabled`, `data`); ids must be
+unique across the tree. It follows the WAI-ARIA tree view pattern (roles, `aria-level`/`setsize`/
+`posinset`, roving `tabindex`, arrow keys, Home/End, Enter/Space, type-ahead). Give it an accessible
+name with `ariaLabel` or `ariaLabelledby`. A click inside the trailing template also selects the row;
+call `$event.stopPropagation()` in actions that must not.
 
 **Table** — `nirengi-ui-kit/components/table/table.component`
 

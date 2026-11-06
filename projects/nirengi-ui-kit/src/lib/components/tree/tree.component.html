@@ -1,0 +1,51 @@
+<div
+  ngTree
+  #tree="ngTree"
+  [class]="treeClasses()"
+  [multi]="multi()"
+  [disabled]="disabled()"
+  [(value)]="selectedIds"
+  [attr.aria-label]="ariaLabel() || null"
+  [attr.aria-labelledby]="ariaLabelledby() || null"
+>
+  <ng-container [ngTemplateOutlet]="nodesTpl" [ngTemplateOutletContext]="{ $implicit: nodes(), parent: tree }" />
+</div>
+
+<ng-template #nodesTpl let-list let-parent="parent">
+  @for (node of list; track node.id) {
+    <div
+      ngTreeItem
+      #item="ngTreeItem"
+      class="nui-tree__item"
+      [parent]="parent"
+      [value]="node.id"
+      [label]="node.label"
+      [disabled]="!!node.disabled"
+      [expanded]="isExpanded(node.id)"
+      (expandedChange)="onExpandedChange(node.id, $event)"
+    >
+      @if (hasChildren(node)) {
+        <nui-icon name="arrow-right-s-line" size="sm" class="nui-tree__toggle" />
+      } @else {
+        <span class="nui-tree__toggle nui-tree__toggle--leaf" aria-hidden="true"></span>
+      }
+      <span class="nui-tree__label">{{ node.label }}</span>
+      @if (trailing(); as trailing) {
+        <span class="nui-tree__trailing">
+          <ng-container [ngTemplateOutlet]="trailing.template" [ngTemplateOutletContext]="contextFor(node, item)" />
+        </span>
+      }
+    </div>
+
+    @if (hasChildren(node)) {
+      <div role="group" class="nui-tree__group">
+        <ng-template ngTreeItemGroup [ownedBy]="item" #group="ngTreeItemGroup">
+          <ng-container
+            [ngTemplateOutlet]="nodesTpl"
+            [ngTemplateOutletContext]="{ $implicit: node.children, parent: group }"
+          />
+        </ng-template>
+      </div>
+    }
+  }
+</ng-template>

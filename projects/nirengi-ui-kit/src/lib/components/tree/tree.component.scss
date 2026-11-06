@@ -1,0 +1,77 @@
+.nui-tree {
+  @apply m-0 flex w-full select-none flex-col gap-0.5 p-0 text-sm text-primary;
+
+  &__item {
+    @apply flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1.5 outline-none transition-colors;
+    @apply hover:bg-tertiary;
+
+    &:focus-visible {
+      @apply ring-2 ring-inset ring-primary-500;
+    }
+
+    &[aria-selected='true'] {
+      @apply bg-primary-50 font-medium text-primary-700;
+      @apply dark:bg-primary-900/30 dark:text-primary-300;
+    }
+
+    &[aria-disabled='true'] {
+      @apply cursor-not-allowed opacity-50 hover:bg-transparent;
+    }
+  }
+
+  // Chevron (and an equally wide spacer on leaves so labels line up).
+  &__toggle {
+    @apply inline-flex h-5 w-5 shrink-0 items-center justify-center text-secondary transition-transform duration-200;
+
+    .nui-tree__item[aria-expanded='true'] > & {
+      @apply rotate-90;
+    }
+  }
+
+  &__label {
+    @apply min-w-0 flex-1 truncate;
+  }
+
+  &__trailing {
+    @apply ms-auto inline-flex shrink-0 items-center gap-1 text-secondary;
+  }
+
+  // Each nesting level indents by one group padding.
+  &__group {
+    @apply flex flex-col gap-0.5 ps-5;
+  }
+
+  // A collapsed item hides its sibling group (Angular Aria tree structure).
+  &__item[aria-expanded='false'] + &__group {
+    @apply hidden;
+  }
+
+  &--disabled {
+    @apply pointer-events-none opacity-60;
+  }
+
+  // Sizes
+  &--sm {
+    @apply text-xs;
+
+    .nui-tree__item {
+      @apply gap-1 px-1.5 py-1;
+    }
+
+    .nui-tree__group {
+      @apply ps-4;
+    }
+  }
+
+  &--lg {
+    @apply text-base;
+
+    .nui-tree__item {
+      @apply gap-2 px-3 py-2;
+    }
+
+    .nui-tree__group {
+      @apply ps-6;
+    }
+  }
+}

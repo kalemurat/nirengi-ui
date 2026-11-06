@@ -403,3 +403,13 @@ export * from './lib/components/popover-demo';
  * @see {@link FileUploadComponent}
  */
 export * from './lib/components/file-upload';
+
+/**
+ * Tree view component, its trailing-content template directive and types.
+ * @see {@link TreeComponent}
+ * @see {@link TreeNodeTrailingDirective}
+ */
+export { TreeComponent } from './lib/components/tree/tree.component';
+export { TreeNodeTrailingDirective } from './lib/components/tree/tree-node-trailing.directive';
+export type { ITreeNode, ITreeNodeContext, TreeSize } from './lib/components/tree/tree.types';
+export { TreeDemoComponent } from './lib/components/tree-demo/tree-demo.component';
