@@ -1,13 +1,17 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
   contentChild,
+  inject,
   input,
   model,
+  viewChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { Tree, TreeItem, TreeItemGroup } from '@angular/aria/tree';
+import { ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
 import { IconComponent } from '../icon/icon.component';
 import { TreeNodeTrailingDirective } from './tree-node-trailing.directive';
 import { ITreeNode, ITreeNodeContext, TreeSize } from './tree.types';
@@ -22,6 +26,13 @@ import { ITreeNode, ITreeNodeContext, TreeSize } from './tree.types';
  *
  * Both the expanded and the selected state are controllable through two-way
  * bindable models keyed by node `id`.
+ *
+ * Rendered inside an Angular Aria `ngComboboxPopup` (as `nui-tree-select` does), the
+ * tree registers itself as the popup's `ngComboboxWidget`: DOM focus stays on the
+ * combobox, which relays the navigation keys to the tree, and the active node is
+ * conveyed through `aria-activedescendant` (WAI-ARIA APG combobox pattern with a
+ * `tree` popup). In that mode the chevron only expands or collapses its node, so a
+ * mouse user can browse into a branch without choosing it.
  *
  * @see https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
  * @see https://angular.dev/guide/aria/tree
@@ -39,7 +50,7 @@ import { ITreeNode, ITreeNodeContext, TreeSize } from './tree.types';
  */
 @Component({
   selector: 'nui-tree',
-  imports: [NgTemplateOutlet, Tree, TreeItem, TreeItemGroup, IconComponent],
+  imports: [NgTemplateOutlet, Tree, TreeItem, TreeItemGroup, ComboboxWidget, IconComponent],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,13 +91,37 @@ export class TreeComponent<T = unknown> {
 
   protected readonly trailing = contentChild(TreeNodeTrailingDirective);
 
+  /**
+   * Whether the tree is the widget of an Angular Aria combobox popup. Resolved once from the
+   * injector: `ngComboboxWidget` requires an enclosing `ngComboboxPopup`, so the template only
+   * applies it (with `focusMode="activedescendant"`) when one is present.
+   */
+  protected readonly inComboboxPopup = inject(ComboboxPopup, { optional: true }) !== null;
+
+  private readonly ariaTree = viewChild(Tree);
+
   protected readonly treeClasses = computed(() =>
-    ['nui-tree', `nui-tree--${this.size()}`, this.disabled() ? 'nui-tree--disabled' : '']
+    [
+      'nui-tree',
+      `nui-tree--${this.size()}`,
+      this.disabled() ? 'nui-tree--disabled' : '',
+      this.inComboboxPopup ? 'nui-tree--combobox' : '',
+    ]
       .filter(Boolean)
       .join(' ')
   );
 
   private readonly expandedSet = computed(() => new Set(this.expandedIds()));
+
+  constructor() {
+    if (this.inComboboxPopup) {
+      // Inside a combobox the active node never receives DOM focus (it stays on the combobox),
+      // so the browser does not scroll it into view on its own.
+      afterRenderEffect(() => {
+        this.ariaTree()?.scrollActiveItemIntoView();
+      });
+    }
+  }
 
   protected hasChildren(node: ITreeNode<T>): boolean {
     return !!node.children?.length;
@@ -104,6 +139,21 @@ export class TreeComponent<T = unknown> {
     this.expandedIds.update((ids) =>
       expanded ? [...ids, id] : ids.filter((existing) => existing !== id)
     );
+  }
+
+  /**
+   * Chevron click inside a combobox popup: toggles the node only. The click is kept from
+   * reaching the tree, which would otherwise also select the node and commit the field.
+   */
+  protected onToggleClick(event: MouseEvent, node: ITreeNode<T>): void {
+    if (!this.inComboboxPopup || !this.hasChildren(node)) {
+      return;
+    }
+    event.stopPropagation();
+    if (this.disabled() || node.disabled) {
+      return;
+    }
+    this.onExpandedChange(node.id, !this.isExpanded(node.id));
   }
 
   protected contextFor(node: ITreeNode<T>, item: TreeItem<string>): ITreeNodeContext<T> {

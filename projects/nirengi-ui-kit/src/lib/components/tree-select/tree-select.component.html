@@ -1,0 +1,88 @@
+<div [class]="containerClasses()">
+  @if (label()) {
+    <span [id]="labelId" class="nui-tree-select__label">{{ label() }}</span>
+  }
+
+  <div class="nui-tree-select__container">
+    <!--
+      Select-only combobox (Angular Aria `ngCombobox` on a non-editable element). It owns role,
+      aria-expanded / -controls / -haspopup="tree" / -activedescendant, tabindex, click and the
+      key relay into the tree.
+    -->
+    <div
+      ngCombobox
+      #combobox="ngCombobox"
+      #triggerElement
+      [class]="triggerClasses()"
+      [disabled]="isDisabled()"
+      [expanded]="isOpen()"
+      (expandedChange)="onOpenChange($event)"
+      [attr.aria-labelledby]="label() ? labelId : null"
+      [attr.aria-label]="label() ? null : placeholder()"
+      [attr.aria-describedby]="describedBy()"
+      [attr.aria-invalid]="ariaInvalid()"
+    >
+      <span class="nui-tree-select__value" [class.nui-tree-select__value--placeholder]="!selectedNode()">
+        {{ selectedNode()?.label ?? placeholder() }}
+      </span>
+      <span class="nui-tree-select__icon" [class.nui-tree-select__icon--open]="isOpen()" aria-hidden="true">
+        <nui-icon name="arrow-down-s-line" [size]="iconSize()" />
+      </span>
+    </div>
+
+    <!-- A sibling of the combobox, not a child, so its own keys never reach the combobox. -->
+    @if (showClear()) {
+      <button
+        type="button"
+        class="nui-tree-select__clear"
+        [attr.aria-label]="intl.clearSelection"
+        (click)="clearValue()"
+      >
+        <nui-icon name="close-line" [size]="iconSize()" />
+      </button>
+    }
+
+    <!--
+      `ngComboboxPopup` sits outside the overlay so the directive always exists and the field
+      announces aria-haspopup="tree" while closed too; it renders its content (the overlay) only
+      while open. 'inline' renders the dropdown as a native popover next to the field: the top
+      layer keeps it above a modal <dialog>, and staying inside the dialog's subtree keeps it out
+      of the inert area.
+    -->
+    <ng-template ngComboboxPopup [combobox]="combobox" popupType="tree">
+      <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="combobox.element"
+        [cdkConnectedOverlayOpen]="isOpen()"
+        [cdkConnectedOverlayWidth]="triggerWidth() || '100%'"
+        [cdkConnectedOverlayUsePopover]="'inline'"
+        (detach)="close()"
+      >
+        <!--
+          mousedown is prevented so a click inside the dropdown keeps DOM focus on the combobox
+          (WAI-ARIA APG combobox); the click itself still reaches the tree. Row clicks and Enter /
+          Space close the dropdown through capture listeners added in the component class.
+        -->
+        <div #dropdown class="nui-tree-select__dropdown" (mousedown)="$event.preventDefault()">
+          <nui-tree
+            [nodes]="nodes()"
+            [size]="treeSize()"
+            [selectedIds]="selectedIds()"
+            (selectedIdsChange)="onTreeSelection($event)"
+            [(expandedIds)]="expandedIds"
+            [ariaLabelledby]="label() ? labelId : ''"
+            [ariaLabel]="label() ? '' : placeholder()"
+          />
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+
+  @if (success()) {
+    <p [id]="messageId" class="nui-tree-select__success">{{ success() }}</p>
+  } @else if (warning()) {
+    <p [id]="messageId" class="nui-tree-select__warning">{{ warning() }}</p>
+  } @else if (hint()) {
+    <p [id]="messageId" class="nui-tree-select__hint">{{ hint() }}</p>
+  }
+</div>
