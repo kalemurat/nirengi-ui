@@ -216,6 +216,38 @@ describe('TreeComponent', () => {
     expect(tree().getAttribute('aria-multiselectable')).toBe('true');
     expect(tree().getAttribute('aria-disabled')).toBe('true');
   });
+
+  it('keeps the chevron click selecting and expanding the row outside a combobox', async () => {
+    (item('Alpha').querySelector('.nui-tree__toggle') as HTMLElement).click();
+    await settle();
+
+    expect(host.selected()).toEqual(['a']);
+    expect(host.expanded()).toEqual(['a']);
+    expect(tree().classList).not.toContain('nui-tree--combobox');
+    expect(tree().hasAttribute('aria-activedescendant')).toBe(false);
+  });
+
+  it('ignores a chevron click on a disabled tree inside a combobox popup', async () => {
+    const component = fixture.debugElement.children[0].componentInstance as unknown as {
+      inComboboxPopup: boolean;
+      onToggleClick(event: MouseEvent, node: ITreeNode): void;
+    };
+    host.disabled.set(true);
+    await settle();
+    // Simulates the combobox mode for this call only (re-rendering would need a real popup);
+    // the mode is covered end-to-end by TreeSelectComponent.
+    component.inComboboxPopup = true;
+
+    const event = new MouseEvent('click');
+    const stop = vi.spyOn(event, 'stopPropagation');
+    component.onToggleClick(event, NODES[0]);
+    component.onToggleClick(event, NODES[1]);
+
+    component.inComboboxPopup = false;
+
+    expect(stop).toHaveBeenCalledTimes(1);
+    expect(host.expanded()).toEqual([]);
+  });
 });
 
 describe('TreeComponent (unit)', () => {

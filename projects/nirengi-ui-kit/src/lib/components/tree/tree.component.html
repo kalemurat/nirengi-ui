@@ -1,15 +1,38 @@
-<div
-  ngTree
-  #tree="ngTree"
-  [class]="treeClasses()"
-  [multi]="multi()"
-  [disabled]="disabled()"
-  [(value)]="selectedIds"
-  [attr.aria-label]="ariaLabel() || null"
-  [attr.aria-labelledby]="ariaLabelledby() || null"
->
-  <ng-container [ngTemplateOutlet]="nodesTpl" [ngTemplateOutletContext]="{ $implicit: nodes(), parent: tree }" />
-</div>
+<!--
+  Two copies of the tree root: `ngComboboxWidget` can only be applied inside an `ngComboboxPopup`
+  (it injects the popup), and Angular cannot add a directive conditionally. Both share `nodesTpl`.
+-->
+@if (inComboboxPopup) {
+  <div
+    ngTree
+    ngComboboxWidget
+    #tree="ngTree"
+    [class]="treeClasses()"
+    [multi]="multi()"
+    [disabled]="disabled()"
+    focusMode="activedescendant"
+    [tabindex]="-1"
+    [activeDescendant]="tree.activeDescendant()"
+    [(value)]="selectedIds"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-labelledby]="ariaLabelledby() || null"
+  >
+    <ng-container [ngTemplateOutlet]="nodesTpl" [ngTemplateOutletContext]="{ $implicit: nodes(), parent: tree }" />
+  </div>
+} @else {
+  <div
+    ngTree
+    #tree="ngTree"
+    [class]="treeClasses()"
+    [multi]="multi()"
+    [disabled]="disabled()"
+    [(value)]="selectedIds"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-labelledby]="ariaLabelledby() || null"
+  >
+    <ng-container [ngTemplateOutlet]="nodesTpl" [ngTemplateOutletContext]="{ $implicit: nodes(), parent: tree }" />
+  </div>
+}
 
 <ng-template #nodesTpl let-list let-parent="parent">
   @for (node of list; track node.id) {
@@ -25,7 +48,8 @@
       (expandedChange)="onExpandedChange(node.id, $event)"
     >
       @if (hasChildren(node)) {
-        <nui-icon name="arrow-right-s-line" size="sm" class="nui-tree__toggle" />
+        <!-- Not focusable on purpose: the keyboard expands with Right/Left (APG tree view). -->
+        <nui-icon name="arrow-right-s-line" size="sm" class="nui-tree__toggle" (click)="onToggleClick($event, node)" />
       } @else {
         <span class="nui-tree__toggle nui-tree__toggle--leaf" aria-hidden="true"></span>
       }

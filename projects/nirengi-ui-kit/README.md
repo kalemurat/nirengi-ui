@@ -221,6 +221,23 @@ unique across the tree. It follows the WAI-ARIA tree view pattern (roles, `aria-
 name with `ariaLabel` or `ariaLabelledby`. A click inside the trailing template also selects the row;
 call `$event.stopPropagation()` in actions that must not.
 
+**Tree Select** — `nirengi-ui-kit/components/tree-select/tree-select.component` (`TreeSelectComponent`)
+
+```html
+<nui-tree-select
+  label="Parent category"
+  placeholder="Select a category"
+  [nodes]="categories"
+  [(ngModel)]="parentId" />
+<!-- also: hint, success, warning, size (Size), clearable, disabled; works with formControl -->
+```
+
+A select-style field whose dropdown is a `nui-tree`, for choosing one node (branch or leaf) from
+`ITreeNode[]` data; the value is the node's `id` (`null` when empty). It is an Angular Aria
+combobox with a `tree` popup: focus stays on the field, arrow keys move through the tree, Right/Left
+expand and collapse, Enter or Space chooses, Escape closes. A row click chooses; a chevron click only
+expands or collapses. The clear button's name comes from `SELECT_INTL` (`clearSelection`).
+
 **Table** — `nirengi-ui-kit/components/table/table.component`
 
 ```html

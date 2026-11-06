@@ -413,3 +413,10 @@ export { TreeComponent } from './lib/components/tree/tree.component';
 export { TreeNodeTrailingDirective } from './lib/components/tree/tree-node-trailing.directive';
 export type { ITreeNode, ITreeNodeContext, TreeSize } from './lib/components/tree/tree.types';
 export { TreeDemoComponent } from './lib/components/tree-demo/tree-demo.component';
+
+/**
+ * Select-style field that picks a single node from a `nui-tree` dropdown.
+ * @see {@link TreeSelectComponent}
+ */
+export { TreeSelectComponent } from './lib/components/tree-select/tree-select.component';
+export { TreeSelectDemoComponent } from './lib/components/tree-select-demo/tree-select-demo.component';

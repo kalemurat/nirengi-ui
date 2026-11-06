@@ -1,0 +1,65 @@
+{
+  "id": "tree-select",
+  "name": "Tree Select",
+  "description": "Select-style field that opens a tree in its dropdown for choosing a single node from hierarchical data, following the WAI-ARIA combobox pattern with a tree popup.",
+  "category": "Forms",
+  "selector": "nui-tree-select-demo",
+  "properties": [
+    {
+      "name": "label",
+      "type": "string",
+      "label": "Label",
+      "defaultValue": "Parent category",
+      "description": "Label text of the field"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "label": "Placeholder",
+      "defaultValue": "Select a category",
+      "description": "Shown while no node is chosen"
+    },
+    {
+      "name": "hint",
+      "type": "string",
+      "label": "Hint",
+      "defaultValue": "Any category can be a parent, including a leaf.",
+      "description": "Helper text below the field"
+    },
+    {
+      "name": "size",
+      "type": "enum",
+      "label": "Size",
+      "defaultValue": "md",
+      "options": [
+        { "label": "Extra Small", "value": "xs" },
+        { "label": "Small", "value": "sm" },
+        { "label": "Medium", "value": "md" },
+        { "label": "Large", "value": "lg" },
+        { "label": "Extra Large", "value": "xl" }
+      ],
+      "description": "Field size; the tree rows follow it"
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "label": "Clearable",
+      "defaultValue": true,
+      "description": "Show a button that clears the chosen node"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "label": "Disabled",
+      "defaultValue": false,
+      "description": "Disable the field"
+    }
+  ],
+  "events": [
+    {
+      "name": "valueChange",
+      "label": "Value Change",
+      "payloadDescription": "Id of the chosen node, or null after clearing (string | null)"
+    }
+  ]
+}

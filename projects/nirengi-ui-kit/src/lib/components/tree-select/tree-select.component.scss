@@ -1,0 +1,114 @@
+/*
+ * Field styles mirror nui-select so the two read as one family. The dropdown is declared in this
+ * component's template, so emulated encapsulation still scopes it after the CDK overlay moves it
+ * into a popover (as with the datepicker calendar); only the overlay pane itself is unstyled.
+ */
+.nui-tree-select {
+  @apply relative flex w-full flex-col gap-1.5;
+
+  &__label {
+    @apply block text-sm font-medium text-primary;
+  }
+
+  &__container {
+    @apply relative w-full;
+  }
+
+  &__trigger {
+    @apply flex w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-default bg-primary text-left text-primary transition-colors duration-200;
+    @apply focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500;
+
+    &--xs,
+    &--2xs {
+      @apply h-8 px-2.5 text-xs;
+    }
+
+    &--sm {
+      @apply h-9 px-3 text-sm;
+    }
+
+    &--md {
+      @apply h-10 px-3.5 text-sm;
+    }
+
+    &--lg {
+      @apply h-11 px-4 text-base;
+    }
+
+    &--xl {
+      @apply h-12 px-5 text-lg;
+    }
+
+    // Room for the clear button, which sits over the field's end, after the chevron.
+    &--clearable {
+      @apply pe-10;
+    }
+
+    &--open {
+      @apply border-primary-500 ring-2 ring-primary-500 ring-opacity-20;
+    }
+
+    &--success {
+      @apply border-success-500 focus:ring-success-500;
+    }
+
+    &--warning {
+      @apply border-warning-500 focus:ring-warning-500;
+    }
+
+    &--disabled {
+      @apply pointer-events-none cursor-not-allowed bg-tertiary text-disabled;
+    }
+  }
+
+  &__value {
+    @apply min-w-0 flex-1 truncate;
+
+    &--placeholder {
+      @apply text-tertiary;
+    }
+  }
+
+  &__icon {
+    @apply flex shrink-0 items-center justify-center text-tertiary transition-transform duration-200;
+
+    &--open {
+      @apply rotate-180;
+    }
+  }
+
+  &__clear {
+    @apply absolute end-2 top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded-full p-1 text-neutral-400 transition-colors;
+    @apply hover:bg-neutral-100 hover:text-neutral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500;
+    @apply dark:hover:bg-neutral-800 dark:hover:text-neutral-300;
+  }
+
+  &__dropdown {
+    @apply max-h-72 w-full overflow-y-auto rounded-md border border-default bg-primary p-1 shadow-lg;
+  }
+
+  &__hint {
+    @apply text-xs text-secondary;
+  }
+
+  &__success {
+    @apply text-xs text-success-600;
+  }
+
+  &__warning {
+    @apply text-xs text-warning-600;
+  }
+
+  &--lg,
+  &--xl {
+    .nui-tree-select__label {
+      @apply text-base;
+    }
+
+    .nui-tree-select__hint,
+    .nui-tree-select__success,
+    .nui-tree-select__warning {
+      @apply text-sm;
+    }
+  }
+}

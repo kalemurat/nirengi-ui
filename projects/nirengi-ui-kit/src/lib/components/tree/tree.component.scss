@@ -50,6 +50,12 @@
     @apply pointer-events-none opacity-60;
   }
 
+  // Inside a combobox DOM focus stays on the field, so the active node (aria-activedescendant,
+  // marked data-active by Angular Aria) gets the focus ring instead.
+  &--combobox &__item[data-active='true'] {
+    @apply ring-2 ring-inset ring-primary-500;
+  }
+
   // Sizes
   &--sm {
     @apply text-xs;
